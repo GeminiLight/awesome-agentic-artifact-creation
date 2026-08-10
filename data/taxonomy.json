@@ -1,0 +1,55 @@
+{
+  "sections": [
+    {
+      "name": "Text and Document Artifacts",
+      "groups": [
+        "Creative and Narrative Writing",
+        "Professional and Functional Documents",
+        "Reports and Research Writing"
+      ]
+    },
+    {
+      "name": "2D Visual Artifacts",
+      "groups": [
+        "Data Visualization",
+        "Figures, Diagrams, and Schematics",
+        "Images and Graphic Design",
+        "Posters",
+        "Presentations"
+      ]
+    },
+    {
+      "name": "Music and Audio Artifacts",
+      "groups": [
+        "Music Composition",
+        "Produced and Spoken Audio"
+      ]
+    },
+    {
+      "name": "Video and Animation Artifacts",
+      "groups": [
+        "Explainer and Presentation Video",
+        "Narrative and Cinematic Video",
+        "Personalized and Branded Video",
+        "Video Editing and Refinement",
+        "Animation"
+      ]
+    },
+    {
+      "name": "3D and Spatial Artifacts",
+      "groups": [
+        "3D Objects and Assets",
+        "3D Scenes and Worlds",
+        "CAD and Engineering Geometry"
+      ]
+    },
+    {
+      "name": "Software and Executable Artifacts",
+      "groups": [
+        "Applications and Code Repositories",
+        "Websites and User Interfaces",
+        "Games and Simulations"
+      ]
+    }
+  ]
+}
