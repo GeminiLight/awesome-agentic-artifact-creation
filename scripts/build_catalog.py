@@ -199,6 +199,10 @@ def load_audit(path: Path = AUDIT_PATH) -> list[dict[str, str]]:
             raise AuditValidationError(f"row {line_number} has an invalid year")
         if row["type"] not in ALLOWED_TYPES:
             raise AuditValidationError(f"row {line_number} has an invalid type")
+        if row["type"] == "published" and "arxiv.org" in row["link"].casefold():
+            raise AuditValidationError(
+                f"row {line_number} is published but still uses an arXiv link"
+            )
         for field in ("link", "code"):
             if row[field] and not row[field].startswith("https://"):
                 raise AuditValidationError(

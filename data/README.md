@@ -44,6 +44,8 @@ See [`../AUDIT.md`](../AUDIT.md) for the inclusion rule and limitations.
 - `publisher`: publication venue or preprint source.
 - `year`: four-digit publication year.
 - `type`: `preprint`, `published`, or `project`.
+- `link`: use the archival conference or journal record for formally published
+  work. Use arXiv only when no formal version has been established.
 - `entry_kind`: `system` or `benchmark`.
 - `name`: evidenced system, benchmark, or primary-method name, or `N/A`.
 - `title`, `link`, `authors`: bibliographic display fields.

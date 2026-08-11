@@ -51,6 +51,13 @@ class CatalogTest(unittest.TestCase):
             render_papers(derive_papers(self.audit)),
         )
 
+    def test_published_entries_use_archival_links(self):
+        published = [row for row in self.audit if row["type"] == "published"]
+        self.assertTrue(published)
+        self.assertTrue(
+            all("arxiv.org" not in row["link"].casefold() for row in published)
+        )
+
     def test_names_are_populated_and_propagated(self):
         audit_names = {row["bib_key"]: row["name"] for row in self.audit}
         self.assertTrue(all(audit_names.values()))
@@ -67,6 +74,7 @@ class CatalogTest(unittest.TestCase):
                 "Audio_AudioRAGPlus2026",
                 "D3_Agentic3DSceneGen2025",
                 "CAD_FreeCADLLM2025",
+                "Code_VisionRefine2026",
                 "Chu2026_AgenticWorldModeling",
                 "Data_ReconceptualizingSmartMicroscopy2025",
                 "Edu_CourseSyllabus2025",
@@ -89,10 +97,10 @@ class CatalogTest(unittest.TestCase):
                 "Text and Document Artifacts": 32,
                 "2D Visual Artifacts": 45,
                 "Music and Audio Artifacts": 9,
-                "Video and Animation Artifacts": 27,
-                "3D and Spatial Artifacts": 23,
+                "Video and Animation Artifacts": 25,
+                "3D and Spatial Artifacts": 24,
                 "Software and Executable Artifacts": 35,
-                "": 6,
+                "": 7,
             },
         )
 
@@ -129,19 +137,22 @@ class CatalogTest(unittest.TestCase):
         papers = {paper["bib_key"]: paper for paper in self.papers}
         self.assertEqual(
             sum(bool(paper["application_domain"]) for paper in self.papers),
-            53,
+            153,
         )
         self.assertEqual(
             papers["Poster_Paper2Poster2025"]["application_domain"],
             "Scientific Research and Communication",
         )
-        self.assertEqual(papers["Text_ComedyClub2026"]["application_domain"], "")
+        self.assertEqual(
+            papers["Text_ComedyClub2026"]["application_domain"],
+            "Creative Media and Entertainment",
+        )
         self.assertTrue(
             all(not paper["application_subdomain"] for paper in self.papers)
         )
         self.assertEqual(
             sum(bool(row["application_domain"]) for row in self.audit),
-            72,
+            180,
         )
 
     def test_chapter_five_supporting_import_is_audited(self):
@@ -173,7 +184,7 @@ class CatalogTest(unittest.TestCase):
         )
         self.assertEqual(
             supporting["Sci_AgenticTCAD2025"]["application_domain"],
-            "Scientific Research and Communication",
+            "Engineering and Simulation",
         )
 
     def test_heading_anchors_are_unique(self):

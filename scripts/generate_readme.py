@@ -235,6 +235,10 @@ def load_papers(
             raise CatalogValidationError(f"row {line_number} has an invalid year")
         if row["type"] not in ALLOWED_TYPES:
             raise CatalogValidationError(f"row {line_number} has an invalid type")
+        if row["type"] == "published" and "arxiv.org" in row["link"].casefold():
+            raise CatalogValidationError(
+                f"row {line_number} is published but still uses an arXiv link"
+            )
         if row["entry_kind"] not in ALLOWED_ENTRY_KINDS:
             raise CatalogValidationError(f"row {line_number} has an invalid entry_kind")
         for field in ("link", "code"):
