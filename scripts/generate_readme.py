@@ -53,6 +53,14 @@ def markdown_text(value: str) -> str:
     return value.replace("\\", "\\\\").replace("*", "\\*")
 
 
+def paper_sort_key(paper: dict[str, str]) -> tuple[int, str, str]:
+    return (
+        -int(paper["year"]),
+        paper["publisher"].casefold(),
+        paper["title"].casefold(),
+    )
+
+
 def load_taxonomy(path: Path = TAXONOMY_PATH) -> dict[str, list[dict[str, object]]]:
     payload = json.loads(path.read_text(encoding="utf-8"))
     families = payload.get("artifact_families")
@@ -270,7 +278,7 @@ def render_statistics(
     verdicts = Counter((row.get("audit_verdict") or "").strip() for row in audit_rows)
     return "\n".join(
         [
-            "## Catalog at a glance",
+            "## Catalog Analysis",
             "",
             f"- **{len(papers)} included papers** spanning **{min(years)}–{max(years)}**.",
             f"- **{kinds['system']} artifact systems** and "
@@ -281,7 +289,7 @@ def render_statistics(
             f"- **{len(taxonomy['artifact_families'])} artifact families**, "
             f"**{sum(len(family['types']) for family in taxonomy['artifact_families'])} "
             "artifact types**, and "
-            f"**{len(taxonomy['application_domains'])} application domains**.",
+            f"**{len(taxonomy['application_domains'])} application contexts**.",
             f"- **{sum(bool(paper['application_domain']) for paper in papers)} included "
             "papers** currently carry an application classification.",
             "",
@@ -312,15 +320,26 @@ def render_readme(
             )
             papers_by_path.setdefault(path, []).append(paper)
     for rows in papers_by_path.values():
-        rows.sort(
-            key=lambda paper: (
-                -int(paper["year"]),
-                paper["publisher"].casefold(),
-                paper["title"].casefold(),
-            )
-        )
+        rows.sort(key=paper_sort_key)
 
-    lines = [header, "", '<table>', '<tr><th colspan="2">Artifact-centered catalog</th></tr>']
+    papers_by_application = {
+        domain["name"]: sorted(
+            (
+                paper
+                for paper in papers
+                if paper["application_domain"] == domain["name"]
+            ),
+            key=paper_sort_key,
+        )
+        for domain in taxonomy["application_domains"]
+    }
+
+    lines = [
+        header,
+        "",
+        "<table>",
+        '<tr><th colspan="3">Artifact-centered View</th></tr>',
+    ]
     families = taxonomy["artifact_families"]
     for family_index, family in enumerate(families, start=1):
         family_name = family["name"]
@@ -336,35 +355,61 @@ def render_readme(
         if not family_rows and not populated_types:
             continue
         lines.append(
-            f'<tr><td colspan="2"><strong><a href="#{heading_anchor(family_name)}">'
+            f'<tr><td colspan="3"><strong><a href="#{heading_anchor(family_name)}">'
             f"{family_index}. {family_name}</a></strong></td></tr>"
         )
-        for offset in range(0, len(populated_types), 2):
+        for offset in range(0, len(populated_types), 3):
+            type_batch = populated_types[offset : offset + 3]
             lines.append("<tr>")
-            for artifact_type in populated_types[offset : offset + 2]:
+            for artifact_type in type_batch:
                 type_name = artifact_type["name"]
                 type_index = family["types"].index(artifact_type) + 1
                 lines.append(
                     f'<td>&emsp;<a href="#{heading_anchor(type_name)}">'
                     f"{family_index}.{type_index}. {type_name}</a></td>"
                 )
-            if offset + 1 >= len(populated_types):
+            for _ in range(3 - len(type_batch)):
                 lines.append("<td></td>")
             lines.append("</tr>")
+
+    lines.append(
+        '<tr><th colspan="3"><a href="#application-centered-view">'
+        "Application-centered View</a></th></tr>"
+    )
+    application_domains = taxonomy["application_domains"]
+    for offset in range(0, len(application_domains), 3):
+        domain_batch = application_domains[offset : offset + 3]
+        lines.append("<tr>")
+        for domain_index, domain in enumerate(
+            domain_batch, start=offset + 1
+        ):
+            domain_name = domain["name"]
+            lines.append(
+                f'<td>&emsp;<a href="#{heading_anchor(domain_name)}">'
+                f"A.{domain_index}. {domain_name}</a></td>"
+            )
+        for _ in range(3 - len(domain_batch)):
+            lines.append("<td></td>")
+        lines.append("</tr>")
     lines.extend(["</table>", ""])
 
     def append_papers(rows: list[dict[str, str]]) -> None:
         for paper_index, paper in enumerate(rows, start=1):
-            application = ""
+            metadata = [
+                f"[{paper['type'].title()}]({paper['link']})",
+                f"`{paper['entry_kind'].title()}`",
+            ]
+            if paper["artifact_family"]:
+                metadata.append(f"📦 {markdown_text(paper['artifact_family'])}")
             if paper["application_domain"]:
-                application = (
-                    f" · application: `{markdown_text(paper['application_domain'])}`"
-                    + (
-                        f" / `{markdown_text(paper['application_subdomain'])}`"
-                        if paper["application_subdomain"]
-                        else ""
+                application = markdown_text(paper["application_domain"])
+                if paper["application_subdomain"]:
+                    application += (
+                        f" / {markdown_text(paper['application_subdomain'])}"
                     )
-                )
+                metadata.append(f"🎯 {application}")
+            if paper["code"]:
+                metadata.append(f"[Code]({paper['code']})")
             lines.extend(
                 [
                     f"{paper_index}. **{markdown_text(paper['title'])}**",
@@ -372,9 +417,7 @@ def render_readme(
                     f"    *{markdown_text(paper['authors'])}*",
                     "",
                     f"    {markdown_text(paper['publisher'])}, {paper['year']}. "
-                    f"[`{paper['type']}`]({paper['link']}) · `{paper['entry_kind']}`"
-                    + application
-                    + (f", [`code`]({paper['code']})" if paper["code"] else ""),
+                    + " · ".join(metadata),
                     "",
                 ]
             )
@@ -408,19 +451,22 @@ def render_readme(
                 append_papers(rows)
         lines.append("")
 
-    application_only = [paper for paper in papers if not paper["artifact_family"]]
-    if application_only:
-        lines.extend(["## [Application-only and Cross-artifact Work](#content)", ""])
-        for domain in taxonomy["application_domains"]:
-            domain_rows = [
-                paper
-                for paper in application_only
-                if paper["application_domain"] == domain["name"]
-            ]
-            if not domain_rows:
-                continue
-            lines.extend([f"### [{domain['name']}](#content)", ""])
-            append_papers(domain_rows)
+    lines.extend(
+        [
+            "## [Application-centered View](#content)",
+            "",
+            "This alternate view re-indexes application-classified papers by their "
+            "use context. Papers classified on both axes therefore appear in both "
+            "views.",
+            "",
+        ]
+    )
+    for domain in application_domains:
+        domain_rows = papers_by_application[domain["name"]]
+        if not domain_rows:
+            continue
+        lines.extend([f"### [{domain['name']}](#content)", ""])
+        append_papers(domain_rows)
     return "\n".join(lines).rstrip() + "\n"
 
 

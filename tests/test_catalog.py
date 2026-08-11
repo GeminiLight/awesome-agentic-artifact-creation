@@ -12,6 +12,7 @@ from generate_readme import (  # noqa: E402
     heading_anchor,
     load_papers,
     load_taxonomy,
+    markdown_text,
     render_readme,
 )
 from build_catalog import derive_papers, load_audit, render_papers  # noqa: E402
@@ -289,6 +290,68 @@ class CatalogTest(unittest.TestCase):
                 },
             },
         )
+
+    def test_catalog_analysis_follows_survey_scope(self):
+        rendered = render_readme(self.papers, self.taxonomy)
+        scope_position = rendered.index("## Survey Scope")
+        analysis_position = rendered.index("## Catalog Analysis")
+        content_position = rendered.index("## Content")
+        self.assertLess(scope_position, analysis_position)
+        self.assertLess(analysis_position, content_position)
+        self.assertNotIn("## Catalog at a glance", rendered)
+
+    def test_application_view_reindexes_all_classified_papers(self):
+        rendered = render_readme(self.papers, self.taxonomy)
+        self.assertIn(
+            '<a href="#application-centered-view">Application-centered View</a>',
+            rendered,
+        )
+        self.assertIn("## [Application-centered View](#content)", rendered)
+        self.assertNotIn("Application-only and Cross-artifact Work", rendered)
+        for domain in self.taxonomy["application_domains"]:
+            self.assertIn(f"### [{domain['name']}](#content)", rendered)
+        for paper in self.papers:
+            expected_occurrences = int(bool(paper["artifact_family"])) + int(
+                bool(paper["application_domain"])
+            )
+            rendered_title = f"**{markdown_text(paper['title'])}**"
+            self.assertEqual(
+                rendered.count(rendered_title),
+                expected_occurrences,
+                paper["bib_key"],
+            )
+
+    def test_paper_metadata_uses_github_native_format(self):
+        rendered = render_readme(self.papers, self.taxonomy)
+        self.assertIn(
+            "ACL, 2025. [Published](https://aclanthology.org/2025.acl-long.773/) "
+            "· `System` · 📦 Textual Artifacts · 🎯 Creative Production",
+            rendered,
+        )
+        self.assertIn(
+            "arXiv, 2025. [Preprint](https://arxiv.org/abs/2509.13677) "
+            "· `System` · 📦 Textual Artifacts",
+            rendered,
+        )
+        self.assertIn(
+            "arXiv, 2025. [Preprint](https://arxiv.org/abs/2511.17906) "
+            "· `System` · 🎯 Creative Production",
+            rendered,
+        )
+        self.assertNotIn("application: `", rendered)
+        self.assertNotIn("**System**", rendered)
+        self.assertNotIn("**Benchmark**", rendered)
+
+    def test_content_index_uses_three_columns(self):
+        rendered = render_readme(self.papers, self.taxonomy)
+        self.assertIn(
+            '<tr><th colspan="3">Artifact-centered View</th></tr>', rendered
+        )
+        self.assertIn(
+            '<tr><th colspan="3"><a href="#application-centered-view">',
+            rendered,
+        )
+        self.assertNotIn('<th colspan="2">', rendered)
 
     def test_generated_readme_is_current(self):
         self.assertEqual(
