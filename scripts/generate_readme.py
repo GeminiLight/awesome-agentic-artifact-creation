@@ -21,12 +21,16 @@ README_PATH = ROOT / "README.md"
 STATS_MARKER = "<!-- catalog-stats -->"
 
 REQUIRED_COLUMNS = (
-    "section",
-    "group",
+    "artifact_family",
+    "artifact_type",
+    "artifact_subtype",
+    "application_domain",
+    "application_subdomain",
     "publisher",
     "year",
     "type",
     "entry_kind",
+    "name",
     "title",
     "link",
     "authors",
@@ -49,32 +53,84 @@ def markdown_text(value: str) -> str:
     return value.replace("\\", "\\\\").replace("*", "\\*")
 
 
-def load_taxonomy(path: Path = TAXONOMY_PATH) -> list[dict[str, object]]:
+def load_taxonomy(path: Path = TAXONOMY_PATH) -> dict[str, list[dict[str, object]]]:
     payload = json.loads(path.read_text(encoding="utf-8"))
-    sections = payload.get("sections")
-    if not isinstance(sections, list) or not sections:
-        raise CatalogValidationError("taxonomy must contain a non-empty sections list")
+    families = payload.get("artifact_families")
+    domains = payload.get("application_domains")
+    if not isinstance(families, list) or not families:
+        raise CatalogValidationError(
+            "taxonomy must contain a non-empty artifact_families list"
+        )
+    if not isinstance(domains, list) or not domains:
+        raise CatalogValidationError(
+            "taxonomy must contain a non-empty application_domains list"
+        )
 
-    names: set[str] = set()
-    pairs: set[tuple[str, str]] = set()
-    for section in sections:
-        name = section.get("name")
-        groups = section.get("groups")
-        if not isinstance(name, str) or not name.strip():
-            raise CatalogValidationError("each taxonomy section needs a name")
-        if name in names:
-            raise CatalogValidationError(f"duplicate taxonomy section: {name}")
-        if not isinstance(groups, list) or not groups:
-            raise CatalogValidationError(f"taxonomy section has no groups: {name}")
-        names.add(name)
-        for group in groups:
-            if not isinstance(group, str) or not group.strip():
-                raise CatalogValidationError(f"invalid group in taxonomy section: {name}")
-            pair = (name, group)
-            if pair in pairs:
-                raise CatalogValidationError(f"duplicate taxonomy group: {name} / {group}")
-            pairs.add(pair)
-    return sections
+    family_names: set[str] = set()
+    artifact_paths: set[tuple[str, str, str]] = set()
+    for family in families:
+        family_name = family.get("name")
+        artifact_types = family.get("types")
+        if not isinstance(family_name, str) or not family_name.strip():
+            raise CatalogValidationError("each artifact family needs a name")
+        if family_name in family_names:
+            raise CatalogValidationError(f"duplicate artifact family: {family_name}")
+        if not isinstance(artifact_types, list) or not artifact_types:
+            raise CatalogValidationError(
+                f"artifact family has no types: {family_name}"
+            )
+        family_names.add(family_name)
+        type_names: set[str] = set()
+        for artifact_type in artifact_types:
+            type_name = artifact_type.get("name")
+            subtypes = artifact_type.get("subtypes")
+            if not isinstance(type_name, str) or not type_name.strip():
+                raise CatalogValidationError(
+                    f"invalid artifact type in family: {family_name}"
+                )
+            if type_name in type_names:
+                raise CatalogValidationError(
+                    f"duplicate artifact type: {family_name} / {type_name}"
+                )
+            if not isinstance(subtypes, list):
+                raise CatalogValidationError(
+                    f"artifact type needs a subtypes list: {family_name} / {type_name}"
+                )
+            type_names.add(type_name)
+            artifact_paths.add((family_name, type_name, ""))
+            for subtype in subtypes:
+                if not isinstance(subtype, str) or not subtype.strip():
+                    raise CatalogValidationError(
+                        f"invalid artifact subtype: {family_name} / {type_name}"
+                    )
+                path_key = (family_name, type_name, subtype)
+                if path_key in artifact_paths:
+                    raise CatalogValidationError(
+                        "duplicate artifact taxonomy path: " + " / ".join(path_key)
+                    )
+                artifact_paths.add(path_key)
+
+    domain_names: set[str] = set()
+    for domain in domains:
+        domain_name = domain.get("name")
+        subdomains = domain.get("subdomains")
+        if not isinstance(domain_name, str) or not domain_name.strip():
+            raise CatalogValidationError("each application domain needs a name")
+        if domain_name in domain_names:
+            raise CatalogValidationError(
+                f"duplicate application domain: {domain_name}"
+            )
+        if not isinstance(subdomains, list):
+            raise CatalogValidationError(
+                f"application domain needs a subdomains list: {domain_name}"
+            )
+        domain_names.add(domain_name)
+        for subdomain in subdomains:
+            if not isinstance(subdomain, str) or not subdomain.strip():
+                raise CatalogValidationError(
+                    f"invalid application subdomain: {domain_name}"
+                )
+    return {"artifact_families": families, "application_domains": domains}
 
 
 def _duplicate_values(rows: list[dict[str, str]], field: str) -> list[str]:
@@ -84,13 +140,19 @@ def _duplicate_values(rows: list[dict[str, str]], field: str) -> list[str]:
 
 def load_papers(
     path: Path = PAPERS_PATH,
-    taxonomy: list[dict[str, object]] | None = None,
+    taxonomy: dict[str, list[dict[str, object]]] | None = None,
 ) -> list[dict[str, str]]:
     taxonomy = taxonomy or load_taxonomy()
-    valid_pairs = {
-        (section["name"], group)
-        for section in taxonomy
-        for group in section["groups"]
+    valid_artifact_paths = {
+        (family["name"], artifact_type["name"], subtype)
+        for family in taxonomy["artifact_families"]
+        for artifact_type in family["types"]
+        for subtype in ["", *artifact_type["subtypes"]]
+    }
+    valid_application_paths = {
+        (domain["name"], subdomain)
+        for domain in taxonomy["application_domains"]
+        for subdomain in ["", *domain["subdomains"]]
     }
 
     with path.open(encoding="utf-8-sig", newline="") as source:
@@ -102,6 +164,15 @@ def load_papers(
             raise CatalogValidationError(
                 "missing required columns: " + ", ".join(missing_columns)
             )
+        unexpected_columns = [
+            column
+            for column in (reader.fieldnames or [])
+            if column not in REQUIRED_COLUMNS
+        ]
+        if unexpected_columns:
+            raise CatalogValidationError(
+                "unexpected catalog columns: " + ", ".join(unexpected_columns)
+            )
         rows = [
             {column: (row.get(column) or "").strip() for column in REQUIRED_COLUMNS}
             for row in reader
@@ -112,12 +183,11 @@ def load_papers(
 
     for line_number, row in enumerate(rows, start=2):
         required_values = [
-            "section",
-            "group",
             "publisher",
             "year",
             "type",
             "entry_kind",
+            "name",
             "title",
             "link",
             "authors",
@@ -128,15 +198,47 @@ def load_papers(
             raise CatalogValidationError(
                 f"row {line_number} has blank required fields: {', '.join(blank)}"
             )
-        if (row["section"], row["group"]) not in valid_pairs:
+        artifact_path = (
+            row["artifact_family"],
+            row["artifact_type"],
+            row["artifact_subtype"],
+        )
+        application_path = (
+            row["application_domain"],
+            row["application_subdomain"],
+        )
+        if not row["artifact_family"] and (
+            row["artifact_type"] or row["artifact_subtype"]
+        ):
             raise CatalogValidationError(
-                f"row {line_number} uses an unknown taxonomy path: "
-                f"{row['section']} / {row['group']}"
+                f"row {line_number} has artifact fields without an artifact_family"
+            )
+        if row["artifact_family"] and artifact_path not in valid_artifact_paths:
+            raise CatalogValidationError(
+                f"row {line_number} uses an unknown artifact taxonomy path: "
+                + " / ".join(artifact_path)
+            )
+        if not row["application_domain"] and row["application_subdomain"]:
+            raise CatalogValidationError(
+                f"row {line_number} has an application_subdomain without a domain"
+            )
+        if row["application_domain"] and application_path not in valid_application_paths:
+            raise CatalogValidationError(
+                f"row {line_number} uses an unknown application taxonomy path: "
+                + " / ".join(application_path)
+            )
+        if not row["artifact_family"] and not row["application_domain"]:
+            raise CatalogValidationError(
+                f"row {line_number} has no artifact or application classification"
             )
         if not re.fullmatch(r"\d{4}", row["year"]):
             raise CatalogValidationError(f"row {line_number} has an invalid year")
         if row["type"] not in ALLOWED_TYPES:
             raise CatalogValidationError(f"row {line_number} has an invalid type")
+        if row["type"] == "published" and "arxiv.org" in row["link"].casefold():
+            raise CatalogValidationError(
+                f"row {line_number} is published but still uses an arXiv link"
+            )
         if row["entry_kind"] not in ALLOWED_ENTRY_KINDS:
             raise CatalogValidationError(f"row {line_number} has an invalid entry_kind")
         for field in ("link", "code"):
@@ -155,7 +257,8 @@ def load_papers(
 
 
 def render_statistics(
-    papers: list[dict[str, str]], taxonomy: list[dict[str, object]]
+    papers: list[dict[str, str]],
+    taxonomy: dict[str, list[dict[str, object]]],
 ) -> str:
     years = [int(paper["year"]) for paper in papers]
     kinds = Counter(paper["entry_kind"] for paper in papers)
@@ -172,8 +275,12 @@ def render_statistics(
             f"- **{len(audit_rows)} audited candidates**: "
             f"{verdicts['pending_full_text']} pending full-text review and "
             f"{verdicts['exclude']} excluded.",
-            f"- **{len(taxonomy)} artifact families** and "
-            f"**{sum(len(section['groups']) for section in taxonomy)} artifact subtypes**.",
+            f"- **{len(taxonomy['artifact_families'])} artifact families**, "
+            f"**{sum(len(family['types']) for family in taxonomy['artifact_families'])} "
+            "artifact types**, and "
+            f"**{len(taxonomy['application_domains'])} application domains**.",
+            f"- **{sum(bool(paper['application_domain']) for paper in papers)} included "
+            "papers** currently carry an application classification.",
             "",
             "*Sources: `data/audit.csv` and generated `data/papers.csv`.*",
         ]
@@ -182,7 +289,7 @@ def render_statistics(
 
 def render_readme(
     papers: list[dict[str, str]],
-    taxonomy: list[dict[str, object]],
+    taxonomy: dict[str, list[dict[str, object]]],
     header_path: Path = HEADER_PATH,
 ) -> str:
     header = header_path.read_text(encoding="utf-8")
@@ -192,9 +299,15 @@ def render_readme(
         )
     header = header.replace(STATS_MARKER, render_statistics(papers, taxonomy)).rstrip()
 
-    papers_by_path: dict[tuple[str, str], list[dict[str, str]]] = {}
+    papers_by_path: dict[tuple[str, str, str], list[dict[str, str]]] = {}
     for paper in papers:
-        papers_by_path.setdefault((paper["section"], paper["group"]), []).append(paper)
+        if paper["artifact_family"]:
+            path = (
+                paper["artifact_family"],
+                paper["artifact_type"],
+                paper["artifact_subtype"],
+            )
+            papers_by_path.setdefault(path, []).append(paper)
     for rows in papers_by_path.values():
         rows.sort(
             key=lambda paper: (
@@ -205,56 +318,103 @@ def render_readme(
         )
 
     lines = [header, "", '<table>', '<tr><th colspan="2">Artifact-centered catalog</th></tr>']
-    for section_index, section in enumerate(taxonomy, start=1):
-        section_name = section["name"]
-        populated_groups = [
-            group
-            for group in section["groups"]
-            if papers_by_path.get((section_name, group))
+    families = taxonomy["artifact_families"]
+    for family_index, family in enumerate(families, start=1):
+        family_name = family["name"]
+        populated_types = [
+            artifact_type
+            for artifact_type in family["types"]
+            if any(
+                papers_by_path.get((family_name, artifact_type["name"], subtype))
+                for subtype in ["", *artifact_type["subtypes"]]
+            )
         ]
-        if not populated_groups:
+        if not populated_types:
             continue
         lines.append(
-            f'<tr><td colspan="2"><strong><a href="#{heading_anchor(section_name)}">'
-            f"{section_index}. {section_name}</a></strong></td></tr>"
+            f'<tr><td colspan="2"><strong><a href="#{heading_anchor(family_name)}">'
+            f"{family_index}. {family_name}</a></strong></td></tr>"
         )
-        for offset in range(0, len(populated_groups), 2):
+        for offset in range(0, len(populated_types), 2):
             lines.append("<tr>")
-            for group in populated_groups[offset : offset + 2]:
-                group_index = section["groups"].index(group) + 1
+            for artifact_type in populated_types[offset : offset + 2]:
+                type_name = artifact_type["name"]
+                type_index = family["types"].index(artifact_type) + 1
                 lines.append(
-                    f'<td>&emsp;<a href="#{heading_anchor(group)}">'
-                    f"{section_index}.{group_index}. {group}</a></td>"
+                    f'<td>&emsp;<a href="#{heading_anchor(type_name)}">'
+                    f"{family_index}.{type_index}. {type_name}</a></td>"
                 )
-            if offset + 1 >= len(populated_groups):
+            if offset + 1 >= len(populated_types):
                 lines.append("<td></td>")
             lines.append("</tr>")
     lines.extend(["</table>", ""])
 
-    for section in taxonomy:
-        section_name = section["name"]
-        if not any(papers_by_path.get((section_name, group)) for group in section["groups"]):
-            continue
-        lines.extend([f"## [{section_name}](#content)", ""])
-        for group in section["groups"]:
-            group_rows = papers_by_path.get((section_name, group), [])
-            if not group_rows:
-                continue
-            lines.extend([f"### [{group}](#content)", ""])
-            for paper_index, paper in enumerate(group_rows, start=1):
-                lines.extend(
-                    [
-                        f"{paper_index}. **{markdown_text(paper['title'])}**",
-                        "",
-                        f"    *{markdown_text(paper['authors'])}*",
-                        "",
-                        f"    {markdown_text(paper['publisher'])}, {paper['year']}. "
-                        f"[`{paper['type']}`]({paper['link']}) · `{paper['entry_kind']}`"
-                        + (f", [`code`]({paper['code']})" if paper["code"] else ""),
-                        "",
-                    ]
+    def append_papers(rows: list[dict[str, str]]) -> None:
+        for paper_index, paper in enumerate(rows, start=1):
+            application = ""
+            if paper["application_domain"]:
+                application = (
+                    f" · application: `{markdown_text(paper['application_domain'])}`"
+                    + (
+                        f" / `{markdown_text(paper['application_subdomain'])}`"
+                        if paper["application_subdomain"]
+                        else ""
+                    )
                 )
+            lines.extend(
+                [
+                    f"{paper_index}. **{markdown_text(paper['title'])}**",
+                    "",
+                    f"    *{markdown_text(paper['authors'])}*",
+                    "",
+                    f"    {markdown_text(paper['publisher'])}, {paper['year']}. "
+                    f"[`{paper['type']}`]({paper['link']}) · `{paper['entry_kind']}`"
+                    + application
+                    + (f", [`code`]({paper['code']})" if paper["code"] else ""),
+                    "",
+                ]
+            )
+
+    for family in families:
+        family_name = family["name"]
+        if not any(
+            papers_by_path.get((family_name, artifact_type["name"], subtype))
+            for artifact_type in family["types"]
+            for subtype in ["", *artifact_type["subtypes"]]
+        ):
+            continue
+        lines.extend([f"## [{family_name}](#content)", ""])
+        for artifact_type in family["types"]:
+            type_name = artifact_type["name"]
+            type_rows = papers_by_path.get((family_name, type_name, ""), [])
+            subtype_rows = {
+                subtype: papers_by_path.get((family_name, type_name, subtype), [])
+                for subtype in artifact_type["subtypes"]
+            }
+            if not type_rows and not any(subtype_rows.values()):
+                continue
+            lines.extend([f"### [{type_name}](#content)", ""])
+            append_papers(type_rows)
+            for subtype, rows in subtype_rows.items():
+                if not rows:
+                    continue
+                lines.extend([f"#### [{subtype}](#content)", ""])
+                append_papers(rows)
         lines.append("")
+
+    application_only = [paper for paper in papers if not paper["artifact_family"]]
+    if application_only:
+        lines.extend(["## [Application-only and Cross-artifact Work](#content)", ""])
+        for domain in taxonomy["application_domains"]:
+            domain_rows = [
+                paper
+                for paper in application_only
+                if paper["application_domain"] == domain["name"]
+            ]
+            if not domain_rows:
+                continue
+            lines.extend([f"### [{domain['name']}](#content)", ""])
+            append_papers(domain_rows)
     return "\n".join(lines).rstrip() + "\n"
 
 

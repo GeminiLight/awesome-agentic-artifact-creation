@@ -39,26 +39,29 @@ Each row in [`data/audit.csv`](data/audit.csv) has one verdict:
 - `pending_full_text`: plausible, but available evidence is insufficient.
 - `exclude`: does not meet the rule or is outside the catalog's scope.
 
-`data/papers.csv` is generated from the two inclusion verdicts. Pending and
-excluded records remain visible in the audit ledger so that count changes are
-reviewable rather than silent.
+`data/papers.csv` is generated from the two inclusion verdicts. Artifact and
+application classifications are independent: a row may carry either axis or
+both, while unknown or inapplicable classification cells remain empty. Pending
+and excluded records remain visible in the audit ledger so that count changes
+are reviewable rather than silent.
 
 ## Current audit result
 
 | Verdict | Count |
 |---|---:|
-| Included systems | 133 |
-| Included benchmarks | 11 |
-| Pending full-text review | 7 |
-| Excluded | 5 |
-| Audited candidates | 156 |
+| Included systems | 162 |
+| Included benchmarks | 15 |
+| Pending full-text review | 9 |
+| Excluded | 20 |
+| Audited candidates | 206 |
 
 Two entries originally labeled as systems are published as benchmarks in this
 catalog. The initial audit replaced the provisional “144 systems + 9
 benchmarks” description with “130 systems + 11 benchmarks.” A subsequent
-family-gap audit added three full-text-verified produced-audio systems, bringing
-the current public catalog to 133 systems and 11 benchmarks while retaining all
-156 decisions in the ledger.
+family-gap audit added three full-text-verified produced-audio systems. The
+Chapter 5 import then audited 50 application-specific supporting works, adding
+29 systems and 4 benchmarks to the public catalog while retaining all 206
+decisions in the ledger.
 
 ## Limitations
 
