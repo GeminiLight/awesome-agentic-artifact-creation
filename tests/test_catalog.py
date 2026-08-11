@@ -24,16 +24,16 @@ class CatalogTest(unittest.TestCase):
         cls.audit = load_audit()
         cls.papers = load_papers(taxonomy=cls.taxonomy)
 
-    def test_audit_covers_initial_candidate_set(self):
-        self.assertEqual(len(self.audit), 153)
+    def test_audit_covers_current_candidate_set(self):
+        self.assertEqual(len(self.audit), 156)
         self.assertEqual(
             Counter(row["original_role"] for row in self.audit),
-            {"system": 144, "benchmark": 9},
+            {"system": 147, "benchmark": 9},
         )
         self.assertEqual(
             Counter(row["audit_verdict"] for row in self.audit),
             {
-                "include_system": 130,
+                "include_system": 133,
                 "include_benchmark": 11,
                 "pending_full_text": 7,
                 "exclude": 5,
@@ -41,10 +41,10 @@ class CatalogTest(unittest.TestCase):
         )
 
     def test_public_catalog_is_derived_from_audit(self):
-        self.assertEqual(len(self.papers), 141)
+        self.assertEqual(len(self.papers), 144)
         self.assertEqual(
             Counter(paper["entry_kind"] for paper in self.papers),
-            {"system": 130, "benchmark": 11},
+            {"system": 133, "benchmark": 11},
         )
         self.assertEqual(
             (ROOT / "data" / "papers.csv").read_text(encoding="utf-8"),
@@ -57,7 +57,7 @@ class CatalogTest(unittest.TestCase):
             {
                 "Text and Document Artifacts": 23,
                 "2D Visual Artifacts": 42,
-                "Music and Audio Artifacts": 6,
+                "Music and Audio Artifacts": 9,
                 "Video and Animation Artifacts": 26,
                 "3D and Spatial Artifacts": 21,
                 "Software and Executable Artifacts": 23,

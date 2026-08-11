@@ -20,9 +20,9 @@ accepted entries; pending and excluded decisions remain visible in
 
 ## Catalog at a glance
 
-- **141 included papers** spanning **2024–2026**.
-- **130 artifact systems** and **11 artifact benchmarks**.
-- **153 audited candidates**: 7 pending full-text review and 5 excluded.
+- **144 included papers** spanning **2024–2026**.
+- **133 artifact systems** and **11 artifact benchmarks**.
+- **156 audited candidates**: 7 pending full-text review and 5 excluded.
 - **6 artifact families** and **21 artifact subtypes**.
 
 *Sources: `data/audit.csv` and generated `data/papers.csv`.*
@@ -560,11 +560,29 @@ adding or reclassifying a paper.
 
 ### [Produced and Spoken Audio](#content)
 
-1. **AI4Reading: Chinese Audiobook Interpretation System Based on Multi-Agent Collaboration**
+1. **Feedback-Driven Retrieval-Augmented Audio Generation with Large Audio Language Models**
+
+    *Junqi Zhao, Chenxing Li, Jinzheng Zhao, Rilin Chen, Dong Yu, Mark D. Plumbley, Wenwu Wang*
+
+    ICASSP, 2026. [`published`](https://doi.org/10.1109/ICASSP55912.2026.11462219) · `system`
+
+2. **AI4Reading: Chinese Audiobook Interpretation System Based on Multi-Agent Collaboration**
 
     *Minjiang Huang, Jipeng Qiang, Yi Zhu, Chaowei Zhang, Xiangyu Zhao, Kui Yu*
 
     arXiv, 2025. [`preprint`](https://arxiv.org/abs/2512.23300) · `system`
+
+3. **Orchestrating Audio: Multi-Agent Framework for Long-Video Audio Synthesis**
+
+    *Yehang Zhang, Xinli Xu, Xiaojie Xu, Doudou Zhang, Li Liu, Ying-Cong Chen*
+
+    EMNLP, 2025. [`published`](https://aclanthology.org/2025.emnlp-main.1133/) · `system`, [`code`](https://lvas-agent.github.io)
+
+4. **WavCraft: Audio Editing and Generation with Large Language Models**
+
+    *Jinhua Liang, Huan Zhang, Haohe Liu, Yin Cao, Qiuqiang Kong, Xubo Liu, Wenwu Wang, Mark D. Plumbley, Huy Phan, Emmanouil Benetos*
+
+    ICLR Workshop, 2024. [`published`](https://openreview.net/forum?id=xJw7x2ZBex) · `system`, [`code`](https://github.com/JinhuaLiang/WavCraft)
 
 
 ## [Video and Animation Artifacts](#content)
