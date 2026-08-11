@@ -43,20 +43,22 @@ Each row in [`data/audit.csv`](data/audit.csv) has one verdict:
 excluded records remain visible in the audit ledger so that count changes are
 reviewable rather than silent.
 
-## Initial audit result
+## Current audit result
 
 | Verdict | Count |
 |---|---:|
-| Included systems | 130 |
+| Included systems | 133 |
 | Included benchmarks | 11 |
 | Pending full-text review | 7 |
 | Excluded | 5 |
-| Audited candidates | 153 |
+| Audited candidates | 156 |
 
 Two entries originally labeled as systems are published as benchmarks in this
-catalog. This audit therefore replaces the provisional “144 systems + 9
-benchmarks” description with “130 systems + 11 benchmarks,” while retaining
-all 153 original decisions in the ledger.
+catalog. The initial audit replaced the provisional “144 systems + 9
+benchmarks” description with “130 systems + 11 benchmarks.” A subsequent
+family-gap audit added three full-text-verified produced-audio systems, bringing
+the current public catalog to 133 systems and 11 benchmarks while retaining all
+156 decisions in the ledger.
 
 ## Limitations
 

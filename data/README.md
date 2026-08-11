@@ -3,10 +3,10 @@
 `audit.csv` is the decision ledger. `papers.csv` is derived from its two
 inclusion verdicts and is the source rendered into the root `README.md`.
 
-The initial snapshot was derived from the 153 core entries in
+The candidate snapshot is synchronized with the 156 strict entries in
 `reference/survey-papers.csv` of the
 [Agentic Artifact Creation survey](https://github.com/GeminiLight/agentic-creation-survey).
-The audit includes 130 systems and 11 benchmarks, leaves 7 candidates pending
+The audit includes 133 systems and 11 benchmarks, leaves 7 candidates pending
 full-text review, and excludes 5. Supporting and boundary-evidence papers from
 outside the candidate set remain in the survey repository and are not silently
 mixed into this catalog.
