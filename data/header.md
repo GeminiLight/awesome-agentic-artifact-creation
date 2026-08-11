@@ -45,15 +45,15 @@ workshops, journals, and preprints are also considered. Representative venues
 already covered by this release include:
 
 - **Artificial Intelligence and Machine Learning:** AAAI, IJCAI, NeurIPS, ICML,
-  and ICLR.
-- **Natural Language Processing:** ACL, EMNLP, NAACL, COLING, and Findings and
-  System Demonstrations tracks.
-- **Computer Vision, Graphics, and Visualization:** CVPR, ICCV, WACV, SIGGRAPH,
+  ICLR, and TPAMI.
+- **Natural Language Processing:** ACL, EMNLP, NAACL, COLM, EACL, and Findings
+  tracks.
+- **Computer Vision, Graphics, and Visualization:** CVPR, ICCV, ECCV, SIGGRAPH,
   SIGGRAPH Asia, and IEEE VIS/TVCG.
-- **Human–Computer Interaction and Creative Computing:** CHI, UIST, C&C, TOCHI,
-  Learning @ Scale, FDG, and CoG.
-- **Data, Web, and Information Systems:** KDD, CIKM, The Web Conference, and
-  SIGMOD/PACM Management of Data.
+- **Human–Computer Interaction:** CHI, UIST, C&C, TOCHI, Learning @ Scale, FDG,
+  and CoG.
+- **Data Mining and Information Retrieval:** KDD, The Web Conference, SIGIR,
+  and SIGMOD/PACM Management of Data.
 - **Software and Engineering:** ICSE, FSE, ISSTA, EASE, DATE, and ASME
   IDETC-CIE.
 - **Audio and Interdisciplinary Research:** ICASSP, ISMIR, Digital Discovery,

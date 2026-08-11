@@ -303,7 +303,7 @@ class CatalogTest(unittest.TestCase):
     def test_application_view_reindexes_all_classified_papers(self):
         rendered = render_readme(self.papers, self.taxonomy)
         self.assertIn(
-            '<a href="#application-centered-view">Application-centered View</a>',
+            '<a href="#application-centered-view">🎯 Application-centered View</a>',
             rendered,
         )
         self.assertIn("## [Application-centered View](#content)", rendered)
@@ -325,17 +325,17 @@ class CatalogTest(unittest.TestCase):
         rendered = render_readme(self.papers, self.taxonomy)
         self.assertIn(
             "ACL, 2025. [Published](https://aclanthology.org/2025.acl-long.773/) "
-            "· `System` · 📦 Textual Artifacts · 🎯 Creative Production",
+            "· `System` · `📦 Textual Artifacts` · `🎯 Creative Production`",
             rendered,
         )
         self.assertIn(
             "arXiv, 2025. [Preprint](https://arxiv.org/abs/2509.13677) "
-            "· `System` · 📦 Textual Artifacts",
+            "· `System` · `📦 Textual Artifacts`",
             rendered,
         )
         self.assertIn(
             "arXiv, 2025. [Preprint](https://arxiv.org/abs/2511.17906) "
-            "· `System` · 🎯 Creative Production",
+            "· `System` · `🎯 Creative Production`",
             rendered,
         )
         self.assertNotIn("application: `", rendered)
@@ -345,12 +345,15 @@ class CatalogTest(unittest.TestCase):
     def test_content_index_uses_three_columns(self):
         rendered = render_readme(self.papers, self.taxonomy)
         self.assertIn(
-            '<tr><th colspan="3">Artifact-centered View</th></tr>', rendered
+            '<tr><th colspan="3"><a href="#artifact-centered-view">'
+            "📦 Artifact-centered View</a></th></tr>",
+            rendered,
         )
         self.assertIn(
             '<tr><th colspan="3"><a href="#application-centered-view">',
             rendered,
         )
+        self.assertIn('<a id="artifact-centered-view"></a>', rendered)
         self.assertNotIn('<th colspan="2">', rendered)
 
     def test_generated_readme_is_current(self):

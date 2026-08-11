@@ -14,7 +14,6 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 PAPERS_PATH = ROOT / "data" / "papers.csv"
-AUDIT_PATH = ROOT / "data" / "audit.csv"
 TAXONOMY_PATH = ROOT / "data" / "taxonomy.json"
 HEADER_PATH = ROOT / "data" / "header.md"
 README_PATH = ROOT / "README.md"
@@ -273,9 +272,6 @@ def render_statistics(
 ) -> str:
     years = [int(paper["year"]) for paper in papers]
     kinds = Counter(paper["entry_kind"] for paper in papers)
-    with AUDIT_PATH.open(encoding="utf-8-sig", newline="") as source:
-        audit_rows = list(csv.DictReader(source))
-    verdicts = Counter((row.get("audit_verdict") or "").strip() for row in audit_rows)
     return "\n".join(
         [
             "## Catalog Analysis",
@@ -283,9 +279,6 @@ def render_statistics(
             f"- **{len(papers)} included papers** spanning **{min(years)}–{max(years)}**.",
             f"- **{kinds['system']} artifact systems** and "
             f"**{kinds['benchmark']} artifact benchmarks**.",
-            f"- **{len(audit_rows)} audited candidates**: "
-            f"{verdicts['pending_full_text']} pending full-text review and "
-            f"{verdicts['exclude']} excluded.",
             f"- **{len(taxonomy['artifact_families'])} artifact families**, "
             f"**{sum(len(family['types']) for family in taxonomy['artifact_families'])} "
             "artifact types**, and "
@@ -293,7 +286,7 @@ def render_statistics(
             f"- **{sum(bool(paper['application_domain']) for paper in papers)} included "
             "papers** currently carry an application classification.",
             "",
-            "*Sources: `data/audit.csv` and generated `data/papers.csv`.*",
+            "*Sources: generated `data/papers.csv` and `data/taxonomy.json`.*",
         ]
     )
 
@@ -338,7 +331,8 @@ def render_readme(
         header,
         "",
         "<table>",
-        '<tr><th colspan="3">Artifact-centered View</th></tr>',
+        '<tr><th colspan="3"><a href="#artifact-centered-view">'
+        "📦 Artifact-centered View</a></th></tr>",
     ]
     families = taxonomy["artifact_families"]
     for family_index, family in enumerate(families, start=1):
@@ -374,7 +368,7 @@ def render_readme(
 
     lines.append(
         '<tr><th colspan="3"><a href="#application-centered-view">'
-        "Application-centered View</a></th></tr>"
+        "🎯 Application-centered View</a></th></tr>"
     )
     application_domains = taxonomy["application_domains"]
     for offset in range(0, len(application_domains), 3):
@@ -391,7 +385,7 @@ def render_readme(
         for _ in range(3 - len(domain_batch)):
             lines.append("<td></td>")
         lines.append("</tr>")
-    lines.extend(["</table>", ""])
+    lines.extend(["</table>", "", '<a id="artifact-centered-view"></a>', ""])
 
     def append_papers(rows: list[dict[str, str]]) -> None:
         for paper_index, paper in enumerate(rows, start=1):
@@ -400,14 +394,16 @@ def render_readme(
                 f"`{paper['entry_kind'].title()}`",
             ]
             if paper["artifact_family"]:
-                metadata.append(f"📦 {markdown_text(paper['artifact_family'])}")
+                metadata.append(
+                    f"`📦 {markdown_text(paper['artifact_family'])}`"
+                )
             if paper["application_domain"]:
                 application = markdown_text(paper["application_domain"])
                 if paper["application_subdomain"]:
                     application += (
                         f" / {markdown_text(paper['application_subdomain'])}"
                     )
-                metadata.append(f"🎯 {application}")
+                metadata.append(f"`🎯 {application}`")
             if paper["code"]:
                 metadata.append(f"[Code]({paper['code']})")
             lines.extend(
