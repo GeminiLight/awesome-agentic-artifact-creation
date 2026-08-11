@@ -19,8 +19,11 @@ PAPERS_PATH = ROOT / "data" / "papers.csv"
 TAXONOMY_PATH = ROOT / "data" / "taxonomy.json"
 
 AUDIT_COLUMNS = (
-    "section",
-    "group",
+    "artifact_family",
+    "artifact_type",
+    "artifact_subtype",
+    "application_domain",
+    "application_subdomain",
     "publisher",
     "year",
     "type",
@@ -30,6 +33,7 @@ AUDIT_COLUMNS = (
     "evidence_basis",
     "criterion",
     "note",
+    "name",
     "title",
     "link",
     "authors",
@@ -37,12 +41,16 @@ AUDIT_COLUMNS = (
     "bib_key",
 )
 PAPER_COLUMNS = (
-    "section",
-    "group",
+    "artifact_family",
+    "artifact_type",
+    "artifact_subtype",
+    "application_domain",
+    "application_subdomain",
     "publisher",
     "year",
     "type",
     "entry_kind",
+    "name",
     "title",
     "link",
     "authors",
@@ -57,7 +65,7 @@ ALLOWED_VERDICTS = {
 }
 ALLOWED_CONFIDENCE = {"high", "medium", "low"}
 ALLOWED_EVIDENCE = {"abstract", "full_text"}
-ALLOWED_ORIGINAL_ROLES = {"system", "benchmark"}
+ALLOWED_ORIGINAL_ROLES = {"system", "benchmark", "supporting"}
 ALLOWED_TYPES = {"preprint", "published", "project"}
 ALLOWED_CRITERIA = {
     "render_execute_feedback",
@@ -76,18 +84,44 @@ class AuditValidationError(ValueError):
     """Raised when the audit ledger is incomplete or inconsistent."""
 
 
-def load_audit(path: Path = AUDIT_PATH) -> list[dict[str, str]]:
-    taxonomy = json.loads(TAXONOMY_PATH.read_text(encoding="utf-8"))["sections"]
-    valid_paths = {
-        (section["name"], group)
-        for section in taxonomy
-        for group in section["groups"]
+def load_taxonomy_paths() -> tuple[set[tuple[str, str, str]], set[tuple[str, str]]]:
+    taxonomy = json.loads(TAXONOMY_PATH.read_text(encoding="utf-8"))
+    artifact_paths = {
+        (family["name"], artifact_type["name"], subtype)
+        for family in taxonomy["artifact_families"]
+        for artifact_type in family["types"]
+        for subtype in artifact_type["subtypes"]
     }
+    artifact_paths.update(
+        (family["name"], artifact_type["name"], "")
+        for family in taxonomy["artifact_families"]
+        for artifact_type in family["types"]
+    )
+    application_paths = {
+        (domain["name"], subdomain)
+        for domain in taxonomy["application_domains"]
+        for subdomain in domain["subdomains"]
+    }
+    application_paths.update(
+        (domain["name"], "") for domain in taxonomy["application_domains"]
+    )
+    return artifact_paths, application_paths
+
+
+def load_audit(path: Path = AUDIT_PATH) -> list[dict[str, str]]:
+    valid_artifact_paths, valid_application_paths = load_taxonomy_paths()
     with path.open(encoding="utf-8-sig", newline="") as source:
         reader = csv.DictReader(source)
         missing = [column for column in AUDIT_COLUMNS if column not in (reader.fieldnames or [])]
         if missing:
             raise AuditValidationError("missing audit columns: " + ", ".join(missing))
+        unexpected = [
+            column for column in (reader.fieldnames or []) if column not in AUDIT_COLUMNS
+        ]
+        if unexpected:
+            raise AuditValidationError(
+                "unexpected audit columns: " + ", ".join(unexpected)
+            )
         rows = [
             {column: (row.get(column) or "").strip() for column in AUDIT_COLUMNS}
             for row in reader
@@ -98,7 +132,19 @@ def load_audit(path: Path = AUDIT_PATH) -> list[dict[str, str]]:
 
     seen: set[str] = set()
     for line_number, row in enumerate(rows, start=2):
-        required = [column for column in AUDIT_COLUMNS if column != "code"]
+        required = [
+            column
+            for column in AUDIT_COLUMNS
+            if column
+            not in {
+                "artifact_family",
+                "artifact_type",
+                "artifact_subtype",
+                "application_domain",
+                "application_subdomain",
+                "code",
+            }
+        ]
         blank = [field for field in required if not row[field]]
         if blank:
             raise AuditValidationError(
@@ -118,8 +164,37 @@ def load_audit(path: Path = AUDIT_PATH) -> list[dict[str, str]]:
             raise AuditValidationError(f"row {line_number} has an invalid evidence_basis")
         if row["criterion"] not in ALLOWED_CRITERIA:
             raise AuditValidationError(f"row {line_number} has an invalid criterion")
-        if (row["section"], row["group"]) not in valid_paths:
-            raise AuditValidationError(f"row {line_number} has an invalid taxonomy path")
+        artifact_path = (
+            row["artifact_family"],
+            row["artifact_type"],
+            row["artifact_subtype"],
+        )
+        application_path = (
+            row["application_domain"],
+            row["application_subdomain"],
+        )
+        if not row["artifact_family"] and (
+            row["artifact_type"] or row["artifact_subtype"]
+        ):
+            raise AuditValidationError(
+                f"row {line_number} has artifact fields without an artifact_family"
+            )
+        if row["artifact_family"] and artifact_path not in valid_artifact_paths:
+            raise AuditValidationError(
+                f"row {line_number} has an invalid artifact taxonomy path"
+            )
+        if not row["application_domain"] and row["application_subdomain"]:
+            raise AuditValidationError(
+                f"row {line_number} has an application_subdomain without a domain"
+            )
+        if row["application_domain"] and application_path not in valid_application_paths:
+            raise AuditValidationError(
+                f"row {line_number} has an invalid application taxonomy path"
+            )
+        if not row["artifact_family"] and not row["application_domain"]:
+            raise AuditValidationError(
+                f"row {line_number} must have an artifact or application classification"
+            )
         if not re.fullmatch(r"\d{4}", row["year"]):
             raise AuditValidationError(f"row {line_number} has an invalid year")
         if row["type"] not in ALLOWED_TYPES:
@@ -149,12 +224,16 @@ def derive_papers(rows: list[dict[str, str]]) -> list[dict[str, str]]:
             continue
         included.append(
             {
-                "section": row["section"],
-                "group": row["group"],
+                "artifact_family": row["artifact_family"],
+                "artifact_type": row["artifact_type"],
+                "artifact_subtype": row["artifact_subtype"],
+                "application_domain": row["application_domain"],
+                "application_subdomain": row["application_subdomain"],
                 "publisher": row["publisher"],
                 "year": row["year"],
                 "type": row["type"],
                 "entry_kind": "system" if verdict == "include_system" else "benchmark",
+                "name": row["name"],
                 "title": row["title"],
                 "link": row["link"],
                 "authors": row["authors"],

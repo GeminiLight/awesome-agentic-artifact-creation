@@ -8,8 +8,10 @@
 
 ---
 
-This catalog organizes work by the artifact being constructed rather than by
-application domain, workflow stage, or evaluation setup. It accompanies the
+This catalog navigates work by the artifact being constructed and records
+application context as a separate, optional classification axis. It does not
+mix workflow stage or evaluation setup into the artifact hierarchy. It
+accompanies the
 [Agentic Artifact Creation survey](https://github.com/GeminiLight/agentic-creation-survey)
 and follows the survey's artifact-centered landscape.
 
@@ -31,12 +33,18 @@ accepted entries; pending and excluded decisions remain visible in
 - **2D visual artifacts:** data visualizations, diagrams, images, posters, and
   presentations.
 - **Music and audio artifacts:** music composition and produced or spoken audio.
-- **Video and animation artifacts:** expository, narrative, personalized,
-  editing, and animation workflows.
+- **Video and animation artifacts:** expository and narrative video, plus video
+  editing and repair.
 - **3D and spatial artifacts:** objects, scenes, worlds, CAD, and engineering
   geometry.
 - **Software and executable artifacts:** repositories, applications, websites,
   user interfaces, games, and simulations.
+
+The application axis currently covers creative media and entertainment,
+marketing and brand communication, education and training, information and
+decision support, scientific research and communication, and engineering and
+simulation. Application subdomains remain blank until a controlled vocabulary
+is defined.
 
 Contributions are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) before
 adding or reclassifying a paper.

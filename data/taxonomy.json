@@ -1,55 +1,149 @@
 {
-  "sections": [
+  "artifact_families": [
     {
       "name": "Text and Document Artifacts",
-      "groups": [
-        "Creative and Narrative Writing",
-        "Professional and Functional Documents",
-        "Reports and Research Writing"
+      "types": [
+        {
+          "name": "Creative Writing",
+          "subtypes": [
+            "Narratives",
+            "Performative Texts"
+          ]
+        },
+        {
+          "name": "Professional Documents",
+          "subtypes": [
+            "Informational Reports",
+            "Functional Documents"
+          ]
+        },
+        {
+          "name": "Scholarly Manuscripts",
+          "subtypes": []
+        }
       ]
     },
     {
       "name": "2D Visual Artifacts",
-      "groups": [
-        "Data Visualization",
-        "Figures, Diagrams, and Schematics",
-        "Images and Graphic Design",
-        "Posters",
-        "Presentations"
+      "types": [
+        {
+          "name": "Data Visualizations",
+          "subtypes": []
+        },
+        {
+          "name": "Illustrative Graphics",
+          "subtypes": [
+            "Images",
+            "Diagrams"
+          ]
+        },
+        {
+          "name": "Visual Documents",
+          "subtypes": [
+            "Posters",
+            "Presentations"
+          ]
+        }
       ]
     },
     {
       "name": "Music and Audio Artifacts",
-      "groups": [
-        "Music Composition",
-        "Produced and Spoken Audio"
+      "types": [
+        {
+          "name": "Produced Audio",
+          "subtypes": []
+        },
+        {
+          "name": "Music",
+          "subtypes": []
+        },
+        {
+          "name": "Spoken Audio",
+          "subtypes": []
+        }
       ]
     },
     {
       "name": "Video and Animation Artifacts",
-      "groups": [
-        "Explainer and Presentation Video",
-        "Narrative and Cinematic Video",
-        "Personalized and Branded Video",
-        "Video Editing and Refinement",
-        "Animation"
+      "types": [
+        {
+          "name": "Expository Videos",
+          "subtypes": []
+        },
+        {
+          "name": "Narrative Videos",
+          "subtypes": []
+        },
+        {
+          "name": "Video Editing and Repair",
+          "subtypes": []
+        }
       ]
     },
     {
       "name": "3D and Spatial Artifacts",
-      "groups": [
-        "3D Objects and Assets",
-        "3D Scenes and Worlds",
-        "CAD and Engineering Geometry"
+      "types": [
+        {
+          "name": "3D Assets",
+          "subtypes": [
+            "Visual Assets",
+            "Parametric Models"
+          ]
+        },
+        {
+          "name": "3D Scenes",
+          "subtypes": [
+            "Spatial Worlds",
+            "Engineered Models"
+          ]
+        }
       ]
     },
     {
       "name": "Software and Executable Artifacts",
-      "groups": [
-        "Applications and Code Repositories",
-        "Websites and User Interfaces",
-        "Games and Simulations"
+      "types": [
+        {
+          "name": "Software Systems",
+          "subtypes": [
+            "Software Repositories",
+            "Web Applications",
+            "Games"
+          ]
+        },
+        {
+          "name": "Simulation Models",
+          "subtypes": [
+            "Virtual World Simulators",
+            "Physical World Models"
+          ]
+        }
       ]
+    }
+  ],
+  "application_domains": [
+    {
+      "name": "Creative Media and Entertainment",
+      "subdomains": []
+    },
+    {
+      "name": "Marketing and Brand Communication",
+      "subdomains": []
+    },
+    {
+      "name": "Education and Training",
+      "subdomains": []
+    },
+    {
+      "name": "Information and Decision Support",
+      "subdomains": []
+    },
+    {
+      "name": "Scientific Research and Communication",
+      "subdomains": []
+    },
+    {
+      "name": "Engineering and Simulation",
+      "subdomains": []
     }
   ]
 }
