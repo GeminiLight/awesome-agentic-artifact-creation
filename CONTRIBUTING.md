@@ -43,6 +43,8 @@ taxonomy.
    python3 -m unittest discover -s tests
    ```
 
+   The README command also regenerates the SVG charts in `visualization/`.
+
 Please keep unrelated formatting changes out of catalog updates. For
 reclassification proposals, explain why the new artifact family or subtype
 better reflects the paper's primary constructed output.

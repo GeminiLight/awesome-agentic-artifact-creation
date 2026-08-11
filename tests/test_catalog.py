@@ -16,6 +16,7 @@ from generate_readme import (  # noqa: E402
     render_readme,
 )
 from build_catalog import derive_papers, load_audit, render_papers  # noqa: E402
+from catalog_analysis import build_chart_outputs, compute_analysis  # noqa: E402
 from venue_registry import load_venues  # noqa: E402
 
 
@@ -337,6 +338,56 @@ class CatalogTest(unittest.TestCase):
         self.assertLess(scope_position, analysis_position)
         self.assertLess(analysis_position, content_position)
         self.assertNotIn("## Catalog at a glance", rendered)
+        self.assertIn('src="visualization/family-trends.svg"', rendered)
+        self.assertIn(
+            'src="visualization/artifact-application-matrix.svg"', rendered
+        )
+
+    def test_header_badges_are_generated_from_catalog(self):
+        rendered = render_readme(self.papers, self.taxonomy)
+        self.assertNotIn("<!-- catalog-badges -->", rendered)
+        self.assertIn("Paper-Coming%20Soon-6854C7", rendered)
+        self.assertIn("Papers-177-2A9D8F", rendered)
+        self.assertIn(
+            "github/last-commit/GeminiLight/"
+            "awesome-agentic-artifact-creation/main",
+            rendered,
+        )
+
+    def test_catalog_analysis_metrics(self):
+        analysis = compute_analysis(self.papers, self.taxonomy)
+        self.assertEqual(analysis.total, 177)
+        self.assertEqual(analysis.artifact_classified, 170)
+        self.assertEqual(analysis.application_classified, 153)
+        self.assertEqual(analysis.dual_classified, 146)
+        self.assertEqual(analysis.artifact_only, 24)
+        self.assertEqual(analysis.application_only, 7)
+        self.assertEqual(analysis.named_systems, 154)
+        self.assertEqual(analysis.system_count, 162)
+        self.assertEqual(analysis.source_count, 47)
+        self.assertEqual(
+            [(item.year, item.total) for item in analysis.by_year],
+            [(2024, 13), (2025, 75), (2026, 82)],
+        )
+        self.assertEqual(analysis.family_counts, (32, 45, 9, 25, 24, 35))
+        self.assertEqual(analysis.application_counts, (63, 5, 11, 14, 34, 26))
+        self.assertEqual(
+            analysis.top_pairs[:3],
+            (
+                ("Video Artifacts", "Creative Production", 19),
+                ("2D Visual Artifacts", "Scientific Research", 15),
+                ("Spatial Artifacts", "Engineering Design", 14),
+            ),
+        )
+
+    def test_generated_visualizations_are_current(self):
+        outputs = build_chart_outputs(self.papers, self.taxonomy)
+        self.assertEqual(len(outputs), 2)
+        for path, expected in outputs.items():
+            self.assertEqual(path.read_text(encoding="utf-8"), expected)
+            self.assertIn("<svg", expected)
+            self.assertIn("color-scheme: light dark", expected)
+            self.assertIn('role="img"', expected)
 
     def test_application_view_reindexes_all_classified_papers(self):
         rendered = render_readme(self.papers, self.taxonomy)
@@ -374,6 +425,13 @@ class CatalogTest(unittest.TestCase):
         self.assertIn(
             "arXiv, 2025. [Preprint](https://arxiv.org/abs/2511.17906) "
             "· `System` · `🎯 Creative Production`",
+            rendered,
+        )
+        self.assertIn(
+            "Findings of ACL, 2026. "
+            "[Published](https://aclanthology.org/2026.findings-acl.1816/) · "
+            "[Code](https://github.com/wywyWang/CoachAI-Projects) · "
+            "`Benchmark` · `📦 Textual Artifacts` · `🎯 Professional Work`",
             rendered,
         )
         self.assertNotIn("application: `", rendered)

@@ -1,0 +1,195 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 790" role="img" aria-labelledby="chart-title chart-description">
+  <title id="chart-title">Artifact-family coverage over time</title>
+  <desc id="chart-description">Stacked bars compare annual counts and shares for six artifact families.</desc>
+  <style>
+    :root { color-scheme: light dark; --background: #FCFBF8; --surface: #F4F3EF; --foreground: #26332E; --muted: #68756F; --grid: #DDE3DE; --frame: #C9D2CC; --heat: #2A9D8F; --family-0: #4E79A7; --family-1: #E15759; --family-2: #F2BE42; --family-3: #B07AA1; --family-4: #59A14F; --family-5: #2A9D8F; }
+    @media (prefers-color-scheme: dark) { :root { --background: #18201E; --surface: #222C29; --foreground: #EDF2EF; --muted: #A9B5AF; --grid: #34413C; --frame: #4B5B55; --heat: #65C3B7; } }
+    text { fill: var(--foreground); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+    .title { font-family: Georgia, 'Times New Roman', serif; font-size: 28px; font-weight: 700; }
+    .subtitle, .note, .axis, .legend { fill: var(--muted); }
+    .subtitle { font-size: 15px; }
+    .note, .axis, .legend { font-size: 13px; }
+    .label { font-size: 14px; font-weight: 600; }
+    .value { font-size: 13px; font-weight: 700; }
+    .segment-value { font-size: 12px; font-weight: 700; paint-order: stroke; stroke: var(--background); stroke-width: 3px; stroke-linejoin: round; }
+    .grid { stroke: var(--grid); stroke-width: 1; }
+    .frame { fill: none; stroke: var(--frame); stroke-width: 1; }
+  </style>
+  <rect width="1200" height="790" rx="18" fill="var(--background)"/>
+  <text class="title" x="54" y="46">Artifact-family coverage over time</text>
+  <text class="subtitle" x="54" y="73">Annual counts and composition across the six artifact families</text>
+  <rect x="54" y="91" width="13" height="13" rx="3" fill="var(--family-0)"/>
+  <text class="legend" x="75" y="102">Textual Artifacts</text>
+  <rect x="424" y="91" width="13" height="13" rx="3" fill="var(--family-1)"/>
+  <text class="legend" x="445" y="102">2D Visual Artifacts</text>
+  <rect x="794" y="91" width="13" height="13" rx="3" fill="var(--family-2)"/>
+  <text class="legend" x="815" y="102">Audio Artifacts</text>
+  <rect x="54" y="119" width="13" height="13" rx="3" fill="var(--family-3)"/>
+  <text class="legend" x="75" y="130">Video Artifacts</text>
+  <rect x="424" y="119" width="13" height="13" rx="3" fill="var(--family-4)"/>
+  <text class="legend" x="445" y="130">Spatial Artifacts</text>
+  <rect x="794" y="119" width="13" height="13" rx="3" fill="var(--family-5)"/>
+  <text class="legend" x="815" y="130">Behavioral Artifacts</text>
+  <text class="label" x="54" y="171">Paper count</text>
+  <rect x="110" y="188" width="1030" height="270" rx="10" fill="var(--surface)"/>
+  <line class="grid" x1="110" y1="458.0" x2="1140" y2="458.0"/>
+  <text class="axis" x="97" y="462.0" text-anchor="end">0</text>
+  <line class="grid" x1="110" y1="404.0" x2="1140" y2="404.0"/>
+  <text class="axis" x="97" y="408.0" text-anchor="end">20</text>
+  <line class="grid" x1="110" y1="350.0" x2="1140" y2="350.0"/>
+  <text class="axis" x="97" y="354.0" text-anchor="end">40</text>
+  <line class="grid" x1="110" y1="296.0" x2="1140" y2="296.0"/>
+  <text class="axis" x="97" y="300.0" text-anchor="end">60</text>
+  <line class="grid" x1="110" y1="242.0" x2="1140" y2="242.0"/>
+  <text class="axis" x="97" y="246.0" text-anchor="end">80</text>
+  <line class="grid" x1="110" y1="188.0" x2="1140" y2="188.0"/>
+  <text class="axis" x="97" y="192.0" text-anchor="end">100</text>
+  <rect x="206.7" y="444.5" width="150.0" height="13.5" fill="var(--family-0)">
+    <title>2024 · Textual Artifacts: 5 papers (38.5%)</title>
+  </rect>
+  <rect x="206.7" y="439.1" width="150.0" height="5.4" fill="var(--family-1)">
+    <title>2024 · 2D Visual Artifacts: 2 papers (15.4%)</title>
+  </rect>
+  <rect x="206.7" y="433.7" width="150.0" height="5.4" fill="var(--family-2)">
+    <title>2024 · Audio Artifacts: 2 papers (15.4%)</title>
+  </rect>
+  <rect x="206.7" y="431.0" width="150.0" height="2.7" fill="var(--family-3)">
+    <title>2024 · Video Artifacts: 1 papers (7.7%)</title>
+  </rect>
+  <rect x="206.7" y="422.9" width="150.0" height="8.1" fill="var(--family-5)">
+    <title>2024 · Behavioral Artifacts: 3 papers (23.1%)</title>
+  </rect>
+  <text class="value" x="281.7" y="412.9" text-anchor="middle">13</text>
+  <text class="label" x="281.7" y="484" text-anchor="middle">2024</text>
+  <rect x="550.0" y="412.1" width="150.0" height="45.9" fill="var(--family-0)">
+    <title>2025 · Textual Artifacts: 17 papers (22.7%)</title>
+  </rect>
+  <text class="segment-value" x="625.0" y="439.1" text-anchor="middle">17</text>
+  <rect x="550.0" y="355.4" width="150.0" height="56.7" fill="var(--family-1)">
+    <title>2025 · 2D Visual Artifacts: 21 papers (28.0%)</title>
+  </rect>
+  <text class="segment-value" x="625.0" y="387.8" text-anchor="middle">21</text>
+  <rect x="550.0" y="341.9" width="150.0" height="13.5" fill="var(--family-2)">
+    <title>2025 · Audio Artifacts: 5 papers (6.7%)</title>
+  </rect>
+  <rect x="550.0" y="312.2" width="150.0" height="29.7" fill="var(--family-3)">
+    <title>2025 · Video Artifacts: 11 papers (14.7%)</title>
+  </rect>
+  <text class="segment-value" x="625.0" y="331.1" text-anchor="middle">11</text>
+  <rect x="550.0" y="279.8" width="150.0" height="32.4" fill="var(--family-4)">
+    <title>2025 · Spatial Artifacts: 12 papers (16.0%)</title>
+  </rect>
+  <text class="segment-value" x="625.0" y="300.0" text-anchor="middle">12</text>
+  <rect x="550.0" y="255.5" width="150.0" height="24.3" fill="var(--family-5)">
+    <title>2025 · Behavioral Artifacts: 9 papers (12.0%)</title>
+  </rect>
+  <text class="segment-value" x="625.0" y="271.7" text-anchor="middle">9</text>
+  <text class="value" x="625.0" y="245.5" text-anchor="middle">75</text>
+  <text class="label" x="625.0" y="484" text-anchor="middle">2025</text>
+  <rect x="893.3" y="431.0" width="150.0" height="27.0" fill="var(--family-0)">
+    <title>2026 · Textual Artifacts: 10 papers (12.2%)</title>
+  </rect>
+  <text class="segment-value" x="968.3" y="448.5" text-anchor="middle">10</text>
+  <rect x="893.3" y="371.6" width="150.0" height="59.4" fill="var(--family-1)">
+    <title>2026 · 2D Visual Artifacts: 22 papers (26.8%)</title>
+  </rect>
+  <text class="segment-value" x="968.3" y="405.3" text-anchor="middle">22</text>
+  <rect x="893.3" y="366.2" width="150.0" height="5.4" fill="var(--family-2)">
+    <title>2026 · Audio Artifacts: 2 papers (2.4%)</title>
+  </rect>
+  <rect x="893.3" y="331.1" width="150.0" height="35.1" fill="var(--family-3)">
+    <title>2026 · Video Artifacts: 13 papers (15.9%)</title>
+  </rect>
+  <text class="segment-value" x="968.3" y="352.7" text-anchor="middle">13</text>
+  <rect x="893.3" y="298.7" width="150.0" height="32.4" fill="var(--family-4)">
+    <title>2026 · Spatial Artifacts: 12 papers (14.6%)</title>
+  </rect>
+  <text class="segment-value" x="968.3" y="318.9" text-anchor="middle">12</text>
+  <rect x="893.3" y="236.6" width="150.0" height="62.1" fill="var(--family-5)">
+    <title>2026 · Behavioral Artifacts: 23 papers (28.0%)</title>
+  </rect>
+  <text class="segment-value" x="968.3" y="271.7" text-anchor="middle">23</text>
+  <text class="value" x="968.3" y="226.6" text-anchor="middle">82</text>
+  <text class="label" x="968.3" y="484" text-anchor="middle">2026</text>
+  <rect class="frame" x="110" y="188" width="1030" height="270"/>
+  <text class="label" x="54" y="548">Share within artifact-classified papers</text>
+  <rect x="110" y="566" width="1030" height="128" rx="10" fill="var(--surface)"/>
+  <line class="grid" x1="110" y1="694.0" x2="1140" y2="694.0"/>
+  <text class="axis" x="97" y="698.0" text-anchor="end">0%</text>
+  <line class="grid" x1="110" y1="662.0" x2="1140" y2="662.0"/>
+  <text class="axis" x="97" y="666.0" text-anchor="end">25%</text>
+  <line class="grid" x1="110" y1="630.0" x2="1140" y2="630.0"/>
+  <text class="axis" x="97" y="634.0" text-anchor="end">50%</text>
+  <line class="grid" x1="110" y1="598.0" x2="1140" y2="598.0"/>
+  <text class="axis" x="97" y="602.0" text-anchor="end">75%</text>
+  <line class="grid" x1="110" y1="566.0" x2="1140" y2="566.0"/>
+  <text class="axis" x="97" y="570.0" text-anchor="end">100%</text>
+  <rect x="206.7" y="644.8" width="150.0" height="49.2" fill="var(--family-0)">
+    <title>2024 · Textual Artifacts: 38.5%</title>
+  </rect>
+  <text class="segment-value" x="281.7" y="673.4" text-anchor="middle">38%</text>
+  <rect x="206.7" y="625.1" width="150.0" height="19.7" fill="var(--family-1)">
+    <title>2024 · 2D Visual Artifacts: 15.4%</title>
+  </rect>
+  <text class="segment-value" x="281.7" y="638.9" text-anchor="middle">15%</text>
+  <rect x="206.7" y="605.4" width="150.0" height="19.7" fill="var(--family-2)">
+    <title>2024 · Audio Artifacts: 15.4%</title>
+  </rect>
+  <text class="segment-value" x="281.7" y="619.2" text-anchor="middle">15%</text>
+  <rect x="206.7" y="595.5" width="150.0" height="9.8" fill="var(--family-3)">
+    <title>2024 · Video Artifacts: 7.7%</title>
+  </rect>
+  <rect x="206.7" y="566.0" width="150.0" height="29.5" fill="var(--family-5)">
+    <title>2024 · Behavioral Artifacts: 23.1%</title>
+  </rect>
+  <text class="segment-value" x="281.7" y="584.8" text-anchor="middle">23%</text>
+  <text class="label" x="281.7" y="720" text-anchor="middle">2024</text>
+  <rect x="550.0" y="665.0" width="150.0" height="29.0" fill="var(--family-0)">
+    <title>2025 · Textual Artifacts: 22.7%</title>
+  </rect>
+  <text class="segment-value" x="625.0" y="683.5" text-anchor="middle">23%</text>
+  <rect x="550.0" y="629.1" width="150.0" height="35.8" fill="var(--family-1)">
+    <title>2025 · 2D Visual Artifacts: 28.0%</title>
+  </rect>
+  <text class="segment-value" x="625.0" y="651.1" text-anchor="middle">28%</text>
+  <rect x="550.0" y="620.6" width="150.0" height="8.5" fill="var(--family-2)">
+    <title>2025 · Audio Artifacts: 6.7%</title>
+  </rect>
+  <rect x="550.0" y="601.8" width="150.0" height="18.8" fill="var(--family-3)">
+    <title>2025 · Video Artifacts: 14.7%</title>
+  </rect>
+  <text class="segment-value" x="625.0" y="615.2" text-anchor="middle">15%</text>
+  <rect x="550.0" y="581.4" width="150.0" height="20.5" fill="var(--family-4)">
+    <title>2025 · Spatial Artifacts: 16.0%</title>
+  </rect>
+  <text class="segment-value" x="625.0" y="595.6" text-anchor="middle">16%</text>
+  <rect x="550.0" y="566.0" width="150.0" height="15.4" fill="var(--family-5)">
+    <title>2025 · Behavioral Artifacts: 12.0%</title>
+  </rect>
+  <text class="label" x="625.0" y="720" text-anchor="middle">2025</text>
+  <rect x="893.3" y="678.4" width="150.0" height="15.6" fill="var(--family-0)">
+    <title>2026 · Textual Artifacts: 12.2%</title>
+  </rect>
+  <rect x="893.3" y="644.0" width="150.0" height="34.3" fill="var(--family-1)">
+    <title>2026 · 2D Visual Artifacts: 26.8%</title>
+  </rect>
+  <text class="segment-value" x="968.3" y="665.2" text-anchor="middle">27%</text>
+  <rect x="893.3" y="640.9" width="150.0" height="3.1" fill="var(--family-2)">
+    <title>2026 · Audio Artifacts: 2.4%</title>
+  </rect>
+  <rect x="893.3" y="620.6" width="150.0" height="20.3" fill="var(--family-3)">
+    <title>2026 · Video Artifacts: 15.9%</title>
+  </rect>
+  <text class="segment-value" x="968.3" y="634.8" text-anchor="middle">16%</text>
+  <rect x="893.3" y="601.9" width="150.0" height="18.7" fill="var(--family-4)">
+    <title>2026 · Spatial Artifacts: 14.6%</title>
+  </rect>
+  <text class="segment-value" x="968.3" y="615.3" text-anchor="middle">15%</text>
+  <rect x="893.3" y="566.0" width="150.0" height="35.9" fill="var(--family-5)">
+    <title>2026 · Behavioral Artifacts: 28.0%</title>
+  </rect>
+  <text class="segment-value" x="968.3" y="588.0" text-anchor="middle">28%</text>
+  <text class="label" x="968.3" y="720" text-anchor="middle">2026</text>
+  <rect class="frame" x="110" y="566" width="1030" height="128"/>
+  <text class="note" x="54" y="758">Artifact-classified papers only (n=170); 7 application-only entries are excluded. 2026 is incomplete.</text>
+</svg>
