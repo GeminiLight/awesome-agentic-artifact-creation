@@ -97,6 +97,9 @@ def load_taxonomy_paths() -> tuple[set[tuple[str, str, str]], set[tuple[str, str
         for family in taxonomy["artifact_families"]
         for artifact_type in family["types"]
     )
+    artifact_paths.update(
+        (family["name"], "", "") for family in taxonomy["artifact_families"]
+    )
     application_paths = {
         (domain["name"], subdomain)
         for domain in taxonomy["application_domains"]

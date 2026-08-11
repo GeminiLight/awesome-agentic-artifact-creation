@@ -94,12 +94,12 @@ class CatalogTest(unittest.TestCase):
         self.assertEqual(
             Counter(paper["artifact_family"] for paper in self.papers),
             {
-                "Text and Document Artifacts": 32,
+                "Textual Artifacts": 32,
                 "2D Visual Artifacts": 45,
-                "Music and Audio Artifacts": 9,
-                "Video and Animation Artifacts": 25,
-                "3D and Spatial Artifacts": 24,
-                "Software and Executable Artifacts": 35,
+                "Audio Artifacts": 9,
+                "Video Artifacts": 25,
+                "Spatial Artifacts": 24,
+                "Behavioral Artifacts": 35,
                 "": 7,
             },
         )
@@ -113,7 +113,7 @@ class CatalogTest(unittest.TestCase):
                 papers["Text_ComedyClub2026"]["artifact_subtype"],
             ),
             (
-                "Text and Document Artifacts",
+                "Textual Artifacts",
                 "Creative Writing",
                 "Performative Texts",
             ),
@@ -132,6 +132,19 @@ class CatalogTest(unittest.TestCase):
             ),
             ("3D Assets", "Parametric Models"),
         )
+        for key in (
+            "Audio_AudioRAGPlus2026",
+            "Audio_LVASAgent2025",
+            "Audio_WavCraft2024",
+        ):
+            self.assertEqual(
+                (
+                    papers[key]["artifact_family"],
+                    papers[key]["artifact_type"],
+                    papers[key]["artifact_subtype"],
+                ),
+                ("Audio Artifacts", "", ""),
+            )
 
     def test_application_classification_is_optional_and_independent(self):
         papers = {paper["bib_key"]: paper for paper in self.papers}
@@ -141,11 +154,11 @@ class CatalogTest(unittest.TestCase):
         )
         self.assertEqual(
             papers["Poster_Paper2Poster2025"]["application_domain"],
-            "Scientific Research and Communication",
+            "Scientific Research",
         )
         self.assertEqual(
             papers["Text_ComedyClub2026"]["application_domain"],
-            "Creative Media and Entertainment",
+            "Creative Production",
         )
         self.assertTrue(
             all(not paper["application_subdomain"] for paper in self.papers)
@@ -184,7 +197,7 @@ class CatalogTest(unittest.TestCase):
         )
         self.assertEqual(
             supporting["Sci_AgenticTCAD2025"]["application_domain"],
-            "Engineering and Simulation",
+            "Engineering Design",
         )
 
     def test_heading_anchors_are_unique(self):
@@ -207,6 +220,75 @@ class CatalogTest(unittest.TestCase):
         )
         anchors = [heading_anchor(name) for name in names]
         self.assertEqual(len(anchors), len(set(anchors)))
+
+    def test_taxonomy_uses_current_manuscript_labels(self):
+        self.assertEqual(
+            [family["name"] for family in self.taxonomy["artifact_families"]],
+            [
+                "Textual Artifacts",
+                "2D Visual Artifacts",
+                "Audio Artifacts",
+                "Video Artifacts",
+                "Spatial Artifacts",
+                "Behavioral Artifacts",
+            ],
+        )
+        self.assertEqual(
+            [domain["name"] for domain in self.taxonomy["application_domains"]],
+            [
+                "Creative Production",
+                "Brand Communication",
+                "Educational Support",
+                "Professional Work",
+                "Scientific Research",
+                "Engineering Design",
+            ],
+        )
+        self.assertEqual(
+            {
+                family["name"]: {
+                    artifact_type["name"]: artifact_type["subtypes"]
+                    for artifact_type in family["types"]
+                }
+                for family in self.taxonomy["artifact_families"]
+            },
+            {
+                "Textual Artifacts": {
+                    "Creative Writing": ["Narratives", "Performative Texts"],
+                    "Professional Documents": [
+                        "Informational Reports",
+                        "Functional Documents",
+                    ],
+                    "Scholarly Manuscripts": [],
+                },
+                "2D Visual Artifacts": {
+                    "Data Visualizations": [],
+                    "Illustrative Graphics": ["Images", "Diagrams"],
+                    "Visual Documents": ["Posters", "Presentations"],
+                },
+                "Audio Artifacts": {"Music": [], "Spoken Audio": []},
+                "Video Artifacts": {
+                    "Expository Videos": [],
+                    "Narrative Videos": [],
+                    "Video Editing and Repair": [],
+                },
+                "Spatial Artifacts": {
+                    "3D Assets": ["Visual Assets", "Parametric Models"],
+                    "3D Scenes": ["Spatial Worlds", "Engineered Models"],
+                },
+                "Behavioral Artifacts": {
+                    "Software Systems": [
+                        "Software Repositories",
+                        "Web Applications",
+                        "Games",
+                    ],
+                    "Simulation Models": [
+                        "Virtual World Simulators",
+                        "Physical World Models",
+                    ],
+                },
+            },
+        )
 
     def test_generated_readme_is_current(self):
         self.assertEqual(

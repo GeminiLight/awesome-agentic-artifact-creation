@@ -149,6 +149,9 @@ def load_papers(
         for artifact_type in family["types"]
         for subtype in ["", *artifact_type["subtypes"]]
     }
+    valid_artifact_paths.update(
+        (family["name"], "", "") for family in taxonomy["artifact_families"]
+    )
     valid_application_paths = {
         (domain["name"], subdomain)
         for domain in taxonomy["application_domains"]
@@ -321,6 +324,7 @@ def render_readme(
     families = taxonomy["artifact_families"]
     for family_index, family in enumerate(families, start=1):
         family_name = family["name"]
+        family_rows = papers_by_path.get((family_name, "", ""), [])
         populated_types = [
             artifact_type
             for artifact_type in family["types"]
@@ -329,7 +333,7 @@ def render_readme(
                 for subtype in ["", *artifact_type["subtypes"]]
             )
         ]
-        if not populated_types:
+        if not family_rows and not populated_types:
             continue
         lines.append(
             f'<tr><td colspan="2"><strong><a href="#{heading_anchor(family_name)}">'
@@ -377,13 +381,15 @@ def render_readme(
 
     for family in families:
         family_name = family["name"]
-        if not any(
+        family_rows = papers_by_path.get((family_name, "", ""), [])
+        if not family_rows and not any(
             papers_by_path.get((family_name, artifact_type["name"], subtype))
             for artifact_type in family["types"]
             for subtype in ["", *artifact_type["subtypes"]]
         ):
             continue
         lines.extend([f"## [{family_name}](#content)", ""])
+        append_papers(family_rows)
         for artifact_type in family["types"]:
             type_name = artifact_type["name"]
             type_rows = papers_by_path.get((family_name, type_name, ""), [])

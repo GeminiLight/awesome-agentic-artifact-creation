@@ -1,7 +1,7 @@
 {
   "artifact_families": [
     {
-      "name": "Text and Document Artifacts",
+      "name": "Textual Artifacts",
       "types": [
         {
           "name": "Creative Writing",
@@ -47,12 +47,8 @@
       ]
     },
     {
-      "name": "Music and Audio Artifacts",
+      "name": "Audio Artifacts",
       "types": [
-        {
-          "name": "Produced Audio",
-          "subtypes": []
-        },
         {
           "name": "Music",
           "subtypes": []
@@ -64,7 +60,7 @@
       ]
     },
     {
-      "name": "Video and Animation Artifacts",
+      "name": "Video Artifacts",
       "types": [
         {
           "name": "Expository Videos",
@@ -81,7 +77,7 @@
       ]
     },
     {
-      "name": "3D and Spatial Artifacts",
+      "name": "Spatial Artifacts",
       "types": [
         {
           "name": "3D Assets",
@@ -100,7 +96,7 @@
       ]
     },
     {
-      "name": "Software and Executable Artifacts",
+      "name": "Behavioral Artifacts",
       "types": [
         {
           "name": "Software Systems",
@@ -122,27 +118,27 @@
   ],
   "application_domains": [
     {
-      "name": "Creative Media and Entertainment",
+      "name": "Creative Production",
       "subdomains": []
     },
     {
-      "name": "Marketing and Brand Communication",
+      "name": "Brand Communication",
       "subdomains": []
     },
     {
-      "name": "Education and Training",
+      "name": "Educational Support",
       "subdomains": []
     },
     {
-      "name": "Information and Decision Support",
+      "name": "Professional Work",
       "subdomains": []
     },
     {
-      "name": "Scientific Research and Communication",
+      "name": "Scientific Research",
       "subdomains": []
     },
     {
-      "name": "Engineering and Simulation",
+      "name": "Engineering Design",
       "subdomains": []
     }
   ]

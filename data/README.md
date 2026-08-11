@@ -13,8 +13,10 @@ supporting work does not guarantee its inclusion.
 
 ## Audit columns
 
-- `artifact_family`, `artifact_type`, and optional `artifact_subtype` record
-  what is constructed using the artifact-centered landscape hierarchy.
+- `artifact_family` and optional `artifact_type` / `artifact_subtype` record
+  what is constructed using the artifact-centered landscape hierarchy. A
+  family-level record leaves both finer fields empty when the manuscript does
+  not define a mature profile for that output.
 - `application_domain` and optional `application_subdomain` independently
   record where the work is used. Classification fields are empty when that
   axis does not apply or has not been established; use empty CSV values rather
@@ -36,7 +38,7 @@ See [`../AUDIT.md`](../AUDIT.md) for the inclusion rule and limitations.
 ## Generated catalog columns
 
 - `artifact_family`: one of the six top-level artifact families.
-- `artifact_type`: the artifact profile within the selected family.
+- `artifact_type`: an optional artifact profile within the selected family.
 - `artifact_subtype`: an optional finer artifact class.
 - `application_domain`: an optional application cluster from the survey.
 - `application_subdomain`: reserved for a controlled finer application class;
