@@ -12,6 +12,8 @@ import sys
 from collections import Counter
 from pathlib import Path
 
+from venue_registry import load_venues, venue_assignment_error
+
 
 ROOT = Path(__file__).resolve().parent.parent
 AUDIT_PATH = ROOT / "data" / "audit.csv"
@@ -24,7 +26,7 @@ AUDIT_COLUMNS = (
     "artifact_subtype",
     "application_domain",
     "application_subdomain",
-    "publisher",
+    "venue_id",
     "year",
     "type",
     "original_role",
@@ -46,7 +48,11 @@ PAPER_COLUMNS = (
     "artifact_subtype",
     "application_domain",
     "application_subdomain",
-    "publisher",
+    "venue_id",
+    "venue_display_name",
+    "venue_full_name",
+    "venue_kind",
+    "parent_venue_id",
     "year",
     "type",
     "entry_kind",
@@ -111,8 +117,12 @@ def load_taxonomy_paths() -> tuple[set[tuple[str, str, str]], set[tuple[str, str
     return artifact_paths, application_paths
 
 
-def load_audit(path: Path = AUDIT_PATH) -> list[dict[str, str]]:
+def load_audit(
+    path: Path = AUDIT_PATH,
+    venues: dict[str, dict[str, str]] | None = None,
+) -> list[dict[str, str]]:
     valid_artifact_paths, valid_application_paths = load_taxonomy_paths()
+    venues = venues or load_venues()
     with path.open(encoding="utf-8-sig", newline="") as source:
         reader = csv.DictReader(source)
         missing = [column for column in AUDIT_COLUMNS if column not in (reader.fieldnames or [])]
@@ -202,6 +212,9 @@ def load_audit(path: Path = AUDIT_PATH) -> list[dict[str, str]]:
             raise AuditValidationError(f"row {line_number} has an invalid year")
         if row["type"] not in ALLOWED_TYPES:
             raise AuditValidationError(f"row {line_number} has an invalid type")
+        venue_error = venue_assignment_error(row["venue_id"], row["type"], venues)
+        if venue_error:
+            raise AuditValidationError(f"row {line_number} has {venue_error}")
         if row["type"] == "published" and "arxiv.org" in row["link"].casefold():
             raise AuditValidationError(
                 f"row {line_number} is published but still uses an arXiv link"
@@ -223,12 +236,17 @@ def load_audit(path: Path = AUDIT_PATH) -> list[dict[str, str]]:
     return rows
 
 
-def derive_papers(rows: list[dict[str, str]]) -> list[dict[str, str]]:
+def derive_papers(
+    rows: list[dict[str, str]],
+    venues: dict[str, dict[str, str]] | None = None,
+) -> list[dict[str, str]]:
+    venues = venues or load_venues()
     included = []
     for row in rows:
         verdict = row["audit_verdict"]
         if verdict not in {"include_system", "include_benchmark"}:
             continue
+        venue = venues[row["venue_id"]]
         included.append(
             {
                 "artifact_family": row["artifact_family"],
@@ -236,7 +254,11 @@ def derive_papers(rows: list[dict[str, str]]) -> list[dict[str, str]]:
                 "artifact_subtype": row["artifact_subtype"],
                 "application_domain": row["application_domain"],
                 "application_subdomain": row["application_subdomain"],
-                "publisher": row["publisher"],
+                "venue_id": row["venue_id"],
+                "venue_display_name": venue["display_name"],
+                "venue_full_name": venue["full_name"],
+                "venue_kind": venue["venue_kind"],
+                "parent_venue_id": venue["parent_venue_id"],
                 "year": row["year"],
                 "type": row["type"],
                 "entry_kind": "system" if verdict == "include_system" else "benchmark",
@@ -268,8 +290,9 @@ def main() -> int:
     )
     args = parser.parse_args()
 
-    audit = load_audit()
-    papers = derive_papers(audit)
+    venues = load_venues()
+    audit = load_audit(venues=venues)
+    papers = derive_papers(audit, venues)
     rendered = render_papers(papers)
     if args.check:
         current = PAPERS_PATH.read_text(encoding="utf-8") if PAPERS_PATH.exists() else ""

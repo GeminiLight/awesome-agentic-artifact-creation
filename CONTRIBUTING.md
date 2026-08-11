@@ -17,13 +17,16 @@ taxonomy.
 ## Add a paper
 
 1. Add one row to `data/audit.csv` using controlled values from
-   `data/taxonomy.json`.
+   `data/taxonomy.json` and `data/venues.csv`.
 2. Populate `artifact_family`, `artifact_type`, and `artifact_subtype` when a
    primary constructed artifact can be assigned. Populate `application_domain`
    and `application_subdomain` independently when the application context is
    established. Leave unknown or inapplicable classification cells empty; do
    not write `N/A`.
-3. Prefer a stable publisher or arXiv abstract URL and use HTTPS.
+3. Select a registered `venue_id`. If the venue is new, add one canonical row
+   to `data/venues.csv`; keep the year in the paper row rather than the venue
+   display name. Prefer an archival conference or journal URL, using an arXiv
+   abstract URL only when no formal version has been established.
 4. Set `name` to the author-assigned system, benchmark, or primary-method name
    stated in the abstract or full text. Use `N/A` if the work does not name
    one; do not derive a label from the title or `bib_key`.

@@ -11,6 +11,8 @@ import sys
 from collections import Counter
 from pathlib import Path
 
+from venue_registry import load_venues, venue_assignment_error
+
 
 ROOT = Path(__file__).resolve().parent.parent
 PAPERS_PATH = ROOT / "data" / "papers.csv"
@@ -25,7 +27,11 @@ REQUIRED_COLUMNS = (
     "artifact_subtype",
     "application_domain",
     "application_subdomain",
-    "publisher",
+    "venue_id",
+    "venue_display_name",
+    "venue_full_name",
+    "venue_kind",
+    "parent_venue_id",
     "year",
     "type",
     "entry_kind",
@@ -55,7 +61,7 @@ def markdown_text(value: str) -> str:
 def paper_sort_key(paper: dict[str, str]) -> tuple[int, str, str]:
     return (
         -int(paper["year"]),
-        paper["publisher"].casefold(),
+        paper["venue_display_name"].casefold(),
         paper["title"].casefold(),
     )
 
@@ -148,8 +154,10 @@ def _duplicate_values(rows: list[dict[str, str]], field: str) -> list[str]:
 def load_papers(
     path: Path = PAPERS_PATH,
     taxonomy: dict[str, list[dict[str, object]]] | None = None,
+    venues: dict[str, dict[str, str]] | None = None,
 ) -> list[dict[str, str]]:
     taxonomy = taxonomy or load_taxonomy()
+    venues = venues or load_venues()
     valid_artifact_paths = {
         (family["name"], artifact_type["name"], subtype)
         for family in taxonomy["artifact_families"]
@@ -193,7 +201,10 @@ def load_papers(
 
     for line_number, row in enumerate(rows, start=2):
         required_values = [
-            "publisher",
+            "venue_id",
+            "venue_display_name",
+            "venue_full_name",
+            "venue_kind",
             "year",
             "type",
             "entry_kind",
@@ -245,6 +256,26 @@ def load_papers(
             raise CatalogValidationError(f"row {line_number} has an invalid year")
         if row["type"] not in ALLOWED_TYPES:
             raise CatalogValidationError(f"row {line_number} has an invalid type")
+        venue_error = venue_assignment_error(row["venue_id"], row["type"], venues)
+        if venue_error:
+            raise CatalogValidationError(f"row {line_number} has {venue_error}")
+        venue = venues[row["venue_id"]]
+        venue_fields = {
+            "venue_display_name": "display_name",
+            "venue_full_name": "full_name",
+            "venue_kind": "venue_kind",
+            "parent_venue_id": "parent_venue_id",
+        }
+        mismatched = [
+            field
+            for field, venue_field in venue_fields.items()
+            if row[field] != venue[venue_field]
+        ]
+        if mismatched:
+            raise CatalogValidationError(
+                f"row {line_number} has stale derived venue fields: "
+                + ", ".join(mismatched)
+            )
         if row["type"] == "published" and "arxiv.org" in row["link"].casefold():
             raise CatalogValidationError(
                 f"row {line_number} is published but still uses an arXiv link"
@@ -286,7 +317,8 @@ def render_statistics(
             f"- **{sum(bool(paper['application_domain']) for paper in papers)} included "
             "papers** currently carry an application classification.",
             "",
-            "*Sources: generated `data/papers.csv` and `data/taxonomy.json`.*",
+            "*Sources: generated `data/papers.csv`, `data/taxonomy.json`, and "
+            "`data/venues.csv`.*",
         ]
     )
 
@@ -412,7 +444,8 @@ def render_readme(
                     "",
                     f"    *{markdown_text(paper['authors'])}*",
                     "",
-                    f"    {markdown_text(paper['publisher'])}, {paper['year']}. "
+                    f"    {markdown_text(paper['venue_display_name'])}, "
+                    f"{paper['year']}. "
                     + " · ".join(metadata),
                     "",
                 ]
@@ -476,7 +509,8 @@ def main() -> int:
     args = parser.parse_args()
 
     taxonomy = load_taxonomy()
-    papers = load_papers(taxonomy=taxonomy)
+    venues = load_venues()
+    papers = load_papers(taxonomy=taxonomy, venues=venues)
     rendered = render_readme(papers, taxonomy)
     if args.check:
         current = README_PATH.read_text(encoding="utf-8") if README_PATH.exists() else ""

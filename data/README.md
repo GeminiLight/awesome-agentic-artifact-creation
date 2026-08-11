@@ -2,6 +2,8 @@
 
 `audit.csv` is the decision ledger. `papers.csv` is derived from its two
 inclusion verdicts and is the source rendered into the root `README.md`.
+`venues.csv` is the controlled registry for publication and source names used
+by both files.
 
 The candidate snapshot combines the 156 entries in
 `reference/survey-core-papers.csv` with 50 Chapter 5-only supporting works from
@@ -21,6 +23,8 @@ supporting work does not guarantee its inclusion.
   record where the work is used. Classification fields are empty when that
   axis does not apply or has not been established; use empty CSV values rather
   than `N/A`.
+- `venue_id`: stable identifier registered in `venues.csv`. Store the year only
+  in `year`; do not create year-specific venue names.
 - `original_role`: `system`, `benchmark`, or `supporting` in the imported
   survey corpus.
 - `audit_verdict`: `include_system`, `include_benchmark`,
@@ -43,7 +47,12 @@ See [`../AUDIT.md`](../AUDIT.md) for the inclusion rule and limitations.
 - `application_domain`: an optional application cluster from the survey.
 - `application_subdomain`: reserved for a controlled finer application class;
   it remains empty until that taxonomy is defined.
-- `publisher`: publication venue or preprint source.
+- `venue_id`: stable key for the publication venue, track, preprint server, or
+  repository defined in `venues.csv`.
+- `venue_display_name`, `venue_full_name`, `venue_kind`, and
+  `parent_venue_id`: generated venue metadata copied from `venues.csv`. Do not
+  edit these fields directly; regenerate `papers.csv` after changing the venue
+  registry.
 - `year`: four-digit publication year.
 - `type`: `preprint`, `published`, or `project`.
 - `link`: use the archival conference or journal record for formally published
@@ -55,8 +64,9 @@ See [`../AUDIT.md`](../AUDIT.md) for the inclusion rule and limitations.
 - `bib_key`: stable key inherited from the survey bibliography.
 
 `taxonomy.json` is the controlled vocabulary for both classification axes.
-Artifact-only, application-only, and jointly classified rows are valid, but at
-least one axis must be populated.
+`venues.csv` provides the canonical README label, full name, venue kind, and
+optional parent venue for each `venue_id`. Artifact-only, application-only,
+and jointly classified rows are valid, but at least one axis must be populated.
 
 After editing the CSV, run:
 
