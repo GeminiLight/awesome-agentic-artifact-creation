@@ -75,3 +75,6 @@ python3 scripts/build_catalog.py
 python3 scripts/generate_readme.py
 python3 -m unittest discover -s tests
 ```
+
+The README generator also refreshes the deterministic Catalog Analysis charts
+in `visualization/`.
