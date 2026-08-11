@@ -16,14 +16,16 @@ from generate_readme import (  # noqa: E402
     render_readme,
 )
 from build_catalog import derive_papers, load_audit, render_papers  # noqa: E402
+from venue_registry import load_venues  # noqa: E402
 
 
 class CatalogTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.taxonomy = load_taxonomy()
+        cls.venues = load_venues()
         cls.audit = load_audit()
-        cls.papers = load_papers(taxonomy=cls.taxonomy)
+        cls.papers = load_papers(taxonomy=cls.taxonomy, venues=cls.venues)
 
     def test_audit_covers_current_candidate_set(self):
         self.assertEqual(len(self.audit), 206)
@@ -49,7 +51,7 @@ class CatalogTest(unittest.TestCase):
         )
         self.assertEqual(
             (ROOT / "data" / "papers.csv").read_text(encoding="utf-8"),
-            render_papers(derive_papers(self.audit)),
+            render_papers(derive_papers(self.audit, self.venues)),
         )
 
     def test_published_entries_use_archival_links(self):
@@ -57,6 +59,42 @@ class CatalogTest(unittest.TestCase):
         self.assertTrue(published)
         self.assertTrue(
             all("arxiv.org" not in row["link"].casefold() for row in published)
+        )
+
+    def test_venue_registry_normalizes_catalog_sources(self):
+        self.assertEqual(len(self.venues), 55)
+        used_venue_ids = {row["venue_id"] for row in self.audit}
+        self.assertEqual(len(used_venue_ids), 53)
+        self.assertEqual(
+            set(self.venues) - used_venue_ids,
+            {"the_web_conference", "wacv"},
+        )
+        self.assertTrue(
+            all(row["venue_id"] in self.venues for row in self.audit)
+        )
+        for paper in self.papers:
+            venue = self.venues[paper["venue_id"]]
+            self.assertEqual(paper["venue_display_name"], venue["display_name"])
+            self.assertEqual(paper["venue_full_name"], venue["full_name"])
+            self.assertEqual(paper["venue_kind"], venue["venue_kind"])
+            self.assertEqual(
+                paper["parent_venue_id"], venue["parent_venue_id"]
+            )
+        self.assertTrue(
+            all(
+                not any(char.isdigit() for char in venue["display_name"])
+                for venue in self.venues.values()
+            )
+        )
+        audit_by_key = {row["bib_key"]: row for row in self.audit}
+        self.assertEqual(audit_by_key["Text_BookWorld2025"]["venue_id"], "acl")
+        self.assertEqual(
+            audit_by_key["DataViz_LightVA2024"]["venue_id"],
+            "ieee_tvcg",
+        )
+        self.assertEqual(
+            audit_by_key["D3_EZBlender2026"]["venue_id"],
+            "wacv_workshops",
         )
 
     def test_names_are_populated_and_propagated(self):
