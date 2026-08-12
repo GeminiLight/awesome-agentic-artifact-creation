@@ -5,9 +5,9 @@
     revise, and maintain artifacts.
   </p>
   <p>
-    <a href="https://github.com/GeminiLight/agentic-creation-survey"><img alt="Paper: Coming Soon" src="https://img.shields.io/badge/Paper-Coming%20Soon-6854C7?style=flat-square"></a>
-    <a href="#catalog-analysis"><img alt="Papers: 228" src="https://img.shields.io/badge/Papers-228-2A9D8F?style=flat-square"></a>
-    <a href="https://github.com/GeminiLight/awesome-agentic-artifact-creation/commits/main"><img alt="Last Updated" src="https://img.shields.io/github/last-commit/GeminiLight/awesome-agentic-artifact-creation/main?style=flat-square&amp;label=Updated&amp;color=4E79A7"></a>
+    <a href="https://github.com/GeminiLight/agentic-creation-survey"><img alt="Paper: Coming Soon" src="https://img.shields.io/badge/Paper-Coming%20Soon-9380C1?style=flat-square"></a>
+    <a href="#catalog-analysis"><img alt="Papers: 229" src="https://img.shields.io/badge/Papers-229-4C9D96?style=flat-square"></a>
+    <a href="https://github.com/GeminiLight/awesome-agentic-artifact-creation/commits/main"><img alt="Last Updated" src="https://img.shields.io/github/last-commit/GeminiLight/awesome-agentic-artifact-creation/main?style=flat-square&amp;label=Updated&amp;color=718DCA"></a>
   </p>
 </div>
 
@@ -76,12 +76,12 @@ monitored by this survey include:
   <img src="visualization/artifact-application-matrix.svg" alt="Heatmap of paper counts across artifact families and application contexts" width="100%">
 </p>
 
-- **Catalog coverage:** 228 papers spanning **2023–2026**, from **37 publication sources**; 204 systems and 24 benchmarks.
-- **Dual-axis coverage:** 192 papers (**84.2%**) carry both artifact and application labels; 30 are artifact-only and 6 application-only.
-- **Largest artifact family:** Behavioral Artifacts — **69 papers (30.3%)**.
-- **Largest application context:** Creative Production — **70 papers (30.7%)**.
+- **Catalog coverage:** 229 papers spanning **2023–2026**, from **38 publication sources**; 205 systems and 24 benchmarks.
+- **Dual-axis coverage:** 192 papers (**83.8%**) carry both artifact and application labels; 30 are artifact-only and 7 application-only.
+- **Largest artifact family:** Behavioral Artifacts — **69 papers (30.1%)**.
+- **Largest application context:** Creative Production — **70 papers (30.6%)**.
 - **Strongest cross-axis concentrations:** Behavioral Artifacts × Engineering Design — **30**, Video Artifacts × Creative Production — **20**, Spatial Artifacts × Engineering Design — **17**.
-- **System-name coverage:** 193 of 204 systems (**94.6%**) have a verified name.
+- **System-name coverage:** 194 of 205 systems (**94.6%**) have a verified name.
 
 > [!NOTE]
 > Counts describe this audited catalog rather than total field output. The audit
@@ -2449,19 +2449,25 @@ This alternate view re-indexes application-classified papers by their use contex
 
     arXiv, 2024. [Preprint](https://arxiv.org/abs/2408.06292) · [Code](https://github.com/SakanaAI/AI-Scientist) · `System` · `📦 Textual Artifacts` · `🎯 Scientific Research`
 
-41. **MatPlotAgent: Method and Evaluation for LLM-Based Agentic Scientific Data Visualization**
+41. **ProtAgents: Protein Discovery via Large Language Model Multi-Agent Collaborations Combining Physics and Machine Learning**
+
+    *Alireza Ghafarollahi, Markus J. Buehler*
+
+    Digital Discovery, 2024. [Published](https://doi.org/10.1039/D4DD00013G) · [Code](https://github.com/lamm-mit/ProtAgents) · `System` · `🎯 Scientific Research`
+
+42. **MatPlotAgent: Method and Evaluation for LLM-Based Agentic Scientific Data Visualization**
 
     *Zhiyu Yang, Zihan Zhou, Shuo Wang, Xin Cong, Xu Han, Yukun Yan, Zhenghao Liu, Zhixing Tan, Pengyuan Liu, Dong Yu, Zhiyuan Liu, Xiaodong Shi, Maosong Sun*
 
     Findings of ACL, 2024. [Published](https://aclanthology.org/2024.findings-acl.701/) · [Code](https://github.com/thunlp/MatPlotAgent) · `System` · `📦 2D Visual Artifacts` · `🎯 Scientific Research`
 
-42. **DS-Agent: Automated Data Science by Empowering Large Language Models with Case-Based Reasoning**
+43. **DS-Agent: Automated Data Science by Empowering Large Language Models with Case-Based Reasoning**
 
     *Siyuan Guo, Cheng Deng, Ying Wen, Hechang Chen, Yi Chang, Jun Wang*
 
     ICML, 2024. [Published](https://proceedings.mlr.press/v235/guo24b.html) · [Code](https://github.com/guosyjlu/DS-Agent) · `System` · `📦 Behavioral Artifacts` · `🎯 Scientific Research`
 
-43. **MLAgentBench: Evaluating Language Agents on Machine Learning Experimentation**
+44. **MLAgentBench: Evaluating Language Agents on Machine Learning Experimentation**
 
     *Qian Huang, Jian Vora, Percy Liang, Jure Leskovec*
 

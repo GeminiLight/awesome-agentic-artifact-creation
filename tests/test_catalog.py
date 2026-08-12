@@ -51,10 +51,10 @@ class CatalogTest(unittest.TestCase):
         )
 
     def test_public_catalog_is_derived_from_audit(self):
-        self.assertEqual(len(self.papers), 228)
+        self.assertEqual(len(self.papers), 229)
         self.assertEqual(
             Counter(paper["entry_kind"] for paper in self.papers),
-            {"system": 204, "benchmark": 24},
+            {"system": 205, "benchmark": 24},
         )
         self.assertEqual(
             (ROOT / "data" / "papers.csv").read_text(encoding="utf-8"),
@@ -63,7 +63,7 @@ class CatalogTest(unittest.TestCase):
 
     def test_survey_membership_is_derived_from_public_views(self):
         membership = derive_survey_membership(self.papers)
-        self.assertEqual(len(membership), 228)
+        self.assertEqual(len(membership), 229)
         self.assertEqual(
             Counter(
                 (row["artifact_view"], row["application_view"])
@@ -72,7 +72,7 @@ class CatalogTest(unittest.TestCase):
             {
                 ("true", "true"): 192,
                 ("true", "false"): 30,
-                ("false", "true"): 6,
+                ("false", "true"): 7,
             },
         )
         self.assertEqual(
@@ -105,7 +105,6 @@ class CatalogTest(unittest.TestCase):
             "cc",
             "cikm",
             "coling",
-            "digital_discovery",
             "ease",
             "fdg",
             "ieee_cog",
@@ -199,7 +198,7 @@ class CatalogTest(unittest.TestCase):
                 "Video Artifacts": 28,
                 "Spatial Artifacts": 29,
                 "Behavioral Artifacts": 69,
-                "": 6,
+                "": 7,
             },
         )
 
@@ -249,7 +248,7 @@ class CatalogTest(unittest.TestCase):
         papers = {paper["bib_key"]: paper for paper in self.papers}
         self.assertEqual(
             sum(bool(paper["application_domain"]) for paper in self.papers),
-            198,
+            199,
         )
         self.assertEqual(
             papers["Poster_Paper2Poster2025"]["application_domain"],
@@ -428,8 +427,8 @@ class CatalogTest(unittest.TestCase):
     def test_header_badges_are_generated_from_catalog(self):
         rendered = render_readme(self.papers, self.taxonomy)
         self.assertNotIn("<!-- catalog-badges -->", rendered)
-        self.assertIn("Paper-Coming%20Soon-6854C7", rendered)
-        self.assertIn("Papers-228-2A9D8F", rendered)
+        self.assertIn("Paper-Coming%20Soon-9380C1", rendered)
+        self.assertIn("Papers-229-4C9D96", rendered)
         self.assertIn(
             "github/last-commit/GeminiLight/"
             "awesome-agentic-artifact-creation/main",
@@ -449,15 +448,15 @@ class CatalogTest(unittest.TestCase):
 
     def test_catalog_analysis_metrics(self):
         analysis = compute_analysis(self.papers, self.taxonomy)
-        self.assertEqual(analysis.total, 228)
+        self.assertEqual(analysis.total, 229)
         self.assertEqual(analysis.artifact_classified, 222)
-        self.assertEqual(analysis.application_classified, 198)
+        self.assertEqual(analysis.application_classified, 199)
         self.assertEqual(analysis.dual_classified, 192)
         self.assertEqual(analysis.artifact_only, 30)
-        self.assertEqual(analysis.application_only, 6)
-        self.assertEqual(analysis.named_systems, 193)
-        self.assertEqual(analysis.system_count, 204)
-        self.assertEqual(analysis.source_count, 37)
+        self.assertEqual(analysis.application_only, 7)
+        self.assertEqual(analysis.named_systems, 194)
+        self.assertEqual(analysis.system_count, 205)
+        self.assertEqual(analysis.source_count, 38)
         self.assertEqual(
             [(item.year, item.total) for item in analysis.by_year],
             [(2023, 4), (2024, 26), (2025, 89), (2026, 103)],
@@ -474,7 +473,7 @@ class CatalogTest(unittest.TestCase):
                 (61, 8),
             ),
         )
-        self.assertEqual(analysis.application_counts, (70, 7, 9, 19, 43, 50))
+        self.assertEqual(analysis.application_counts, (70, 7, 9, 19, 44, 50))
         self.assertEqual(
             analysis.top_pairs[:3],
             (
@@ -490,7 +489,18 @@ class CatalogTest(unittest.TestCase):
         for path, expected in outputs.items():
             self.assertEqual(path.read_text(encoding="utf-8"), expected)
             self.assertIn("<svg", expected)
-            self.assertIn("color-scheme: light dark", expected)
+            self.assertIn("color-scheme: light", expected)
+            self.assertIn("--background: #FFFFFF", expected)
+            self.assertNotIn("prefers-color-scheme: dark", expected)
+            for color in (
+                "#4C9D96",
+                "#66ADD0",
+                "#718DCA",
+                "#9380C1",
+                "#B777A7",
+                "#D89368",
+            ):
+                self.assertIn(color, expected)
             self.assertIn('role="img"', expected)
         family_chart = next(
             content

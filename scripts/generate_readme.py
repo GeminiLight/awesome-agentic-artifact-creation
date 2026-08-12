@@ -378,12 +378,12 @@ def render_badges(papers: list[dict[str, str]]) -> str:
             (
                 '    <a href="https://github.com/GeminiLight/'
                 'agentic-creation-survey"><img alt="Paper: Coming Soon" '
-                'src="https://img.shields.io/badge/Paper-Coming%20Soon-6854C7'
+                'src="https://img.shields.io/badge/Paper-Coming%20Soon-9380C1'
                 '?style=flat-square"></a>'
             ),
             (
                 f'    <a href="#catalog-analysis"><img alt="Papers: {len(papers)}" '
-                f'src="https://img.shields.io/badge/Papers-{len(papers)}-2A9D8F'
+                f'src="https://img.shields.io/badge/Papers-{len(papers)}-4C9D96'
                 '?style=flat-square"></a>'
             ),
             (
@@ -392,7 +392,7 @@ def render_badges(papers: list[dict[str, str]]) -> str:
                 'alt="Last Updated" '
                 'src="https://img.shields.io/github/last-commit/GeminiLight/'
                 'awesome-agentic-artifact-creation/main?style=flat-square'
-                '&amp;label=Updated&amp;color=4E79A7"></a>'
+                '&amp;label=Updated&amp;color=718DCA"></a>'
             ),
             "  </p>",
         ]
