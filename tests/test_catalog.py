@@ -345,7 +345,11 @@ class CatalogTest(unittest.TestCase):
         self.assertIn(
             "**Multimodal & Audio:** ACM MM, IEEE TMM, and ICASSP.", rendered
         )
-        self.assertIn("**Interdisciplinary Research:**", rendered)
+        self.assertIn("monitored by this survey include:", rendered)
+        self.assertIn("**Interdisciplinary & General Science:**", rendered)
+        self.assertIn("Nature Machine\n  Intelligence", rendered)
+        self.assertIn("Nature Computational Science", rendered)
+        self.assertNotIn("**Interdisciplinary Research:**", rendered)
         self.assertNotIn("**Audio:**", rendered)
         self.assertNotIn("ISMIR", rendered[: rendered.index("## Catalog Analysis")])
         self.assertNotIn("**Audio and Interdisciplinary Research:**", rendered)
