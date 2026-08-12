@@ -5,15 +5,9 @@
     revise, and maintain artifacts.
   </p>
   <p>
-    <a href="https://github.com/GeminiLight/agentic-creation-survey">
-      <img alt="Paper: Coming Soon" src="https://img.shields.io/badge/Paper-Coming%20Soon-6854C7?style=flat-square">
-    </a>
-    <a href="#catalog-analysis">
-      <img alt="Papers: 216" src="https://img.shields.io/badge/Papers-216-2A9D8F?style=flat-square">
-    </a>
-    <a href="https://github.com/GeminiLight/awesome-agentic-artifact-creation/commits/main">
-      <img alt="Last Updated" src="https://img.shields.io/github/last-commit/GeminiLight/awesome-agentic-artifact-creation/main?style=flat-square&amp;label=Updated&amp;color=4E79A7">
-    </a>
+    <a href="https://github.com/GeminiLight/agentic-creation-survey"><img alt="Paper: Coming Soon" src="https://img.shields.io/badge/Paper-Coming%20Soon-6854C7?style=flat-square"></a>
+    <a href="#catalog-analysis"><img alt="Papers: 216" src="https://img.shields.io/badge/Papers-216-2A9D8F?style=flat-square"></a>
+    <a href="https://github.com/GeminiLight/awesome-agentic-artifact-creation/commits/main"><img alt="Last Updated" src="https://img.shields.io/github/last-commit/GeminiLight/awesome-agentic-artifact-creation/main?style=flat-square&amp;label=Updated&amp;color=4E79A7"></a>
   </p>
 </div>
 
@@ -59,14 +53,15 @@ already covered by this release include:
 - **Machine Learning:** NeurIPS, ICML, and ICLR.
 - **Natural Language Processing:** ACL, EMNLP, NAACL, COLM, EACL, and Findings
   tracks.
-- **Computer Vision:** CVPR, ICCV, ECCV, ACM MM, and TPAMI.
+- **Computer Vision:** CVPR, ICCV, ECCV, and TPAMI.
 - **Graphics and Visualization:** SIGGRAPH, SIGGRAPH Asia, and IEEE VIS/TVCG.
 - **Human–Computer Interaction:** CHI, UIST, CSCW, and TOCHI.
 - **Data Mining and Information Retrieval:** KDD, The Web Conference, SIGIR,
   and SIGMOD.
 - **Software Engineering:** ICSE, FSE, ASE, and ISSTA.
-- **Audio and Interdisciplinary Research:** ICASSP, ISMIR, Digital Discovery,
-  and IEEE Transactions on Learning Technologies.
+- **Multimodal & Audio:** ACM MM, IEEE TMM, and ICASSP.
+- **Interdisciplinary Research:** Digital Discovery and IEEE Transactions on
+  Learning Technologies.
 
 ## Catalog Analysis
 

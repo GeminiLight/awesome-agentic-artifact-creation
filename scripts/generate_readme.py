@@ -370,31 +370,25 @@ def render_badges(papers: list[dict[str, str]]) -> str:
     return "\n".join(
         [
             "  <p>",
-            '    <a href="https://github.com/GeminiLight/agentic-creation-survey">',
-            (
-                '      <img alt="Paper: Coming Soon" '
-                'src="https://img.shields.io/badge/Paper-Coming%20Soon-6854C7'
-                '?style=flat-square">'
-            ),
-            "    </a>",
-            '    <a href="#catalog-analysis">',
-            (
-                f'      <img alt="Papers: {len(papers)}" '
-                f'src="https://img.shields.io/badge/Papers-{len(papers)}-2A9D8F'
-                '?style=flat-square">'
-            ),
-            "    </a>",
             (
                 '    <a href="https://github.com/GeminiLight/'
-                'awesome-agentic-artifact-creation/commits/main">'
+                'agentic-creation-survey"><img alt="Paper: Coming Soon" '
+                'src="https://img.shields.io/badge/Paper-Coming%20Soon-6854C7'
+                '?style=flat-square"></a>'
             ),
             (
-                '      <img alt="Last Updated" '
+                f'    <a href="#catalog-analysis"><img alt="Papers: {len(papers)}" '
+                f'src="https://img.shields.io/badge/Papers-{len(papers)}-2A9D8F'
+                '?style=flat-square"></a>'
+            ),
+            (
+                '    <a href="https://github.com/GeminiLight/'
+                'awesome-agentic-artifact-creation/commits/main"><img '
+                'alt="Last Updated" '
                 'src="https://img.shields.io/github/last-commit/GeminiLight/'
                 'awesome-agentic-artifact-creation/main?style=flat-square'
-                '&amp;label=Updated&amp;color=4E79A7">'
+                '&amp;label=Updated&amp;color=4E79A7"></a>'
             ),
-            "    </a>",
             "  </p>",
         ]
     )
