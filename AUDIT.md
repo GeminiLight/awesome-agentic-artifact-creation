@@ -49,11 +49,11 @@ are reviewable rather than silent.
 
 | Verdict | Count |
 |---|---:|
-| Included systems | 203 |
+| Included systems | 214 |
 | Included benchmarks | 27 |
-| Pending full-text review | 13 |
+| Pending full-text review | 18 |
 | Excluded | 20 |
-| Audited candidates | 263 |
+| Audited candidates | 279 |
 
 Two entries originally labeled as systems are published as benchmarks in this
 catalog. The initial audit replaced the provisional “144 systems + 9
@@ -64,7 +64,9 @@ Chapter 5 import then audited 50 application-specific supporting works, adding
 review added 31 systems and 8 benchmarks from formal conference records. A
 subsequent KDD, The Web Conference, and SIGIR review added 10 systems and 4
 benchmarks from formal venue records and retained four plausible candidates
-for full-text review, bringing the ledger to 263 decisions.
+for full-text review. A conservative ACM Multimedia review then added 11
+systems from the 2023--2025 proceedings and retained five plausible candidates
+for full-text review, bringing the ledger to 279 decisions.
 
 ## Limitations
 

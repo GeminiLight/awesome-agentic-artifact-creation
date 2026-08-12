@@ -29,26 +29,26 @@ class CatalogTest(unittest.TestCase):
         cls.papers = load_papers(taxonomy=cls.taxonomy, venues=cls.venues)
 
     def test_audit_covers_current_candidate_set(self):
-        self.assertEqual(len(self.audit), 263)
+        self.assertEqual(len(self.audit), 279)
         self.assertEqual(
             Counter(row["original_role"] for row in self.audit),
-            {"system": 191, "benchmark": 22, "supporting": 50},
+            {"system": 206, "benchmark": 23, "supporting": 50},
         )
         self.assertEqual(
             Counter(row["audit_verdict"] for row in self.audit),
             {
-                "include_system": 203,
+                "include_system": 214,
                 "include_benchmark": 27,
-                "pending_full_text": 13,
+                "pending_full_text": 18,
                 "exclude": 20,
             },
         )
 
     def test_public_catalog_is_derived_from_audit(self):
-        self.assertEqual(len(self.papers), 230)
+        self.assertEqual(len(self.papers), 241)
         self.assertEqual(
             Counter(paper["entry_kind"] for paper in self.papers),
-            {"system": 203, "benchmark": 27},
+            {"system": 214, "benchmark": 27},
         )
         self.assertEqual(
             (ROOT / "data" / "papers.csv").read_text(encoding="utf-8"),
@@ -63,9 +63,9 @@ class CatalogTest(unittest.TestCase):
         )
 
     def test_venue_registry_normalizes_catalog_sources(self):
-        self.assertEqual(len(self.venues), 56)
+        self.assertEqual(len(self.venues), 57)
         used_venue_ids = {row["venue_id"] for row in self.audit}
-        self.assertEqual(len(used_venue_ids), 55)
+        self.assertEqual(len(used_venue_ids), 56)
         self.assertEqual(
             set(self.venues) - used_venue_ids,
             {"wacv"},
@@ -127,6 +127,8 @@ class CatalogTest(unittest.TestCase):
                 "Text_GoodStories2025",
                 "Report_LateralReader2026",
                 "Text_AutoDocumentEditing2025",
+                "Video_RLVideoEditing2023",
+                "Image_DualAgentSketching2024",
             },
         )
         for paper in self.papers:
@@ -137,11 +139,11 @@ class CatalogTest(unittest.TestCase):
             Counter(paper["artifact_family"] for paper in self.papers),
             {
                 "Textual Artifacts": 40,
-                "2D Visual Artifacts": 52,
-                "Audio Artifacts": 9,
-                "Video Artifacts": 26,
-                "Spatial Artifacts": 28,
-                "Behavioral Artifacts": 68,
+                "2D Visual Artifacts": 56,
+                "Audio Artifacts": 10,
+                "Video Artifacts": 28,
+                "Spatial Artifacts": 31,
+                "Behavioral Artifacts": 69,
                 "": 7,
             },
         )
@@ -192,7 +194,7 @@ class CatalogTest(unittest.TestCase):
         papers = {paper["bib_key"]: paper for paper in self.papers}
         self.assertEqual(
             sum(bool(paper["application_domain"]) for paper in self.papers),
-            199,
+            209,
         )
         self.assertEqual(
             papers["Poster_Paper2Poster2025"]["application_domain"],
@@ -207,7 +209,7 @@ class CatalogTest(unittest.TestCase):
         )
         self.assertEqual(
             sum(bool(row["application_domain"]) for row in self.audit),
-            229,
+            244,
         )
 
     def test_chapter_five_supporting_import_is_audited(self):
@@ -361,7 +363,7 @@ class CatalogTest(unittest.TestCase):
         rendered = render_readme(self.papers, self.taxonomy)
         self.assertNotIn("<!-- catalog-badges -->", rendered)
         self.assertIn("Paper-Coming%20Soon-6854C7", rendered)
-        self.assertIn("Papers-230-2A9D8F", rendered)
+        self.assertIn("Papers-241-2A9D8F", rendered)
         self.assertIn(
             "github/last-commit/GeminiLight/"
             "awesome-agentic-artifact-creation/main",
@@ -381,27 +383,27 @@ class CatalogTest(unittest.TestCase):
 
     def test_catalog_analysis_metrics(self):
         analysis = compute_analysis(self.papers, self.taxonomy)
-        self.assertEqual(analysis.total, 230)
-        self.assertEqual(analysis.artifact_classified, 223)
-        self.assertEqual(analysis.application_classified, 199)
-        self.assertEqual(analysis.dual_classified, 192)
-        self.assertEqual(analysis.artifact_only, 31)
+        self.assertEqual(analysis.total, 241)
+        self.assertEqual(analysis.artifact_classified, 234)
+        self.assertEqual(analysis.application_classified, 209)
+        self.assertEqual(analysis.dual_classified, 202)
+        self.assertEqual(analysis.artifact_only, 32)
         self.assertEqual(analysis.application_only, 7)
-        self.assertEqual(analysis.named_systems, 194)
-        self.assertEqual(analysis.system_count, 203)
-        self.assertEqual(analysis.source_count, 49)
+        self.assertEqual(analysis.named_systems, 203)
+        self.assertEqual(analysis.system_count, 214)
+        self.assertEqual(analysis.source_count, 50)
         self.assertEqual(
             [(item.year, item.total) for item in analysis.by_year],
-            [(2023, 1), (2024, 24), (2025, 94), (2026, 104)],
+            [(2023, 4), (2024, 29), (2025, 97), (2026, 104)],
         )
-        self.assertEqual(analysis.family_counts, (40, 52, 9, 26, 28, 68))
-        self.assertEqual(analysis.application_counts, (69, 7, 11, 20, 43, 49))
+        self.assertEqual(analysis.family_counts, (40, 56, 10, 28, 31, 69))
+        self.assertEqual(analysis.application_counts, (76, 7, 11, 20, 44, 51))
         self.assertEqual(
             analysis.top_pairs[:3],
             (
-                ("Behavioral Artifacts", "Engineering Design", 29),
-                ("Video Artifacts", "Creative Production", 19),
-                ("Spatial Artifacts", "Engineering Design", 17),
+                ("Behavioral Artifacts", "Engineering Design", 30),
+                ("Video Artifacts", "Creative Production", 20),
+                ("Spatial Artifacts", "Engineering Design", 18),
             ),
         )
 

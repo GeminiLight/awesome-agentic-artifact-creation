@@ -1,5 +1,6 @@
 venue_id,display_name,full_name,venue_kind,parent_venue_id
 aaai,AAAI,AAAI Conference on Artificial Intelligence,conference,
+acm_mm,ACM MM,ACM International Conference on Multimedia,conference,
 acl,ACL,Annual Meeting of the Association for Computational Linguistics,conference,
 acl_findings,Findings of ACL,Findings of the Association for Computational Linguistics,track,acl
 acl_system_demos,ACL System Demonstrations,ACL System Demonstrations,track,acl

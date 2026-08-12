@@ -6,7 +6,7 @@
   </p>
   <p>
     <a href="https://github.com/GeminiLight/agentic-creation-survey"><img alt="Paper: Coming Soon" src="https://img.shields.io/badge/Paper-Coming%20Soon-6854C7?style=flat-square"></a>
-    <a href="#catalog-analysis"><img alt="Papers: 230" src="https://img.shields.io/badge/Papers-230-2A9D8F?style=flat-square"></a>
+    <a href="#catalog-analysis"><img alt="Papers: 241" src="https://img.shields.io/badge/Papers-241-2A9D8F?style=flat-square"></a>
     <a href="https://github.com/GeminiLight/awesome-agentic-artifact-creation/commits/main"><img alt="Last Updated" src="https://img.shields.io/github/last-commit/GeminiLight/awesome-agentic-artifact-creation/main?style=flat-square&amp;label=Updated&amp;color=4E79A7"></a>
   </p>
 </div>
@@ -71,12 +71,12 @@ monitored by this survey include:
   <img src="visualization/artifact-application-matrix.svg" alt="Heatmap of paper counts across artifact families and application contexts" width="100%">
 </p>
 
-- **Catalog coverage:** 230 papers spanning **2023–2026**, from **49 publication sources**; 203 systems and 27 benchmarks.
-- **Dual-axis coverage:** 192 papers (**83.5%**) carry both artifact and application labels; 31 are artifact-only and 7 application-only.
-- **Largest artifact family:** Behavioral Artifacts — **68 papers (29.6%)**.
-- **Largest application context:** Creative Production — **69 papers (30.0%)**.
-- **Strongest cross-axis concentrations:** Behavioral Artifacts × Engineering Design — **29**, Video Artifacts × Creative Production — **19**, Spatial Artifacts × Engineering Design — **17**.
-- **System-name coverage:** 194 of 203 systems (**95.6%**) have a verified name.
+- **Catalog coverage:** 241 papers spanning **2023–2026**, from **50 publication sources**; 214 systems and 27 benchmarks.
+- **Dual-axis coverage:** 202 papers (**83.8%**) carry both artifact and application labels; 32 are artifact-only and 7 application-only.
+- **Largest artifact family:** Behavioral Artifacts — **69 papers (28.6%)**.
+- **Largest application context:** Creative Production — **76 papers (31.5%)**.
+- **Strongest cross-axis concentrations:** Behavioral Artifacts × Engineering Design — **30**, Video Artifacts × Creative Production — **20**, Spatial Artifacts × Engineering Design — **18**.
+- **System-name coverage:** 203 of 214 systems (**94.9%**) have a verified name.
 
 > [!NOTE]
 > Counts describe this audited catalog rather than total field output. The audit
@@ -489,53 +489,77 @@ adding or reclassifying a paper.
 
     ICLR, 2026. [Published](https://iclr.cc/virtual/2026/poster/10006536) · `System` · `📦 2D Visual Artifacts` · `🎯 Creative Production`
 
-6. **GraphicBench: A Planning Benchmark for Graphic Design with Language Agents**
+6. **CEARI: Co-Evolutionary Agents for Reassembling and Inpainting Puzzles with Gaps and Missing Pieces**
+
+    *Xingke Song, Jianxu Shangguan, Yiran Li, Jialu Zhang, Jianfeng Ren, Ruibin Bai, Xin Chen, Xudong Jiang*
+
+    ACM MM, 2025. [Published](https://doi.org/10.1145/3746027.3754695) · `System` · `📦 2D Visual Artifacts`
+
+7. **GraphicBench: A Planning Benchmark for Graphic Design with Language Agents**
 
     *Dayeon Ki, Tianyi Zhou, Marine Carpuat, Gang Wu, Puneet Mathur, Viswanathan Swaminathan*
 
     arXiv, 2025. [Preprint](https://arxiv.org/abs/2504.11571) · `Benchmark` · `📦 2D Visual Artifacts` · `🎯 Creative Production`
 
-7. **Mirror in the Model: Ad Banner Image Generation via Reflective Multi-LLM and Multi-modal Agents**
+8. **Mirror in the Model: Ad Banner Image Generation via Reflective Multi-LLM and Multi-modal Agents**
 
     *Zhao Wang, Bowen Chen, Yotaro Shimose, Sota Moriyama, Heng Wang, Shingo Takamatsu*
 
     arXiv, 2025. [Preprint](https://arxiv.org/abs/2507.03326) · `System` · `📦 2D Visual Artifacts` · `🎯 Brand Communication`
 
-8. **SketchAgent: Language-Driven Sequential Sketch Generation**
+9. **SketchAgent: Language-Driven Sequential Sketch Generation**
 
     *Yael Vinker, Tamar Rott Shaham, Kristine Zheng, Alex Zhao, Judith E. Fan, Antonio Torralba*
 
     CVPR, 2025. [Published](https://doi.org/10.1109/CVPR52734.2025.02175) · `System` · `📦 2D Visual Artifacts` · `🎯 Creative Production`
 
-9. **BannerAgency: Advertising Banner Design with Multimodal LLM Agents**
+10. **BannerAgency: Advertising Banner Design with Multimodal LLM Agents**
 
     *Heng Wang, Yotaro Shimose, Shingo Takamatsu*
 
     EMNLP, 2025. [Published](https://aclanthology.org/2025.emnlp-main.214/) · [Code](https://github.com/sony/BannerAgency) · `System` · `📦 2D Visual Artifacts` · `🎯 Brand Communication`
 
-10. **T2I-Copilot: A Training-Free Multi-Agent Text-to-Image System for Enhanced Prompt Interpretation and Interactive Generation**
+11. **T2I-Copilot: A Training-Free Multi-Agent Text-to-Image System for Enhanced Prompt Interpretation and Interactive Generation**
 
     *Chieh-Yun Chen, Min Shi, Gong Zhang, Humphrey Shi*
 
     ICCV, 2025. [Published](https://doi.org/10.1109/ICCV51701.2025.01803) · [Code](https://github.com/SHI-Labs/T2I-Copilot) · `System` · `📦 2D Visual Artifacts` · `🎯 Creative Production`
 
-11. **4KAgent: Agentic Any Image to 4K Super-Resolution**
+12. **4KAgent: Agentic Any Image to 4K Super-Resolution**
 
     *Yushen Zuo, Qi Zheng, Mingyang Wu, Xinrui Jiang, Renjie Li, Jian Wang, Yide Zhang, Gengchen Mai, Lihong Wang, James Y Zou, Xiaoyu Wang, Ming-Hsuan Yang, Zhengzhong Tu*
 
     NeurIPS, 2025. [Published](https://proceedings.neurips.cc/paper_files/paper/2025/hash/f0075fe4e59652cf43148dcfab8d3c93-Abstract-Conference.html) · [Code](https://github.com/taco-group/4KAgent) · `System` · `📦 2D Visual Artifacts`
 
-12. **CREA: A Collaborative Multi-Agent Framework for Creative Image Editing and Generation**
+13. **CREA: A Collaborative Multi-Agent Framework for Creative Image Editing and Generation**
 
     *Kavana Venkatesh, Connor Dunlop, Pinar Yanardag*
 
     NeurIPS, 2025. [Published](https://proceedings.neurips.cc/paper_files/paper/2025/hash/fa41e9d5dfcc97cd9eed99f001aa28e5-Abstract-Conference.html) · [Code](https://github.com/ConnorDunlop/CREA) · `System` · `📦 2D Visual Artifacts` · `🎯 Creative Production`
 
-13. **GenArtist: Multimodal LLM as an Agent for Unified Image Generation and Editing**
+14. **G-Refine: A General Quality Refiner for Text-to-Image Generation**
+
+    *Chunyi Li, Haoning Wu, Hongkun Hao, Zicheng Zhang, Tengchuan Kou, Chaofeng Chen, Lei Bai, Xiaohong Liu, Weisi Lin, Guangtao Zhai*
+
+    ACM MM, 2024. [Published](https://doi.org/10.1145/3664647.3681152) · [Code](https://github.com/Q-Future/Q-Refine) · `System` · `📦 2D Visual Artifacts` · `🎯 Creative Production`
+
+15. **Learning Realistic Sketching: A Dual-agent Reinforcement Learning Approach**
+
+    *Ji Qiu, Peng Lu, Xujun Peng, Wenhao Guo, Zhaoran Zhao, XiangTao Dong*
+
+    ACM MM, 2024. [Published](https://doi.org/10.1145/3664647.3680759) · `System` · `📦 2D Visual Artifacts` · `🎯 Creative Production`
+
+16. **GenArtist: Multimodal LLM as an Agent for Unified Image Generation and Editing**
 
     *Zhenyu Wang, Aoxue Li, Zhenguo Li, Xihui Liu*
 
     NeurIPS, 2024. [Published](https://proceedings.neurips.cc/paper_files/paper/2024/hash/e7c786024ca718f2487712bfe9f51030-Abstract-Conference.html) · [Code](https://github.com/zhenyuw16/GenArtist) · `System` · `📦 2D Visual Artifacts` · `🎯 Creative Production`
+
+17. **Stroke-based Neural Painting and Stylization with Dynamically Predicted Painting Region**
+
+    *Teng Hu, Ran Yi, Haokun Zhu, Liang Liu, Jinlong Peng, Yabiao Wang, Chengjie Wang, Lizhuang Ma*
+
+    ACM MM, 2023. [Published](https://doi.org/10.1145/3581783.3611766) · [Code](https://github.com/sjtuplayer/Compositional_Neural_Painter) · `System` · `📦 2D Visual Artifacts` · `🎯 Creative Production`
 
 #### [Diagrams](#content)
 
@@ -734,13 +758,19 @@ adding or reclassifying a paper.
 
     ICASSP, 2026. [Published](https://doi.org/10.1109/ICASSP55912.2026.11462219) · `System` · `📦 Audio Artifacts` · `🎯 Creative Production`
 
-2. **Orchestrating Audio: Multi-Agent Framework for Long-Video Audio Synthesis**
+2. **AudioGenie: A Training-Free Multi-Agent Framework for Diverse Multimodality-to-Multiaudio Generation**
+
+    *Yan Rong, Jinting Wang, Guangzhi Lei, Shan Yang, Li Liu*
+
+    ACM MM, 2025. [Published](https://doi.org/10.1145/3746027.3755758) · [Code](https://github.com/ryysayhi/AudioGenie) · `System` · `📦 Audio Artifacts` · `🎯 Creative Production`
+
+3. **Orchestrating Audio: Multi-Agent Framework for Long-Video Audio Synthesis**
 
     *Yehang Zhang, Xinli Xu, Xiaojie Xu, Doudou Zhang, Li Liu, Ying-Cong Chen*
 
     EMNLP, 2025. [Published](https://aclanthology.org/2025.emnlp-main.1133/) · [Code](https://github.com/ZYH-Lightyear/LVAS) · `System` · `📦 Audio Artifacts` · `🎯 Creative Production`
 
-3. **WavCraft: Audio Editing and Generation with Large Language Models**
+4. **WavCraft: Audio Editing and Generation with Large Language Models**
 
     *Jinhua Liang, Huan Zhang, Haohe Liu, Yin Cao, Qiuqiang Kong, Xubo Liu, Wenwu Wang, Mark D. Plumbley, Huy Phan, Emmanouil Benetos*
 
@@ -883,43 +913,49 @@ adding or reclassifying a paper.
 
     ICLR, 2026. [Published](https://openreview.net/forum?id=MKwW04UHW1) · [Code](https://github.com/Tsumugii24/HAMLET) · `System` · `📦 Video Artifacts` · `🎯 Creative Production`
 
-10. **AutoMV: An Automatic Multi-Agent System for Music Video Generation**
+10. **Gen4Track: A Tuning-free Data Augmentation Framework via Self-correcting Diffusion Model for Vision-Language Tracking**
+
+    *Jiawei Ge, Xinyu Zhang, Jiuxin Cao, Xuelin Zhu, Weijia Liu, Qingqing Gao, Biwei Cao, Kun Wang, Chang Liu, Bo Liu, Chen Feng, Ioannis Patras*
+
+    ACM MM, 2025. [Published](https://doi.org/10.1145/3746027.3754956) · `System` · `📦 Video Artifacts` · `🎯 Scientific Research`
+
+11. **AutoMV: An Automatic Multi-Agent System for Music Video Generation**
 
     *Xiaoxuan Tang, Xinping Lei, Chaoran Zhu, Shiyun Chen, Ruibin Yuan, Yizhi Li, Changjae Oh, Ge Zhang, Wenhao Huang, Emmanouil Benetos, Yang Liu, Jiaheng Liu, Yinghao Ma*
 
     arXiv, 2025. [Preprint](https://arxiv.org/abs/2512.12196) · [Code](https://github.com/multimodal-art-projection/AutoMV) · `System` · `📦 Video Artifacts` · `🎯 Creative Production`
 
-11. **Hollywood Town: Long-Video Generation via Cross-Modal Multi-Agent Orchestration**
+12. **Hollywood Town: Long-Video Generation via Cross-Modal Multi-Agent Orchestration**
 
     *Zheng Wei, Mingchen Li, Zeqian Zhang, Ruibin Yuan, Pan Hui, Huamin Qu, James Evans, Maneesh Agrawala, Anyi Rao*
 
     arXiv, 2025. [Preprint](https://arxiv.org/abs/2510.22431) · `System` · `📦 Video Artifacts` · `🎯 Creative Production`
 
-12. **PersonaVlog: Personalized Multimodal Vlog Generation with Multi-Agent Collaboration and Iterative Self-Correction**
+13. **PersonaVlog: Personalized Multimodal Vlog Generation with Multi-Agent Collaboration and Iterative Self-Correction**
 
     *Xiaolu Hou, Bing Ma, Jiaxiang Cheng, Xuhua Ren, Kai Yu, Wenyue Li, Tianxiang Zheng, Qinglin Lu*
 
     arXiv, 2025. [Preprint](https://arxiv.org/abs/2508.13602) · `System` · `📦 Video Artifacts` · `🎯 Creative Production`
 
-13. **VISTA: A Test-Time Self-Improving Video Generation Agent**
+14. **VISTA: A Test-Time Self-Improving Video Generation Agent**
 
     *Do Xuan Long, Xingchen Wan, Hootan Nakhost, Chen-Yu Lee, Tomas Pfister, Sercan Ö. Arık*
 
     arXiv, 2025. [Preprint](https://arxiv.org/abs/2510.15831) · `System` · `📦 Video Artifacts` · `🎯 Creative Production`
 
-14. **AniMaker: Multi-Agent Animated Storytelling with MCTS-Driven Clip Generation**
+15. **AniMaker: Multi-Agent Animated Storytelling with MCTS-Driven Clip Generation**
 
     *Haoyuan Shi, Yunxin Li, Xinyu Chen, Longyue Wang, Baotian Hu, Min Zhang*
 
     SIGGRAPH Asia, 2025. [Published](https://doi.org/10.1145/3757377.3764009) · [Code](https://github.com/HITsz-TMG/Anim-Director) · `System` · `📦 Video Artifacts` · `🎯 Creative Production`
 
-15. **AniME: Adaptive Multi-Agent Planning for Long Animation Generation**
+16. **AniME: Adaptive Multi-Agent Planning for Long Animation Generation**
 
     *Lisai Zhang, Baohan Xu, Siqian Yang, Mingyu Yin, Jing Liu, Chao Xu, Siqi Wang, Yidi Wu, Yuxin Hong, Zihao Zhang, Yanzhang Liang, Yudong Jiang*
 
     SIGGRAPH Asia, 2025. [Published](https://doi.org/10.1145/3757374.3771455) · `System` · `📦 Video Artifacts` · `🎯 Creative Production`
 
-16. **StoryAgent: Customized Storytelling Video Generation via Multi-Agent Collaboration**
+17. **StoryAgent: Customized Storytelling Video Generation via Multi-Agent Collaboration**
 
     *Panwen Hu, Jin Jiang, Jianqi Chen, Mingfei Han, Shengcai Liao, Xiaojun Chang, Xiaodan Liang*
 
@@ -950,6 +986,12 @@ adding or reclassifying a paper.
     *Marcelo Sandoval-Castañeda, Bryan Russell, Josef Sivic, Gregory Shakhnarovich, Fabian Caba Heilbron*
 
     SIGGRAPH, 2025. [Published](https://doi.org/10.1145/3721238.3730761) · `System` · `📦 Video Artifacts` · `🎯 Creative Production`
+
+5. **A Reinforcement Learning-Based Automatic Video Editing Method Using Pre-trained Vision-Language Model**
+
+    *Panwen Hu, Nan Xiao, Feifei Li, Yongquan Chen, Rui Huang*
+
+    ACM MM, 2023. [Published](https://doi.org/10.1145/3581783.3611878) · `System` · `📦 Video Artifacts` · `🎯 Creative Production`
 
 
 ## [Spatial Artifacts](#content)
@@ -1108,7 +1150,19 @@ adding or reclassifying a paper.
 
     NeurIPS, 2025. [Published](https://proceedings.neurips.cc/paper_files/paper/2025/hash/cd2b3c429c8a2ca57656970e010b4b60-Abstract-Conference.html) · `System` · `📦 Spatial Artifacts` · `🎯 Engineering Design`
 
-12. **SceneCraft: An LLM Agent for Synthesizing 3D Scenes as Blender Code**
+12. **Edit3D: Elevating 3D Scene Editing with Attention-Driven Multi-Turn Interactivity**
+
+    *Peng Zhou, Dunbo Cai, Yujian Du, Runqing Zhang, Bingbing Ni, Jie Qin, Ling Qian*
+
+    ACM MM, 2024. [Published](https://doi.org/10.1145/3664647.3681289) · [Code](https://github.com/PeterouZh/Edit3D) · `System` · `📦 Spatial Artifacts` · `🎯 Creative Production`
+
+13. **iControl3D: An Interactive System for Controllable 3D Scene Generation**
+
+    *Xingyi Li, Yizheng Wu, Jun Cen, Juewen Peng, Kewei Wang, Ke Xian, Zhe Wang, Zhiguo Cao, Guosheng Lin*
+
+    ACM MM, 2024. [Published](https://doi.org/10.1145/3664647.3680557) · [Code](https://github.com/xingyi-li/iControl3D) · `System` · `📦 Spatial Artifacts` · `🎯 Creative Production`
+
+14. **SceneCraft: An LLM Agent for Synthesizing 3D Scenes as Blender Code**
 
     *Ziniu Hu, Ahmet Iscen, Aashi Jain, Thomas Kipf, Yisong Yue, David A Ross, Cordelia Schmid, Alireza Fathi*
 
@@ -1133,6 +1187,12 @@ adding or reclassifying a paper.
     *Abir Khan Ratul, Sanjay Acharjee, Somin Park, Md Nazmus Sakib*
 
     arXiv, 2025. [Preprint](https://arxiv.org/abs/2510.20838) · `System` · `📦 Spatial Artifacts` · `🎯 Engineering Design`
+
+4. **Interactive Interior Design Recommendation via Coarse-to-fine Multimodal Reinforcement Learning**
+
+    *He Zhang, Ying Sun, Weiyu Guo, Yafei Liu, Haonan Lu, Xiaodong Lin, Hui Xiong*
+
+    ACM MM, 2023. [Published](https://doi.org/10.1145/3581783.3612420) · `System` · `📦 Spatial Artifacts` · `🎯 Engineering Design`
 
 
 ## [Behavioral Artifacts](#content)
@@ -1279,61 +1339,67 @@ adding or reclassifying a paper.
 
     ACL, 2024. [Published](https://aclanthology.org/2024.acl-long.737/) · `System` · `📦 Behavioral Artifacts`
 
-20. **AgentCoder: Multi-Agent-based Code Generation with Iterative Testing and Optimisation**
+20. **De-fine: Decomposing and Refining Visual Programs with Auto-Feedback**
+
+    *Minghe Gao, Juncheng Li, Hao Fei, Liang Pang, Wei Ji, Guoming Wang, Zheqi Lv, Wenqiao Zhang, Siliang Tang, Yueting Zhuang*
+
+    ACM MM, 2024. [Published](https://doi.org/10.1145/3664647.3681082) · `System` · `📦 Behavioral Artifacts` · `🎯 Engineering Design`
+
+21. **AgentCoder: Multi-Agent-based Code Generation with Iterative Testing and Optimisation**
 
     *Dong Huang, Jie M. Zhang, Michael Luck, Qingwen Bu, Yuhao Qing, Heming Cui*
 
     arXiv, 2024. [Preprint](https://arxiv.org/abs/2312.13010) · [Code](https://github.com/huangd1999/AgentCoder) · `System` · `📦 Behavioral Artifacts`
 
-21. **DrugAgent: Automating AI-aided Drug Discovery Programming through LLM Multi-Agent Collaboration**
+22. **DrugAgent: Automating AI-aided Drug Discovery Programming through LLM Multi-Agent Collaboration**
 
     *Sizhe Liu, Yizhou Lu, Siyu Chen, Xiyang Hu, Jieyu Zhao, Yingzhou Lu, Yue Zhao*
 
     arXiv, 2024. [Preprint](https://arxiv.org/abs/2411.15692) · `System` · `📦 Behavioral Artifacts` · `🎯 Scientific Research`
 
-22. **CodeChain: Towards Modular Code Generation Through Chain of Self-revisions with Representative Sub-modules**
+23. **CodeChain: Towards Modular Code Generation Through Chain of Self-revisions with Representative Sub-modules**
 
     *Hung Le, Hailin Chen, Amrita Saha, Akash Gokul, Doyen Sahoo, Shafiq Joty*
 
     ICLR, 2024. [Published](https://iclr.cc/virtual/2024/poster/17529) · [Code](https://github.com/SalesforceAIResearch/CodeChain) · `System` · `📦 Behavioral Artifacts` · `🎯 Engineering Design`
 
-23. **L2MAC: Large Language Model Automatic Computer for Extensive Code Generation**
+24. **L2MAC: Large Language Model Automatic Computer for Extensive Code Generation**
 
     *Samuel Holt, Max Ruiz Luyten, Mihaela van der Schaar*
 
     ICLR, 2024. [Published](https://iclr.cc/virtual/2024/poster/19096) · [Code](https://github.com/samholt/L2MAC) · `System` · `📦 Behavioral Artifacts` · `🎯 Engineering Design`
 
-24. **SWE-bench: Can Language Models Resolve Real-world Github Issues?**
+25. **SWE-bench: Can Language Models Resolve Real-world Github Issues?**
 
     *Carlos E Jimenez, John Yang, Alexander Wettig, Shunyu Yao, Kexin Pei, Ofir Press, Karthik Narasimhan*
 
     ICLR, 2024. [Published](https://iclr.cc/virtual/2024/poster/18505) · [Code](https://github.com/SWE-bench/SWE-bench) · `Benchmark` · `📦 Behavioral Artifacts` · `🎯 Engineering Design`
 
-25. **DS-Agent: Automated Data Science by Empowering Large Language Models with Case-Based Reasoning**
+26. **DS-Agent: Automated Data Science by Empowering Large Language Models with Case-Based Reasoning**
 
     *Siyuan Guo, Cheng Deng, Ying Wen, Hechang Chen, Yi Chang, Jun Wang*
 
     ICML, 2024. [Published](https://proceedings.mlr.press/v235/guo24b.html) · [Code](https://github.com/guosyjlu/DS-Agent) · `System` · `📦 Behavioral Artifacts` · `🎯 Scientific Research`
 
-26. **MLAgentBench: Evaluating Language Agents on Machine Learning Experimentation**
+27. **MLAgentBench: Evaluating Language Agents on Machine Learning Experimentation**
 
     *Qian Huang, Jian Vora, Percy Liang, Jure Leskovec*
 
     ICML, 2024. [Published](https://proceedings.mlr.press/v235/huang24y.html) · [Code](https://github.com/snap-stanford/mlagentbench) · `Benchmark` · `📦 Behavioral Artifacts` · `🎯 Scientific Research`
 
-27. **INDICT: Code Generation with Internal Dialogues of Critiques for Both Security and Helpfulness**
+28. **INDICT: Code Generation with Internal Dialogues of Critiques for Both Security and Helpfulness**
 
     *Hung Le, Yingbo Zhou, Caiming Xiong, Silvio Savarese, Doyen Sahoo*
 
     NeurIPS, 2024. [Published](https://proceedings.neurips.cc/paper_files/paper/2024/hash/9b812ee4b831c21e14156ced8659197c-Abstract-Conference.html) · `System` · `📦 Behavioral Artifacts` · `🎯 Engineering Design`
 
-28. **SWE-agent: Agent-Computer Interfaces Enable Automated Software Engineering**
+29. **SWE-agent: Agent-Computer Interfaces Enable Automated Software Engineering**
 
     *John Yang, Carlos E. Jimenez, Alexander Wettig, Kilian Lieret, Shunyu Yao, Karthik Narasimhan, Ofir Press*
 
     NeurIPS, 2024. [Published](https://proceedings.neurips.cc/paper_files/paper/2024/hash/5a7c947568c1b1328ccc5230172e1e7c-Abstract-Conference.html) · [Code](https://github.com/SWE-agent/SWE-agent) · `System` · `📦 Behavioral Artifacts` · `🎯 Engineering Design`
 
-29. **InterCode: Standardizing and Benchmarking Interactive Coding with Execution Feedback**
+30. **InterCode: Standardizing and Benchmarking Interactive Coding with Execution Feedback**
 
     *John Yang, Akshara Prabhakar, Karthik Narasimhan, Shunyu Yao*
 
@@ -1770,215 +1836,257 @@ This alternate view re-indexes application-classified papers by their use contex
 
     ACL, 2025. [Published](https://aclanthology.org/2025.acl-long.773/) · [Code](https://github.com/alienet1109/BookWorld) · `System` · `📦 Textual Artifacts` · `🎯 Creative Production`
 
-35. **3Dify: a Framework for Procedural 3D-CG Generation Assisted by LLMs Using MCP and RAG**
+35. **AudioGenie: A Training-Free Multi-Agent Framework for Diverse Multimodality-to-Multiaudio Generation**
+
+    *Yan Rong, Jinting Wang, Guangzhi Lei, Shan Yang, Li Liu*
+
+    ACM MM, 2025. [Published](https://doi.org/10.1145/3746027.3755758) · [Code](https://github.com/ryysayhi/AudioGenie) · `System` · `📦 Audio Artifacts` · `🎯 Creative Production`
+
+36. **3Dify: a Framework for Procedural 3D-CG Generation Assisted by LLMs Using MCP and RAG**
 
     *Shun-ichiro Hayashi, Daichi Mukunoki, Tetsuya Hoshino, Satoshi Ohshima, Takahiro Katagiri*
 
     arXiv, 2025. [Preprint](https://arxiv.org/abs/2510.04536) · `System` · `📦 Spatial Artifacts` · `🎯 Creative Production`
 
-36. **AnimAgents: Coordinating Multi-Stage Animation Pre-Production with Human-Multi-Agent Collaboration**
+37. **AnimAgents: Coordinating Multi-Stage Animation Pre-Production with Human-Multi-Agent Collaboration**
 
     *Wen-Fan Wang, Chien-Ting Lu, Jin Ping Ng, Yi-Ting Chiu, Ting-Ying Lee, Miaosen Wang, Bing-Yu Chen, Xiang 'Anthony' Chen*
 
     arXiv, 2025. [Preprint](https://arxiv.org/abs/2511.17906) · `System` · `🎯 Creative Production`
 
-37. **AutoMV: An Automatic Multi-Agent System for Music Video Generation**
+38. **AutoMV: An Automatic Multi-Agent System for Music Video Generation**
 
     *Xiaoxuan Tang, Xinping Lei, Chaoran Zhu, Shiyun Chen, Ruibin Yuan, Yizhi Li, Changjae Oh, Ge Zhang, Wenhao Huang, Emmanouil Benetos, Yang Liu, Jiaheng Liu, Yinghao Ma*
 
     arXiv, 2025. [Preprint](https://arxiv.org/abs/2512.12196) · [Code](https://github.com/multimodal-art-projection/AutoMV) · `System` · `📦 Video Artifacts` · `🎯 Creative Production`
 
-38. **CoComposer: LLM Multi-agent Collaborative Music Composition**
+39. **CoComposer: LLM Multi-agent Collaborative Music Composition**
 
     *Peiwen Xing, Aske Plaat, Niki van Stein*
 
     arXiv, 2025. [Preprint](https://arxiv.org/abs/2509.00132) · `System` · `📦 Audio Artifacts` · `🎯 Creative Production`
 
-39. **CreAgentive: An Agent Workflow Driven Multi-Category Creative Generation Engine**
+40. **CreAgentive: An Agent Workflow Driven Multi-Category Creative Generation Engine**
 
     *Yuyang Cheng, Linyue Cai, Changwei Peng, Yumiao Xu, Rongfang Bie, Yong Zhao*
 
     arXiv, 2025. [Preprint](https://arxiv.org/abs/2509.26461) · `System` · `📦 Textual Artifacts` · `🎯 Creative Production`
 
-40. **From Shots to Stories: LLM-Assisted Video Editing with Unified Language Representations**
+41. **From Shots to Stories: LLM-Assisted Video Editing with Unified Language Representations**
 
     *Yuzhi Li, Haojun Xu, Feng Tian*
 
     arXiv, 2025. [Preprint](https://arxiv.org/abs/2505.12237) · `System` · `📦 Video Artifacts` · `🎯 Creative Production`
 
-41. **GraphicBench: A Planning Benchmark for Graphic Design with Language Agents**
+42. **GraphicBench: A Planning Benchmark for Graphic Design with Language Agents**
 
     *Dayeon Ki, Tianyi Zhou, Marine Carpuat, Gang Wu, Puneet Mathur, Viswanathan Swaminathan*
 
     arXiv, 2025. [Preprint](https://arxiv.org/abs/2504.11571) · `Benchmark` · `📦 2D Visual Artifacts` · `🎯 Creative Production`
 
-42. **Hollywood Town: Long-Video Generation via Cross-Modal Multi-Agent Orchestration**
+43. **Hollywood Town: Long-Video Generation via Cross-Modal Multi-Agent Orchestration**
 
     *Zheng Wei, Mingchen Li, Zeqian Zhang, Ruibin Yuan, Pan Hui, Huamin Qu, James Evans, Maneesh Agrawala, Anyi Rao*
 
     arXiv, 2025. [Preprint](https://arxiv.org/abs/2510.22431) · `System` · `📦 Video Artifacts` · `🎯 Creative Production`
 
-43. **LL3M: Large Language 3D Modelers**
+44. **LL3M: Large Language 3D Modelers**
 
     *Sining Lu, Guan Chen, Nam Anh Dinh, Itai Lang, Ari Holtzman, Rana Hanocka*
 
     arXiv, 2025. [Preprint](https://arxiv.org/abs/2508.08228) · [Code](https://github.com/threedle/ll3m) · `System` · `📦 Spatial Artifacts` · `🎯 Creative Production`
 
-44. **Multi-Agent Game Generation and Evaluation via Audio-Visual Recordings**
+45. **Multi-Agent Game Generation and Evaluation via Audio-Visual Recordings**
 
     *Alexia Jolicoeur-Martineau*
 
     arXiv, 2025. [Preprint](https://arxiv.org/abs/2508.00632) · [Code](https://github.com/SamsungSAILMontreal/AVR-Eval-Agent) · `System` · `📦 Behavioral Artifacts` · `🎯 Creative Production`
 
-45. **MusicSwarm: Biologically Inspired Intelligence for Music Composition**
+46. **MusicSwarm: Biologically Inspired Intelligence for Music Composition**
 
     *Markus J. Buehler*
 
     arXiv, 2025. [Preprint](https://arxiv.org/abs/2509.11973) · `System` · `📦 Audio Artifacts` · `🎯 Creative Production`
 
-46. **PersonaVlog: Personalized Multimodal Vlog Generation with Multi-Agent Collaboration and Iterative Self-Correction**
+47. **PersonaVlog: Personalized Multimodal Vlog Generation with Multi-Agent Collaboration and Iterative Self-Correction**
 
     *Xiaolu Hou, Bing Ma, Jiaxiang Cheng, Xuhua Ren, Kai Yu, Wenyue Li, Tianxiang Zheng, Qinglin Lu*
 
     arXiv, 2025. [Preprint](https://arxiv.org/abs/2508.13602) · `System` · `📦 Video Artifacts` · `🎯 Creative Production`
 
-47. **SmartAvatar: Text- and Image-Guided Human Avatar Generation with VLM AI Agents**
+48. **SmartAvatar: Text- and Image-Guided Human Avatar Generation with VLM AI Agents**
 
     *Alexander Huang-Menders, Xinhang Liu, Andy Xu, Yuyao Zhang, Chi-Keung Tang, Yu-Wing Tai*
 
     arXiv, 2025. [Preprint](https://arxiv.org/abs/2506.04606) · `System` · `📦 Spatial Artifacts` · `🎯 Creative Production`
 
-48. **STORY2GAME: Generating (Almost) Everything in an Interactive Fiction Game**
+49. **STORY2GAME: Generating (Almost) Everything in an Interactive Fiction Game**
 
     *Eric Zhou, Shreyas Basavatia, Moontashir Siam, Zexin Chen, Mark O. Riedl*
 
     arXiv, 2025. [Preprint](https://arxiv.org/abs/2505.03547) · `System` · `📦 Behavioral Artifacts` · `🎯 Creative Production`
 
-49. **UniVA: Universal Video Agent towards Open-Source Next-Generation Video Generalist**
+50. **UniVA: Universal Video Agent towards Open-Source Next-Generation Video Generalist**
 
     *Zhengyang Liang, Daoan Zhang, Huichi Zhou, Rui Huang, Bobo Li, Yuechen Zhang, Shengqiong Wu, Xiaohan Wang, Jiebo Luo, Lizi Liao, Hao Fei*
 
     arXiv, 2025. [Preprint](https://arxiv.org/abs/2511.08521) · [Code](https://github.com/univa-agent/univa) · `System` · `📦 Video Artifacts` · `🎯 Creative Production`
 
-50. **VISTA: A Test-Time Self-Improving Video Generation Agent**
+51. **VISTA: A Test-Time Self-Improving Video Generation Agent**
 
     *Do Xuan Long, Xingchen Wan, Hootan Nakhost, Chen-Yu Lee, Tomas Pfister, Sercan Ö. Arık*
 
     arXiv, 2025. [Preprint](https://arxiv.org/abs/2510.15831) · `System` · `📦 Video Artifacts` · `🎯 Creative Production`
 
-51. **WeaveMuse: An Open Agentic System for Multimodal Music Understanding and Generation**
+52. **WeaveMuse: An Open Agentic System for Multimodal Music Understanding and Generation**
 
     *Emmanouil Karystinaios*
 
     arXiv, 2025. [Preprint](https://arxiv.org/abs/2509.11183) · `System` · `📦 Audio Artifacts` · `🎯 Creative Production`
 
-52. **WorldCraft: Photo-Realistic 3D World Creation and Customization via LLM Agents**
+53. **WorldCraft: Photo-Realistic 3D World Creation and Customization via LLM Agents**
 
     *Xinhang Liu, Chi-Keung Tang, Yu-Wing Tai*
 
     arXiv, 2025. [Preprint](https://arxiv.org/abs/2502.15601) · `System` · `📦 Spatial Artifacts` · `🎯 Creative Production`
 
-53. **Orchid: A Creative Approach for Authoring LLM-Driven Interactive Narratives**
+54. **Orchid: A Creative Approach for Authoring LLM-Driven Interactive Narratives**
 
     *Zhen Wu, Serkan Kumyol, Shing Yin Wong, Xiaozhu Hu, Xin Tong, Tristan Braud*
 
     C&C, 2025. [Published](https://doi.org/10.1145/3698061.3726906) · `System` · `📦 Textual Artifacts` · `🎯 Creative Production`
 
-54. **StoryWriter: A Multi-Agent Framework for Long Story Generation**
+55. **StoryWriter: A Multi-Agent Framework for Long Story Generation**
 
     *Haotian Xia, Hao Peng, Yunjia Qi, Bin Xu, Juanzi Li, Hou Lei, Xiaozhi Wang*
 
     CIKM, 2025. [Published](https://doi.org/10.1145/3746252.3761616) · `System` · `📦 Textual Artifacts` · `🎯 Creative Production`
 
-55. **SketchAgent: Language-Driven Sequential Sketch Generation**
+56. **SketchAgent: Language-Driven Sequential Sketch Generation**
 
     *Yael Vinker, Tamar Rott Shaham, Kristine Zheng, Alex Zhao, Judith E. Fan, Antonio Torralba*
 
     CVPR, 2025. [Published](https://doi.org/10.1109/CVPR52734.2025.02175) · `System` · `📦 2D Visual Artifacts` · `🎯 Creative Production`
 
-56. **Orchestrating Audio: Multi-Agent Framework for Long-Video Audio Synthesis**
+57. **Orchestrating Audio: Multi-Agent Framework for Long-Video Audio Synthesis**
 
     *Yehang Zhang, Xinli Xu, Xiaojie Xu, Doudou Zhang, Li Liu, Ying-Cong Chen*
 
     EMNLP, 2025. [Published](https://aclanthology.org/2025.emnlp-main.1133/) · [Code](https://github.com/ZYH-Lightyear/LVAS) · `System` · `📦 Audio Artifacts` · `🎯 Creative Production`
 
-57. **T2I-Copilot: A Training-Free Multi-Agent Text-to-Image System for Enhanced Prompt Interpretation and Interactive Generation**
+58. **T2I-Copilot: A Training-Free Multi-Agent Text-to-Image System for Enhanced Prompt Interpretation and Interactive Generation**
 
     *Chieh-Yun Chen, Min Shi, Gong Zhang, Humphrey Shi*
 
     ICCV, 2025. [Published](https://doi.org/10.1109/ICCV51701.2025.01803) · [Code](https://github.com/SHI-Labs/T2I-Copilot) · `System` · `📦 2D Visual Artifacts` · `🎯 Creative Production`
 
-58. **Can LLMs Generate Good Stories? Insights and Challenges from a Narrative Planning Perspective**
+59. **Can LLMs Generate Good Stories? Insights and Challenges from a Narrative Planning Perspective**
 
     *Yi Wang, Max Kreminski*
 
     IEEE CoG, 2025. [Published](https://doi.org/10.1109/CoG64752.2025.11114137) · `Benchmark` · `📦 Textual Artifacts` · `🎯 Creative Production`
 
-59. **CREA: A Collaborative Multi-Agent Framework for Creative Image Editing and Generation**
+60. **CREA: A Collaborative Multi-Agent Framework for Creative Image Editing and Generation**
 
     *Kavana Venkatesh, Connor Dunlop, Pinar Yanardag*
 
     NeurIPS, 2025. [Published](https://proceedings.neurips.cc/paper_files/paper/2025/hash/fa41e9d5dfcc97cd9eed99f001aa28e5-Abstract-Conference.html) · [Code](https://github.com/ConnorDunlop/CREA) · `System` · `📦 2D Visual Artifacts` · `🎯 Creative Production`
 
-60. **ShapeCraft: LLM Agents for Structured, Textured and Interactive 3D Modeling**
+61. **ShapeCraft: LLM Agents for Structured, Textured and Interactive 3D Modeling**
 
     *Shuyuan Zhang, ChenHan Jiang, Zuoou Li, Jiankang Deng*
 
     NeurIPS, 2025. [Published](https://proceedings.neurips.cc/paper_files/paper/2025/hash/5e2217482fa75556f1970be809acd3f8-Abstract-Conference.html) · `System` · `📦 Spatial Artifacts` · `🎯 Creative Production`
 
-61. **EditDuet: A Multi-Agent System for Video Non-Linear Editing**
+62. **EditDuet: A Multi-Agent System for Video Non-Linear Editing**
 
     *Marcelo Sandoval-Castañeda, Bryan Russell, Josef Sivic, Gregory Shakhnarovich, Fabian Caba Heilbron*
 
     SIGGRAPH, 2025. [Published](https://doi.org/10.1145/3721238.3730761) · `System` · `📦 Video Artifacts` · `🎯 Creative Production`
 
-62. **AniMaker: Multi-Agent Animated Storytelling with MCTS-Driven Clip Generation**
+63. **AniMaker: Multi-Agent Animated Storytelling with MCTS-Driven Clip Generation**
 
     *Haoyuan Shi, Yunxin Li, Xinyu Chen, Longyue Wang, Baotian Hu, Min Zhang*
 
     SIGGRAPH Asia, 2025. [Published](https://doi.org/10.1145/3757377.3764009) · [Code](https://github.com/HITsz-TMG/Anim-Director) · `System` · `📦 Video Artifacts` · `🎯 Creative Production`
 
-63. **AniME: Adaptive Multi-Agent Planning for Long Animation Generation**
+64. **AniME: Adaptive Multi-Agent Planning for Long Animation Generation**
 
     *Lisai Zhang, Baohan Xu, Siqian Yang, Mingyu Yin, Jing Liu, Chao Xu, Siqi Wang, Yidi Wu, Yuxin Hong, Zihao Zhang, Yanzhang Liang, Yudong Jiang*
 
     SIGGRAPH Asia, 2025. [Published](https://doi.org/10.1145/3757374.3771455) · `System` · `📦 Video Artifacts` · `🎯 Creative Production`
 
-64. **StoryAgent: Customized Storytelling Video Generation via Multi-Agent Collaboration**
+65. **Edit3D: Elevating 3D Scene Editing with Attention-Driven Multi-Turn Interactivity**
+
+    *Peng Zhou, Dunbo Cai, Yujian Du, Runqing Zhang, Bingbing Ni, Jie Qin, Ling Qian*
+
+    ACM MM, 2024. [Published](https://doi.org/10.1145/3664647.3681289) · [Code](https://github.com/PeterouZh/Edit3D) · `System` · `📦 Spatial Artifacts` · `🎯 Creative Production`
+
+66. **G-Refine: A General Quality Refiner for Text-to-Image Generation**
+
+    *Chunyi Li, Haoning Wu, Hongkun Hao, Zicheng Zhang, Tengchuan Kou, Chaofeng Chen, Lei Bai, Xiaohong Liu, Weisi Lin, Guangtao Zhai*
+
+    ACM MM, 2024. [Published](https://doi.org/10.1145/3664647.3681152) · [Code](https://github.com/Q-Future/Q-Refine) · `System` · `📦 2D Visual Artifacts` · `🎯 Creative Production`
+
+67. **iControl3D: An Interactive System for Controllable 3D Scene Generation**
+
+    *Xingyi Li, Yizheng Wu, Jun Cen, Juewen Peng, Kewei Wang, Ke Xian, Zhe Wang, Zhiguo Cao, Guosheng Lin*
+
+    ACM MM, 2024. [Published](https://doi.org/10.1145/3664647.3680557) · [Code](https://github.com/xingyi-li/iControl3D) · `System` · `📦 Spatial Artifacts` · `🎯 Creative Production`
+
+68. **Learning Realistic Sketching: A Dual-agent Reinforcement Learning Approach**
+
+    *Ji Qiu, Peng Lu, Xujun Peng, Wenhao Guo, Zhaoran Zhao, XiangTao Dong*
+
+    ACM MM, 2024. [Published](https://doi.org/10.1145/3664647.3680759) · `System` · `📦 2D Visual Artifacts` · `🎯 Creative Production`
+
+69. **StoryAgent: Customized Storytelling Video Generation via Multi-Agent Collaboration**
 
     *Panwen Hu, Jin Jiang, Jianqi Chen, Mingfei Han, Shengcai Liao, Xiaojun Chang, Xiaodan Liang*
 
     arXiv, 2024. [Preprint](https://arxiv.org/abs/2411.04925) · `System` · `📦 Video Artifacts` · `🎯 Creative Production`
 
-65. **StoryVerse: Towards Co-authoring Dynamic Plot with LLM-based Character Simulation via Narrative Planning**
+70. **StoryVerse: Towards Co-authoring Dynamic Plot with LLM-based Character Simulation via Narrative Planning**
 
     *Yi Wang, Qian Zhou, David Ledo*
 
     FDG, 2024. [Published](https://doi.org/10.1145/3649921.3656987) · `System` · `📦 Textual Artifacts` · `🎯 Creative Production`
 
-66. **WavCraft: Audio Editing and Generation with Large Language Models**
+71. **WavCraft: Audio Editing and Generation with Large Language Models**
 
     *Jinhua Liang, Huan Zhang, Haohe Liu, Yin Cao, Qiuqiang Kong, Xubo Liu, Wenwu Wang, Mark D. Plumbley, Huy Phan, Emmanouil Benetos*
 
     ICLR Workshop, 2024. [Published](https://openreview.net/forum?id=xJw7x2ZBex) · [Code](https://github.com/JinhuaLiang/WavCraft) · `System` · `📦 Audio Artifacts` · `🎯 Creative Production`
 
-67. **SceneCraft: An LLM Agent for Synthesizing 3D Scenes as Blender Code**
+72. **SceneCraft: An LLM Agent for Synthesizing 3D Scenes as Blender Code**
 
     *Ziniu Hu, Ahmet Iscen, Aashi Jain, Thomas Kipf, Yisong Yue, David A Ross, Cordelia Schmid, Alireza Fathi*
 
     ICML, 2024. [Published](https://proceedings.mlr.press/v235/hu24g.html) · `System` · `📦 Spatial Artifacts` · `🎯 Creative Production`
 
-68. **ComposerX: Multi-Agent Symbolic Music Composition with LLMs**
+73. **ComposerX: Multi-Agent Symbolic Music Composition with LLMs**
 
     *Qixin Deng, Qikai Yang, Ruibin Yuan, et al.*
 
     ISMIR, 2024. [Published](https://doi.org/10.5281/zenodo.14877425) · [Code](https://github.com/lllindsey0615/ComposerX) · `System` · `📦 Audio Artifacts` · `🎯 Creative Production`
 
-69. **GenArtist: Multimodal LLM as an Agent for Unified Image Generation and Editing**
+74. **GenArtist: Multimodal LLM as an Agent for Unified Image Generation and Editing**
 
     *Zhenyu Wang, Aoxue Li, Zhenguo Li, Xihui Liu*
 
     NeurIPS, 2024. [Published](https://proceedings.neurips.cc/paper_files/paper/2024/hash/e7c786024ca718f2487712bfe9f51030-Abstract-Conference.html) · [Code](https://github.com/zhenyuw16/GenArtist) · `System` · `📦 2D Visual Artifacts` · `🎯 Creative Production`
+
+75. **A Reinforcement Learning-Based Automatic Video Editing Method Using Pre-trained Vision-Language Model**
+
+    *Panwen Hu, Nan Xiao, Feifei Li, Yongquan Chen, Rui Huang*
+
+    ACM MM, 2023. [Published](https://doi.org/10.1145/3581783.3611878) · `System` · `📦 Video Artifacts` · `🎯 Creative Production`
+
+76. **Stroke-based Neural Painting and Stylization with Dynamically Predicted Painting Region**
+
+    *Teng Hu, Ran Yi, Haokun Zhu, Liang Liu, Jinlong Peng, Yabiao Wang, Chengjie Wang, Lizhuang Ma*
+
+    ACM MM, 2023. [Published](https://doi.org/10.1145/3581783.3611766) · [Code](https://github.com/sjtuplayer/Compositional_Neural_Painter) · `System` · `📦 2D Visual Artifacts` · `🎯 Creative Production`
 
 ### [Brand Communication](#content)
 
@@ -2342,133 +2450,139 @@ This alternate view re-indexes application-classified papers by their use contex
 
     ACL, 2025. [Published](https://aclanthology.org/2025.acl-long.1009/) · [Code](https://github.com/yale-nlp/LimitGen) · `Benchmark` · `📦 Textual Artifacts` · `🎯 Scientific Research`
 
-22. **From Pixels to Paths: A Multi-Agent Framework for Editable Scientific Illustration**
+22. **Gen4Track: A Tuning-free Data Augmentation Framework via Self-correcting Diffusion Model for Vision-Language Tracking**
+
+    *Jiawei Ge, Xinyu Zhang, Jiuxin Cao, Xuelin Zhu, Weijia Liu, Qingqing Gao, Biwei Cao, Kun Wang, Chang Liu, Bo Liu, Chen Feng, Ioannis Patras*
+
+    ACM MM, 2025. [Published](https://doi.org/10.1145/3746027.3754956) · `System` · `📦 Video Artifacts` · `🎯 Scientific Research`
+
+23. **From Pixels to Paths: A Multi-Agent Framework for Editable Scientific Illustration**
 
     *Jianwen Sun, Fanrui Zhang, Yukang Feng, Chuanhao Li, Zizhen Li, Jiaxin Ai, Yifan Chang, Yu Dai, Kaipeng Zhang*
 
     arXiv, 2025. [Preprint](https://arxiv.org/abs/2510.27452) · `System` · `📦 2D Visual Artifacts` · `🎯 Scientific Research`
 
-23. **Paper2Agent: Reimagining Research Papers As Interactive and Reliable AI Agents**
+24. **Paper2Agent: Reimagining Research Papers As Interactive and Reliable AI Agents**
 
     *Jiacheng Miao, Joe R. Davis, Yaohui Zhang, Jonathan K. Pritchard, James Zou*
 
     arXiv, 2025. [Preprint](https://arxiv.org/abs/2509.06917) · [Code](https://github.com/jmiao24/Paper2Agent) · `System` · `📦 Behavioral Artifacts` · `🎯 Scientific Research`
 
-24. **Paper2Video: Automatic Video Generation from Scientific Papers**
+25. **Paper2Video: Automatic Video Generation from Scientific Papers**
 
     *Zeyu Zhu, Kevin Qinghong Lin, Mike Zheng Shou*
 
     arXiv, 2025. [Preprint](https://arxiv.org/abs/2510.05096) · [Code](https://github.com/showlab/Paper2Video) · `System` · `📦 Video Artifacts` · `🎯 Scientific Research`
 
-25. **SlideGen: Collaborative Multimodal Agents for Scientific Slide Generation**
+26. **SlideGen: Collaborative Multimodal Agents for Scientific Slide Generation**
 
     *Xin Liang, Xiang Zhang, Yiwei Xu, Siqi Sun, Chenyu You*
 
     arXiv, 2025. [Preprint](https://arxiv.org/abs/2512.04529) · `System` · `📦 2D Visual Artifacts` · `🎯 Scientific Research`
 
-26. **Queryome: Orchestrating Retrieval, Reasoning, and Synthesis across Biomedical Literature**
+27. **Queryome: Orchestrating Retrieval, Reasoning, and Synthesis across Biomedical Literature**
 
     *Pranav Punuru, Nabil Ibtehaz, Swagarika Jaharlal Giri, Harsha Srirangam, Emilia A Tugolukova, Daisuke Kihara*
 
     bioRxiv, 2025. [Preprint](https://doi.org/10.64898/2025.12.22.696019) · `System` · `📦 Textual Artifacts` · `🎯 Scientific Research`
 
-27. **IdeaSynth: Iterative Research Idea Development Through Evolving and Composing Idea Facets with Literature-Grounded Feedback**
+28. **IdeaSynth: Iterative Research Idea Development Through Evolving and Composing Idea Facets with Literature-Grounded Feedback**
 
     *Kevin Pu, K. J. Kevin Feng, Tovi Grossman, Tom Hope, Bhavana Dalvi Mishra, Matt Latzke, Jonathan Bragg, Joseph Chee Chang, Pao Siangliulue*
 
     CHI, 2025. [Published](https://doi.org/10.1145/3706598.3714057) · `System` · `📦 Textual Artifacts` · `🎯 Scientific Research`
 
-28. **SciSketch: An Open-source Framework for Automated Schematic Diagram Generation in Scientific Papers**
+29. **SciSketch: An Open-source Framework for Automated Schematic Diagram Generation in Scientific Papers**
 
     *Zihang Wang, Yilun Zhao, Kaiyan Zhang, Chen Zhao, Manasi Patwardhan, Arman Cohan*
 
     EMNLP System Demonstrations, 2025. [Published](https://aclanthology.org/2025.emnlp-demos.28/) · `System` · `📦 2D Visual Artifacts` · `🎯 Scientific Research`
 
-29. **Agent Laboratory: Using LLM Agents as Research Assistants**
+30. **Agent Laboratory: Using LLM Agents as Research Assistants**
 
     *Samuel Schmidgall, Yusheng Su, Ze Wang, Ximeng Sun, Jialian Wu, Xiaodong Yu, Jiang Liu, Michael Moor, Zicheng Liu, Emad Barsoum*
 
     Findings of EMNLP, 2025. [Published](https://aclanthology.org/2025.findings-emnlp.320/) · [Code](https://github.com/SamuelSchmidgall/AgentLaboratory) · `System` · `🎯 Scientific Research`
 
-30. **ScienceAgentBench: Toward Rigorous Assessment of Language Agents for Data-Driven Scientific Discovery**
+31. **ScienceAgentBench: Toward Rigorous Assessment of Language Agents for Data-Driven Scientific Discovery**
 
     *Ziru Chen, Shijie Chen, Yuting Ning, Qianheng Zhang, Boshi Wang, Botao Yu, Yifei Li, Zeyi Liao, Chen Wei, Zitong Lu, Vishal Dey, Mingyi Xue, Frazier N. Baker, Benjamin Burns, Daniel Adu-Ampratwum, Xuhui Huang, Xia Ning, Song Gao, Yu Su, Huan Sun*
 
     ICLR, 2025. [Published](https://iclr.cc/virtual/2025/poster/32108) · [Code](https://github.com/OSU-NLP-Group/ScienceAgentBench) · `Benchmark` · `📦 Behavioral Artifacts` · `🎯 Scientific Research`
 
-31. **AutoML-Agent: A Multi-Agent LLM Framework for Full-Pipeline AutoML**
+32. **AutoML-Agent: A Multi-Agent LLM Framework for Full-Pipeline AutoML**
 
     *Patara Trirat, Wonyong Jeong, Sung Ju Hwang*
 
     ICML, 2025. [Published](https://proceedings.mlr.press/v267/trirat25a.html) · [Code](https://github.com/DeepAuto-AI/automl-agent) · `System` · `📦 Behavioral Artifacts` · `🎯 Scientific Research`
 
-32. **PaperBench: Evaluating AI’s Ability to Replicate AI Research**
+33. **PaperBench: Evaluating AI’s Ability to Replicate AI Research**
 
     *Giulio Starace, Oliver Jaffe, Dane Sherburn, James Aung, Jun Shern Chan, Leon Maksin, Rachel Dias, Evan Mays, Benjamin Kinsella, Wyatt Thompson, Johannes Heidecke, Amelia Glaese, Tejal Patwardhan*
 
     ICML, 2025. [Published](https://proceedings.mlr.press/v267/starace25a.html) · [Code](https://github.com/openai/preparedness) · `Benchmark` · `📦 Behavioral Artifacts` · `🎯 Scientific Research`
 
-33. **ResearchAgent: Iterative Research Idea Generation over Scientific Literature with Large Language Models**
+34. **ResearchAgent: Iterative Research Idea Generation over Scientific Literature with Large Language Models**
 
     *Jinheon Baek, Sujay Kumar Jauhar, Silviu Cucerzan, Sung Ju Hwang*
 
     NAACL, 2025. [Published](https://aclanthology.org/2025.naacl-long.342/) · `System` · `📦 Textual Artifacts` · `🎯 Scientific Research`
 
-34. **MLR-Bench: Evaluating AI Agents on Open-Ended Machine Learning Research**
+35. **MLR-Bench: Evaluating AI Agents on Open-Ended Machine Learning Research**
 
     *Hui Chen, Miao Xiong, Yujie Lu, Wei Han, Ailin Deng, Yufei He, Jiaying Wu, Yibo Li, Yue Liu, Bryan Hooi*
 
     NeurIPS, 2025. [Published](https://proceedings.neurips.cc/paper_files/paper/2025/hash/ab8dd000d6f87f40061a73f8bca7fae4-Abstract-Datasets_and_Benchmarks_Track.html) · [Code](https://github.com/chchenhui/mlrbench) · `Benchmark` · `📦 Textual Artifacts` · `🎯 Scientific Research`
 
-35. **Paper2Poster: Towards Multimodal Poster Automation from Scientific Papers**
+36. **Paper2Poster: Towards Multimodal Poster Automation from Scientific Papers**
 
     *Wei Pang, Kevin Qinghong Lin, Xiangru Jian, Xi He, Philip Torr*
 
     NeurIPS, 2025. [Published](https://openreview.net/forum?id=p0E74lpRBD) · [Code](https://github.com/Paper2Poster/Paper2Poster) · `System` · `📦 2D Visual Artifacts` · `🎯 Scientific Research`
 
-36. **PlotGen: Multi-Agent LLM-based Scientific Data Visualization via Multimodal Retrieval Feedback**
+37. **PlotGen: Multi-Agent LLM-based Scientific Data Visualization via Multimodal Retrieval Feedback**
 
     *Kanika Goswami, Puneet Mathur, Ryan Rossi, Franck Dernoncourt*
 
     The Web Conference Companion, 2025. [Published](https://doi.org/10.1145/3701716.3716888) · `System` · `📦 2D Visual Artifacts` · `🎯 Scientific Research`
 
-37. **DrugAgent: Automating AI-aided Drug Discovery Programming through LLM Multi-Agent Collaboration**
+38. **DrugAgent: Automating AI-aided Drug Discovery Programming through LLM Multi-Agent Collaboration**
 
     *Sizhe Liu, Yizhou Lu, Siyu Chen, Xiyang Hu, Jieyu Zhao, Yingzhou Lu, Yue Zhao*
 
     arXiv, 2024. [Preprint](https://arxiv.org/abs/2411.15692) · `System` · `📦 Behavioral Artifacts` · `🎯 Scientific Research`
 
-38. **MARG: Multi-Agent Review Generation for Scientific Papers**
+39. **MARG: Multi-Agent Review Generation for Scientific Papers**
 
     *Mike D'Arcy, Tom Hope, Larry Birnbaum, Doug Downey*
 
     arXiv, 2024. [Preprint](https://arxiv.org/abs/2401.04259) · `System` · `📦 Textual Artifacts` · `🎯 Scientific Research`
 
-39. **The AI Scientist: Towards Fully Automated Open-Ended Scientific Discovery**
+40. **The AI Scientist: Towards Fully Automated Open-Ended Scientific Discovery**
 
     *Chris Lu, Cong Lu, Robert Tjarko Lange, Jakob Foerster, Jeff Clune, David Ha*
 
     arXiv, 2024. [Preprint](https://arxiv.org/abs/2408.06292) · [Code](https://github.com/SakanaAI/AI-Scientist) · `System` · `📦 Textual Artifacts` · `🎯 Scientific Research`
 
-40. **ProtAgents: Protein Discovery via Large Language Model Multi-Agent Collaborations Combining Physics and Machine Learning**
+41. **ProtAgents: Protein Discovery via Large Language Model Multi-Agent Collaborations Combining Physics and Machine Learning**
 
     *Alireza Ghafarollahi, Markus J. Buehler*
 
     Digital Discovery, 2024. [Published](https://doi.org/10.1039/D4DD00013G) · [Code](https://github.com/lamm-mit/ProtAgents) · `System` · `🎯 Scientific Research`
 
-41. **MatPlotAgent: Method and Evaluation for LLM-Based Agentic Scientific Data Visualization**
+42. **MatPlotAgent: Method and Evaluation for LLM-Based Agentic Scientific Data Visualization**
 
     *Zhiyu Yang, Zihan Zhou, Shuo Wang, Xin Cong, Xu Han, Yukun Yan, Zhenghao Liu, Zhixing Tan, Pengyuan Liu, Dong Yu, Zhiyuan Liu, Xiaodong Shi, Maosong Sun*
 
     Findings of ACL, 2024. [Published](https://aclanthology.org/2024.findings-acl.701/) · [Code](https://github.com/thunlp/MatPlotAgent) · `System` · `📦 2D Visual Artifacts` · `🎯 Scientific Research`
 
-42. **DS-Agent: Automated Data Science by Empowering Large Language Models with Case-Based Reasoning**
+43. **DS-Agent: Automated Data Science by Empowering Large Language Models with Case-Based Reasoning**
 
     *Siyuan Guo, Cheng Deng, Ying Wen, Hechang Chen, Yi Chang, Jun Wang*
 
     ICML, 2024. [Published](https://proceedings.mlr.press/v235/guo24b.html) · [Code](https://github.com/guosyjlu/DS-Agent) · `System` · `📦 Behavioral Artifacts` · `🎯 Scientific Research`
 
-43. **MLAgentBench: Evaluating Language Agents on Machine Learning Experimentation**
+44. **MLAgentBench: Evaluating Language Agents on Machine Learning Experimentation**
 
     *Qian Huang, Jian Vora, Percy Liang, Jure Leskovec*
 
@@ -2728,43 +2842,55 @@ This alternate view re-indexes application-classified papers by their use contex
 
     The Web Conference, 2025. [Published](https://doi.org/10.1145/3696410.3714889) · [Code](https://github.com/CGCL-codes/naturalcc/tree/main/examples/webcode2m) · `Benchmark` · `📦 Behavioral Artifacts` · `🎯 Engineering Design`
 
-43. **CodeChain: Towards Modular Code Generation Through Chain of Self-revisions with Representative Sub-modules**
+43. **De-fine: Decomposing and Refining Visual Programs with Auto-Feedback**
+
+    *Minghe Gao, Juncheng Li, Hao Fei, Liang Pang, Wei Ji, Guoming Wang, Zheqi Lv, Wenqiao Zhang, Siliang Tang, Yueting Zhuang*
+
+    ACM MM, 2024. [Published](https://doi.org/10.1145/3664647.3681082) · `System` · `📦 Behavioral Artifacts` · `🎯 Engineering Design`
+
+44. **CodeChain: Towards Modular Code Generation Through Chain of Self-revisions with Representative Sub-modules**
 
     *Hung Le, Hailin Chen, Amrita Saha, Akash Gokul, Doyen Sahoo, Shafiq Joty*
 
     ICLR, 2024. [Published](https://iclr.cc/virtual/2024/poster/17529) · [Code](https://github.com/SalesforceAIResearch/CodeChain) · `System` · `📦 Behavioral Artifacts` · `🎯 Engineering Design`
 
-44. **L2MAC: Large Language Model Automatic Computer for Extensive Code Generation**
+45. **L2MAC: Large Language Model Automatic Computer for Extensive Code Generation**
 
     *Samuel Holt, Max Ruiz Luyten, Mihaela van der Schaar*
 
     ICLR, 2024. [Published](https://iclr.cc/virtual/2024/poster/19096) · [Code](https://github.com/samholt/L2MAC) · `System` · `📦 Behavioral Artifacts` · `🎯 Engineering Design`
 
-45. **SWE-bench: Can Language Models Resolve Real-world Github Issues?**
+46. **SWE-bench: Can Language Models Resolve Real-world Github Issues?**
 
     *Carlos E Jimenez, John Yang, Alexander Wettig, Shunyu Yao, Kexin Pei, Ofir Press, Karthik Narasimhan*
 
     ICLR, 2024. [Published](https://iclr.cc/virtual/2024/poster/18505) · [Code](https://github.com/SWE-bench/SWE-bench) · `Benchmark` · `📦 Behavioral Artifacts` · `🎯 Engineering Design`
 
-46. **INDICT: Code Generation with Internal Dialogues of Critiques for Both Security and Helpfulness**
+47. **INDICT: Code Generation with Internal Dialogues of Critiques for Both Security and Helpfulness**
 
     *Hung Le, Yingbo Zhou, Caiming Xiong, Silvio Savarese, Doyen Sahoo*
 
     NeurIPS, 2024. [Published](https://proceedings.neurips.cc/paper_files/paper/2024/hash/9b812ee4b831c21e14156ced8659197c-Abstract-Conference.html) · `System` · `📦 Behavioral Artifacts` · `🎯 Engineering Design`
 
-47. **SWE-agent: Agent-Computer Interfaces Enable Automated Software Engineering**
+48. **SWE-agent: Agent-Computer Interfaces Enable Automated Software Engineering**
 
     *John Yang, Carlos E. Jimenez, Alexander Wettig, Kilian Lieret, Shunyu Yao, Karthik Narasimhan, Ofir Press*
 
     NeurIPS, 2024. [Published](https://proceedings.neurips.cc/paper_files/paper/2024/hash/5a7c947568c1b1328ccc5230172e1e7c-Abstract-Conference.html) · [Code](https://github.com/SWE-agent/SWE-agent) · `System` · `📦 Behavioral Artifacts` · `🎯 Engineering Design`
 
-48. **WorldCoder, a Model-Based LLM Agent: Building World Models by Writing Code and Interacting with the Environment**
+49. **WorldCoder, a Model-Based LLM Agent: Building World Models by Writing Code and Interacting with the Environment**
 
     *Hao Tang, Darren Key, Kevin Ellis*
 
     NeurIPS, 2024. [Published](https://proceedings.neurips.cc/paper_files/paper/2024/hash/820c61a0cd419163ccbd2c33b268816e-Abstract-Conference.html) · [Code](https://github.com/haotang1995/WorldCoder) · `System` · `📦 Behavioral Artifacts` · `🎯 Engineering Design`
 
-49. **InterCode: Standardizing and Benchmarking Interactive Coding with Execution Feedback**
+50. **Interactive Interior Design Recommendation via Coarse-to-fine Multimodal Reinforcement Learning**
+
+    *He Zhang, Ying Sun, Weiyu Guo, Yafei Liu, Haonan Lu, Xiaodong Lin, Hui Xiong*
+
+    ACM MM, 2023. [Published](https://doi.org/10.1145/3581783.3612420) · `System` · `📦 Spatial Artifacts` · `🎯 Engineering Design`
+
+51. **InterCode: Standardizing and Benchmarking Interactive Coding with Execution Feedback**
 
     *John Yang, Akshara Prabhakar, Karthik Narasimhan, Shunyu Yao*
 
