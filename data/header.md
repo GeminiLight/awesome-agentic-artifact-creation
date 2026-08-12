@@ -9,17 +9,15 @@
 
 ---
 
-This catalog navigates work by the artifact being constructed and records
-application context as a separate, optional classification axis. It does not
-mix workflow stage or evaluation setup into the artifact hierarchy. It
-accompanies the
-[Agentic Artifact Creation survey](https://github.com/GeminiLight/agentic-creation-survey)
-and follows the survey's artifact-centered landscape.
+In this project, we comprehensively survey agentic artifact creation, an
+emerging paradigm in which AI agents autonomously construct and iteratively
+refine artifacts through planning, tool use, feedback, and revision. These
+artifacts span text, visual media, audio, video, 3D environments, software, and
+interactive experiences.
 
-The initial release re-audits the survey's candidate systems and benchmarks
-against an operational agentic-construction rule. The public list contains only
-accepted entries; pending and excluded decisions remain visible in
-[`data/audit.csv`](data/audit.csv) and the [audit protocol](AUDIT.md).
+This repository accompanies the
+[Agentic Artifact Creation survey](https://github.com/GeminiLight/agentic-creation-survey)
+and curates the related papers, systems, and benchmarks.
 
 ## Survey Scope
 

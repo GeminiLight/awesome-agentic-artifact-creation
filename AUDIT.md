@@ -49,11 +49,11 @@ are reviewable rather than silent.
 
 | Verdict | Count |
 |---|---:|
-| Included systems | 193 |
-| Included benchmarks | 23 |
-| Pending full-text review | 9 |
+| Included systems | 203 |
+| Included benchmarks | 27 |
+| Pending full-text review | 13 |
 | Excluded | 20 |
-| Audited candidates | 245 |
+| Audited candidates | 263 |
 
 Two entries originally labeled as systems are published as benchmarks in this
 catalog. The initial audit replaced the provisional “144 systems + 9
@@ -61,8 +61,10 @@ benchmarks” description with “130 systems + 11 benchmarks.” A subsequent
 family-gap audit added three full-text-verified produced-audio systems. The
 Chapter 5 import then audited 50 application-specific supporting works, adding
 29 systems and 4 benchmarks. A subsequent 2023--2026 ICLR, ICML, and NeurIPS
-review added 31 systems and 8 benchmarks from formal conference records, while
-retaining all 245 decisions in the ledger.
+review added 31 systems and 8 benchmarks from formal conference records. A
+subsequent KDD, The Web Conference, and SIGIR review added 10 systems and 4
+benchmarks from formal venue records and retained four plausible candidates
+for full-text review, bringing the ledger to 263 decisions.
 
 ## Limitations
 
