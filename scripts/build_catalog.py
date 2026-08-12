@@ -247,6 +247,8 @@ def derive_papers(
         if verdict not in {"include_system", "include_benchmark"}:
             continue
         venue = venues[row["venue_id"]]
+        if venue["catalog_status"] != "include":
+            continue
         included.append(
             {
                 "artifact_family": row["artifact_family"],

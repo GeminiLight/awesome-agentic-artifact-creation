@@ -16,6 +16,7 @@ VENUE_COLUMNS = (
     "full_name",
     "venue_kind",
     "parent_venue_id",
+    "catalog_status",
 )
 ALLOWED_VENUE_KINDS = {
     "conference",
@@ -25,6 +26,7 @@ ALLOWED_VENUE_KINDS = {
     "preprint_server",
     "repository",
 }
+ALLOWED_CATALOG_STATUSES = {"include", "hold"}
 ALLOWED_KINDS_BY_PUBLICATION_TYPE = {
     "published": {"conference", "journal", "workshop", "track"},
     "preprint": {"preprint_server"},
@@ -59,6 +61,7 @@ def load_venues(path: Path = VENUES_PATH) -> dict[str, dict[str, str]]:
             "display_name",
             "full_name",
             "venue_kind",
+            "catalog_status",
         ]
         blank = [field for field in required if not row[field]]
         if blank:
@@ -81,6 +84,10 @@ def load_venues(path: Path = VENUES_PATH) -> dict[str, dict[str, str]]:
         if row["venue_kind"] not in ALLOWED_VENUE_KINDS:
             raise VenueValidationError(
                 f"venue row {line_number} has an invalid venue_kind"
+            )
+        if row["catalog_status"] not in ALLOWED_CATALOG_STATUSES:
+            raise VenueValidationError(
+                f"venue row {line_number} has an invalid catalog_status"
             )
         venues[venue_id] = row
         display_names.add(display_key)

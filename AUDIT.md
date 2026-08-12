@@ -39,7 +39,9 @@ Each row in [`data/audit.csv`](data/audit.csv) has one verdict:
 - `pending_full_text`: plausible, but available evidence is insufficient.
 - `exclude`: does not meet the rule or is outside the catalog's scope.
 
-`data/papers.csv` is generated from the two inclusion verdicts. Artifact and
+`data/papers.csv` is generated from the two inclusion verdicts for venues whose
+`catalog_status` is `include` in `data/venues.csv`. A venue may be placed on
+`hold` without changing a paper's technical audit decision. Artifact and
 application classifications are independent: a row may carry either axis or
 both, while unknown or inapplicable classification cells remain empty. Pending
 and excluded records remain visible in the audit ledger so that count changes

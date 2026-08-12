@@ -45,10 +45,10 @@ class CatalogTest(unittest.TestCase):
         )
 
     def test_public_catalog_is_derived_from_audit(self):
-        self.assertEqual(len(self.papers), 241)
+        self.assertEqual(len(self.papers), 229)
         self.assertEqual(
             Counter(paper["entry_kind"] for paper in self.papers),
-            {"system": 214, "benchmark": 27},
+            {"system": 205, "benchmark": 24},
         )
         self.assertEqual(
             (ROOT / "data" / "papers.csv").read_text(encoding="utf-8"),
@@ -72,6 +72,34 @@ class CatalogTest(unittest.TestCase):
         )
         self.assertTrue(
             all(row["venue_id"] in self.venues for row in self.audit)
+        )
+        held_venues = {
+            "asme_idetc_cie",
+            "cc",
+            "cikm",
+            "coling",
+            "digital_discovery",
+            "ease",
+            "fdg",
+            "ieee_cog",
+            "ieee_tlt",
+            "ismir",
+            "learning_at_scale",
+            "wacv_workshops",
+        }
+        self.assertEqual(
+            {
+                venue_id
+                for venue_id, venue in self.venues.items()
+                if venue["catalog_status"] == "hold"
+            },
+            held_venues,
+        )
+        self.assertTrue(
+            all(
+                self.venues[paper["venue_id"]]["catalog_status"] == "include"
+                for paper in self.papers
+            )
         )
         for paper in self.papers:
             venue = self.venues[paper["venue_id"]]
@@ -138,13 +166,13 @@ class CatalogTest(unittest.TestCase):
         self.assertEqual(
             Counter(paper["artifact_family"] for paper in self.papers),
             {
-                "Textual Artifacts": 40,
-                "2D Visual Artifacts": 56,
-                "Audio Artifacts": 10,
+                "Textual Artifacts": 34,
+                "2D Visual Artifacts": 54,
+                "Audio Artifacts": 9,
                 "Video Artifacts": 28,
-                "Spatial Artifacts": 31,
+                "Spatial Artifacts": 29,
                 "Behavioral Artifacts": 69,
-                "": 7,
+                "": 6,
             },
         )
 
@@ -194,7 +222,7 @@ class CatalogTest(unittest.TestCase):
         papers = {paper["bib_key"]: paper for paper in self.papers}
         self.assertEqual(
             sum(bool(paper["application_domain"]) for paper in self.papers),
-            209,
+            198,
         )
         self.assertEqual(
             papers["Poster_Paper2Poster2025"]["application_domain"],
@@ -349,6 +377,14 @@ class CatalogTest(unittest.TestCase):
         self.assertIn(
             "**Multimodal & Audio:** ACM MM, IEEE TMM, and ICASSP.", rendered
         )
+        self.assertIn(
+            "**Data Mining and Information Retrieval:** KDD, The Web Conference, "
+            "SIGIR,\n  SIGMOD, VLDB, and TKDE.",
+            rendered,
+        )
+        self.assertIn(
+            "**Systems & Hardware:** DATE, DAC, and ICCAD.", rendered
+        )
         self.assertIn("monitored by this survey include:", rendered)
         self.assertIn("**Interdisciplinary & General Science:**", rendered)
         self.assertIn("Nature Machine\n  Intelligence", rendered)
@@ -363,7 +399,7 @@ class CatalogTest(unittest.TestCase):
         rendered = render_readme(self.papers, self.taxonomy)
         self.assertNotIn("<!-- catalog-badges -->", rendered)
         self.assertIn("Paper-Coming%20Soon-6854C7", rendered)
-        self.assertIn("Papers-241-2A9D8F", rendered)
+        self.assertIn("Papers-229-2A9D8F", rendered)
         self.assertIn(
             "github/last-commit/GeminiLight/"
             "awesome-agentic-artifact-creation/main",
@@ -383,27 +419,27 @@ class CatalogTest(unittest.TestCase):
 
     def test_catalog_analysis_metrics(self):
         analysis = compute_analysis(self.papers, self.taxonomy)
-        self.assertEqual(analysis.total, 241)
-        self.assertEqual(analysis.artifact_classified, 234)
-        self.assertEqual(analysis.application_classified, 209)
-        self.assertEqual(analysis.dual_classified, 202)
-        self.assertEqual(analysis.artifact_only, 32)
-        self.assertEqual(analysis.application_only, 7)
-        self.assertEqual(analysis.named_systems, 203)
-        self.assertEqual(analysis.system_count, 214)
-        self.assertEqual(analysis.source_count, 50)
+        self.assertEqual(analysis.total, 229)
+        self.assertEqual(analysis.artifact_classified, 223)
+        self.assertEqual(analysis.application_classified, 198)
+        self.assertEqual(analysis.dual_classified, 192)
+        self.assertEqual(analysis.artifact_only, 31)
+        self.assertEqual(analysis.application_only, 6)
+        self.assertEqual(analysis.named_systems, 194)
+        self.assertEqual(analysis.system_count, 205)
+        self.assertEqual(analysis.source_count, 38)
         self.assertEqual(
             [(item.year, item.total) for item in analysis.by_year],
-            [(2023, 4), (2024, 29), (2025, 97), (2026, 104)],
+            [(2023, 4), (2024, 27), (2025, 89), (2026, 103)],
         )
-        self.assertEqual(analysis.family_counts, (40, 56, 10, 28, 31, 69))
-        self.assertEqual(analysis.application_counts, (76, 7, 11, 20, 44, 51))
+        self.assertEqual(analysis.family_counts, (34, 54, 9, 28, 29, 69))
+        self.assertEqual(analysis.application_counts, (70, 7, 9, 19, 43, 50))
         self.assertEqual(
             analysis.top_pairs[:3],
             (
                 ("Behavioral Artifacts", "Engineering Design", 30),
                 ("Video Artifacts", "Creative Production", 20),
-                ("Spatial Artifacts", "Engineering Design", 18),
+                ("Spatial Artifacts", "Engineering Design", 17),
             ),
         )
 
@@ -429,7 +465,7 @@ class CatalogTest(unittest.TestCase):
             '<a href="#application-centered-view">🎯 Application-centered View</a>',
             rendered,
         )
-        self.assertIn("## [Application-centered View](#content)", rendered)
+        self.assertIn("## [🎯 Application-centered View](#content)", rendered)
         self.assertNotIn("Application-only and Cross-artifact Work", rendered)
         for domain in self.taxonomy["application_domains"]:
             self.assertIn(f"### [{domain['name']}](#content)", rendered)
@@ -480,11 +516,18 @@ class CatalogTest(unittest.TestCase):
             "📦 Artifact-centered View</a></th></tr>",
             rendered,
         )
+        self.assertIn("## [📦 Artifact-centered View](#content)", rendered)
+        self.assertIn('<a id="artifact-centered-view"></a>', rendered)
+        self.assertIn("### [Textual Artifacts](#content)", rendered)
+        self.assertIn("#### [Creative Writing](#content)", rendered)
+        self.assertIn("##### [Narratives](#content)", rendered)
+        self.assertNotIn("\n## [Textual Artifacts](#content)\n", rendered)
+        self.assertIn("## [🎯 Application-centered View](#content)", rendered)
+        self.assertIn('<a id="application-centered-view"></a>', rendered)
         self.assertIn(
             '<tr><th colspan="3"><a href="#application-centered-view">',
             rendered,
         )
-        self.assertIn('<a id="artifact-centered-view"></a>', rendered)
         self.assertNotIn('<th colspan="2">', rendered)
 
     def test_generated_readme_is_current(self):

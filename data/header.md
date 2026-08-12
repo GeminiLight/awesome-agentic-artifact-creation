@@ -51,8 +51,9 @@ monitored by this survey include:
 - **Graphics and Visualization:** SIGGRAPH, SIGGRAPH Asia, and IEEE VIS/TVCG.
 - **Human–Computer Interaction:** CHI, UIST, CSCW, and TOCHI.
 - **Data Mining and Information Retrieval:** KDD, The Web Conference, SIGIR,
-  and SIGMOD.
+  SIGMOD, VLDB, and TKDE.
 - **Software Engineering:** ICSE, FSE, ASE, and ISSTA.
+- **Systems & Hardware:** DATE, DAC, and ICCAD.
 - **Multimodal & Audio:** ACM MM, IEEE TMM, and ICASSP.
 - **Interdisciplinary & General Science:** Nature, Science, Nature Machine
   Intelligence, and Nature Computational Science.
