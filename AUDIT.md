@@ -51,10 +51,10 @@ are reviewable rather than silent.
 
 | Verdict | Count |
 |---|---:|
-| Included systems | 214 |
+| Included systems | 213 |
 | Included benchmarks | 27 |
 | Pending full-text review | 18 |
-| Excluded | 20 |
+| Excluded | 21 |
 | Audited candidates | 279 |
 
 Two entries originally labeled as systems are published as benchmarks in this

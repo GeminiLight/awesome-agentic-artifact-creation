@@ -6,7 +6,7 @@
   </p>
   <p>
     <a href="https://github.com/GeminiLight/agentic-creation-survey"><img alt="Paper: Coming Soon" src="https://img.shields.io/badge/Paper-Coming%20Soon-6854C7?style=flat-square"></a>
-    <a href="#catalog-analysis"><img alt="Papers: 229" src="https://img.shields.io/badge/Papers-229-2A9D8F?style=flat-square"></a>
+    <a href="#catalog-analysis"><img alt="Papers: 228" src="https://img.shields.io/badge/Papers-228-2A9D8F?style=flat-square"></a>
     <a href="https://github.com/GeminiLight/awesome-agentic-artifact-creation/commits/main"><img alt="Last Updated" src="https://img.shields.io/github/last-commit/GeminiLight/awesome-agentic-artifact-creation/main?style=flat-square&amp;label=Updated&amp;color=4E79A7"></a>
   </p>
 </div>
@@ -65,6 +65,10 @@ monitored by this survey include:
 ## Catalog Analysis
 
 <p align="center">
+  <img src="visualization/artifact-taxonomy-composition.svg" alt="Two-level donut chart showing artifact families and their artifact types" width="100%">
+</p>
+
+<p align="center">
   <img src="visualization/family-trends.svg" alt="Stacked bar chart showing yearly paper counts across the six artifact families" width="100%">
 </p>
 
@@ -72,12 +76,12 @@ monitored by this survey include:
   <img src="visualization/artifact-application-matrix.svg" alt="Heatmap of paper counts across artifact families and application contexts" width="100%">
 </p>
 
-- **Catalog coverage:** 229 papers spanning **2023–2026**, from **38 publication sources**; 205 systems and 24 benchmarks.
-- **Dual-axis coverage:** 192 papers (**83.8%**) carry both artifact and application labels; 31 are artifact-only and 6 application-only.
-- **Largest artifact family:** Behavioral Artifacts — **69 papers (30.1%)**.
-- **Largest application context:** Creative Production — **70 papers (30.6%)**.
+- **Catalog coverage:** 228 papers spanning **2023–2026**, from **37 publication sources**; 204 systems and 24 benchmarks.
+- **Dual-axis coverage:** 192 papers (**84.2%**) carry both artifact and application labels; 30 are artifact-only and 6 application-only.
+- **Largest artifact family:** Behavioral Artifacts — **69 papers (30.3%)**.
+- **Largest application context:** Creative Production — **70 papers (30.7%)**.
 - **Strongest cross-axis concentrations:** Behavioral Artifacts × Engineering Design — **30**, Video Artifacts × Creative Production — **20**, Spatial Artifacts × Engineering Design — **17**.
-- **System-name coverage:** 194 of 205 systems (**94.6%**) have a verified name.
+- **System-name coverage:** 193 of 204 systems (**94.6%**) have a verified name.
 
 > [!NOTE]
 > Counts describe this audited catalog rather than total field output. The audit
@@ -315,13 +319,7 @@ This primary view organizes papers by the artifact they construct.
 
     The Web Conference Companion, 2025. [Published](https://doi.org/10.1145/3701716.3715244) · [Code](https://github.com/GeminiLight/gen-mentor) · `System` · `📦 Textual Artifacts` · `🎯 Educational Support`
 
-10. **Translation Agent: Agentic Translation Using Reflection Workflow**
-
-    *Andrew Ng, Joaquin Dominguez, Nedelina Teneva, John Santerre*
-
-    GitHub, 2024. [Project](https://github.com/andrewyng/translation-agent) · `System` · `📦 Textual Artifacts`
-
-11. **AutoManual: Constructing Instruction Manuals by LLM Agents via Interactive Environmental Learning**
+10. **AutoManual: Constructing Instruction Manuals by LLM Agents via Interactive Environmental Learning**
 
     *Minghao Chen, Yihang Li, Yanting Yang, Shiyu Yu, Binbin Lin, Xiaofei He*
 
