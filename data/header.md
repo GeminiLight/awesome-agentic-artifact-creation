@@ -49,14 +49,15 @@ already covered by this release include:
 - **Machine Learning:** NeurIPS, ICML, and ICLR.
 - **Natural Language Processing:** ACL, EMNLP, NAACL, COLM, EACL, and Findings
   tracks.
-- **Computer Vision:** CVPR, ICCV, ECCV, ACM MM, and TPAMI.
+- **Computer Vision:** CVPR, ICCV, ECCV, and TPAMI.
 - **Graphics and Visualization:** SIGGRAPH, SIGGRAPH Asia, and IEEE VIS/TVCG.
 - **Human–Computer Interaction:** CHI, UIST, CSCW, and TOCHI.
 - **Data Mining and Information Retrieval:** KDD, The Web Conference, SIGIR,
   and SIGMOD.
 - **Software Engineering:** ICSE, FSE, ASE, and ISSTA.
-- **Audio and Interdisciplinary Research:** ICASSP, ISMIR, Digital Discovery,
-  and IEEE Transactions on Learning Technologies.
+- **Multimodal & Audio:** ACM MM, IEEE TMM, and ICASSP.
+- **Interdisciplinary Research:** Digital Discovery and IEEE Transactions on
+  Learning Technologies.
 
 <!-- catalog-stats -->
 

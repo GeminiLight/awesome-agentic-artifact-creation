@@ -342,6 +342,13 @@ class CatalogTest(unittest.TestCase):
         self.assertIn(
             'src="visualization/artifact-application-matrix.svg"', rendered
         )
+        self.assertIn(
+            "**Multimodal & Audio:** ACM MM, IEEE TMM, and ICASSP.", rendered
+        )
+        self.assertIn("**Interdisciplinary Research:**", rendered)
+        self.assertNotIn("**Audio:**", rendered)
+        self.assertNotIn("ISMIR", rendered[: rendered.index("## Catalog Analysis")])
+        self.assertNotIn("**Audio and Interdisciplinary Research:**", rendered)
 
     def test_header_badges_are_generated_from_catalog(self):
         rendered = render_readme(self.papers, self.taxonomy)
@@ -353,6 +360,11 @@ class CatalogTest(unittest.TestCase):
             "awesome-agentic-artifact-creation/main",
             rendered,
         )
+        badge_block = rendered[rendered.index("  <p>\n    <a") : rendered.index(
+            "  </p>", rendered.index("  <p>\n    <a")
+        )]
+        self.assertNotIn(">\n      <img", badge_block)
+        self.assertNotIn("</a>\n    </a>", badge_block)
 
     def test_license_footer_closes_generated_readme(self):
         rendered = render_readme(self.papers, self.taxonomy)
