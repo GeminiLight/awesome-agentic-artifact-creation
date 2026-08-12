@@ -2,8 +2,7 @@
   <title id="chart-title">Artifact–application coverage matrix</title>
   <desc id="chart-description">A heatmap counts papers at each intersection of artifact family and application context.</desc>
   <style>
-    :root { color-scheme: light dark; --background: #FCFBF8; --surface: #F4F3EF; --foreground: #26332E; --muted: #68756F; --grid: #DDE3DE; --frame: #C9D2CC; --heat: #2A9D8F; --family-0: #3E6280; --family-1: #B95745; --family-2: #C98C27; --family-3: #247E7A; --family-4: #657A3C; --family-5: #745995;--family-text-0: #FFFFFF; --family-text-1: #FFFFFF; --family-text-2: #2A241A; --family-text-3: #FFFFFF; --family-text-4: #FFFFFF; --family-text-5: #FFFFFF; }
-    @media (prefers-color-scheme: dark) { :root { --background: #18201E; --surface: #222C29; --foreground: #EDF2EF; --muted: #A9B5AF; --grid: #34413C; --frame: #4B5B55; --heat: #65C3B7; --family-0: #79A8D0; --family-1: #F08A78; --family-2: #F1C25B; --family-3: #5BC3BB; --family-4: #A8BD6F; --family-5: #AB8AC8;--family-text-0: #17201D; --family-text-1: #17201D; --family-text-2: #17201D; --family-text-3: #17201D; --family-text-4: #17201D; --family-text-5: #17201D; } }
+    :root { color-scheme: light; --background: #FFFFFF; --surface: #F7F9FC; --foreground: #1F2A3D; --muted: #667085; --grid: #E2E8F0; --frame: #D5DDEA; --heat: #718DCA; --family-0: #4C9D96; --family-1: #66ADD0; --family-2: #718DCA; --family-3: #9380C1; --family-4: #B777A7; --family-5: #D89368;--family-text-0: #172033; --family-text-1: #172033; --family-text-2: #172033; --family-text-3: #172033; --family-text-4: #172033; --family-text-5: #172033; }
     text { fill: var(--foreground); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
     .title { font-family: Georgia, 'Times New Roman', serif; font-size: 28px; font-weight: 700; }
     .subtitle, .note, .axis, .legend { fill: var(--muted); }
@@ -247,10 +246,10 @@
     <title>Application-only × Professional Work: 0 papers</title>
   </rect>
   <text class="segment-value" x="741.0" y="552.0" text-anchor="middle">0</text>
-  <rect x="807" y="521" width="120" height="52" rx="8" fill="var(--heat)" fill-opacity="0.290">
-    <title>Application-only × Scientific Research: 5 papers</title>
+  <rect x="807" y="521" width="120" height="52" rx="8" fill="var(--heat)" fill-opacity="0.316">
+    <title>Application-only × Scientific Research: 6 papers</title>
   </rect>
-  <text class="segment-value" x="867.0" y="552.0" text-anchor="middle">5</text>
+  <text class="segment-value" x="867.0" y="552.0" text-anchor="middle">6</text>
   <rect x="933" y="521" width="120" height="52" rx="8" fill="var(--surface)" fill-opacity="1.000">
     <title>Application-only × Engineering Design: 0 papers</title>
   </rect>
@@ -259,16 +258,16 @@
     <title>Application-only × No application label: 0 papers</title>
   </rect>
   <text class="segment-value" x="1119.0" y="552.0" text-anchor="middle">0</text>
-  <text class="value" x="1206" y="552.0">6</text>
+  <text class="value" x="1206" y="552.0">7</text>
   <text class="axis" x="1206" y="149" text-anchor="middle">Total</text>
   <text class="value" x="363.0" y="605" text-anchor="middle">70</text>
   <text class="value" x="489.0" y="605" text-anchor="middle">7</text>
   <text class="value" x="615.0" y="605" text-anchor="middle">9</text>
   <text class="value" x="741.0" y="605" text-anchor="middle">19</text>
-  <text class="value" x="867.0" y="605" text-anchor="middle">43</text>
+  <text class="value" x="867.0" y="605" text-anchor="middle">44</text>
   <text class="value" x="993.0" y="605" text-anchor="middle">50</text>
   <text class="value" x="1119.0" y="605" text-anchor="middle">30</text>
   <text class="axis" x="282" y="605" text-anchor="end">Total</text>
   <rect class="frame" x="300" y="170" width="882" height="406"/>
-  <text class="note" x="54" y="684">All 228 papers appear once. The final row and column retain entries classified on only one axis.</text>
+  <text class="note" x="54" y="684">All 229 papers appear once. The final row and column retain entries classified on only one axis.</text>
 </svg>

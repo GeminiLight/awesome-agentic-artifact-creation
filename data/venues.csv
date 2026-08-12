@@ -14,7 +14,7 @@ cikm,CIKM,ACM International Conference on Information and Knowledge Management,c
 coling,COLING,International Conference on Computational Linguistics,conference,,hold
 cvpr,CVPR,IEEE/CVF Conference on Computer Vision and Pattern Recognition,conference,,include
 date,DATE,"Design, Automation & Test in Europe Conference",conference,,include
-digital_discovery,Digital Discovery,Digital Discovery,journal,,hold
+digital_discovery,Digital Discovery,Digital Discovery,journal,,include
 eaai,EAAI,AAAI Symposium on Educational Advances in Artificial Intelligence,track,aaai,include
 ease,EASE,International Conference on Evaluation and Assessment in Software Engineering,conference,,hold
 emnlp,EMNLP,Conference on Empirical Methods in Natural Language Processing,conference,,include

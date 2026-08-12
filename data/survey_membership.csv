@@ -140,6 +140,7 @@ Data_CanLLMsIdentifyLimitations2025,true,true
 Data_DatawiseAgent2025,true,true
 Data_Jupybara2025,true,true
 Drug_DrugAgent2024,true,true
+Drug_ProtAgents2024,false,true
 Education_EduAgentQG2025,true,true
 Education_GoalOrientedLearning2025,true,true
 Game_CreatorCentric2026,true,true

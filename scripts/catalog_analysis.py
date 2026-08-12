@@ -20,39 +20,21 @@ APPLICATION_ONLY = "Application-only"
 UNCLASSIFIED_APPLICATION = "No application label"
 
 FAMILY_COLORS = (
-    "#3E6280",  # ink blue
-    "#B95745",  # terracotta
-    "#C98C27",  # ochre
-    "#247E7A",  # lagoon
-    "#657A3C",  # olive
-    "#745995",  # iris
-)
-
-FAMILY_DARK_COLORS = (
-    "#79A8D0",
-    "#F08A78",
-    "#F1C25B",
-    "#5BC3BB",
-    "#A8BD6F",
-    "#AB8AC8",
+    "#4C9D96",  # editorial teal
+    "#66ADD0",  # clear sky blue
+    "#718DCA",  # cornflower blue
+    "#9380C1",  # lavender purple
+    "#B777A7",  # orchid mauve
+    "#D89368",  # warm apricot
 )
 
 FAMILY_TEXT_COLORS = (
-    "#FFFFFF",
-    "#FFFFFF",
-    "#2A241A",
-    "#FFFFFF",
-    "#FFFFFF",
-    "#FFFFFF",
-)
-
-FAMILY_DARK_TEXT_COLORS = (
-    "#17201D",
-    "#17201D",
-    "#17201D",
-    "#17201D",
-    "#17201D",
-    "#17201D",
+    "#172033",
+    "#172033",
+    "#172033",
+    "#172033",
+    "#172033",
+    "#172033",
 )
 
 
@@ -269,14 +251,6 @@ def _svg_header(
         f"--family-text-{index}: {color};"
         for index, color in enumerate(FAMILY_TEXT_COLORS)
     )
-    dark_family_variables = " ".join(
-        f"--family-{index}: {color};"
-        for index, color in enumerate(FAMILY_DARK_COLORS)
-    )
-    dark_family_text_variables = " ".join(
-        f"--family-text-{index}: {color};"
-        for index, color in enumerate(FAMILY_DARK_TEXT_COLORS)
-    )
     return [
         (
             f'<svg xmlns="http://www.w3.org/2000/svg" '
@@ -287,21 +261,12 @@ def _svg_header(
         f'  <desc id="chart-description">{_escape(description)}</desc>',
         "  <style>",
         (
-            "    :root { color-scheme: light dark; --background: #FCFBF8; "
-            "--surface: #F4F3EF; --foreground: #26332E; --muted: #68756F; "
-            "--grid: #DDE3DE; --frame: #C9D2CC; --heat: #2A9D8F; "
+            "    :root { color-scheme: light; --background: #FFFFFF; "
+            "--surface: #F7F9FC; --foreground: #1F2A3D; --muted: #667085; "
+            "--grid: #E2E8F0; --frame: #D5DDEA; --heat: #718DCA; "
             + family_variables
             + family_text_variables
             + " }"
-        ),
-        (
-            "    @media (prefers-color-scheme: dark) { :root { "
-            "--background: #18201E; --surface: #222C29; "
-            "--foreground: #EDF2EF; --muted: #A9B5AF; --grid: #34413C; "
-            "--frame: #4B5B55; --heat: #65C3B7; "
-            + dark_family_variables
-            + dark_family_text_variables
-            + " } }"
         ),
         (
             "    text { fill: var(--foreground); font-family: -apple-system, "
@@ -617,7 +582,7 @@ def render_family_trends_chart(stats: CatalogAnalysis) -> str:
                 share = count / item.total
                 lines.extend(
                     [
-                        f'  <rect x="{x:.1f}" y="{current_y:.1f}" width="{bar_width:.1f}" height="{segment_height:.1f}" fill="var(--family-{family_index})">',
+                        f'  <rect x="{x:.1f}" y="{current_y:.1f}" width="{bar_width:.1f}" height="{segment_height:.1f}" fill="var(--family-{family_index})" stroke="var(--background)" stroke-width="1.5">',
                         f'    <title>{_escape(item.year)} · {_escape(family_name)}: {count} papers ({share:.1%})</title>',
                         "  </rect>",
                     ]

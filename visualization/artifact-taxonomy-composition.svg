@@ -2,8 +2,7 @@
   <title id="chart-title">Artifact taxonomy composition</title>
   <desc id="chart-description">A two-level donut chart shows artifact families in the inner ring and artifact types in the outer ring.</desc>
   <style>
-    :root { color-scheme: light dark; --background: #FCFBF8; --surface: #F4F3EF; --foreground: #26332E; --muted: #68756F; --grid: #DDE3DE; --frame: #C9D2CC; --heat: #2A9D8F; --family-0: #3E6280; --family-1: #B95745; --family-2: #C98C27; --family-3: #247E7A; --family-4: #657A3C; --family-5: #745995;--family-text-0: #FFFFFF; --family-text-1: #FFFFFF; --family-text-2: #2A241A; --family-text-3: #FFFFFF; --family-text-4: #FFFFFF; --family-text-5: #FFFFFF; }
-    @media (prefers-color-scheme: dark) { :root { --background: #18201E; --surface: #222C29; --foreground: #EDF2EF; --muted: #A9B5AF; --grid: #34413C; --frame: #4B5B55; --heat: #65C3B7; --family-0: #79A8D0; --family-1: #F08A78; --family-2: #F1C25B; --family-3: #5BC3BB; --family-4: #A8BD6F; --family-5: #AB8AC8;--family-text-0: #17201D; --family-text-1: #17201D; --family-text-2: #17201D; --family-text-3: #17201D; --family-text-4: #17201D; --family-text-5: #17201D; } }
+    :root { color-scheme: light; --background: #FFFFFF; --surface: #F7F9FC; --foreground: #1F2A3D; --muted: #667085; --grid: #E2E8F0; --frame: #D5DDEA; --heat: #718DCA; --family-0: #4C9D96; --family-1: #66ADD0; --family-2: #718DCA; --family-3: #9380C1; --family-4: #B777A7; --family-5: #D89368;--family-text-0: #172033; --family-text-1: #172033; --family-text-2: #172033; --family-text-3: #172033; --family-text-4: #172033; --family-text-5: #172033; }
     text { fill: var(--foreground); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
     .title { font-family: Georgia, 'Times New Roman', serif; font-size: 28px; font-weight: 700; }
     .subtitle, .note, .axis, .legend { fill: var(--muted); }
@@ -23,90 +22,90 @@
   <text class="title" x="54" y="46">Artifact taxonomy composition</text>
   <text class="subtitle" x="54" y="73">Inner ring: artifact family · Outer ring: artifact type</text>
   <circle cx="330.0" cy="390.0" r="245.0" fill="var(--surface)"/>
-  <path d="M 331.35 235.01 A 155.0 155.0 0 0 1 451.48 293.73 L 404.46 331.00 A 95.0 95.0 0 0 0 330.83 295.00 Z" fill="var(--family-0)" stroke="var(--background)" stroke-width="2">
-    <title>Textual Artifacts: 33 papers (14.5%)</title>
+  <path d="M 331.35 235.01 A 155.0 155.0 0 0 1 451.10 293.25 L 404.22 330.70 A 95.0 95.0 0 0 0 330.83 295.00 Z" fill="var(--family-0)" stroke="var(--background)" stroke-width="2">
+    <title>Textual Artifacts: 33 papers (14.4%)</title>
   </path>
-  <text class="ring-count" x="384.9" y="281.7" text-anchor="middle" style="fill:var(--family-text-0)">33</text>
-  <path d="M 330.96 145.00 A 245.0 245.0 0 0 1 382.64 150.72 L 364.81 231.78 A 162.0 162.0 0 0 0 330.64 228.00 Z" fill="var(--family-0)" fill-opacity="0.46" stroke="var(--background)" stroke-width="2">
+  <text class="ring-count" x="384.7" y="281.6" text-anchor="middle" style="fill:var(--family-text-0)">33</text>
+  <path d="M 330.96 145.00 A 245.0 245.0 0 0 1 382.41 150.67 L 364.65 231.75 A 162.0 162.0 0 0 0 330.64 228.00 Z" fill="var(--family-0)" fill-opacity="0.46" stroke="var(--background)" stroke-width="2">
     <title>Textual Artifacts · Creative Writing: 8 papers (3.5%)</title>
   </path>
-  <path d="M 384.52 151.14 A 245.0 245.0 0 0 1 495.22 209.10 L 439.25 270.38 A 162.0 162.0 0 0 0 366.05 232.06 Z" fill="var(--family-0)" fill-opacity="0.65" stroke="var(--background)" stroke-width="2">
+  <path d="M 384.29 151.09 A 245.0 245.0 0 0 1 494.64 208.56 L 438.86 270.03 A 162.0 162.0 0 0 0 365.89 232.03 Z" fill="var(--family-0)" fill-opacity="0.65" stroke="var(--background)" stroke-width="2">
     <title>Textual Artifacts · Professional Documents: 19 papers (8.3%)</title>
   </path>
-  <path d="M 496.64 210.40 A 245.0 245.0 0 0 1 522.75 238.76 L 457.45 290.00 A 162.0 162.0 0 0 0 440.19 271.24 Z" fill="var(--family-0)" fill-opacity="0.84" stroke="var(--background)" stroke-width="2">
+  <path d="M 496.06 209.86 A 245.0 245.0 0 0 1 522.14 238.00 L 457.05 289.49 A 162.0 162.0 0 0 0 439.80 270.89 Z" fill="var(--family-0)" fill-opacity="0.84" stroke="var(--background)" stroke-width="2">
     <title>Textual Artifacts · Scholarly Manuscripts: 6 papers (2.6%)</title>
   </path>
-  <path d="M 453.14 295.87 A 155.0 155.0 0 0 1 435.97 503.12 L 394.95 459.33 A 95.0 95.0 0 0 0 405.47 332.31 Z" fill="var(--family-1)" stroke="var(--background)" stroke-width="2">
-    <title>2D Visual Artifacts: 54 papers (23.7%)</title>
+  <path d="M 452.77 295.38 A 155.0 155.0 0 0 1 437.15 502.00 L 395.67 458.65 A 95.0 95.0 0 0 0 405.24 332.01 Z" fill="var(--family-1)" stroke="var(--background)" stroke-width="2">
+    <title>2D Visual Artifacts: 54 papers (23.6%)</title>
   </path>
-  <text class="ring-count" x="454.6" y="404.3" text-anchor="middle" style="fill:var(--family-text-1)">54</text>
-  <path d="M 523.93 240.28 A 245.0 245.0 0 0 1 553.98 290.70 L 478.10 324.34 A 162.0 162.0 0 0 0 458.23 291.00 Z" fill="var(--family-1)" fill-opacity="0.46" stroke="var(--background)" stroke-width="2">
+  <text class="ring-count" x="454.6" y="403.4" text-anchor="middle" style="fill:var(--family-text-1)">54</text>
+  <path d="M 523.33 239.51 A 245.0 245.0 0 0 1 553.47 289.57 L 477.76 323.60 A 162.0 162.0 0 0 0 457.84 290.49 Z" fill="var(--family-1)" fill-opacity="0.46" stroke="var(--background)" stroke-width="2">
     <title>2D Visual Artifacts · Data Visualizations: 9 papers (3.9%)</title>
   </path>
-  <path d="M 554.75 292.47 A 245.0 245.0 0 0 1 554.75 487.53 L 478.61 454.49 A 162.0 162.0 0 0 0 478.61 325.51 Z" fill="var(--family-1)" fill-opacity="0.65" stroke="var(--background)" stroke-width="2">
-    <title>2D Visual Artifacts · Illustrative Graphics: 30 papers (13.2%)</title>
+  <path d="M 554.25 291.33 A 245.0 245.0 0 0 1 555.59 485.58 L 479.16 453.20 A 162.0 162.0 0 0 0 478.28 324.76 Z" fill="var(--family-1)" fill-opacity="0.65" stroke="var(--background)" stroke-width="2">
+    <title>2D Visual Artifacts · Illustrative Graphics: 30 papers (13.1%)</title>
   </path>
-  <path d="M 553.98 489.30 A 245.0 245.0 0 0 1 496.64 569.60 L 440.19 508.76 A 162.0 162.0 0 0 0 478.10 455.66 Z" fill="var(--family-1)" fill-opacity="0.84" stroke="var(--background)" stroke-width="2">
+  <path d="M 554.83 487.35 A 245.0 245.0 0 0 1 498.51 567.84 L 441.42 507.60 A 162.0 162.0 0 0 0 478.66 454.37 Z" fill="var(--family-1)" fill-opacity="0.84" stroke="var(--background)" stroke-width="2">
     <title>2D Visual Artifacts · Visual Documents: 15 papers (6.6%)</title>
   </path>
-  <path d="M 433.98 504.95 A 155.0 155.0 0 0 1 404.96 525.67 L 375.94 473.15 A 95.0 95.0 0 0 0 393.73 460.45 Z" fill="var(--family-2)" stroke="var(--background)" stroke-width="2">
+  <path d="M 435.18 503.85 A 155.0 155.0 0 0 1 406.52 524.79 L 376.90 472.62 A 95.0 95.0 0 0 0 394.46 459.78 Z" fill="var(--family-2)" stroke="var(--background)" stroke-width="2">
     <title>Audio Artifacts: 9 papers (3.9%)</title>
   </path>
-  <text class="ring-count" x="402.6" y="495.7" text-anchor="middle" style="fill:var(--family-text-2)">9</text>
-  <path d="M 495.22 570.90 A 245.0 245.0 0 0 1 475.87 586.84 L 426.45 520.16 A 162.0 162.0 0 0 0 439.25 509.62 Z" fill="var(--family-2)" fill-opacity="0.46" stroke="var(--background)" stroke-width="2">
-    <title>Audio Artifacts · Music: 4 papers (1.8%)</title>
+  <text class="ring-count" x="403.8" y="494.9" text-anchor="middle" style="fill:var(--family-text-2)">9</text>
+  <path d="M 497.11 569.16 A 245.0 245.0 0 0 1 478.02 585.23 L 427.87 519.09 A 162.0 162.0 0 0 0 440.50 508.47 Z" fill="var(--family-2)" fill-opacity="0.46" stroke="var(--background)" stroke-width="2">
+    <title>Audio Artifacts · Music: 4 papers (1.7%)</title>
   </path>
-  <path d="M 474.32 587.98 A 245.0 245.0 0 0 1 470.39 590.79 L 422.83 522.76 A 162.0 162.0 0 0 0 425.43 520.91 Z" fill="var(--family-2)" fill-opacity="0.65" stroke="var(--background)" stroke-width="2">
+  <path d="M 476.48 586.39 A 245.0 245.0 0 0 1 472.61 589.22 L 424.30 521.73 A 162.0 162.0 0 0 0 426.86 519.86 Z" fill="var(--family-2)" fill-opacity="0.65" stroke="var(--background)" stroke-width="2">
     <title>Audio Artifacts · Spoken Audio: 1 papers (0.4%)</title>
   </path>
-  <path d="M 468.81 591.88 A 245.0 245.0 0 0 1 447.45 605.01 L 407.66 532.17 A 162.0 162.0 0 0 0 421.79 523.49 Z" fill="var(--family-2)" fill-opacity="0.84" stroke="var(--background)" stroke-width="2">
-    <title>Audio Artifacts · Family-level: 4 papers (1.8%)</title>
+  <path d="M 471.04 590.33 A 245.0 245.0 0 0 1 449.93 603.64 L 409.30 531.26 A 162.0 162.0 0 0 0 423.26 522.47 Z" fill="var(--family-2)" fill-opacity="0.84" stroke="var(--background)" stroke-width="2">
+    <title>Audio Artifacts · Family-level: 4 papers (1.7%)</title>
   </path>
-  <path d="M 402.58 526.96 A 155.0 155.0 0 0 1 289.13 539.51 L 304.95 481.64 A 95.0 95.0 0 0 0 374.48 473.94 Z" fill="var(--family-3)" stroke="var(--background)" stroke-width="2">
-    <title>Video Artifacts: 28 papers (12.3%)</title>
+  <path d="M 404.16 526.11 A 155.0 155.0 0 0 1 291.36 540.11 L 306.32 482.00 A 95.0 95.0 0 0 0 375.45 473.42 Z" fill="var(--family-3)" stroke="var(--background)" stroke-width="2">
+    <title>Video Artifacts: 28 papers (12.2%)</title>
   </path>
-  <text class="ring-count" x="343.8" y="518.2" text-anchor="middle" style="fill:var(--family-text-3)">28</text>
-  <path d="M 445.76 605.93 A 245.0 245.0 0 0 1 410.46 621.41 L 383.20 543.01 A 162.0 162.0 0 0 0 406.54 532.78 Z" fill="var(--family-3)" fill-opacity="0.46" stroke="var(--background)" stroke-width="2">
+  <text class="ring-count" x="345.4" y="518.0" text-anchor="middle" style="fill:var(--family-text-3)">28</text>
+  <path d="M 448.25 604.58 A 245.0 245.0 0 0 1 413.30 620.41 L 385.08 542.35 A 162.0 162.0 0 0 0 408.19 531.88 Z" fill="var(--family-3)" fill-opacity="0.46" stroke="var(--background)" stroke-width="2">
     <title>Video Artifacts · Expository Videos: 6 papers (2.6%)</title>
   </path>
-  <path d="M 408.64 622.04 A 245.0 245.0 0 0 1 297.30 632.81 L 308.38 550.55 A 162.0 162.0 0 0 0 382.00 543.43 Z" fill="var(--family-3)" fill-opacity="0.65" stroke="var(--background)" stroke-width="2">
-    <title>Video Artifacts · Narrative Videos: 17 papers (7.5%)</title>
+  <path d="M 411.48 621.05 A 245.0 245.0 0 0 1 300.78 633.25 L 310.68 550.84 A 162.0 162.0 0 0 0 383.88 542.78 Z" fill="var(--family-3)" fill-opacity="0.65" stroke="var(--background)" stroke-width="2">
+    <title>Video Artifacts · Narrative Videos: 17 papers (7.4%)</title>
   </path>
-  <path d="M 295.40 632.54 A 245.0 245.0 0 0 1 264.26 626.02 L 286.53 546.06 A 162.0 162.0 0 0 0 307.12 550.38 Z" fill="var(--family-3)" fill-opacity="0.84" stroke="var(--background)" stroke-width="2">
+  <path d="M 298.87 633.01 A 245.0 245.0 0 0 1 267.79 626.97 L 288.87 546.69 A 162.0 162.0 0 0 0 309.42 550.69 Z" fill="var(--family-3)" fill-opacity="0.84" stroke="var(--background)" stroke-width="2">
     <title>Video Artifacts · Video Editing and Repair: 5 papers (2.2%)</title>
   </path>
-  <path d="M 286.52 538.78 A 155.0 155.0 0 0 1 194.33 464.96 L 246.85 435.94 A 95.0 95.0 0 0 0 303.35 481.19 Z" fill="var(--family-4)" stroke="var(--background)" stroke-width="2">
+  <path d="M 288.75 539.41 A 155.0 155.0 0 0 1 195.73 467.44 L 247.71 437.47 A 95.0 95.0 0 0 0 304.72 481.57 Z" fill="var(--family-4)" stroke="var(--background)" stroke-width="2">
     <title>Spatial Artifacts: 29 papers (12.7%)</title>
   </path>
-  <text class="ring-count" x="251.9" y="491.6" text-anchor="middle" style="fill:var(--family-text-4)">29</text>
-  <path d="M 262.41 625.49 A 245.0 245.0 0 0 1 196.80 595.63 L 241.93 525.97 A 162.0 162.0 0 0 0 285.31 545.71 Z" fill="var(--family-4)" fill-opacity="0.46" stroke="var(--background)" stroke-width="2">
+  <text class="ring-count" x="253.5" y="492.9" text-anchor="middle" style="fill:var(--family-text-4)">29</text>
+  <path d="M 265.93 626.47 A 245.0 245.0 0 0 1 200.16 597.77 L 244.15 527.38 A 162.0 162.0 0 0 0 287.64 546.36 Z" fill="var(--family-4)" fill-opacity="0.46" stroke="var(--background)" stroke-width="2">
     <title>Spatial Artifacts · 3D Assets: 11 papers (4.8%)</title>
   </path>
-  <path d="M 195.19 594.58 A 245.0 245.0 0 0 1 114.99 507.45 L 187.83 467.66 A 162.0 162.0 0 0 0 240.86 525.27 Z" fill="var(--family-4)" fill-opacity="0.84" stroke="var(--background)" stroke-width="2">
+  <path d="M 198.53 596.74 A 245.0 245.0 0 0 1 117.19 511.39 L 189.28 470.27 A 162.0 162.0 0 0 0 243.07 526.70 Z" fill="var(--family-4)" fill-opacity="0.84" stroke="var(--background)" stroke-width="2">
     <title>Spatial Artifacts · 3D Scenes: 18 papers (7.9%)</title>
   </path>
-  <path d="M 193.04 462.58 A 155.0 155.0 0 0 1 303.15 237.34 L 313.55 296.44 A 95.0 95.0 0 0 0 246.06 434.48 Z" fill="var(--family-5)" stroke="var(--background)" stroke-width="2">
-    <title>Behavioral Artifacts: 69 papers (30.3%)</title>
+  <path d="M 194.40 465.09 A 155.0 155.0 0 0 1 299.09 238.11 L 311.05 296.91 A 95.0 95.0 0 0 0 246.89 436.02 Z" fill="var(--family-5)" stroke="var(--background)" stroke-width="2">
+    <title>Behavioral Artifacts: 69 papers (30.1%)</title>
   </path>
-  <text class="ring-count" x="217.7" y="339.1" text-anchor="middle" style="fill:var(--family-text-5)">69</text>
-  <path d="M 114.07 505.76 A 245.0 245.0 0 0 1 236.91 163.37 L 268.45 240.15 A 162.0 162.0 0 0 0 187.22 466.54 Z" fill="var(--family-5)" fill-opacity="0.46" stroke="var(--background)" stroke-width="2">
-    <title>Behavioral Artifacts · Software Systems: 61 papers (26.8%)</title>
+  <text class="ring-count" x="216.5" y="341.6" text-anchor="middle" style="fill:var(--family-text-5)">69</text>
+  <path d="M 116.24 509.72 A 245.0 245.0 0 0 1 231.11 165.84 L 264.61 241.78 A 162.0 162.0 0 0 0 188.66 469.16 Z" fill="var(--family-5)" fill-opacity="0.46" stroke="var(--background)" stroke-width="2">
+    <title>Behavioral Artifacts · Software Systems: 61 papers (26.6%)</title>
   </path>
-  <path d="M 238.70 162.65 A 245.0 245.0 0 0 1 288.73 148.50 L 302.71 230.32 A 162.0 162.0 0 0 0 269.63 239.67 Z" fill="var(--family-5)" fill-opacity="0.84" stroke="var(--background)" stroke-width="2">
+  <path d="M 232.87 165.08 A 245.0 245.0 0 0 1 282.29 149.69 L 298.45 231.10 A 162.0 162.0 0 0 0 265.78 241.27 Z" fill="var(--family-5)" fill-opacity="0.84" stroke="var(--background)" stroke-width="2">
     <title>Behavioral Artifacts · Simulation Models: 8 papers (3.5%)</title>
   </path>
-  <path d="M 305.82 236.90 A 155.0 155.0 0 0 1 328.65 235.01 L 329.17 295.00 A 95.0 95.0 0 0 0 315.18 296.16 Z" fill="var(--muted)" stroke="var(--background)" stroke-width="2">
-    <title>Application-only: 6 papers (2.6%)</title>
+  <path d="M 301.74 237.60 A 155.0 155.0 0 0 1 328.65 235.01 L 329.17 295.00 A 95.0 95.0 0 0 0 312.68 296.59 Z" fill="var(--muted)" stroke="var(--background)" stroke-width="2">
+    <title>Application-only: 7 papers (3.1%)</title>
   </path>
-  <text class="ring-count" x="319.7" y="269.4" text-anchor="middle" style="fill:var(--background)">6</text>
-  <path d="M 290.62 148.18 A 245.0 245.0 0 0 1 329.04 145.00 L 329.36 228.00 A 162.0 162.0 0 0 0 303.96 230.11 Z" fill="var(--muted)" fill-opacity="0.78" stroke="var(--background)" stroke-width="2">
-    <title>Application-only · Application-only: 6 papers (2.6%)</title>
+  <text class="ring-count" x="318.0" y="269.6" text-anchor="middle" style="fill:var(--background)">7</text>
+  <path d="M 284.18 149.32 A 245.0 245.0 0 0 1 329.04 145.00 L 329.36 228.00 A 162.0 162.0 0 0 0 299.70 230.86 Z" fill="var(--muted)" fill-opacity="0.78" stroke="var(--background)" stroke-width="2">
+    <title>Application-only · Application-only: 7 papers (3.1%)</title>
   </path>
   <circle cx="330.0" cy="390.0" r="91.0" fill="var(--background)"/>
-  <text class="center-total" x="330.0" y="386.0" text-anchor="middle">228</text>
+  <text class="center-total" x="330.0" y="386.0" text-anchor="middle">229</text>
   <text class="center-label" x="330.0" y="412.0" text-anchor="middle">catalog papers</text>
   <rect x="650" y="141" width="15" height="15" rx="3" fill="var(--family-0)"/>
-  <text class="label" x="674" y="154">Textual Artifacts · 33 (14.5%)</text>
+  <text class="label" x="674" y="154">Textual Artifacts · 33 (14.4%)</text>
   <circle cx="657" cy="178" r="4" fill="var(--family-0)" fill-opacity="0.46"/>
   <text class="legend" x="670" y="182">Creative Writing · 8 (3.5%)</text>
   <circle cx="657" cy="199" r="4" fill="var(--family-0)" fill-opacity="0.65"/>
@@ -114,27 +113,27 @@
   <circle cx="657" cy="220" r="4" fill="var(--family-0)" fill-opacity="0.84"/>
   <text class="legend" x="670" y="224">Scholarly Manuscripts · 6 (2.6%)</text>
   <rect x="650" y="307" width="15" height="15" rx="3" fill="var(--family-1)"/>
-  <text class="label" x="674" y="320">2D Visual Artifacts · 54 (23.7%)</text>
+  <text class="label" x="674" y="320">2D Visual Artifacts · 54 (23.6%)</text>
   <circle cx="657" cy="344" r="4" fill="var(--family-1)" fill-opacity="0.46"/>
   <text class="legend" x="670" y="348">Data Visualizations · 9 (3.9%)</text>
   <circle cx="657" cy="365" r="4" fill="var(--family-1)" fill-opacity="0.65"/>
-  <text class="legend" x="670" y="369">Illustrative Graphics · 30 (13.2%)</text>
+  <text class="legend" x="670" y="369">Illustrative Graphics · 30 (13.1%)</text>
   <circle cx="657" cy="386" r="4" fill="var(--family-1)" fill-opacity="0.84"/>
   <text class="legend" x="670" y="390">Visual Documents · 15 (6.6%)</text>
   <rect x="650" y="473" width="15" height="15" rx="3" fill="var(--family-2)"/>
   <text class="label" x="674" y="486">Audio Artifacts · 9 (3.9%)</text>
   <circle cx="657" cy="510" r="4" fill="var(--family-2)" fill-opacity="0.46"/>
-  <text class="legend" x="670" y="514">Music · 4 (1.8%)</text>
+  <text class="legend" x="670" y="514">Music · 4 (1.7%)</text>
   <circle cx="657" cy="531" r="4" fill="var(--family-2)" fill-opacity="0.65"/>
   <text class="legend" x="670" y="535">Spoken Audio · 1 (0.4%)</text>
   <circle cx="657" cy="552" r="4" fill="var(--family-2)" fill-opacity="0.84"/>
-  <text class="legend" x="670" y="556">Family-level · 4 (1.8%)</text>
+  <text class="legend" x="670" y="556">Family-level · 4 (1.7%)</text>
   <rect x="980" y="141" width="15" height="15" rx="3" fill="var(--family-3)"/>
-  <text class="label" x="1004" y="154">Video Artifacts · 28 (12.3%)</text>
+  <text class="label" x="1004" y="154">Video Artifacts · 28 (12.2%)</text>
   <circle cx="987" cy="178" r="4" fill="var(--family-3)" fill-opacity="0.46"/>
   <text class="legend" x="1000" y="182">Expository Videos · 6 (2.6%)</text>
   <circle cx="987" cy="199" r="4" fill="var(--family-3)" fill-opacity="0.65"/>
-  <text class="legend" x="1000" y="203">Narrative Videos · 17 (7.5%)</text>
+  <text class="legend" x="1000" y="203">Narrative Videos · 17 (7.4%)</text>
   <circle cx="987" cy="220" r="4" fill="var(--family-3)" fill-opacity="0.84"/>
   <text class="legend" x="1000" y="224">Video Editing and Repair · 5 (2.2%)</text>
   <rect x="980" y="307" width="15" height="15" rx="3" fill="var(--family-4)"/>
@@ -144,12 +143,12 @@
   <circle cx="987" cy="365" r="4" fill="var(--family-4)" fill-opacity="0.84"/>
   <text class="legend" x="1000" y="369">3D Scenes · 18 (7.9%)</text>
   <rect x="980" y="473" width="15" height="15" rx="3" fill="var(--family-5)"/>
-  <text class="label" x="1004" y="486">Behavioral Artifacts · 69 (30.3%)</text>
+  <text class="label" x="1004" y="486">Behavioral Artifacts · 69 (30.1%)</text>
   <circle cx="987" cy="510" r="4" fill="var(--family-5)" fill-opacity="0.46"/>
-  <text class="legend" x="1000" y="514">Software Systems · 61 (26.8%)</text>
+  <text class="legend" x="1000" y="514">Software Systems · 61 (26.6%)</text>
   <circle cx="987" cy="531" r="4" fill="var(--family-5)" fill-opacity="0.84"/>
   <text class="legend" x="1000" y="535">Simulation Models · 8 (3.5%)</text>
   <rect x="650" y="641" width="15" height="15" rx="3" fill="var(--muted)"/>
-  <text class="label" x="674" y="654">Application-only · 6 (2.6%)</text>
-  <text class="note" x="54" y="694">All 228 papers are represented; family-level records retain no finer artifact-type assignment.</text>
+  <text class="label" x="674" y="654">Application-only · 7 (3.1%)</text>
+  <text class="note" x="54" y="694">All 229 papers are represented; family-level records retain no finer artifact-type assignment.</text>
 </svg>
