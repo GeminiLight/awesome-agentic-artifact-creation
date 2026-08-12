@@ -9,8 +9,9 @@ The candidate snapshot combines the 156 entries in
 `reference/survey-core-papers.csv` with 50 Chapter 5-only supporting works from
 `reference/survey-papers.csv` of the
 [Agentic Artifact Creation survey](https://github.com/GeminiLight/agentic-creation-survey).
-All 206 records are retained in the decision ledger. The public catalog is
-still derived only from `include_system` and `include_benchmark`; importing a
+The original 206 records and 39 additional ICLR, ICML, and NeurIPS candidates
+are retained in the 245-row decision ledger. The public catalog is still
+derived only from `include_system` and `include_benchmark`; importing a
 supporting work does not guarantee its inclusion.
 
 ## Audit columns
@@ -78,3 +79,6 @@ python3 -m unittest discover -s tests
 
 The README generator also refreshes the deterministic Catalog Analysis charts
 in `visualization/`.
+
+The generated README combines the hand-maintained `header.md` and `footer.md`
+with the two catalog views derived from `papers.csv`.

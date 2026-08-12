@@ -19,6 +19,7 @@ ROOT = Path(__file__).resolve().parent.parent
 PAPERS_PATH = ROOT / "data" / "papers.csv"
 TAXONOMY_PATH = ROOT / "data" / "taxonomy.json"
 HEADER_PATH = ROOT / "data" / "header.md"
+FOOTER_PATH = ROOT / "data" / "footer.md"
 README_PATH = ROOT / "README.md"
 STATS_MARKER = "<!-- catalog-stats -->"
 BADGES_MARKER = "<!-- catalog-badges -->"
@@ -324,7 +325,7 @@ def render_statistics(
             '<p align="center">',
             (
                 '  <img src="visualization/family-trends.svg" '
-                'alt="Stacked count and share charts showing yearly coverage of '
+                'alt="Stacked bar chart showing yearly paper counts across '
                 'the six artifact families" width="100%">'
             ),
             "</p>",
@@ -403,8 +404,12 @@ def render_readme(
     papers: list[dict[str, str]],
     taxonomy: dict[str, list[dict[str, object]]],
     header_path: Path = HEADER_PATH,
+    footer_path: Path = FOOTER_PATH,
 ) -> str:
     header = header_path.read_text(encoding="utf-8")
+    footer = footer_path.read_text(encoding="utf-8").strip()
+    if not footer:
+        raise CatalogValidationError(f"footer must not be empty: {footer_path}")
     if header.count(BADGES_MARKER) != 1:
         raise CatalogValidationError(
             f"expected exactly one {BADGES_MARKER!r} marker in {header_path}"
@@ -577,6 +582,7 @@ def render_readme(
             continue
         lines.extend([f"### [{domain['name']}](#content)", ""])
         append_papers(domain_rows)
+    lines.extend(["", footer])
     return "\n".join(lines).rstrip() + "\n"
 
 
