@@ -24,9 +24,10 @@ taxonomy.
    established. Leave unknown or inapplicable classification cells empty; do
    not write `N/A`.
 3. Select a registered `venue_id`. If the venue is new, add one canonical row
-   to `data/venues.csv`; keep the year in the paper row rather than the venue
-   display name. Prefer an archival conference or journal URL, using an arXiv
-   abstract URL only when no formal version has been established.
+   to `data/venues.csv`; set its `catalog_status` to `include` or `hold`, and
+   keep the year in the paper row rather than the venue display name. Prefer an
+   archival conference or journal URL, using an arXiv abstract URL only when no
+   formal version has been established.
 4. Set `name` to the author-assigned system, benchmark, or primary-method name
    stated in the abstract or full text. Use `N/A` if the work does not name
    one; do not derive a label from the title or `bib_key`.

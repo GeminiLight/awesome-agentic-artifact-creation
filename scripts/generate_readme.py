@@ -494,7 +494,18 @@ def render_readme(
         for _ in range(3 - len(domain_batch)):
             lines.append("<td></td>")
         lines.append("</tr>")
-    lines.extend(["</table>", "", '<a id="artifact-centered-view"></a>', ""])
+    lines.extend(
+        [
+            "</table>",
+            "",
+            '<a id="artifact-centered-view"></a>',
+            "",
+            "## [📦 Artifact-centered View](#content)",
+            "",
+            "This primary view organizes papers by the artifact they construct.",
+            "",
+        ]
+    )
 
     def append_papers(rows: list[dict[str, str]]) -> None:
         for paper_index, paper in enumerate(rows, start=1):
@@ -537,7 +548,7 @@ def render_readme(
             for subtype in ["", *artifact_type["subtypes"]]
         ):
             continue
-        lines.extend([f"## [{family_name}](#content)", ""])
+        lines.extend([f"### [{family_name}](#content)", ""])
         append_papers(family_rows)
         for artifact_type in family["types"]:
             type_name = artifact_type["name"]
@@ -548,18 +559,20 @@ def render_readme(
             }
             if not type_rows and not any(subtype_rows.values()):
                 continue
-            lines.extend([f"### [{type_name}](#content)", ""])
+            lines.extend([f"#### [{type_name}](#content)", ""])
             append_papers(type_rows)
             for subtype, rows in subtype_rows.items():
                 if not rows:
                     continue
-                lines.extend([f"#### [{subtype}](#content)", ""])
+                lines.extend([f"##### [{subtype}](#content)", ""])
                 append_papers(rows)
         lines.append("")
 
     lines.extend(
         [
-            "## [Application-centered View](#content)",
+            '<a id="application-centered-view"></a>',
+            "",
+            "## [🎯 Application-centered View](#content)",
             "",
             "This alternate view re-indexes application-classified papers by their "
             "use context. Papers classified on both axes therefore appear in both "

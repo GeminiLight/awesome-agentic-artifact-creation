@@ -1,9 +1,9 @@
 # Catalog data
 
 `audit.csv` is the decision ledger. `papers.csv` is derived from its two
-inclusion verdicts and is the source rendered into the root `README.md`.
-`venues.csv` is the controlled registry for publication and source names used
-by both files.
+inclusion verdicts for venues currently marked `include` and is the source
+rendered into the root `README.md`. `venues.csv` is the controlled registry for
+publication and source names used by both files.
 
 The candidate snapshot combines the 156 entries in
 `reference/survey-core-papers.csv` with 50 Chapter 5-only supporting works from
@@ -12,9 +12,9 @@ The candidate snapshot combines the 156 entries in
 The original 206 records, 39 additional ICLR, ICML, and NeurIPS candidates,
 18 additional KDD, The Web Conference, and SIGIR candidates, and 16 additional
 ACM Multimedia candidates are retained in the 279-row decision ledger. The
-public catalog is still
-derived only from `include_system` and `include_benchmark`; importing a
-supporting work does not guarantee its inclusion.
+public catalog requires both an `include_system` or `include_benchmark` verdict
+and an `include` venue status; importing a supporting work does not guarantee
+its inclusion.
 
 ## Audit columns
 
@@ -67,9 +67,12 @@ See [`../AUDIT.md`](../AUDIT.md) for the inclusion rule and limitations.
 - `bib_key`: stable key inherited from the survey bibliography.
 
 `taxonomy.json` is the controlled vocabulary for both classification axes.
-`venues.csv` provides the canonical README label, full name, venue kind, and
-optional parent venue for each `venue_id`. Artifact-only, application-only,
-and jointly classified rows are valid, but at least one axis must be populated.
+`venues.csv` provides the canonical README label, full name, venue kind,
+optional parent venue, and `catalog_status` for each `venue_id`. Use `include`
+for sources eligible for `papers.csv` and `hold` for sources retained in the
+audit ledger but temporarily omitted from the public catalog. Artifact-only,
+application-only, and jointly classified rows are valid, but at least one axis
+must be populated.
 
 After editing the CSV, run:
 
