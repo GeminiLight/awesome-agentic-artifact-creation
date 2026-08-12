@@ -29,26 +29,26 @@ class CatalogTest(unittest.TestCase):
         cls.papers = load_papers(taxonomy=cls.taxonomy, venues=cls.venues)
 
     def test_audit_covers_current_candidate_set(self):
-        self.assertEqual(len(self.audit), 206)
+        self.assertEqual(len(self.audit), 245)
         self.assertEqual(
             Counter(row["original_role"] for row in self.audit),
-            {"system": 147, "benchmark": 9, "supporting": 50},
+            {"system": 178, "benchmark": 17, "supporting": 50},
         )
         self.assertEqual(
             Counter(row["audit_verdict"] for row in self.audit),
             {
-                "include_system": 162,
-                "include_benchmark": 15,
+                "include_system": 193,
+                "include_benchmark": 23,
                 "pending_full_text": 9,
                 "exclude": 20,
             },
         )
 
     def test_public_catalog_is_derived_from_audit(self):
-        self.assertEqual(len(self.papers), 177)
+        self.assertEqual(len(self.papers), 216)
         self.assertEqual(
             Counter(paper["entry_kind"] for paper in self.papers),
-            {"system": 162, "benchmark": 15},
+            {"system": 193, "benchmark": 23},
         )
         self.assertEqual(
             (ROOT / "data" / "papers.csv").read_text(encoding="utf-8"),
@@ -134,12 +134,12 @@ class CatalogTest(unittest.TestCase):
         self.assertEqual(
             Counter(paper["artifact_family"] for paper in self.papers),
             {
-                "Textual Artifacts": 32,
-                "2D Visual Artifacts": 45,
+                "Textual Artifacts": 35,
+                "2D Visual Artifacts": 52,
                 "Audio Artifacts": 9,
                 "Video Artifacts": 25,
-                "Spatial Artifacts": 24,
-                "Behavioral Artifacts": 35,
+                "Spatial Artifacts": 27,
+                "Behavioral Artifacts": 61,
                 "": 7,
             },
         )
@@ -190,7 +190,7 @@ class CatalogTest(unittest.TestCase):
         papers = {paper["bib_key"]: paper for paper in self.papers}
         self.assertEqual(
             sum(bool(paper["application_domain"]) for paper in self.papers),
-            153,
+            190,
         )
         self.assertEqual(
             papers["Poster_Paper2Poster2025"]["application_domain"],
@@ -205,7 +205,7 @@ class CatalogTest(unittest.TestCase):
         )
         self.assertEqual(
             sum(bool(row["application_domain"]) for row in self.audit),
-            180,
+            217,
         )
 
     def test_chapter_five_supporting_import_is_audited(self):
@@ -347,36 +347,42 @@ class CatalogTest(unittest.TestCase):
         rendered = render_readme(self.papers, self.taxonomy)
         self.assertNotIn("<!-- catalog-badges -->", rendered)
         self.assertIn("Paper-Coming%20Soon-6854C7", rendered)
-        self.assertIn("Papers-177-2A9D8F", rendered)
+        self.assertIn("Papers-216-2A9D8F", rendered)
         self.assertIn(
             "github/last-commit/GeminiLight/"
             "awesome-agentic-artifact-creation/main",
             rendered,
         )
 
+    def test_license_footer_closes_generated_readme(self):
+        rendered = render_readme(self.papers, self.taxonomy)
+        self.assertEqual(rendered.count("## License"), 1)
+        self.assertTrue(rendered.rstrip().endswith("third-party works."))
+        self.assertIn("[CC BY 4.0](LICENSE)", rendered)
+
     def test_catalog_analysis_metrics(self):
         analysis = compute_analysis(self.papers, self.taxonomy)
-        self.assertEqual(analysis.total, 177)
-        self.assertEqual(analysis.artifact_classified, 170)
-        self.assertEqual(analysis.application_classified, 153)
-        self.assertEqual(analysis.dual_classified, 146)
-        self.assertEqual(analysis.artifact_only, 24)
+        self.assertEqual(analysis.total, 216)
+        self.assertEqual(analysis.artifact_classified, 209)
+        self.assertEqual(analysis.application_classified, 190)
+        self.assertEqual(analysis.dual_classified, 183)
+        self.assertEqual(analysis.artifact_only, 26)
         self.assertEqual(analysis.application_only, 7)
-        self.assertEqual(analysis.named_systems, 154)
-        self.assertEqual(analysis.system_count, 162)
+        self.assertEqual(analysis.named_systems, 185)
+        self.assertEqual(analysis.system_count, 193)
         self.assertEqual(analysis.source_count, 47)
         self.assertEqual(
             [(item.year, item.total) for item in analysis.by_year],
-            [(2024, 13), (2025, 75), (2026, 82)],
+            [(2023, 1), (2024, 24), (2025, 90), (2026, 94)],
         )
-        self.assertEqual(analysis.family_counts, (32, 45, 9, 25, 24, 35))
-        self.assertEqual(analysis.application_counts, (63, 5, 11, 14, 34, 26))
+        self.assertEqual(analysis.family_counts, (35, 52, 9, 25, 27, 61))
+        self.assertEqual(analysis.application_counts, (69, 5, 11, 18, 42, 45))
         self.assertEqual(
             analysis.top_pairs[:3],
             (
+                ("Behavioral Artifacts", "Engineering Design", 26),
                 ("Video Artifacts", "Creative Production", 19),
-                ("2D Visual Artifacts", "Scientific Research", 15),
-                ("Spatial Artifacts", "Engineering Design", 14),
+                ("2D Visual Artifacts", "Scientific Research", 16),
             ),
         )
 
@@ -388,6 +394,13 @@ class CatalogTest(unittest.TestCase):
             self.assertIn("<svg", expected)
             self.assertIn("color-scheme: light dark", expected)
             self.assertIn('role="img"', expected)
+        family_chart = next(
+            content
+            for path, content in outputs.items()
+            if path.name == "family-trends.svg"
+        )
+        self.assertIn("Artifact-family paper counts over time", family_chart)
+        self.assertNotIn("Share within artifact-classified papers", family_chart)
 
     def test_application_view_reindexes_all_classified_papers(self):
         rendered = render_readme(self.papers, self.taxonomy)
@@ -414,7 +427,8 @@ class CatalogTest(unittest.TestCase):
         rendered = render_readme(self.papers, self.taxonomy)
         self.assertIn(
             "ACL, 2025. [Published](https://aclanthology.org/2025.acl-long.773/) "
-            "· `System` · `📦 Textual Artifacts` · `🎯 Creative Production`",
+            "· [Code](https://github.com/alienet1109/BookWorld) · `System` "
+            "· `📦 Textual Artifacts` · `🎯 Creative Production`",
             rendered,
         )
         self.assertIn(

@@ -11,9 +11,8 @@ python3 scripts/generate_readme.py
 python3 scripts/generate_readme.py --check
 ```
 
-- `family-trends.svg` shows annual paper counts and within-year shares for the
-  six artifact families. Application-only entries are disclosed but excluded
-  from the family denominator.
+- `family-trends.svg` shows annual paper counts for the six artifact families.
+  Application-only entries are disclosed but excluded from the family totals.
 - `artifact-application-matrix.svg` counts every included paper once across the
   two independent classification axes, retaining one-axis-only entries in the
   final row or column.

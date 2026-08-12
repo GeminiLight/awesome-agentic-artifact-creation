@@ -18,12 +18,39 @@ APPLICATION_ONLY = "Application-only"
 UNCLASSIFIED_APPLICATION = "No application label"
 
 FAMILY_COLORS = (
-    "#4E79A7",  # blue
-    "#E15759",  # coral
-    "#F2BE42",  # amber
-    "#B07AA1",  # violet
-    "#59A14F",  # green
-    "#2A9D8F",  # teal
+    "#3E6280",  # ink blue
+    "#B95745",  # terracotta
+    "#C98C27",  # ochre
+    "#247E7A",  # lagoon
+    "#657A3C",  # olive
+    "#745995",  # iris
+)
+
+FAMILY_DARK_COLORS = (
+    "#79A8D0",
+    "#F08A78",
+    "#F1C25B",
+    "#5BC3BB",
+    "#A8BD6F",
+    "#AB8AC8",
+)
+
+FAMILY_TEXT_COLORS = (
+    "#FFFFFF",
+    "#FFFFFF",
+    "#2A241A",
+    "#FFFFFF",
+    "#FFFFFF",
+    "#FFFFFF",
+)
+
+FAMILY_DARK_TEXT_COLORS = (
+    "#17201D",
+    "#17201D",
+    "#17201D",
+    "#17201D",
+    "#17201D",
+    "#17201D",
 )
 
 
@@ -200,6 +227,18 @@ def _svg_header(
         f"--family-{index}: {color};"
         for index, color in enumerate(FAMILY_COLORS)
     )
+    family_text_variables = " ".join(
+        f"--family-text-{index}: {color};"
+        for index, color in enumerate(FAMILY_TEXT_COLORS)
+    )
+    dark_family_variables = " ".join(
+        f"--family-{index}: {color};"
+        for index, color in enumerate(FAMILY_DARK_COLORS)
+    )
+    dark_family_text_variables = " ".join(
+        f"--family-text-{index}: {color};"
+        for index, color in enumerate(FAMILY_DARK_TEXT_COLORS)
+    )
     return [
         (
             f'<svg xmlns="http://www.w3.org/2000/svg" '
@@ -214,13 +253,17 @@ def _svg_header(
             "--surface: #F4F3EF; --foreground: #26332E; --muted: #68756F; "
             "--grid: #DDE3DE; --frame: #C9D2CC; --heat: #2A9D8F; "
             + family_variables
+            + family_text_variables
             + " }"
         ),
         (
             "    @media (prefers-color-scheme: dark) { :root { "
             "--background: #18201E; --surface: #222C29; "
             "--foreground: #EDF2EF; --muted: #A9B5AF; --grid: #34413C; "
-            "--frame: #4B5B55; --heat: #65C3B7; } }"
+            "--frame: #4B5B55; --heat: #65C3B7; "
+            + dark_family_variables
+            + dark_family_text_variables
+            + " } }"
         ),
         (
             "    text { fill: var(--foreground); font-family: -apple-system, "
@@ -240,6 +283,7 @@ def _svg_header(
             "paint-order: stroke; stroke: var(--background); stroke-width: 3px; "
             "stroke-linejoin: round; }"
         ),
+        "    .bar-segment-value { font-size: 12px; font-weight: 700; letter-spacing: 0.01em; }",
         "    .grid { stroke: var(--grid); stroke-width: 1; }",
         "    .frame { fill: none; stroke: var(--frame); stroke-width: 1; }",
         "  </style>",
@@ -248,30 +292,28 @@ def _svg_header(
 
 
 def render_family_trends_chart(stats: CatalogAnalysis) -> str:
-    width, height = 1200, 790
+    width, height = 1200, 590
     plot_left, plot_right = 110, 1140
-    count_top, count_bottom = 188, 458
-    share_top, share_bottom = 566, 694
+    count_top, count_bottom = 188, 492
     plot_width = plot_right - plot_left
     count_height = count_bottom - count_top
-    share_height = share_bottom - share_top
     slot = plot_width / len(stats.by_year)
-    bar_width = min(150.0, slot * 0.5)
+    bar_width = min(172.0, slot * 0.54)
     maximum = _axis_maximum(max(item.total for item in stats.by_year))
     tick_step = 20 if maximum > 50 else 10
 
     lines = _svg_header(
         width,
         height,
-        "Artifact-family coverage over time",
-        "Stacked bars compare annual counts and shares for six artifact families.",
+        "Artifact-family paper counts over time",
+        "Stacked bars compare annual paper counts across six artifact families.",
     )
     lines.extend(
         [
-            '  <text class="title" x="54" y="46">Artifact-family coverage over time</text>',
+            '  <text class="title" x="54" y="46">Artifact-family paper counts over time</text>',
             (
-                '  <text class="subtitle" x="54" y="73">Annual counts and '
-                'composition across the six artifact families</text>'
+                '  <text class="subtitle" x="54" y="73">Annual catalog '
+                'coverage across the six artifact families</text>'
             ),
         ]
     )
@@ -322,7 +364,7 @@ def render_family_trends_chart(stats: CatalogAnalysis) -> str:
                 )
                 if segment_height >= 20:
                     lines.append(
-                        f'  <text class="segment-value" x="{center:.1f}" y="{current_y + segment_height / 2 + 4:.1f}" text-anchor="middle">{count}</text>'
+                        f'  <text class="bar-segment-value" x="{center:.1f}" y="{current_y + segment_height / 2 + 4:.1f}" text-anchor="middle" style="fill:var(--family-text-{family_index})">{count}</text>'
                     )
         lines.extend(
             [
@@ -334,48 +376,8 @@ def render_family_trends_chart(stats: CatalogAnalysis) -> str:
     lines.extend(
         [
             f'  <rect class="frame" x="{plot_left}" y="{count_top}" width="{plot_width}" height="{count_height}"/>',
-            '  <text class="label" x="54" y="548">Share within artifact-classified papers</text>',
-            f'  <rect x="{plot_left}" y="{share_top}" width="{plot_width}" height="{share_height}" rx="10" fill="var(--surface)"/>',
-        ]
-    )
-    for tick in (0, 25, 50, 75, 100):
-        y = share_bottom - tick / 100 * share_height
-        lines.extend(
-            [
-                f'  <line class="grid" x1="{plot_left}" y1="{y:.1f}" x2="{plot_right}" y2="{y:.1f}"/>',
-                f'  <text class="axis" x="{plot_left - 13}" y="{y + 4:.1f}" text-anchor="end">{tick}%</text>',
-            ]
-        )
-
-    for year_index, item in enumerate(stats.by_year):
-        center = plot_left + slot * (year_index + 0.5)
-        x = center - bar_width / 2
-        current_y = float(share_bottom)
-        for family_index, count in enumerate(item.counts):
-            segment_height = count / item.total * share_height
-            current_y -= segment_height
-            if count:
-                share = count / item.total
-                lines.extend(
-                    [
-                        f'  <rect x="{x:.1f}" y="{current_y:.1f}" width="{bar_width:.1f}" height="{segment_height:.1f}" fill="var(--family-{family_index})">',
-                        f'    <title>{_escape(item.year)} · {_escape(stats.family_names[family_index])}: {share:.1%}</title>',
-                        "  </rect>",
-                    ]
-                )
-                if segment_height >= 18:
-                    lines.append(
-                        f'  <text class="segment-value" x="{center:.1f}" y="{current_y + segment_height / 2 + 4:.1f}" text-anchor="middle">{share:.0%}</text>'
-                    )
-        lines.append(
-            f'  <text class="label" x="{center:.1f}" y="{share_bottom + 26}" text-anchor="middle">{item.year}</text>'
-        )
-
-    lines.extend(
-        [
-            f'  <rect class="frame" x="{plot_left}" y="{share_top}" width="{plot_width}" height="{share_height}"/>',
             (
-                f'  <text class="note" x="54" y="758">Artifact-classified '
+                f'  <text class="note" x="54" y="558">Artifact-classified '
                 f'papers only (n={stats.artifact_classified}); '
                 f'{stats.application_only} application-only entries are excluded. '
                 f'{stats.latest_year} is incomplete.</text>'
