@@ -15,7 +15,13 @@ from generate_readme import (  # noqa: E402
     markdown_text,
     render_readme,
 )
-from build_catalog import derive_papers, load_audit, render_papers  # noqa: E402
+from build_catalog import (  # noqa: E402
+    derive_papers,
+    derive_survey_membership,
+    load_audit,
+    render_papers,
+    render_survey_membership,
+)
 from catalog_analysis import build_chart_outputs, compute_analysis  # noqa: E402
 from venue_registry import load_venues  # noqa: E402
 
@@ -53,6 +59,27 @@ class CatalogTest(unittest.TestCase):
         self.assertEqual(
             (ROOT / "data" / "papers.csv").read_text(encoding="utf-8"),
             render_papers(derive_papers(self.audit, self.venues)),
+        )
+
+    def test_survey_membership_is_derived_from_public_views(self):
+        membership = derive_survey_membership(self.papers)
+        self.assertEqual(len(membership), 228)
+        self.assertEqual(
+            Counter(
+                (row["artifact_view"], row["application_view"])
+                for row in membership
+            ),
+            {
+                ("true", "true"): 192,
+                ("true", "false"): 30,
+                ("false", "true"): 6,
+            },
+        )
+        self.assertEqual(
+            (ROOT / "data" / "survey_membership.csv").read_text(
+                encoding="utf-8"
+            ),
+            render_survey_membership(membership),
         )
 
     def test_published_entries_use_archival_links(self):
