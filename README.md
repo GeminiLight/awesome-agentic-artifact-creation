@@ -47,7 +47,7 @@ defined.
 The catalog considers representative venues across AI, computing, design, and
 domain research. The list is indicative rather than exhaustive; relevant
 workshops, journals, and preprints are also considered. Representative venues
-already covered by this release include:
+monitored by this survey include:
 
 - **Artificial Intelligence:** AAAI and IJCAI.
 - **Machine Learning:** NeurIPS, ICML, and ICLR.
@@ -60,8 +60,8 @@ already covered by this release include:
   and SIGMOD.
 - **Software Engineering:** ICSE, FSE, ASE, and ISSTA.
 - **Multimodal & Audio:** ACM MM, IEEE TMM, and ICASSP.
-- **Interdisciplinary Research:** Digital Discovery and IEEE Transactions on
-  Learning Technologies.
+- **Interdisciplinary & General Science:** Nature, Science, Nature Machine
+  Intelligence, and Nature Computational Science.
 
 ## Catalog Analysis
 
