@@ -37,18 +37,18 @@ class CatalogTest(unittest.TestCase):
         self.assertEqual(
             Counter(row["audit_verdict"] for row in self.audit),
             {
-                "include_system": 214,
+                "include_system": 213,
                 "include_benchmark": 27,
                 "pending_full_text": 18,
-                "exclude": 20,
+                "exclude": 21,
             },
         )
 
     def test_public_catalog_is_derived_from_audit(self):
-        self.assertEqual(len(self.papers), 229)
+        self.assertEqual(len(self.papers), 228)
         self.assertEqual(
             Counter(paper["entry_kind"] for paper in self.papers),
-            {"system": 205, "benchmark": 24},
+            {"system": 204, "benchmark": 24},
         )
         self.assertEqual(
             (ROOT / "data" / "papers.csv").read_text(encoding="utf-8"),
@@ -166,7 +166,7 @@ class CatalogTest(unittest.TestCase):
         self.assertEqual(
             Counter(paper["artifact_family"] for paper in self.papers),
             {
-                "Textual Artifacts": 34,
+                "Textual Artifacts": 33,
                 "2D Visual Artifacts": 54,
                 "Audio Artifacts": 9,
                 "Video Artifacts": 28,
@@ -370,6 +370,9 @@ class CatalogTest(unittest.TestCase):
         self.assertLess(scope_position, analysis_position)
         self.assertLess(analysis_position, content_position)
         self.assertNotIn("## Catalog at a glance", rendered)
+        self.assertIn(
+            'src="visualization/artifact-taxonomy-composition.svg"', rendered
+        )
         self.assertIn('src="visualization/family-trends.svg"', rendered)
         self.assertIn(
             'src="visualization/artifact-application-matrix.svg"', rendered
@@ -399,7 +402,7 @@ class CatalogTest(unittest.TestCase):
         rendered = render_readme(self.papers, self.taxonomy)
         self.assertNotIn("<!-- catalog-badges -->", rendered)
         self.assertIn("Paper-Coming%20Soon-6854C7", rendered)
-        self.assertIn("Papers-229-2A9D8F", rendered)
+        self.assertIn("Papers-228-2A9D8F", rendered)
         self.assertIn(
             "github/last-commit/GeminiLight/"
             "awesome-agentic-artifact-creation/main",
@@ -419,20 +422,31 @@ class CatalogTest(unittest.TestCase):
 
     def test_catalog_analysis_metrics(self):
         analysis = compute_analysis(self.papers, self.taxonomy)
-        self.assertEqual(analysis.total, 229)
-        self.assertEqual(analysis.artifact_classified, 223)
+        self.assertEqual(analysis.total, 228)
+        self.assertEqual(analysis.artifact_classified, 222)
         self.assertEqual(analysis.application_classified, 198)
         self.assertEqual(analysis.dual_classified, 192)
-        self.assertEqual(analysis.artifact_only, 31)
+        self.assertEqual(analysis.artifact_only, 30)
         self.assertEqual(analysis.application_only, 6)
-        self.assertEqual(analysis.named_systems, 194)
-        self.assertEqual(analysis.system_count, 205)
-        self.assertEqual(analysis.source_count, 38)
+        self.assertEqual(analysis.named_systems, 193)
+        self.assertEqual(analysis.system_count, 204)
+        self.assertEqual(analysis.source_count, 37)
         self.assertEqual(
             [(item.year, item.total) for item in analysis.by_year],
-            [(2023, 4), (2024, 27), (2025, 89), (2026, 103)],
+            [(2023, 4), (2024, 26), (2025, 89), (2026, 103)],
         )
-        self.assertEqual(analysis.family_counts, (34, 54, 9, 28, 29, 69))
+        self.assertEqual(analysis.family_counts, (33, 54, 9, 28, 29, 69))
+        self.assertEqual(
+            analysis.family_type_counts,
+            (
+                (8, 19, 6),
+                (9, 30, 15),
+                (4, 1, 4),
+                (6, 17, 5),
+                (11, 18),
+                (61, 8),
+            ),
+        )
         self.assertEqual(analysis.application_counts, (70, 7, 9, 19, 43, 50))
         self.assertEqual(
             analysis.top_pairs[:3],
@@ -445,7 +459,7 @@ class CatalogTest(unittest.TestCase):
 
     def test_generated_visualizations_are_current(self):
         outputs = build_chart_outputs(self.papers, self.taxonomy)
-        self.assertEqual(len(outputs), 2)
+        self.assertEqual(len(outputs), 3)
         for path, expected in outputs.items():
             self.assertEqual(path.read_text(encoding="utf-8"), expected)
             self.assertIn("<svg", expected)
@@ -458,6 +472,14 @@ class CatalogTest(unittest.TestCase):
         )
         self.assertIn("Artifact-family paper counts over time", family_chart)
         self.assertNotIn("Share within artifact-classified papers", family_chart)
+        composition_chart = next(
+            content
+            for path, content in outputs.items()
+            if path.name == "artifact-taxonomy-composition.svg"
+        )
+        self.assertIn("Artifact taxonomy composition", composition_chart)
+        self.assertIn("Application-only", composition_chart)
+        self.assertIn("Family-level", composition_chart)
 
     def test_application_view_reindexes_all_classified_papers(self):
         rendered = render_readme(self.papers, self.taxonomy)

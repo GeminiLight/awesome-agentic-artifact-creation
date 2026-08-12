@@ -11,6 +11,9 @@
     .note, .axis, .legend { font-size: 13px; }
     .label { font-size: 14px; font-weight: 600; }
     .value { font-size: 13px; font-weight: 700; }
+    .center-total { font-size: 34px; font-weight: 700; }
+    .center-label { fill: var(--muted); font-size: 13px; }
+    .ring-count { font-size: 13px; font-weight: 700; pointer-events: none; }
     .segment-value { font-size: 12px; font-weight: 700; paint-order: stroke; stroke: var(--background); stroke-width: 3px; stroke-linejoin: round; }
     .bar-segment-value { font-size: 12px; font-weight: 700; letter-spacing: 0.01em; }
     .grid { stroke: var(--grid); stroke-width: 1; }
@@ -72,11 +75,11 @@
     <title>Textual Artifacts × Engineering Design: 1 papers</title>
   </rect>
   <text class="segment-value" x="993.0" y="204.0" text-anchor="middle">1</text>
-  <rect x="1059" y="173" width="120" height="52" rx="8" fill="var(--heat)" fill-opacity="0.264">
-    <title>Textual Artifacts × No application label: 4 papers</title>
+  <rect x="1059" y="173" width="120" height="52" rx="8" fill="var(--heat)" fill-opacity="0.238">
+    <title>Textual Artifacts × No application label: 3 papers</title>
   </rect>
-  <text class="segment-value" x="1119.0" y="204.0" text-anchor="middle">4</text>
-  <text class="value" x="1206" y="204.0">34</text>
+  <text class="segment-value" x="1119.0" y="204.0" text-anchor="middle">3</text>
+  <text class="value" x="1206" y="204.0">33</text>
   <text class="label" x="282" y="262.0" text-anchor="end">2D Visual Artifacts</text>
   <rect x="303" y="231" width="120" height="52" rx="8" fill="var(--heat)" fill-opacity="0.498">
     <title>2D Visual Artifacts × Creative Production: 13 papers</title>
@@ -264,8 +267,8 @@
   <text class="value" x="741.0" y="605" text-anchor="middle">19</text>
   <text class="value" x="867.0" y="605" text-anchor="middle">43</text>
   <text class="value" x="993.0" y="605" text-anchor="middle">50</text>
-  <text class="value" x="1119.0" y="605" text-anchor="middle">31</text>
+  <text class="value" x="1119.0" y="605" text-anchor="middle">30</text>
   <text class="axis" x="282" y="605" text-anchor="end">Total</text>
   <rect class="frame" x="300" y="170" width="882" height="406"/>
-  <text class="note" x="54" y="684">All 229 papers appear once. The final row and column retain entries classified on only one axis.</text>
+  <text class="note" x="54" y="684">All 228 papers appear once. The final row and column retain entries classified on only one axis.</text>
 </svg>

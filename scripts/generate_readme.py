@@ -324,6 +324,14 @@ def render_statistics(
             "",
             '<p align="center">',
             (
+                '  <img src="visualization/artifact-taxonomy-composition.svg" '
+                'alt="Two-level donut chart showing artifact families and '
+                'their artifact types" width="100%">'
+            ),
+            "</p>",
+            "",
+            '<p align="center">',
+            (
                 '  <img src="visualization/family-trends.svg" '
                 'alt="Stacked bar chart showing yearly paper counts across '
                 'the six artifact families" width="100%">'
