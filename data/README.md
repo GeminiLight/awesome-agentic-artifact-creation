@@ -10,8 +10,9 @@ The candidate snapshot combines the 156 entries in
 `reference/survey-papers.csv` of the
 [Agentic Artifact Creation survey](https://github.com/GeminiLight/agentic-creation-survey).
 The original 206 records, 39 additional ICLR, ICML, and NeurIPS candidates,
-and 18 additional KDD, The Web Conference, and SIGIR candidates are retained
-in the 263-row decision ledger. The public catalog is still
+18 additional KDD, The Web Conference, and SIGIR candidates, and 16 additional
+ACM Multimedia candidates are retained in the 279-row decision ledger. The
+public catalog is still
 derived only from `include_system` and `include_benchmark`; importing a
 supporting work does not guarantee its inclusion.
 
