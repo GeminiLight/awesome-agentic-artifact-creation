@@ -2,8 +2,10 @@
 
 `audit.csv` is the decision ledger. `papers.csv` is derived from its two
 inclusion verdicts for venues currently marked `include` and is the source
-rendered into the root `README.md`. `venues.csv` is the controlled registry for
-publication and source names used by both files.
+rendered into the root `README.md`. `survey_membership.csv` is derived from
+`papers.csv` and records which public view or views contain each entry.
+`venues.csv` is the controlled registry for publication and source names used
+by these files.
 
 The candidate snapshot combines the 156 entries in
 `reference/survey-core-papers.csv` with 50 Chapter 5-only supporting works from
@@ -28,8 +30,9 @@ its inclusion.
   than `N/A`.
 - `venue_id`: stable identifier registered in `venues.csv`. Store the year only
   in `year`; do not create year-specific venue names.
-- `original_role`: `system`, `benchmark`, or `supporting` in the imported
-  survey corpus.
+- `original_role`: legacy import provenance (`system`, `benchmark`, or
+  `supporting`) retained only for audit traceability. It is not a current
+  catalog classification and is not copied into `papers.csv`.
 - `audit_verdict`: `include_system`, `include_benchmark`,
   `pending_full_text`, or `exclude`.
 - `confidence`: calibrated decision confidence.
@@ -65,6 +68,19 @@ See [`../AUDIT.md`](../AUDIT.md) for the inclusion rule and limitations.
 - `title`, `link`, `authors`: bibliographic display fields.
 - `code`: optional implementation URL.
 - `bib_key`: stable key inherited from the survey bibliography.
+
+## Survey membership columns
+
+`survey_membership.csv` contains one row for every public `papers.csv` entry:
+
+- `bib_key`: stable key joining the membership row to `papers.csv`.
+- `artifact_view`: `true` when the entry has an artifact classification and
+  therefore appears in the Artifact-centered View.
+- `application_view`: `true` when the entry has an application classification
+  and therefore appears in the Application-centered View.
+
+Both view fields may be `true`. This file does not define a `core` versus
+`supporting` hierarchy.
 
 `taxonomy.json` is the controlled vocabulary for both classification axes.
 `venues.csv` provides the canonical README label, full name, venue kind,

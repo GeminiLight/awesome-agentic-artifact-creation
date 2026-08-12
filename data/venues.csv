@@ -46,7 +46,7 @@ modelsward,MODELSWARD,International Conference on Model-Driven Engineering and S
 naacl,NAACL,Conference of the Nations of the Americas Chapter of the Association for Computational Linguistics,conference,,include
 nature_computational_science,Nature Computational Science,Nature Computational Science,journal,,include
 neurips,NeurIPS,Conference on Neural Information Processing Systems,conference,,include
-pacmmod_sigmod,PACMMOD (SIGMOD),Proceedings of the ACM on Management of Data,journal,,include
+pacmmod_sigmod,SIGMOD,Proceedings of the ACM on Management of Data,journal,,include
 siggraph,SIGGRAPH,ACM SIGGRAPH Annual Conference,conference,,include
 siggraph_asia,SIGGRAPH Asia,ACM SIGGRAPH Conference and Exhibition on Computer Graphics and Interactive Techniques in Asia,conference,,include
 sigir,SIGIR,ACM SIGIR Conference on Research and Development in Information Retrieval,conference,,include

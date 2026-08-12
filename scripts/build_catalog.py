@@ -18,6 +18,7 @@ from venue_registry import load_venues, venue_assignment_error
 ROOT = Path(__file__).resolve().parent.parent
 AUDIT_PATH = ROOT / "data" / "audit.csv"
 PAPERS_PATH = ROOT / "data" / "papers.csv"
+SURVEY_MEMBERSHIP_PATH = ROOT / "data" / "survey_membership.csv"
 TAXONOMY_PATH = ROOT / "data" / "taxonomy.json"
 
 AUDIT_COLUMNS = (
@@ -62,6 +63,11 @@ PAPER_COLUMNS = (
     "authors",
     "code",
     "bib_key",
+)
+SURVEY_MEMBERSHIP_COLUMNS = (
+    "bib_key",
+    "artifact_view",
+    "application_view",
 )
 ALLOWED_VERDICTS = {
     "include_system",
@@ -283,31 +289,72 @@ def render_papers(rows: list[dict[str, str]]) -> str:
     return output.getvalue()
 
 
+def derive_survey_membership(
+    papers: list[dict[str, str]],
+) -> list[dict[str, str]]:
+    return [
+        {
+            "bib_key": paper["bib_key"],
+            "artifact_view": str(bool(paper["artifact_family"])).lower(),
+            "application_view": str(bool(paper["application_domain"])).lower(),
+        }
+        for paper in papers
+    ]
+
+
+def render_survey_membership(rows: list[dict[str, str]]) -> str:
+    output = io.StringIO(newline="")
+    writer = csv.DictWriter(
+        output,
+        fieldnames=SURVEY_MEMBERSHIP_COLUMNS,
+        lineterminator="\n",
+    )
+    writer.writeheader()
+    writer.writerows(rows)
+    return output.getvalue()
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "--check",
         action="store_true",
-        help="fail if data/papers.csv does not match the audited inclusion verdicts",
+        help="fail if generated catalog CSVs do not match the audited records",
     )
     args = parser.parse_args()
 
     venues = load_venues()
     audit = load_audit(venues=venues)
     papers = derive_papers(audit, venues)
-    rendered = render_papers(papers)
+    rendered_papers = render_papers(papers)
+    membership = derive_survey_membership(papers)
+    rendered_membership = render_survey_membership(membership)
     if args.check:
-        current = PAPERS_PATH.read_text(encoding="utf-8") if PAPERS_PATH.exists() else ""
-        if current != rendered:
-            print("data/papers.csv is out of date; run scripts/build_catalog.py", file=sys.stderr)
+        stale_paths = []
+        for path, expected in (
+            (PAPERS_PATH, rendered_papers),
+            (SURVEY_MEMBERSHIP_PATH, rendered_membership),
+        ):
+            current = path.read_text(encoding="utf-8") if path.exists() else ""
+            if current != expected:
+                stale_paths.append(path.relative_to(ROOT))
+        if stale_paths:
+            stale = ", ".join(str(path) for path in stale_paths)
+            print(
+                f"generated catalog CSVs are out of date: {stale}; "
+                "run scripts/build_catalog.py",
+                file=sys.stderr,
+            )
             return 1
         return 0
 
-    PAPERS_PATH.write_text(rendered, encoding="utf-8")
+    PAPERS_PATH.write_text(rendered_papers, encoding="utf-8")
+    SURVEY_MEMBERSHIP_PATH.write_text(rendered_membership, encoding="utf-8")
     verdicts = Counter(row["audit_verdict"] for row in audit)
     print(
         f"wrote {PAPERS_PATH.relative_to(ROOT)} with {len(papers)} entries "
-        f"from {len(audit)} audited candidates ({dict(verdicts)})"
+        f"and {SURVEY_MEMBERSHIP_PATH.relative_to(ROOT)} from "
+        f"{len(audit)} audited candidates ({dict(verdicts)})"
     )
     return 0
 

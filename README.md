@@ -378,7 +378,7 @@ This primary view organizes papers by the artifact they construct.
 
     *Jinwei Lu, Yuanfeng Song, Chen Zhang, Raymond Chi-Wing Wong*
 
-    PACMMOD (SIGMOD), 2026. [Published](https://doi.org/10.1145/3786670) · `System` · `📦 2D Visual Artifacts` · `🎯 Professional Work`
+    SIGMOD, 2026. [Published](https://doi.org/10.1145/3786670) · `System` · `📦 2D Visual Artifacts` · `🎯 Professional Work`
 
 3. **A2P-Vis: an Analyzer-to-Presenter Agentic Pipeline for Visual Insights Generation and Reporting**
 
@@ -2139,7 +2139,7 @@ This alternate view re-indexes application-classified papers by their use contex
 
     *Jinwei Lu, Yuanfeng Song, Chen Zhang, Raymond Chi-Wing Wong*
 
-    PACMMOD (SIGMOD), 2026. [Published](https://doi.org/10.1145/3786670) · `System` · `📦 2D Visual Artifacts` · `🎯 Professional Work`
+    SIGMOD, 2026. [Published](https://doi.org/10.1145/3786670) · `System` · `📦 2D Visual Artifacts` · `🎯 Professional Work`
 
 9. **A2P-Vis: an Analyzer-to-Presenter Agentic Pipeline for Visual Insights Generation and Reporting**
 
