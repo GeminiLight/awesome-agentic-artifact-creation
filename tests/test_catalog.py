@@ -430,17 +430,28 @@ class CatalogTest(unittest.TestCase):
         self.assertIn(
             "geminilight.github.io/awesome-agentic-artifact-creation/", rendered
         )
-        self.assertIn("Website-Explore-66ADD0", rendered)
-        self.assertIn("Paper-Coming%20Soon-9380C1", rendered)
+        self.assertIn('src="assets/badge-website.svg" height="56"', rendered)
+        self.assertIn('src="assets/badge-paper.svg" height="56"', rendered)
         self.assertIn("Papers-229-4C9D96", rendered)
+        self.assertIn("Venues-38-D58B68", rendered)
         self.assertIn(
             "github/last-commit/GeminiLight/"
             "awesome-agentic-artifact-creation/main",
             rendered,
         )
-        badge_block = rendered[rendered.index("  <p>\n    <a") : rendered.index(
-            "  </p>", rendered.index("  <p>\n    <a")
-        )]
+        first_badge_row = rendered[
+            rendered.index("  <p>\n    <a") : rendered.index(
+                "  </p>", rendered.index("  <p>\n    <a")
+            )
+        ]
+        self.assertIn("badge-website.svg", first_badge_row)
+        self.assertIn("badge-paper.svg", first_badge_row)
+        self.assertNotIn("Papers-229", first_badge_row)
+        badge_block = rendered[
+            rendered.index("  <p>\n    <a") : rendered.index(
+                "</div>", rendered.index("  <p>\n    <a")
+            )
+        ]
         self.assertNotIn(">\n      <img", badge_block)
         self.assertNotIn("</a>\n    </a>", badge_block)
 

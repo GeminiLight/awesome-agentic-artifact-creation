@@ -372,25 +372,31 @@ def render_statistics(
 
 
 def render_badges(papers: list[dict[str, str]]) -> str:
+    venue_count = len({paper["venue_id"] for paper in papers})
     return "\n".join(
         [
             "  <p>",
             (
                 '    <a href="https://geminilight.github.io/'
                 'awesome-agentic-artifact-creation/"><img '
-                'alt="Website: Explore" '
-                'src="https://img.shields.io/badge/Website-Explore-66ADD0'
-                '?style=flat-square"></a>'
+                'alt="Website — Explore the catalog" '
+                'src="assets/badge-website.svg" height="56"></a>&nbsp;&nbsp;'
             ),
             (
                 '    <a href="https://github.com/GeminiLight/'
-                'agentic-creation-survey"><img alt="Paper: Coming Soon" '
-                'src="https://img.shields.io/badge/Paper-Coming%20Soon-9380C1'
-                '?style=flat-square"></a>'
+                'agentic-creation-survey"><img alt="Survey paper — Coming soon" '
+                'src="assets/badge-paper.svg" height="56"></a>'
             ),
+            "  </p>",
+            "  <p>",
             (
                 f'    <a href="#catalog-analysis"><img alt="Papers: {len(papers)}" '
                 f'src="https://img.shields.io/badge/Papers-{len(papers)}-4C9D96'
+                '?style=flat-square"></a>'
+            ),
+            (
+                f'    <a href="#survey-scope"><img alt="Venues: {venue_count}" '
+                f'src="https://img.shields.io/badge/Venues-{venue_count}-D58B68'
                 '?style=flat-square"></a>'
             ),
             (

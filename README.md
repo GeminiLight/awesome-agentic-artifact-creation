@@ -5,9 +5,12 @@
     revise, and maintain artifacts.
   </p>
   <p>
-    <a href="https://geminilight.github.io/awesome-agentic-artifact-creation/"><img alt="Website: Explore" src="https://img.shields.io/badge/Website-Explore-66ADD0?style=flat-square"></a>
-    <a href="https://github.com/GeminiLight/agentic-creation-survey"><img alt="Paper: Coming Soon" src="https://img.shields.io/badge/Paper-Coming%20Soon-9380C1?style=flat-square"></a>
+    <a href="https://geminilight.github.io/awesome-agentic-artifact-creation/"><img alt="Website — Explore the catalog" src="assets/badge-website.svg" height="56"></a>&nbsp;&nbsp;
+    <a href="https://github.com/GeminiLight/agentic-creation-survey"><img alt="Survey paper — Coming soon" src="assets/badge-paper.svg" height="56"></a>
+  </p>
+  <p>
     <a href="#catalog-analysis"><img alt="Papers: 229" src="https://img.shields.io/badge/Papers-229-4C9D96?style=flat-square"></a>
+    <a href="#survey-scope"><img alt="Venues: 38" src="https://img.shields.io/badge/Venues-38-D58B68?style=flat-square"></a>
     <a href="https://github.com/GeminiLight/awesome-agentic-artifact-creation/commits/main"><img alt="Last Updated" src="https://img.shields.io/github/last-commit/GeminiLight/awesome-agentic-artifact-creation/main?style=flat-square&amp;label=Updated&amp;color=718DCA"></a>
   </p>
 </div>
