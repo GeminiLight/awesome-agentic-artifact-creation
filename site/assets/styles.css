@@ -73,6 +73,19 @@ img {
   display: none !important;
 }
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 :focus-visible {
   outline: 3px solid rgba(76, 157, 150, 0.5);
   outline-offset: 3px;
@@ -390,6 +403,283 @@ img {
   font-weight: 400;
   letter-spacing: -0.04em;
   line-height: 1;
+}
+
+.loop-explainer {
+  border-bottom: 1px solid var(--line);
+}
+
+.loop-intro {
+  max-width: 760px;
+}
+
+.loop-intro h2 {
+  margin: 0;
+  font-family: var(--font-editorial);
+  font-size: clamp(42px, 4.7vw, 70px);
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+}
+
+.loop-intro > p:last-child {
+  max-width: 590px;
+  margin: 25px 0 0;
+  color: var(--ink-soft);
+  font-size: 18px;
+  line-height: 1.65;
+}
+
+.loop-stage {
+  margin-top: 64px;
+  border-top: 1px solid var(--ink);
+}
+
+.loop-viewport {
+  position: relative;
+  min-height: 500px;
+  aspect-ratio: 16 / 7;
+  overflow: hidden;
+  border-bottom: 1px solid var(--line-strong);
+  background: var(--paper);
+  isolation: isolate;
+  cursor: default;
+}
+
+.loop-viewport.has-stage-hover {
+  cursor: pointer;
+}
+
+.loop-viewport::after {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.42),
+    transparent 18%,
+    transparent 82%,
+    rgba(255, 255, 255, 0.22)
+  );
+  content: "";
+  pointer-events: none;
+}
+
+.loop-viewport canvas,
+.loop-fallback {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.loop-viewport canvas {
+  z-index: 1;
+  display: block;
+  opacity: 0;
+  transition: opacity 500ms ease;
+}
+
+.loop-fallback {
+  z-index: 1;
+  object-fit: contain;
+  background: var(--paper);
+  transition: opacity 420ms ease;
+}
+
+.loop-stage.is-ready .loop-viewport canvas {
+  opacity: 1;
+}
+
+.loop-stage.is-ready .loop-fallback {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.loop-label-layer {
+  position: absolute;
+  z-index: 4;
+  inset: 0;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 240ms ease;
+}
+
+.loop-label-layer > span {
+  position: absolute;
+  width: max-content;
+  transform: translate(-50%, -50%);
+}
+
+.loop-role-label {
+  max-width: 190px;
+  padding-bottom: 7px;
+  color: var(--loop-stage-color, var(--ink));
+  font-size: clamp(10px, 0.86vw, 14px);
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  line-height: 1.28;
+  text-align: center;
+  text-transform: uppercase;
+  text-shadow:
+    0 0 12px var(--paper),
+    0 0 12px var(--paper),
+    0 0 12px var(--paper);
+  transition: color 160ms ease, transform 160ms ease;
+}
+
+.loop-role-label strong,
+.loop-role-label small {
+  display: block;
+}
+
+.loop-role-label small {
+  margin-top: 5px;
+  color: #14245c;
+  font-size: clamp(8px, 0.69vw, 11px);
+  font-weight: 650;
+  letter-spacing: 0;
+  line-height: 1.35;
+  text-transform: none;
+}
+
+.loop-role-label-task {
+  max-width: 145px;
+}
+
+.loop-role-label-task small {
+  margin-top: 10px;
+}
+
+.loop-role-label::after {
+  position: absolute;
+  right: 36%;
+  bottom: 0;
+  left: 36%;
+  height: 2px;
+  background: currentColor;
+  content: "";
+  opacity: 0.72;
+  transition: right 180ms ease, left 180ms ease, opacity 180ms ease;
+}
+
+.loop-role-label.is-active {
+  color: var(--loop-stage-color, var(--ink));
+  transform: translate(-50%, -50%) translateY(-2px);
+}
+
+.loop-role-label.is-active::after {
+  right: 18%;
+  left: 18%;
+  opacity: 1;
+}
+
+.loop-frame-label {
+  padding: 2px 14px;
+  color: #133782;
+  background: rgba(255, 255, 255, 0.94);
+  font-size: clamp(11px, 1vw, 15px);
+  font-weight: 850;
+  letter-spacing: 0.05em;
+  line-height: 1.1;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.loop-flow-label {
+  min-width: 72px;
+  padding: 6px 11px;
+  border: 1px solid rgba(198, 208, 221, 0.92);
+  border-radius: 4px;
+  color: #15357f;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 7px 16px rgba(39, 59, 83, 0.13);
+  font-size: clamp(8px, 0.74vw, 11px);
+  font-weight: 850;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.loop-flow-label-feedback {
+  display: inline-flex;
+  min-width: 118px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: #167e82;
+}
+
+.loop-flow-label-feedback .ph {
+  font-size: 14px;
+}
+
+.loop-progress {
+  display: none;
+}
+
+.loop-progress-mark {
+  width: 6px;
+  height: 6px;
+  background: var(--teal);
+  box-shadow: 0 0 0 4px rgba(76, 157, 150, 0.13);
+}
+
+.loop-stage-footer {
+  display: flex;
+  min-height: 62px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.loop-stage-footer p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.loop-motion-toggle {
+  display: none;
+  min-height: 36px;
+  align-items: center;
+  gap: 7px;
+  padding: 0;
+  border: 0;
+  color: var(--ink-soft);
+  background: transparent;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.loop-stage.is-ready .loop-label-layer {
+  visibility: visible;
+  opacity: 1;
+}
+
+.loop-stage.is-ready .loop-motion-toggle {
+  display: inline-flex;
+}
+
+.loop-motion-toggle:hover {
+  color: #2f746e;
+}
+
+.loop-motion-toggle:active {
+  transform: translateY(1px);
+}
+
+.loop-motion-toggle .ph {
+  color: var(--teal);
+  font-size: 15px;
+}
+
+.loop-stage.is-fallback .loop-label-layer,
+.loop-stage.is-fallback .loop-progress {
+  display: none;
 }
 
 .scope {
@@ -1644,6 +1934,14 @@ button.application-item {
     min-width: 850px;
   }
 
+  .loop-stage {
+    margin-top: 48px;
+  }
+
+  .loop-viewport {
+    min-height: 390px;
+  }
+
   .catalog-heading,
   .analysis .section-intro,
   .about-grid {
@@ -1722,6 +2020,34 @@ button.application-item {
 
   .hero-actions {
     display: grid;
+  }
+
+  .loop-intro h2 {
+    font-size: clamp(38px, 12vw, 56px);
+  }
+
+  .loop-intro > p:last-child {
+    font-size: 16px;
+  }
+
+  .loop-stage {
+    margin-top: 38px;
+  }
+
+  .loop-viewport {
+    min-height: 230px;
+    aspect-ratio: 16 / 8;
+    background-size: 48px 48px;
+    cursor: default;
+  }
+
+  .loop-stage-footer {
+    min-height: 54px;
+  }
+
+  .loop-stage-footer p {
+    max-width: 270px;
+    font-size: 11px;
   }
 
   .button {

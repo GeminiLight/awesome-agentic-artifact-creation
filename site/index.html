@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="assets/styles.css">
     <script src="assets/app.js" defer></script>
     <script type="module" src="assets/charts.js"></script>
+    <script type="module" src="assets/construction-loop.js"></script>
   </head>
   <body data-catalog-url="data/catalog.json">
     <a class="skip-link" href="#catalog">Skip to the paper catalog</a>
@@ -110,6 +111,79 @@
             <dd data-stat="dual_classified">...</dd>
           </div>
         </dl>
+      </section>
+
+      <section class="loop-explainer section-shell section-block" aria-labelledby="loop-title">
+        <div class="loop-intro reveal">
+          <p class="eyebrow">Interactive framework</p>
+          <h2 id="loop-title">A live construction loop.</h2>
+          <p>
+            Follow actions, observations, verification, and feedback as an
+            artifact takes shape.
+          </p>
+        </div>
+
+        <div class="loop-stage reveal" data-construction-loop>
+          <div
+            class="loop-viewport"
+            role="img"
+            aria-describedby="loop-description"
+          >
+            <p class="sr-only" id="loop-description">
+              An interactive three-dimensional construction loop. A task
+              specification enters the construction policy, which acts on an
+              operational representation. Runtime verification observes the
+              result and either accepts a delivered artifact or returns
+              feedback to the policy.
+            </p>
+            <img
+              class="loop-fallback"
+              src="assets/fig2-construction-process.png"
+              alt=""
+              aria-hidden="true"
+            >
+            <div class="loop-label-layer" aria-hidden="true">
+              <span class="loop-frame-label" data-loop-label="loop">Construction loop</span>
+              <span class="loop-role-label loop-role-label-task" data-loop-label="task">
+                <strong>Task specification</strong>
+                <small>goal · constraints<br>acceptance criteria</small>
+              </span>
+              <span class="loop-role-label" data-loop-label="policy">
+                <strong>Construction<br>policy</strong>
+                <small>select · allocate<br>continue or revise</small>
+              </span>
+              <span class="loop-role-label" data-loop-label="representation">
+                <strong>Operational<br>representation</strong>
+                <small>intermediate form · edit interface</small>
+              </span>
+              <span class="loop-role-label" data-loop-label="verification">
+                <strong>Runtime<br>verification</strong>
+                <small>observe consequences<br>assess against task criteria</small>
+              </span>
+              <span class="loop-role-label" data-loop-label="artifact">
+                <strong>Delivered<br>artifact</strong>
+              </span>
+              <span class="loop-flow-label" data-loop-label="action">Action</span>
+              <span class="loop-flow-label" data-loop-label="observation">Observation</span>
+              <span class="loop-flow-label" data-loop-label="accept">Accept</span>
+              <span class="loop-flow-label loop-flow-label-feedback" data-loop-label="feedback">
+                <i class="ph ph-arrow-left" aria-hidden="true"></i>Feedback
+              </span>
+            </div>
+            <div class="loop-progress" aria-hidden="true">
+              <span class="loop-progress-mark"></span>
+              <span data-loop-progress>Action</span>
+            </div>
+          </div>
+
+          <div class="loop-stage-footer">
+            <p>Hover over a module to inspect its role.</p>
+            <button class="loop-motion-toggle" type="button" data-loop-motion>
+              <i class="ph ph-pause" aria-hidden="true"></i>
+              <span>Pause motion</span>
+            </button>
+          </div>
+        </div>
       </section>
 
       <section class="scope section-shell section-block" id="scope" aria-labelledby="scope-title">
