@@ -51,11 +51,11 @@ are reviewable rather than silent.
 
 | Verdict | Count |
 |---|---:|
-| Included systems | 213 |
-| Included benchmarks | 27 |
+| Included systems | 235 |
+| Included benchmarks | 33 |
 | Pending full-text review | 18 |
-| Excluded | 21 |
-| Audited candidates | 279 |
+| Excluded | 17 |
+| Audited candidates | 303 |
 
 Two entries originally labeled as systems are published as benchmarks in this
 catalog. The initial audit replaced the provisional “144 systems + 9
@@ -68,7 +68,15 @@ subsequent KDD, The Web Conference, and SIGIR review added 10 systems and 4
 benchmarks from formal venue records and retained four plausible candidates
 for full-text review. A conservative ACM Multimedia review then added 11
 systems from the 2023--2025 proceedings and retained five plausible candidates
-for full-text review, bringing the ledger to 279 decisions.
+for full-text review. A subsequent recency sync reviewed 24 citation-only
+works: 20 previously unaudited candidates were added, while four existing
+exclusions were reclassified using full-text construction-loop evidence. This
+added 19 systems and five benchmarks to the public catalog, bringing the
+ledger to 299 decisions. A subsequent corpus-alignment review added DRACO as
+a benchmark of structured long-form report construction, bringing the ledger
+to 300 decisions. A targeted ICCC, SemEval, and audio-scene review then added
+three observation-conditioned construction systems, bringing the ledger to
+303 decisions.
 
 ## Limitations
 
