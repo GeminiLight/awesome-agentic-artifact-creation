@@ -441,7 +441,9 @@ img {
   aspect-ratio: 16 / 7;
   overflow: hidden;
   border-bottom: 1px solid var(--line-strong);
-  background: var(--paper);
+  background:
+    radial-gradient(circle at 50% 54%, rgba(70, 137, 181, 0.055), transparent 39%),
+    var(--paper);
   isolation: isolate;
   cursor: default;
 }
@@ -456,10 +458,10 @@ img {
   inset: 0;
   background: linear-gradient(
     to bottom,
-    rgba(255, 255, 255, 0.42),
+    rgba(255, 255, 255, 0.26),
     transparent 18%,
     transparent 82%,
-    rgba(255, 255, 255, 0.22)
+    rgba(255, 255, 255, 0.1)
   );
   content: "";
   pointer-events: none;
@@ -517,16 +519,15 @@ img {
   padding-bottom: 7px;
   color: var(--loop-stage-color, var(--ink));
   font-size: clamp(10px, 0.86vw, 14px);
-  font-weight: 850;
-  letter-spacing: 0.08em;
+  font-weight: 800;
+  letter-spacing: 0.075em;
   line-height: 1.28;
   text-align: center;
   text-transform: uppercase;
   text-shadow:
-    0 0 12px var(--paper),
-    0 0 12px var(--paper),
-    0 0 12px var(--paper);
-  transition: color 160ms ease, transform 160ms ease;
+    0 0 10px var(--paper),
+    0 0 10px var(--paper);
+  transition: color 220ms ease, transform 220ms cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
 .loop-role-label strong,
@@ -554,10 +555,10 @@ img {
 
 .loop-role-label::after {
   position: absolute;
-  right: 36%;
+  right: 38%;
   bottom: 0;
-  left: 36%;
-  height: 2px;
+  left: 38%;
+  height: 1px;
   background: currentColor;
   content: "";
   opacity: 0.72;
@@ -566,7 +567,7 @@ img {
 
 .loop-role-label.is-active {
   color: var(--loop-stage-color, var(--ink));
-  transform: translate(-50%, -50%) translateY(-2px);
+  transform: translate(-50%, -50%) translateY(-3px);
 }
 
 .loop-role-label.is-active::after {
@@ -591,10 +592,12 @@ img {
   min-width: 72px;
   padding: 6px 11px;
   border: 1px solid rgba(198, 208, 221, 0.92);
-  border-radius: 4px;
+  border-radius: 3px;
   color: #15357f;
   background: rgba(255, 255, 255, 0.96);
-  box-shadow: 0 7px 16px rgba(39, 59, 83, 0.13);
+  box-shadow:
+    0 4px 12px rgba(39, 59, 83, 0.1),
+    inset 0 1px rgba(255, 255, 255, 0.82);
   font-size: clamp(8px, 0.74vw, 11px);
   font-weight: 850;
   letter-spacing: 0.04em;
@@ -639,6 +642,11 @@ img {
   margin: 0;
   color: var(--muted);
   font-size: 12px;
+  transition: color 180ms ease;
+}
+
+.loop-stage-footer p.is-inspecting {
+  color: #18346f;
 }
 
 .loop-motion-toggle {
@@ -670,6 +678,11 @@ img {
 
 .loop-motion-toggle:active {
   transform: translateY(1px);
+}
+
+.loop-motion-toggle:focus-visible {
+  outline: 1px solid rgba(47, 116, 110, 0.72);
+  outline-offset: 5px;
 }
 
 .loop-motion-toggle .ph {

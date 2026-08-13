@@ -6,6 +6,8 @@ if (root) {
   const viewport = root.querySelector(".loop-viewport");
   const motionToggle = root.querySelector("[data-loop-motion]");
   const progressLabel = root.querySelector("[data-loop-progress]");
+  const statusText = root.querySelector("[data-loop-status]");
+  const defaultStatusText = statusText?.textContent || "";
   const labelElements = new Map(
     [...root.querySelectorAll("[data-loop-label]")].map((label) => [
       label.dataset.loopLabel,
@@ -55,9 +57,9 @@ if (root) {
     };
     const stageDetails = {
       task: "Goal, constraints, and acceptance criteria",
-      policy: "Select, allocate, continue, or revise",
+      policy: "Decision control and agent topology",
       representation: "Intermediate form and edit interface",
-      verification: "Observe consequences and assess criteria",
+      verification: "Observation source and feedback function",
       artifact: "Release the accepted artifact",
     };
     const flowDetails = [
@@ -76,9 +78,9 @@ if (root) {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.75));
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 0.98;
+    renderer.toneMappingExposure = 0.93;
     renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFShadowMap;
+    renderer.shadowMap.type = THREE.VSMShadowMap;
     renderer.domElement.setAttribute("aria-hidden", "true");
     viewport.prepend(renderer.domElement);
 
@@ -92,8 +94,8 @@ if (root) {
     world.scale.set(1, 1.08, 1.23);
     scene.add(world);
 
-    scene.add(new THREE.HemisphereLight(0xffffff, 0xb9cad8, 1.38));
-    const keyLight = new THREE.DirectionalLight(0xffffff, 3.15);
+    scene.add(new THREE.HemisphereLight(0xfafcff, 0xb8c8d4, 1.18));
+    const keyLight = new THREE.DirectionalLight(0xfffdf9, 2.68);
     keyLight.position.set(-3, 11, 8);
     keyLight.castShadow = true;
     keyLight.shadow.mapSize.set(2048, 2048);
@@ -102,18 +104,19 @@ if (root) {
     keyLight.shadow.camera.top = 8;
     keyLight.shadow.camera.bottom = -8;
     keyLight.shadow.bias = -0.0008;
-    keyLight.shadow.radius = 2.5;
+    keyLight.shadow.radius = 3.2;
+    keyLight.shadow.blurSamples = 8;
     scene.add(keyLight);
-    const fillLight = new THREE.DirectionalLight(0xa7ddda, 0.52);
+    const fillLight = new THREE.DirectionalLight(0xa7ddda, 0.44);
     fillLight.position.set(7, 5, 3);
     scene.add(fillLight);
-    const rimLight = new THREE.DirectionalLight(0xb8d7ff, 0.38);
+    const rimLight = new THREE.DirectionalLight(0xb8d7ff, 0.5);
     rimLight.position.set(2, 7, -7);
     scene.add(rimLight);
 
     const ground = new THREE.Mesh(
       new THREE.PlaneGeometry(22, 10),
-      new THREE.ShadowMaterial({ color: 0x274660, opacity: 0.17 }),
+      new THREE.ShadowMaterial({ color: 0x274660, opacity: 0.2 }),
     );
     ground.rotation.x = -Math.PI / 2;
     ground.position.y = -0.29;
@@ -137,8 +140,10 @@ if (root) {
         color,
         roughness: options.roughness ?? 0.48,
         metalness: options.metalness ?? 0.04,
-        clearcoat: options.clearcoat ?? 0.2,
-        clearcoatRoughness: options.clearcoatRoughness ?? 0.36,
+        clearcoat: options.clearcoat ?? 0.16,
+        clearcoatRoughness: options.clearcoatRoughness ?? 0.42,
+        ior: options.ior ?? 1.46,
+        specularIntensity: options.specularIntensity ?? 0.46,
         transparent: options.transparent ?? false,
         opacity: options.opacity ?? 1,
         depthWrite: options.depthWrite ?? true,
@@ -253,6 +258,30 @@ if (root) {
     centralPlatform.position.set(-0.25, 0.02, 0.08);
     world.add(centralPlatform);
 
+    const platformInset = roundedSlab(10.5, 3.06, 0.055, 0.34, 0xeaf0f4, {
+      roughness: 0.72,
+      clearcoat: 0.06,
+      bevelSize: 0.025,
+      bevelThickness: 0.02,
+    });
+    platformInset.position.set(-0.25, 0.235, 0.08);
+    world.add(platformInset);
+
+    [
+      [-5.23, -1.3],
+      [4.73, -1.3],
+      [-5.23, 1.46],
+      [4.73, 1.46],
+    ].forEach(([x, z]) => {
+      const fastener = cylinder(0.045, 0.025, 0x9aabb9, 24, {
+        roughness: 0.3,
+        metalness: 0.46,
+        clearcoat: 0.24,
+      });
+      fastener.position.set(x, 0.29, z);
+      world.add(fastener);
+    });
+
     const platformFrontContour = curveThrough(
       [
         [-5.42, 0.2, 1.57],
@@ -326,6 +355,20 @@ if (root) {
       tube(frameLeft, 0.045, colors.blueDark, { segments: 72 }),
       tube(frameRight, 0.045, colors.blueDark, { segments: 72 }),
     );
+    [
+      [-1.05, 3.1, -1.58],
+      [1.05, 3.1, -1.58],
+      [-5.62, 0.48, -1.58],
+      [5.35, 0.48, -1.58],
+    ].forEach(([x, y, z]) => {
+      const cap = new THREE.Mesh(
+        new THREE.SphereGeometry(0.067, 18, 12),
+        material(colors.blueDark, { roughness: 0.3, clearcoat: 0.3 }),
+      );
+      cap.position.set(x, y, z);
+      cap.castShadow = true;
+      world.add(cap);
+    });
 
     function addTaskStage() {
       const group = new THREE.Group();
@@ -925,14 +968,14 @@ if (root) {
       colors.deepTeal,
       14,
       0.12,
-      { radius: 0.13, arrowScale: 1.32, segments: 112, tension: 0.16 },
+      { radius: 0.112, arrowScale: 1.2, segments: 112, tension: 0.16 },
     );
     const feedbackHighlight = curveThrough(
       feedbackPoints.map(([x, y, z]) => [x, y + 0.075, z - 0.018]),
       0.16,
     );
     world.add(
-      tube(feedbackHighlight, 0.022, colors.tealLight, {
+      tube(feedbackHighlight, 0.018, colors.tealLight, {
         segments: 112,
         roughness: 0.26,
         transparent: true,
@@ -1019,7 +1062,13 @@ if (root) {
       if (nextStage === hoveredStage) return;
       hoveredStage = nextStage;
       viewport.classList.toggle("has-stage-hover", Boolean(hoveredStage));
-      if (hoveredStage) progressLabel.textContent = stageDetails[hoveredStage];
+      if (hoveredStage) {
+        progressLabel.textContent = stageDetails[hoveredStage];
+        if (statusText) statusText.textContent = stageDetails[hoveredStage];
+      } else if (statusText) {
+        statusText.textContent = defaultStatusText;
+      }
+      statusText?.classList.toggle("is-inspecting", Boolean(hoveredStage));
     }
 
     function updateStageEmphasis(activeStage) {
@@ -1042,13 +1091,15 @@ if (root) {
       if (!hoveredStage) progressLabel.textContent = activeFlow.label;
 
       flows.forEach((flow) => {
-        flow.particles.forEach(({ mesh, offset }) => {
+        flow.particles.forEach(({ mesh, offset }, particleIndex) => {
           const progress = (elapsed * flow.speed + offset) % 1;
           mesh.position.copy(flow.curve.getPointAt(progress));
           const tangent = flow.curve.getTangentAt(progress).normalize();
           mesh.quaternion.setFromUnitVectors(particleUp, tangent);
-          const pulse = 0.88 + Math.sin((progress + elapsed) * Math.PI * 2) * 0.08;
+          const cadence = 0.5 + Math.sin((progress + elapsed * 0.72) * Math.PI * 2) * 0.5;
+          const pulse = 0.76 + cadence * 0.16 + (particleIndex % 3) * 0.025;
           mesh.scale.setScalar(pulse);
+          mesh.material.emissiveIntensity = 0.12 + cadence * 0.26;
         });
       });
 
@@ -1060,11 +1111,13 @@ if (root) {
         group.position.y =
           group.userData.baseY +
           Math.sin(elapsed * 0.68 + stageIndex) * 0.014 +
-          hoverAmount * 0.045;
-        group.scale.setScalar(1 + hoverAmount * 0.012);
+          hoverAmount * 0.075;
+        group.scale.setScalar(1 + hoverAmount * 0.016);
       });
       verificationNeedle.rotation.z = -0.5 + Math.sin(elapsed * 0.78) * 0.46;
       artifactCube.rotation.y = -0.2 + Math.sin(elapsed * 0.38) * 0.08;
+      artifactCube.rotation.x = Math.sin(elapsed * 0.31) * 0.018;
+      artifactCube.position.y = 0.98 + Math.sin(elapsed * 0.52) * 0.018;
 
       camera.position.x += (cameraTarget.x - camera.position.x) * 0.035;
       camera.position.y += (7.55 + cameraTarget.y - camera.position.y) * 0.035;
@@ -1100,6 +1153,8 @@ if (root) {
       cameraTarget.set(0, 0);
       hoveredStage = "";
       viewport.classList.remove("has-stage-hover");
+      if (statusText) statusText.textContent = defaultStatusText;
+      statusText?.classList.remove("is-inspecting");
     });
 
     motionToggle.addEventListener("click", () => {
