@@ -8,6 +8,33 @@ const LINE = "#dfe5ec";
 const SURFACE = "#f6f8fb";
 const PAPER = "#ffffff";
 const TEAL = "#4c9d96";
+const VENUE_DOMAIN_COLORS = new Map([
+  ["Artificial Intelligence", "#4c9d96"],
+  ["Machine Learning", "#66add0"],
+  ["Natural Language Processing", "#718dca"],
+  ["Computer Vision", "#8296c7"],
+  ["Graphics and Visualization", "#9380c1"],
+  ["Human-Computer Interaction", "#b777a7"],
+  ["Data Mining and Information Retrieval", "#a7719b"],
+  ["Software Engineering", "#c47f91"],
+  ["Systems & Hardware", "#d89368"],
+  ["Multimodal & Audio", "#6f9fb2"],
+  ["Interdisciplinary & General Science", "#8a96a8"],
+]);
+
+const VENUE_DOMAIN_LABELS = new Map([
+  ["Artificial Intelligence", "AI"],
+  ["Machine Learning", "ML"],
+  ["Natural Language Processing", "NLP"],
+  ["Computer Vision", "CV"],
+  ["Graphics and Visualization", "Graphics & Vis."],
+  ["Human-Computer Interaction", "HCI"],
+  ["Data Mining and Information Retrieval", "Data Mining & IR"],
+  ["Software Engineering", "Software Eng."],
+  ["Systems & Hardware", "Systems & Hardware"],
+  ["Multimodal & Audio", "Multimodal & Audio"],
+  ["Interdisciplinary & General Science", "Interdisciplinary"],
+]);
 
 const tooltip = d3
   .select(document.body)
@@ -392,6 +419,136 @@ function drawTrend(catalog) {
     .text((item) => item.name);
 }
 
+function drawVenues(catalog) {
+  const width = 1000;
+  const height = 650;
+  const venues = catalog.publication_venues || [];
+  const domainGroups = d3
+    .groups(venues, (venue) => venue.domain)
+    .map(([name, children]) => ({ name, children }));
+  const accessibleCounts = venues
+    .map((venue) => `${venue.name}, ${format(venue.count)}, ${venue.domain}`)
+    .join("; ");
+
+  const svg = createSvg(
+    "#venue-chart",
+    width,
+    height,
+    "Publication venue distribution",
+    `A nested treemap compares published paper counts across normalized parent venues. Rectangle area shows paper count and color shows research area. Counts: ${accessibleCounts}.`,
+  );
+  if (!svg || !venues.length) return;
+
+  const root = d3
+    .hierarchy({ name: "Publication venues", children: domainGroups })
+    .sum((node) => node.count || 0)
+    .sort(
+      (left, right) =>
+        right.value - left.value || left.data.name.localeCompare(right.data.name),
+    );
+  d3
+    .treemap()
+    .size([width, height])
+    .paddingOuter(8)
+    .paddingInner(3)
+    .paddingTop((node) => (node.depth === 1 ? 30 : 0))
+    .round(true)(root);
+
+  const domains = svg
+    .append("g")
+    .attr("class", "treemap-domains")
+    .selectAll("g")
+    .data(root.children || [])
+    .join("g");
+
+  domains
+    .append("rect")
+    .attr("class", "treemap-domain-frame")
+    .attr("x", (domain) => domain.x0)
+    .attr("y", (domain) => domain.y0)
+    .attr("width", (domain) => domain.x1 - domain.x0)
+    .attr("height", (domain) => domain.y1 - domain.y0)
+    .attr("fill", (domain) => VENUE_DOMAIN_COLORS.get(domain.data.name) || FALLBACK_COLOR)
+    .attr("stroke", (domain) => VENUE_DOMAIN_COLORS.get(domain.data.name) || FALLBACK_COLOR);
+
+  domains
+    .filter((domain) => domain.x1 - domain.x0 >= 58 && domain.y1 - domain.y0 >= 36)
+    .append("text")
+    .attr("class", "treemap-domain-label")
+    .attr("x", (domain) => domain.x0 + 9)
+    .attr("y", (domain) => domain.y0 + 19)
+    .text((domain) => VENUE_DOMAIN_LABELS.get(domain.data.name) || domain.data.name);
+
+  domains
+    .filter((domain) => {
+      const label = VENUE_DOMAIN_LABELS.get(domain.data.name) || domain.data.name;
+      const requiredWidth = label.length * 7 + format(domain.value).length * 7 + 34;
+      return domain.x1 - domain.x0 >= requiredWidth && domain.y1 - domain.y0 >= 36;
+    })
+    .append("text")
+    .attr("class", "treemap-domain-total")
+    .attr("x", (domain) => domain.x1 - 9)
+    .attr("y", (domain) => domain.y0 + 19)
+    .attr("text-anchor", "end")
+    .text((domain) => format(domain.value));
+
+  const venueLeaves = root.leaves();
+  venueLeaves.forEach((leaf, index) => {
+    leaf.clipId = `venue-tile-clip-${index}`;
+  });
+  const leaves = svg
+    .append("g")
+    .attr("class", "treemap-leaves")
+    .selectAll("g")
+    .data(venueLeaves)
+    .join("g")
+    .attr("class", "treemap-leaf")
+    .on("pointerenter", (event, leaf) =>
+      showTooltip(
+        event,
+        leaf.data.name,
+        `${format(leaf.value)} published papers, ${share(leaf.value, catalog.summary.published)} of published papers, ${leaf.data.domain}`,
+      ),
+    )
+    .on("pointermove", moveTooltip)
+    .on("pointerleave", hideTooltip);
+
+  leaves
+    .append("clipPath")
+    .attr("id", (leaf) => leaf.clipId)
+    .append("rect")
+    .attr("x", (leaf) => leaf.x0 + 4)
+    .attr("y", (leaf) => leaf.y0 + 4)
+    .attr("width", (leaf) => Math.max(0, leaf.x1 - leaf.x0 - 8))
+    .attr("height", (leaf) => Math.max(0, leaf.y1 - leaf.y0 - 8));
+
+  leaves
+    .append("rect")
+    .attr("x", (leaf) => leaf.x0)
+    .attr("y", (leaf) => leaf.y0)
+    .attr("width", (leaf) => Math.max(0, leaf.x1 - leaf.x0))
+    .attr("height", (leaf) => Math.max(0, leaf.y1 - leaf.y0))
+    .attr("fill", (leaf) => VENUE_DOMAIN_COLORS.get(leaf.data.domain) || FALLBACK_COLOR);
+
+  leaves
+    .filter((leaf) => leaf.x1 - leaf.x0 >= 54 && leaf.y1 - leaf.y0 >= 30)
+    .append("text")
+    .attr("class", "treemap-venue-label")
+    .attr("clip-path", (leaf) => `url(#${leaf.clipId})`)
+    .attr("x", (leaf) => leaf.x0 + 9)
+    .attr("y", (leaf) => leaf.y0 + 19)
+    .text((leaf) => leaf.data.name);
+
+  leaves
+    .filter((leaf) => leaf.x1 - leaf.x0 >= 68 && leaf.y1 - leaf.y0 >= 51)
+    .append("text")
+    .attr("class", "treemap-venue-count")
+    .attr("clip-path", (leaf) => `url(#${leaf.clipId})`)
+    .attr("x", (leaf) => leaf.x0 + 9)
+    .attr("y", (leaf) => leaf.y0 + 38)
+    .text((leaf) => `${format(leaf.value)} papers`);
+}
+
 function drawMatrix(catalog) {
   const width = 1180;
   const height = 650;
@@ -506,6 +663,7 @@ async function initializeCharts() {
   const catalog = await response.json();
   drawHeroFamilies(catalog);
   drawComposition(catalog);
+  drawVenues(catalog);
   drawTrend(catalog);
   drawMatrix(catalog);
 }
