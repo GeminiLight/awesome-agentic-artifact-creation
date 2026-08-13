@@ -51,6 +51,10 @@ class SiteBuildTests(unittest.TestCase):
             self.assertTrue((output / "assets" / "styles.css").is_file())
             self.assertTrue((output / "assets" / "app.js").is_file())
             self.assertTrue((output / "assets" / "charts.js").is_file())
+            self.assertTrue((output / "assets" / "construction-loop.js").is_file())
+            self.assertTrue(
+                (output / "assets" / "fig2-construction-process.png").is_file()
+            )
             self.assertTrue((output / "assets" / "logo-mark.svg").is_file())
             self.assertTrue((output / "favicon.svg").is_file())
             self.assertTrue((output / ".nojekyll").is_file())
@@ -60,6 +64,14 @@ class SiteBuildTests(unittest.TestCase):
             )
             self.assertRegex(
                 index, r'src="assets/app\.js\?v=[0-9a-f]{12}"'
+            )
+            self.assertRegex(
+                index,
+                r'src="assets/construction-loop\.js\?v=[0-9a-f]{12}"',
+            )
+            self.assertRegex(
+                index,
+                r'src="assets/fig2-construction-process\.png\?v=[0-9a-f]{12}"',
             )
             self.assertRegex(
                 index, r'href="assets/styles\.css\?v=[0-9a-f]{12}"'
@@ -79,6 +91,7 @@ class SiteBuildTests(unittest.TestCase):
             self.assertNotIn('id="load-more"', index)
             self.assertIn('@phosphor-icons/web@2.1.2', index)
             self.assertIn('ph-github-logo', index)
+            self.assertIn('data-construction-loop', index)
             self.assertNotIn('src="visualization/', index)
 
             payload = json.loads(

@@ -17,6 +17,7 @@ from venue_registry import load_venues
 
 ROOT = Path(__file__).resolve().parent.parent
 SITE_SOURCE = ROOT / "site"
+ROOT_ASSETS = ROOT / "assets"
 DEFAULT_OUTPUT = ROOT / "_site"
 
 
@@ -146,6 +147,8 @@ def build_site(output: Path = DEFAULT_OUTPUT) -> Path:
     if output.exists():
         shutil.rmtree(output)
     shutil.copytree(SITE_SOURCE, output)
+    if ROOT_ASSETS.is_dir():
+        shutil.copytree(ROOT_ASSETS, output / "assets", dirs_exist_ok=True)
 
     data_dir = output / "data"
     data_dir.mkdir(parents=True, exist_ok=True)
@@ -161,6 +164,8 @@ def build_site(output: Path = DEFAULT_OUTPUT) -> Path:
         "assets/styles.css",
         "assets/app.js",
         "assets/charts.js",
+        "assets/construction-loop.js",
+        "assets/fig2-construction-process.png",
         "data/catalog.json",
     )
     for relative_path in versioned_assets:

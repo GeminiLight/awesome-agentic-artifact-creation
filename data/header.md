@@ -19,6 +19,10 @@ This repository accompanies the
 [Agentic Artifact Creation survey](https://github.com/GeminiLight/agentic-creation-survey)
 and curates the related papers, systems, and benchmarks.
 
+<p align="center">
+  <img src="assets/fig2-construction-process.png" alt="Agentic artifact creation construction loop connecting task specification, construction policy, operational representation, runtime verification, feedback, and the delivered artifact" width="100%">
+</p>
+
 ## Survey Scope
 
 - **Textual Artifacts:** creative writing, professional documents, reports, and
