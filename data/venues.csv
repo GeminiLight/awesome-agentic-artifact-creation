@@ -26,6 +26,7 @@ fse,FSE,ACM International Conference on the Foundations of Software Engineering,
 github,GitHub,GitHub,repository,,include,Software Engineering
 hicss,HICSS,Hawaii International Conference on System Sciences,conference,,include,Interdisciplinary & General Science
 icassp,ICASSP,"IEEE International Conference on Acoustics, Speech and Signal Processing",conference,,include,Multimodal & Audio
+iccc,ICCC,International Conference on Computational Creativity,conference,,include,Artificial Intelligence
 iccv,ICCV,IEEE/CVF International Conference on Computer Vision,conference,,include,Computer Vision
 iclr,ICLR,International Conference on Learning Representations,conference,,include,Machine Learning
 iclr_workshop,ICLR Workshop,International Conference on Learning Representations Workshop,workshop,iclr,include,Machine Learning
@@ -47,6 +48,7 @@ naacl,NAACL,Conference of the Nations of the Americas Chapter of the Association
 nature_computational_science,Nature Computational Science,Nature Computational Science,journal,,include,Interdisciplinary & General Science
 neurips,NeurIPS,Conference on Neural Information Processing Systems,conference,,include,Machine Learning
 pacmmod_sigmod,SIGMOD,Proceedings of the ACM on Management of Data,journal,,include,Data Mining and Information Retrieval
+semeval,SemEval,International Workshop on Semantic Evaluation,workshop,,include,Natural Language Processing
 siggraph,SIGGRAPH,ACM SIGGRAPH Annual Conference,conference,,include,Graphics and Visualization
 siggraph_asia,SIGGRAPH Asia,ACM SIGGRAPH Conference and Exhibition on Computer Graphics and Interactive Techniques in Asia,conference,,include,Graphics and Visualization
 sigir,SIGIR,ACM SIGIR Conference on Research and Development in Information Retrieval,conference,,include,Data Mining and Information Retrieval

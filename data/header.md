@@ -47,10 +47,10 @@ domain research. The list is indicative rather than exhaustive; relevant
 workshops, journals, and preprints are also considered. Representative venues
 monitored by this survey include:
 
-- **Artificial Intelligence:** AAAI and IJCAI.
+- **Artificial Intelligence:** AAAI, IJCAI, and ICCC.
 - **Machine Learning:** NeurIPS, ICML, and ICLR.
-- **Natural Language Processing:** ACL, EMNLP, NAACL, COLM, EACL, and Findings
-  tracks.
+- **Natural Language Processing:** ACL, EMNLP, NAACL, COLM, EACL, SemEval, and
+  Findings tracks.
 - **Computer Vision:** CVPR, ICCV, ECCV, and TPAMI.
 - **Graphics and Visualization:** SIGGRAPH, SIGGRAPH Asia, and IEEE VIS/TVCG.
 - **Human–Computer Interaction:** CHI, UIST, CSCW, and TOCHI.
