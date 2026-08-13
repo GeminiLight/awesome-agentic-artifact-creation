@@ -59,6 +59,11 @@ class SiteBuildTests(unittest.TestCase):
             self.assertTrue((output / "favicon.svg").is_file())
             self.assertTrue((output / ".nojekyll").is_file())
             index = (output / "index.html").read_text(encoding="utf-8")
+            self.assertIn('id="construction-loop"', index)
+            self.assertIn("data-loop-status", index)
+            self.assertIn("decision control<br>agent topology", index)
+            self.assertIn("intermediate form<br>edit interface", index)
+            self.assertIn("observation source<br>feedback function", index)
             self.assertRegex(
                 index, r'src="assets/charts\.js\?v=[0-9a-f]{12}"'
             )
