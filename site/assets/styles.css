@@ -38,6 +38,12 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+.ph {
+  flex: none;
+  font-size: 1.1em;
+  line-height: 1;
+}
+
 button,
 input,
 select {
@@ -190,8 +196,15 @@ img {
 }
 
 .header-github {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
   justify-self: end;
   color: var(--ink);
+}
+
+.header-github .ph {
+  font-size: 17px;
 }
 
 .mobile-menu {
@@ -225,6 +238,12 @@ img {
 .mobile-menu a {
   padding: 11px 12px;
   text-decoration: none;
+}
+
+.mobile-menu a:last-child {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .hero {
@@ -283,6 +302,10 @@ img {
   text-decoration: none;
   transition: background 180ms ease, border-color 180ms ease, color 180ms ease,
     transform 180ms ease;
+}
+
+.button .ph {
+  font-size: 18px;
 }
 
 .button:hover {
@@ -579,11 +602,22 @@ button.application-item {
 }
 
 .filter-heading h3 {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   margin: 0;
   font-size: 15px;
 }
 
+.filter-heading h3 .ph {
+  color: var(--teal);
+  font-size: 17px;
+}
+
 .text-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   padding: 4px 0;
   border: 0;
   color: var(--muted);
@@ -592,6 +626,16 @@ button.application-item {
   font-size: 12px;
   text-decoration: underline;
   text-underline-offset: 3px;
+}
+
+.search-field > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.filter-panel .ph {
+  letter-spacing: 0;
 }
 
 .filter-panel > label,
@@ -802,6 +846,7 @@ button.application-item {
   min-width: 0;
   padding-top: 12px;
   border-top: 1px solid var(--ink);
+  scroll-margin-top: 96px;
 }
 
 .results-header {
@@ -819,14 +864,24 @@ button.application-item {
   font-size: 14px;
 }
 
+.results-controls {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
 .results-header .filter-control {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-.results-header .custom-select {
+.results-header .sort-control .custom-select {
   width: 164px;
+}
+
+.results-header .page-size-control .custom-select {
+  width: 76px;
 }
 
 .results-header .select-trigger {
@@ -838,6 +893,10 @@ button.application-item {
 .results-header .select-menu {
   left: auto;
   width: 190px;
+}
+
+.results-header .page-size-control .select-menu {
+  width: 96px;
 }
 
 .active-filters {
@@ -1014,25 +1073,115 @@ button.application-item {
 }
 
 .paper-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   text-underline-offset: 3px;
 }
 
-.load-more {
-  display: block;
-  width: 100%;
-  min-height: 54px;
-  margin-top: 22px;
-  border: 1px solid var(--line-strong);
-  background: transparent;
-  cursor: pointer;
-  font-size: 13px;
-  font-weight: 750;
-  transition: border-color 180ms ease, background 180ms ease;
+.paper-links .ph {
+  color: var(--paper-color);
+  font-size: 14px;
 }
 
-.load-more:hover {
-  border-color: var(--teal);
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-top: 26px;
+}
+
+.pagination[hidden] {
+  display: none;
+}
+
+.pagination-summary {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+.pagination-controls,
+.pagination-pages {
+  display: flex;
+  align-items: center;
+}
+
+.pagination-controls {
+  gap: 8px;
+}
+
+.pagination-pages {
+  gap: 4px;
+}
+
+.pagination-direction,
+.pagination-page {
+  height: 36px;
+  border: 1px solid var(--line-strong);
+  border-radius: 0;
+  color: var(--ink-soft);
   background: var(--paper);
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 750;
+  font-variant-numeric: tabular-nums;
+  transition: border-color 160ms ease, color 160ms ease, background 160ms ease;
+}
+
+.pagination-direction {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.pagination-direction .ph {
+  font-size: 13px;
+}
+
+.pagination-direction {
+  padding-inline: 14px;
+}
+
+.pagination-page {
+  width: 36px;
+  padding: 0;
+}
+
+.pagination-direction:hover:not(:disabled),
+.pagination-page:hover:not(.is-current) {
+  border-color: var(--teal);
+  color: var(--ink);
+}
+
+.pagination-page.is-current {
+  color: var(--paper);
+  border-color: var(--ink);
+  background: var(--ink);
+}
+
+.pagination-direction:disabled {
+  color: #a8afbb;
+  background: transparent;
+  cursor: not-allowed;
+}
+
+.pagination-direction:focus-visible,
+.pagination-page:focus-visible {
+  outline: 3px solid rgba(76, 157, 150, 0.42);
+  outline-offset: 2px;
+}
+
+.pagination-ellipsis {
+  display: grid;
+  width: 26px;
+  height: 36px;
+  place-items: center;
+  color: var(--muted);
+  font-size: 12px;
 }
 
 .empty-state {
@@ -1332,9 +1481,31 @@ button.application-item {
   transition: color 180ms ease, padding 180ms ease;
 }
 
+.resource-link-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.resource-link-label .ph {
+  color: var(--teal);
+  font-size: 18px;
+}
+
+.resource-links a > .ph {
+  color: var(--muted);
+  font-size: 14px;
+  transition: color 180ms ease, transform 180ms ease;
+}
+
 .resource-links a:hover {
   padding-left: 8px;
   color: #2f746e;
+}
+
+.resource-links a:hover > .ph {
+  color: var(--teal);
+  transform: translate(2px, -2px);
 }
 
 .site-footer {
@@ -1369,6 +1540,17 @@ button.application-item {
   display: flex;
   gap: 22px;
   font-size: 12px;
+}
+
+.footer-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.footer-links .ph {
+  color: var(--teal);
+  font-size: 14px;
 }
 
 .js .reveal {
@@ -1604,16 +1786,27 @@ button.application-item {
   }
 
   .results-header {
+    flex-direction: column;
     align-items: flex-start;
+    gap: 8px;
     padding-block: 13px;
+  }
+
+  .results-controls {
+    width: 100%;
+    justify-content: space-between;
   }
 
   .results-header .filter-control > span {
     display: none;
   }
 
-  .results-header .custom-select {
+  .results-header .sort-control .custom-select {
     width: 142px;
+  }
+
+  .results-header .page-size-control .custom-select {
+    width: 70px;
   }
 
   .results-header .select-trigger {
@@ -1639,6 +1832,36 @@ button.application-item {
     grid-column: 1 / -1;
     margin-top: 0;
     padding-top: 5px;
+  }
+
+  .pagination {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .pagination-controls {
+    width: 100%;
+    gap: 3px;
+    overflow-x: auto;
+    padding: 2px 0 5px;
+  }
+
+  .pagination-pages {
+    gap: 2px;
+  }
+
+  .pagination-direction {
+    padding-inline: 8px;
+    font-size: 10px;
+  }
+
+  .pagination-page {
+    width: 30px;
+  }
+
+  .pagination-ellipsis {
+    width: 22px;
   }
 
   .analysis-grid {
