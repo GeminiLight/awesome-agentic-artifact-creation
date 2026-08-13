@@ -17,6 +17,7 @@ VENUE_COLUMNS = (
     "venue_kind",
     "parent_venue_id",
     "catalog_status",
+    "venue_domain",
 )
 ALLOWED_VENUE_KINDS = {
     "conference",
@@ -27,6 +28,19 @@ ALLOWED_VENUE_KINDS = {
     "repository",
 }
 ALLOWED_CATALOG_STATUSES = {"include", "hold"}
+ALLOWED_VENUE_DOMAINS = {
+    "Artificial Intelligence",
+    "Machine Learning",
+    "Natural Language Processing",
+    "Computer Vision",
+    "Graphics and Visualization",
+    "Human-Computer Interaction",
+    "Data Mining and Information Retrieval",
+    "Software Engineering",
+    "Systems & Hardware",
+    "Multimodal & Audio",
+    "Interdisciplinary & General Science",
+}
 ALLOWED_KINDS_BY_PUBLICATION_TYPE = {
     "published": {"conference", "journal", "workshop", "track"},
     "preprint": {"preprint_server"},
@@ -62,6 +76,7 @@ def load_venues(path: Path = VENUES_PATH) -> dict[str, dict[str, str]]:
             "full_name",
             "venue_kind",
             "catalog_status",
+            "venue_domain",
         ]
         blank = [field for field in required if not row[field]]
         if blank:
@@ -89,6 +104,10 @@ def load_venues(path: Path = VENUES_PATH) -> dict[str, dict[str, str]]:
             raise VenueValidationError(
                 f"venue row {line_number} has an invalid catalog_status"
             )
+        if row["venue_domain"] not in ALLOWED_VENUE_DOMAINS:
+            raise VenueValidationError(
+                f"venue row {line_number} has an invalid venue_domain"
+            )
         venues[venue_id] = row
         display_names.add(display_key)
 
@@ -100,6 +119,10 @@ def load_venues(path: Path = VENUES_PATH) -> dict[str, dict[str, str]]:
             )
         if parent_id == venue_id:
             raise VenueValidationError(f"venue {venue_id} cannot parent itself")
+        if parent_id and venue["venue_domain"] != venues[parent_id]["venue_domain"]:
+            raise VenueValidationError(
+                f"venue {venue_id} must share venue_domain with parent {parent_id}"
+            )
 
     for venue_id in venues:
         trail: set[str] = set()

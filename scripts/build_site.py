@@ -11,6 +11,7 @@ from pathlib import Path
 
 from catalog_analysis import FAMILY_COLORS, compute_analysis
 from generate_readme import load_papers, load_taxonomy, paper_sort_key
+from venue_registry import load_venues
 
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -23,6 +24,7 @@ def _count(rows: list[dict[str, str]], field: str, value: str) -> int:
 def build_payload() -> dict[str, object]:
     taxonomy = load_taxonomy()
     papers = sorted(load_papers(), key=paper_sort_key)
+    venue_registry = load_venues()
     analysis = compute_analysis(papers, taxonomy)
     family_colors = dict(zip(analysis.family_names, FAMILY_COLORS))
 
@@ -56,6 +58,24 @@ def build_payload() -> dict[str, object]:
 
     years = Counter(paper["year"] for paper in papers)
     venues = Counter(paper["venue_display_name"] for paper in papers)
+    publication_venues: Counter[str] = Counter()
+    publication_venue_kinds: dict[str, str] = {}
+    publication_venue_domains: dict[str, str] = {}
+    for paper in papers:
+        if paper["type"] != "published":
+            continue
+        venue_id = paper["parent_venue_id"] or paper["venue_id"]
+        venue = venue_registry.get(venue_id)
+        venue_name = venue["display_name"] if venue else paper["venue_display_name"]
+        publication_venues[venue_name] += 1
+        publication_venue_kinds[venue_name] = (
+            venue["venue_kind"] if venue else paper["venue_kind"]
+        )
+        publication_venue_domains[venue_name] = (
+            venue["venue_domain"]
+            if venue
+            else "Interdisciplinary & General Science"
+        )
     named_systems = sum(
         paper["entry_kind"] == "system"
         and paper["name"].strip().casefold() not in {"", "n/a", "na", "none"}
@@ -97,6 +117,18 @@ def build_payload() -> dict[str, object]:
         "years": [
             {"year": year, "count": years[year]}
             for year in sorted(years, reverse=True)
+        ],
+        "publication_venues": [
+            {
+                "name": name,
+                "count": count,
+                "kind": publication_venue_kinds[name],
+                "domain": publication_venue_domains[name],
+            }
+            for name, count in sorted(
+                publication_venues.items(),
+                key=lambda item: (-item[1], item[0].casefold()),
+            )
         ],
         "papers": [
             {field: paper[field] for field in public_fields} for paper in papers

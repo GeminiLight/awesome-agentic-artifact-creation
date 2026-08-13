@@ -595,6 +595,7 @@ button.application-item {
 }
 
 .filter-panel > label,
+.filter-control,
 .search-field,
 .view-filter {
   display: grid;
@@ -603,8 +604,9 @@ button.application-item {
 }
 
 .filter-panel label > span,
+.filter-panel .filter-control > span,
 .view-filter legend,
-.results-header label > span {
+.results-header .filter-control > span {
   color: var(--muted);
   font-size: 10px;
   font-weight: 800;
@@ -612,31 +614,139 @@ button.application-item {
   text-transform: uppercase;
 }
 
-.filter-panel input[type="search"],
-.filter-panel select,
-.results-header select {
+.filter-panel input[type="search"] {
   width: 100%;
   height: 46px;
-  padding: 0 38px 0 13px;
+  padding: 0 13px;
   border: 1px solid var(--line-strong);
   border-radius: 0;
   background: var(--paper);
-  appearance: none;
-  background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%),
-    linear-gradient(135deg, var(--muted) 50%, transparent 50%);
-  background-position: calc(100% - 16px) 20px, calc(100% - 11px) 20px;
-  background-repeat: no-repeat;
-  background-size: 5px 5px, 5px 5px;
   font-size: 13px;
-}
-
-.filter-panel input[type="search"] {
-  padding-right: 13px;
-  background-image: none;
 }
 
 .filter-panel input::placeholder {
   color: #929bad;
+}
+
+.custom-select {
+  position: relative;
+  width: 100%;
+}
+
+.select-native-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.select-trigger {
+  display: flex;
+  width: 100%;
+  height: 46px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 13px;
+  border: 1px solid var(--line-strong);
+  border-radius: 0;
+  color: var(--ink);
+  background: var(--paper);
+  cursor: pointer;
+  font-size: 13px;
+  text-align: left;
+  transition: border-color 160ms ease, background 160ms ease, box-shadow 160ms ease;
+}
+
+.select-trigger:hover {
+  border-color: #98a6b7;
+  background: #fcfdfd;
+}
+
+.custom-select.is-open .select-trigger {
+  border-color: var(--teal);
+  box-shadow: 0 0 0 2px rgba(76, 157, 150, 0.16);
+}
+
+.select-value {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.select-caret {
+  width: 7px;
+  height: 7px;
+  flex: none;
+  border-right: 1px solid var(--muted);
+  border-bottom: 1px solid var(--muted);
+  transform: translateY(-2px) rotate(45deg);
+  transition: transform 160ms ease;
+}
+
+.custom-select.is-open .select-caret {
+  transform: translateY(2px) rotate(225deg);
+}
+
+.select-menu {
+  position: absolute;
+  z-index: 70;
+  top: calc(100% + 6px);
+  right: 0;
+  left: 0;
+  max-height: 280px;
+  padding: 6px;
+  overflow-y: auto;
+  border: 1px solid var(--line-strong);
+  background: var(--paper);
+  box-shadow: 0 16px 38px rgba(33, 45, 68, 0.14);
+}
+
+.select-option {
+  position: relative;
+  display: flex;
+  min-height: 38px;
+  align-items: center;
+  padding: 8px 11px 8px 13px;
+  color: var(--ink-soft);
+  cursor: pointer;
+  font-size: 13px;
+  line-height: 1.3;
+}
+
+.select-option:hover,
+.select-option:focus-visible {
+  color: var(--ink);
+  background: var(--surface);
+  outline: 0;
+}
+
+.select-option.is-selected {
+  color: #2e716c;
+  background: #eef6f5;
+  font-weight: 700;
+}
+
+.select-option.is-selected::before {
+  position: absolute;
+  top: 7px;
+  bottom: 7px;
+  left: 0;
+  width: 2px;
+  background: var(--teal);
+  content: "";
+}
+
+.select-option[aria-disabled="true"] {
+  color: var(--line-strong);
+  cursor: not-allowed;
 }
 
 .view-filter {
@@ -709,17 +819,25 @@ button.application-item {
   font-size: 14px;
 }
 
-.results-header label {
+.results-header .filter-control {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-.results-header select {
-  width: auto;
+.results-header .custom-select {
+  width: 164px;
+}
+
+.results-header .select-trigger {
   height: 38px;
   border: 0;
-  background-color: transparent;
+  background: transparent;
+}
+
+.results-header .select-menu {
+  left: auto;
+  width: 190px;
 }
 
 .active-filters {
@@ -939,15 +1057,22 @@ button.application-item {
   background: var(--paper);
 }
 
+.analysis .section-intro {
+  width: min(100%, 1040px);
+  max-width: none;
+  margin-inline: auto;
+}
+
 .analysis .section-intro > p:last-child {
   margin: 28px 0 0;
 }
 
 .analysis-grid {
   display: grid;
+  width: min(100%, 1040px);
   grid-template-columns: 1fr;
   gap: 38px;
-  margin-top: 78px;
+  margin: 78px auto 0;
 }
 
 .analysis-figure {
@@ -995,6 +1120,14 @@ button.application-item {
 
 .composition-chart {
   min-height: 560px;
+}
+
+.venue-chart {
+  min-height: 620px;
+}
+
+.venue-chart .d3-svg {
+  min-width: 760px;
 }
 
 .trend-chart,
@@ -1064,6 +1197,7 @@ button.application-item {
 .family-arc,
 .type-arc,
 .hero-bar-row rect,
+.treemap-leaf rect,
 .matrix-chart rect,
 .trend-chart rect {
   cursor: crosshair;
@@ -1073,9 +1207,50 @@ button.application-item {
 .family-arc:hover,
 .type-arc:hover,
 .hero-bar-row:hover rect,
+.treemap-leaf:hover rect,
 .matrix-chart g:hover > rect,
 .trend-chart rect:hover {
   opacity: 0.76;
+}
+
+.treemap-domain-frame {
+  fill-opacity: 0.1;
+  stroke-opacity: 0.48;
+  stroke-width: 1;
+}
+
+.treemap-domain-label,
+.treemap-domain-total {
+  fill: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+  pointer-events: none;
+}
+
+.treemap-domain-total,
+.treemap-venue-count {
+  font-variant-numeric: tabular-nums;
+}
+
+.treemap-leaf rect {
+  stroke: var(--paper);
+  stroke-width: 2;
+}
+
+.treemap-venue-label,
+.treemap-venue-count {
+  fill: var(--ink);
+  font-size: 12px;
+  pointer-events: none;
+}
+
+.treemap-venue-label {
+  font-weight: 700;
+}
+
+.treemap-venue-count {
+  fill: var(--ink-soft);
+  font-size: 11px;
 }
 
 .chart-tooltip {
@@ -1433,12 +1608,15 @@ button.application-item {
     padding-block: 13px;
   }
 
-  .results-header label > span {
+  .results-header .filter-control > span {
     display: none;
   }
 
-  .results-header select {
-    max-width: 150px;
+  .results-header .custom-select {
+    width: 142px;
+  }
+
+  .results-header .select-trigger {
     padding-left: 4px;
   }
 

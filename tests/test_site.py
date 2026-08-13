@@ -29,6 +29,20 @@ class SiteBuildTests(unittest.TestCase):
         self.assertEqual(
             len(papers), len({paper["bib_key"] for paper in papers})
         )
+        publication_venues = payload["publication_venues"]
+        self.assertEqual(
+            summary["published"],
+            sum(venue["count"] for venue in publication_venues),
+        )
+        self.assertEqual(
+            len(publication_venues),
+            len({venue["name"] for venue in publication_venues}),
+        )
+        self.assertNotIn("arXiv", {venue["name"] for venue in publication_venues})
+        self.assertTrue(all(venue["domain"] for venue in publication_venues))
+        self.assertGreaterEqual(
+            len({venue["domain"] for venue in publication_venues}), 8
+        )
 
     def test_site_contains_runtime_assets_and_catalog(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:
@@ -42,6 +56,7 @@ class SiteBuildTests(unittest.TestCase):
             self.assertTrue((output / ".nojekyll").is_file())
             index = (output / "index.html").read_text(encoding="utf-8")
             self.assertIn('src="assets/charts.js"', index)
+            self.assertIn('id="venue-chart"', index)
             self.assertNotIn('src="visualization/', index)
 
             payload = json.loads(

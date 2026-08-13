@@ -1,58 +1,58 @@
-venue_id,display_name,full_name,venue_kind,parent_venue_id,catalog_status
-aaai,AAAI,AAAI Conference on Artificial Intelligence,conference,,include
-acm_mm,ACM MM,ACM International Conference on Multimedia,conference,,include
-acl,ACL,Annual Meeting of the Association for Computational Linguistics,conference,,include
-acl_findings,Findings of ACL,Findings of the Association for Computational Linguistics,track,acl,include
-acl_system_demos,ACL System Demonstrations,ACL System Demonstrations,track,acl,include
-arxiv,arXiv,arXiv,preprint_server,,include
-asme_idetc_cie,ASME IDETC-CIE,ASME International Design Engineering Technical Conferences and Computers and Information in Engineering Conference,conference,,hold
-biorxiv,bioRxiv,bioRxiv,preprint_server,,include
-cc,C&C,ACM Creativity & Cognition,conference,,hold
-chi,CHI,ACM Conference on Human Factors in Computing Systems,conference,,include
-chi_ea,CHI EA,Extended Abstracts of the ACM CHI Conference on Human Factors in Computing Systems,track,chi,include
-cikm,CIKM,ACM International Conference on Information and Knowledge Management,conference,,hold
-coling,COLING,International Conference on Computational Linguistics,conference,,hold
-cvpr,CVPR,IEEE/CVF Conference on Computer Vision and Pattern Recognition,conference,,include
-date,DATE,"Design, Automation & Test in Europe Conference",conference,,include
-digital_discovery,Digital Discovery,Digital Discovery,journal,,include
-eaai,EAAI,AAAI Symposium on Educational Advances in Artificial Intelligence,track,aaai,include
-ease,EASE,International Conference on Evaluation and Assessment in Software Engineering,conference,,hold
-emnlp,EMNLP,Conference on Empirical Methods in Natural Language Processing,conference,,include
-emnlp_findings,Findings of EMNLP,Findings of the Association for Computational Linguistics: EMNLP,track,emnlp,include
-emnlp_industry,EMNLP Industry Track,EMNLP Industry Track,track,emnlp,include
-emnlp_system_demos,EMNLP System Demonstrations,EMNLP System Demonstrations,track,emnlp,include
-fdg,FDG,ACM International Conference on the Foundations of Digital Games,conference,,hold
-fse,FSE,ACM International Conference on the Foundations of Software Engineering,conference,,include
-github,GitHub,GitHub,repository,,include
-hicss,HICSS,Hawaii International Conference on System Sciences,conference,,include
-icassp,ICASSP,"IEEE International Conference on Acoustics, Speech and Signal Processing",conference,,include
-iccv,ICCV,IEEE/CVF International Conference on Computer Vision,conference,,include
-iclr,ICLR,International Conference on Learning Representations,conference,,include
-iclr_workshop,ICLR Workshop,International Conference on Learning Representations Workshop,workshop,iclr,include
-icml,ICML,International Conference on Machine Learning,conference,,include
-icmr,ICMR,ACM International Conference on Multimedia Retrieval,conference,,include
-icse,ICSE,International Conference on Software Engineering,conference,,include
-ieee_cog,IEEE CoG,IEEE Conference on Games,conference,,hold
-ieee_ghtc,IEEE GHTC,IEEE Global Humanitarian Technology Conference,conference,,include
-ieee_istem_ed,IEEE iSTEM-Ed,IEEE International Conference on STEM Education,conference,,include
-ieee_tlt,IEEE TLT,IEEE Transactions on Learning Technologies,journal,,hold
-ieee_tvcg,IEEE TVCG,IEEE Transactions on Visualization and Computer Graphics,journal,,include
-ijcai,IJCAI,International Joint Conference on Artificial Intelligence,conference,,include
-ismir,ISMIR,International Society for Music Information Retrieval Conference,conference,,hold
-issta,ISSTA,ACM SIGSOFT International Symposium on Software Testing and Analysis,conference,,include
-kdd,KDD,ACM SIGKDD Conference on Knowledge Discovery and Data Mining,conference,,include
-learning_at_scale,Learning @ Scale,ACM Learning at Scale Conference,conference,,hold
-modelsward,MODELSWARD,International Conference on Model-Driven Engineering and Software Development,conference,,include
-naacl,NAACL,Conference of the Nations of the Americas Chapter of the Association for Computational Linguistics,conference,,include
-nature_computational_science,Nature Computational Science,Nature Computational Science,journal,,include
-neurips,NeurIPS,Conference on Neural Information Processing Systems,conference,,include
-pacmmod_sigmod,SIGMOD,Proceedings of the ACM on Management of Data,journal,,include
-siggraph,SIGGRAPH,ACM SIGGRAPH Annual Conference,conference,,include
-siggraph_asia,SIGGRAPH Asia,ACM SIGGRAPH Conference and Exhibition on Computer Graphics and Interactive Techniques in Asia,conference,,include
-sigir,SIGIR,ACM SIGIR Conference on Research and Development in Information Retrieval,conference,,include
-the_web_conference,The Web Conference,ACM Web Conference,conference,,include
-tochi,ACM TOCHI,ACM Transactions on Computer-Human Interaction,journal,,include
-uist,UIST,ACM Symposium on User Interface Software and Technology,conference,,include
-wacv,WACV,IEEE/CVF Winter Conference on Applications of Computer Vision,conference,,include
-wacv_workshops,WACV Workshops,IEEE/CVF Winter Conference on Applications of Computer Vision Workshops,workshop,wacv,hold
-webconf_companion,The Web Conference Companion,Companion Proceedings of the ACM Web Conference,track,the_web_conference,include
+venue_id,display_name,full_name,venue_kind,parent_venue_id,catalog_status,venue_domain
+aaai,AAAI,AAAI Conference on Artificial Intelligence,conference,,include,Artificial Intelligence
+acm_mm,ACM MM,ACM International Conference on Multimedia,conference,,include,Multimodal & Audio
+acl,ACL,Annual Meeting of the Association for Computational Linguistics,conference,,include,Natural Language Processing
+acl_findings,Findings of ACL,Findings of the Association for Computational Linguistics,track,acl,include,Natural Language Processing
+acl_system_demos,ACL System Demonstrations,ACL System Demonstrations,track,acl,include,Natural Language Processing
+arxiv,arXiv,arXiv,preprint_server,,include,Interdisciplinary & General Science
+asme_idetc_cie,ASME IDETC-CIE,ASME International Design Engineering Technical Conferences and Computers and Information in Engineering Conference,conference,,hold,Systems & Hardware
+biorxiv,bioRxiv,bioRxiv,preprint_server,,include,Interdisciplinary & General Science
+cc,C&C,ACM Creativity & Cognition,conference,,hold,Human-Computer Interaction
+chi,CHI,ACM Conference on Human Factors in Computing Systems,conference,,include,Human-Computer Interaction
+chi_ea,CHI EA,Extended Abstracts of the ACM CHI Conference on Human Factors in Computing Systems,track,chi,include,Human-Computer Interaction
+cikm,CIKM,ACM International Conference on Information and Knowledge Management,conference,,hold,Data Mining and Information Retrieval
+coling,COLING,International Conference on Computational Linguistics,conference,,hold,Natural Language Processing
+cvpr,CVPR,IEEE/CVF Conference on Computer Vision and Pattern Recognition,conference,,include,Computer Vision
+date,DATE,"Design, Automation & Test in Europe Conference",conference,,include,Systems & Hardware
+digital_discovery,Digital Discovery,Digital Discovery,journal,,include,Interdisciplinary & General Science
+eaai,EAAI,AAAI Symposium on Educational Advances in Artificial Intelligence,track,aaai,include,Artificial Intelligence
+ease,EASE,International Conference on Evaluation and Assessment in Software Engineering,conference,,hold,Software Engineering
+emnlp,EMNLP,Conference on Empirical Methods in Natural Language Processing,conference,,include,Natural Language Processing
+emnlp_findings,Findings of EMNLP,Findings of the Association for Computational Linguistics: EMNLP,track,emnlp,include,Natural Language Processing
+emnlp_industry,EMNLP Industry Track,EMNLP Industry Track,track,emnlp,include,Natural Language Processing
+emnlp_system_demos,EMNLP System Demonstrations,EMNLP System Demonstrations,track,emnlp,include,Natural Language Processing
+fdg,FDG,ACM International Conference on the Foundations of Digital Games,conference,,hold,Human-Computer Interaction
+fse,FSE,ACM International Conference on the Foundations of Software Engineering,conference,,include,Software Engineering
+github,GitHub,GitHub,repository,,include,Software Engineering
+hicss,HICSS,Hawaii International Conference on System Sciences,conference,,include,Interdisciplinary & General Science
+icassp,ICASSP,"IEEE International Conference on Acoustics, Speech and Signal Processing",conference,,include,Multimodal & Audio
+iccv,ICCV,IEEE/CVF International Conference on Computer Vision,conference,,include,Computer Vision
+iclr,ICLR,International Conference on Learning Representations,conference,,include,Machine Learning
+iclr_workshop,ICLR Workshop,International Conference on Learning Representations Workshop,workshop,iclr,include,Machine Learning
+icml,ICML,International Conference on Machine Learning,conference,,include,Machine Learning
+icmr,ICMR,ACM International Conference on Multimedia Retrieval,conference,,include,Multimodal & Audio
+icse,ICSE,International Conference on Software Engineering,conference,,include,Software Engineering
+ieee_cog,IEEE CoG,IEEE Conference on Games,conference,,hold,Artificial Intelligence
+ieee_ghtc,IEEE GHTC,IEEE Global Humanitarian Technology Conference,conference,,include,Interdisciplinary & General Science
+ieee_istem_ed,IEEE iSTEM-Ed,IEEE International Conference on STEM Education,conference,,include,Interdisciplinary & General Science
+ieee_tlt,IEEE TLT,IEEE Transactions on Learning Technologies,journal,,hold,Interdisciplinary & General Science
+ieee_tvcg,IEEE TVCG,IEEE Transactions on Visualization and Computer Graphics,journal,,include,Graphics and Visualization
+ijcai,IJCAI,International Joint Conference on Artificial Intelligence,conference,,include,Artificial Intelligence
+ismir,ISMIR,International Society for Music Information Retrieval Conference,conference,,hold,Multimodal & Audio
+issta,ISSTA,ACM SIGSOFT International Symposium on Software Testing and Analysis,conference,,include,Software Engineering
+kdd,KDD,ACM SIGKDD Conference on Knowledge Discovery and Data Mining,conference,,include,Data Mining and Information Retrieval
+learning_at_scale,Learning @ Scale,ACM Learning at Scale Conference,conference,,hold,Interdisciplinary & General Science
+modelsward,MODELSWARD,International Conference on Model-Driven Engineering and Software Development,conference,,include,Software Engineering
+naacl,NAACL,Conference of the Nations of the Americas Chapter of the Association for Computational Linguistics,conference,,include,Natural Language Processing
+nature_computational_science,Nature Computational Science,Nature Computational Science,journal,,include,Interdisciplinary & General Science
+neurips,NeurIPS,Conference on Neural Information Processing Systems,conference,,include,Machine Learning
+pacmmod_sigmod,SIGMOD,Proceedings of the ACM on Management of Data,journal,,include,Data Mining and Information Retrieval
+siggraph,SIGGRAPH,ACM SIGGRAPH Annual Conference,conference,,include,Graphics and Visualization
+siggraph_asia,SIGGRAPH Asia,ACM SIGGRAPH Conference and Exhibition on Computer Graphics and Interactive Techniques in Asia,conference,,include,Graphics and Visualization
+sigir,SIGIR,ACM SIGIR Conference on Research and Development in Information Retrieval,conference,,include,Data Mining and Information Retrieval
+the_web_conference,The Web Conference,ACM Web Conference,conference,,include,Data Mining and Information Retrieval
+tochi,ACM TOCHI,ACM Transactions on Computer-Human Interaction,journal,,include,Human-Computer Interaction
+uist,UIST,ACM Symposium on User Interface Software and Technology,conference,,include,Human-Computer Interaction
+wacv,WACV,IEEE/CVF Winter Conference on Applications of Computer Vision,conference,,include,Computer Vision
+wacv_workshops,WACV Workshops,IEEE/CVF Winter Conference on Applications of Computer Vision Workshops,workshop,wacv,hold,Computer Vision
+webconf_companion,The Web Conference Companion,Companion Proceedings of the ACM Web Conference,track,the_web_conference,include,Data Mining and Information Retrieval

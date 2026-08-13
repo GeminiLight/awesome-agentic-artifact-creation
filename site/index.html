@@ -35,7 +35,7 @@
         <a
           class="header-github"
           href="https://github.com/GeminiLight/awesome-agentic-artifact-creation"
-        >GitHub <span aria-hidden="true">↗</span></a>
+        >GitHub</a>
         <details class="mobile-menu">
           <summary>Menu</summary>
           <nav aria-label="Mobile navigation">
@@ -62,7 +62,7 @@
             <a
               class="button button-secondary"
               href="https://github.com/GeminiLight/agentic-creation-survey"
-            >Read the survey <span aria-hidden="true">↗</span></a>
+            >Read the survey</a>
           </div>
         </div>
 
@@ -201,50 +201,50 @@
                 </label>
               </fieldset>
 
-              <label for="primary-filter">
+              <div class="filter-control">
                 <span id="primary-filter-label">Artifact family</span>
-                <select id="primary-filter">
+                <select id="primary-filter" aria-labelledby="primary-filter-label">
                   <option value="">All families</option>
                 </select>
-              </label>
+              </div>
 
-              <label for="year-filter">
-                <span>Year</span>
-                <select id="year-filter">
+              <div class="filter-control">
+                <span id="year-filter-label">Year</span>
+                <select id="year-filter" aria-labelledby="year-filter-label">
                   <option value="">All years</option>
                 </select>
-              </label>
+              </div>
 
-              <label for="kind-filter">
-                <span>Entry kind</span>
-                <select id="kind-filter">
+              <div class="filter-control">
+                <span id="kind-filter-label">Entry kind</span>
+                <select id="kind-filter" aria-labelledby="kind-filter-label">
                   <option value="">Systems & benchmarks</option>
                   <option value="system">Systems</option>
                   <option value="benchmark">Benchmarks</option>
                 </select>
-              </label>
+              </div>
 
-              <label for="status-filter">
-                <span>Publication status</span>
-                <select id="status-filter">
+              <div class="filter-control">
+                <span id="status-filter-label">Publication status</span>
+                <select id="status-filter" aria-labelledby="status-filter-label">
                   <option value="">All statuses</option>
                   <option value="published">Published</option>
                   <option value="preprint">Preprint</option>
                   <option value="project">Project</option>
                 </select>
-              </label>
+              </div>
             </aside>
 
             <div class="results-panel reveal" aria-live="polite" aria-busy="true">
               <div class="results-header">
                 <p><strong id="result-count">...</strong> matching papers</p>
-                <label for="sort-order">
-                  <span>Sort</span>
-                  <select id="sort-order">
+                <div class="filter-control sort-control">
+                  <span id="sort-order-label">Sort</span>
+                  <select id="sort-order" aria-labelledby="sort-order-label">
                     <option value="recent">Newest first</option>
                     <option value="title">Title A-Z</option>
                   </select>
-                </label>
+                </div>
               </div>
               <div class="active-filters" id="active-filters" aria-label="Active filters"></div>
               <ol class="paper-list" id="paper-list"></ol>
@@ -272,8 +272,8 @@
         <div class="section-intro reveal">
           <h2 id="analysis-title">Catalog structure and coverage.</h2>
           <p>
-            Family composition, growth, and cross-axis density reveal where
-            agentic creation research concentrates and where room remains.
+            Artifact structure, publication venues, growth, and cross-axis
+            coverage reveal where agentic creation research concentrates.
           </p>
         </div>
 
@@ -289,6 +289,20 @@
               class="d3-chart composition-chart"
               id="composition-chart"
               aria-label="Artifact family and artifact type composition chart"
+            ><p class="chart-loading">Preparing chart...</p></div>
+          </figure>
+
+          <figure class="analysis-figure reveal">
+            <figcaption>
+              <div>
+                <strong>Publication venue distribution</strong>
+                <p>Rectangle area shows paper count; color groups parent venues by research area.</p>
+              </div>
+            </figcaption>
+            <div
+              class="d3-chart venue-chart"
+              id="venue-chart"
+              aria-label="Treemap of published paper counts by venue and research area"
             ><p class="chart-loading">Preparing chart...</p></div>
           </figure>
 
@@ -340,13 +354,13 @@
             </p>
             <div class="resource-links">
               <a href="https://github.com/GeminiLight/awesome-agentic-artifact-creation/blob/main/AUDIT.md">
-                <span>Audit protocol</span><span aria-hidden="true">↗</span>
+                <span>Audit protocol</span>
               </a>
               <a href="https://github.com/GeminiLight/awesome-agentic-artifact-creation/tree/main/data">
-                <span>Open data</span><span aria-hidden="true">↗</span>
+                <span>Open data</span>
               </a>
               <a href="https://github.com/GeminiLight/awesome-agentic-artifact-creation/blob/main/CONTRIBUTING.md">
-                <span>Contribute a paper</span><span aria-hidden="true">↗</span>
+                <span>Contribute a paper</span>
               </a>
             </div>
           </div>

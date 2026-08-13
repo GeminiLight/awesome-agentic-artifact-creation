@@ -34,6 +34,10 @@ const elements = {
   applicationOverview: document.querySelector("#application-overview"),
 };
 
+const selectWidgets = new WeakMap();
+const selectWidgetList = [];
+let selectWidgetCount = 0;
+
 function createElement(tag, className, text) {
   const element = document.createElement(tag);
   if (className) element.className = className;
@@ -49,6 +53,170 @@ function formatNumber(value) {
   return new Intl.NumberFormat("en").format(value);
 }
 
+function closeCustomSelect(widget, { restoreFocus = false } = {}) {
+  if (!widget || !widget.wrapper.classList.contains("is-open")) return;
+  widget.wrapper.classList.remove("is-open");
+  widget.trigger.setAttribute("aria-expanded", "false");
+  widget.menu.hidden = true;
+  if (restoreFocus) widget.trigger.focus();
+}
+
+function closeOtherCustomSelects(activeWidget) {
+  selectWidgetList.forEach((widget) => {
+    if (widget !== activeWidget) closeCustomSelect(widget);
+  });
+}
+
+function customSelectOptions(widget) {
+  return [...widget.menu.querySelectorAll('[role="option"]')];
+}
+
+function focusCustomSelectOption(widget, index) {
+  const options = customSelectOptions(widget);
+  if (!options.length) return;
+  const nextIndex = Math.max(0, Math.min(index, options.length - 1));
+  options[nextIndex].focus();
+  options[nextIndex].scrollIntoView({ block: "nearest" });
+}
+
+function openCustomSelect(widget, preferredIndex = widget.select.selectedIndex) {
+  closeOtherCustomSelects(widget);
+  widget.wrapper.classList.add("is-open");
+  widget.trigger.setAttribute("aria-expanded", "true");
+  widget.menu.hidden = false;
+  focusCustomSelectOption(widget, preferredIndex < 0 ? 0 : preferredIndex);
+}
+
+function chooseCustomSelectOption(widget, index) {
+  const option = widget.select.options[index];
+  if (!option || option.disabled) return;
+  const changed = widget.select.selectedIndex !== index;
+  widget.select.selectedIndex = index;
+  refreshCustomSelect(widget.select);
+  widget.trigger.focus();
+  if (changed) {
+    widget.select.dispatchEvent(new Event("change", { bubbles: true }));
+  }
+}
+
+function handleCustomSelectKeydown(event, widget, index) {
+  const lastIndex = widget.select.options.length - 1;
+  if (event.key === "ArrowDown") {
+    event.preventDefault();
+    focusCustomSelectOption(widget, index === lastIndex ? 0 : index + 1);
+  } else if (event.key === "ArrowUp") {
+    event.preventDefault();
+    focusCustomSelectOption(widget, index === 0 ? lastIndex : index - 1);
+  } else if (event.key === "Home") {
+    event.preventDefault();
+    focusCustomSelectOption(widget, 0);
+  } else if (event.key === "End") {
+    event.preventDefault();
+    focusCustomSelectOption(widget, lastIndex);
+  } else if (event.key === "Enter" || event.key === " ") {
+    event.preventDefault();
+    chooseCustomSelectOption(widget, index);
+  } else if (event.key === "Escape") {
+    event.preventDefault();
+    closeCustomSelect(widget, { restoreFocus: true });
+  } else if (event.key === "Tab") {
+    closeCustomSelect(widget);
+  }
+}
+
+function refreshCustomSelect(select) {
+  const widget = selectWidgets.get(select);
+  if (!widget) return;
+
+  closeCustomSelect(widget);
+  const fragment = document.createDocumentFragment();
+  [...select.options].forEach((option, index) => {
+    const item = createElement("div", "select-option", option.textContent);
+    item.id = `${widget.menu.id}-option-${index}`;
+    item.dataset.index = String(index);
+    item.setAttribute("role", "option");
+    item.setAttribute("aria-selected", String(option.selected));
+    item.tabIndex = -1;
+    if (option.selected) item.classList.add("is-selected");
+    if (option.disabled) item.setAttribute("aria-disabled", "true");
+    item.addEventListener("click", () => chooseCustomSelectOption(widget, index));
+    item.addEventListener("keydown", (event) =>
+      handleCustomSelectKeydown(event, widget, index),
+    );
+    fragment.append(item);
+  });
+  widget.menu.replaceChildren(fragment);
+  const selected = select.options[select.selectedIndex] || select.options[0];
+  widget.value.textContent = selected ? selected.textContent : "Select";
+}
+
+function enhanceSelect(select) {
+  if (selectWidgets.has(select)) return;
+
+  selectWidgetCount += 1;
+  const wrapper = createElement("div", "custom-select");
+  const trigger = createElement("button", "select-trigger");
+  const value = createElement("span", "select-value");
+  const caret = createElement("span", "select-caret");
+  const menu = createElement("div", "select-menu");
+  const menuId = `select-menu-${selectWidgetCount}`;
+  const labelId = select.getAttribute("aria-labelledby");
+
+  trigger.type = "button";
+  trigger.setAttribute("aria-haspopup", "listbox");
+  trigger.setAttribute("aria-expanded", "false");
+  trigger.setAttribute("aria-controls", menuId);
+  if (labelId) trigger.setAttribute("aria-labelledby", `${labelId} ${menuId}-value`);
+  value.id = `${menuId}-value`;
+  caret.setAttribute("aria-hidden", "true");
+  menu.id = menuId;
+  menu.setAttribute("role", "listbox");
+  if (labelId) menu.setAttribute("aria-labelledby", labelId);
+  menu.hidden = true;
+
+  select.classList.add("select-native-hidden");
+  select.tabIndex = -1;
+  select.setAttribute("aria-hidden", "true");
+  const selectParent = select.parentNode;
+  selectParent.insertBefore(wrapper, select);
+  wrapper.append(select, trigger, menu);
+  trigger.append(value, caret);
+
+  const widget = { select, wrapper, trigger, value, menu };
+  selectWidgets.set(select, widget);
+  selectWidgetList.push(widget);
+  refreshCustomSelect(select);
+
+  trigger.addEventListener("click", () => {
+    if (wrapper.classList.contains("is-open")) {
+      closeCustomSelect(widget);
+    } else {
+      openCustomSelect(widget);
+    }
+  });
+  trigger.addEventListener("keydown", (event) => {
+    if (["ArrowDown", "ArrowUp", "Enter", " "].includes(event.key)) {
+      event.preventDefault();
+      const preferredIndex =
+        event.key === "ArrowUp" ? select.options.length - 1 : select.selectedIndex;
+      openCustomSelect(widget, preferredIndex);
+    } else if (event.key === "Escape") {
+      closeCustomSelect(widget);
+    }
+  });
+}
+
+function setupCustomSelects() {
+  [elements.primary, elements.year, elements.kind, elements.status, elements.sort].forEach(
+    enhanceSelect,
+  );
+  document.addEventListener("pointerdown", (event) => {
+    selectWidgetList.forEach((widget) => {
+      if (!widget.wrapper.contains(event.target)) closeCustomSelect(widget);
+    });
+  });
+}
+
 function familyColor(paper) {
   const family = state.catalog.families.find(
     (candidate) => candidate.name === paper.artifact_family,
@@ -61,6 +229,7 @@ function setSelectOptions(select, options, emptyLabel) {
   const empty = new Option(emptyLabel, "");
   select.add(empty);
   options.forEach(({ label, value }) => select.add(new Option(label, value)));
+  refreshCustomSelect(select);
 }
 
 function hydrateSummary() {
@@ -135,6 +304,7 @@ function renderFilterOptions() {
   options.push({ label: noneLabel, value: "__none__" });
   setSelectOptions(elements.primary, options, emptyLabel);
   elements.primary.value = state.primary;
+  refreshCustomSelect(elements.primary);
   elements.primaryLabel.textContent =
     state.view === "artifact" ? "Artifact family" : "Application domain";
 
@@ -153,6 +323,7 @@ function renderYearOptions() {
     "All years",
   );
   elements.year.value = state.year;
+  refreshCustomSelect(elements.year);
 }
 
 function searchableText(paper) {
@@ -254,8 +425,8 @@ function renderPaper(paper) {
   meta.append(createElement("span", "paper-year", paper.year));
   meta.append(createElement("span", `status-pill ${paper.type}`, titleCase(paper.type)));
   const links = createElement("div", "paper-links");
-  links.append(externalLink("Paper ↗", paper.link));
-  if (paper.code) links.append(externalLink("Code ↗", paper.code));
+  links.append(externalLink("Paper", paper.link));
+  if (paper.code) links.append(externalLink("Code", paper.code));
   meta.append(links);
 
   item.append(body, meta);
@@ -303,6 +474,9 @@ function syncControls() {
   elements.kind.value = state.kind;
   elements.status.value = state.status;
   elements.sort.value = state.sort;
+  [elements.primary, elements.year, elements.kind, elements.status, elements.sort].forEach(
+    refreshCustomSelect,
+  );
 }
 
 function updateUrl() {
@@ -476,6 +650,7 @@ async function initialize() {
     renderTaxonomyOverview();
     renderFilterOptions();
     renderYearOptions();
+    setupCustomSelects();
     syncControls();
     setupEvents();
     updateCatalog();
