@@ -1069,9 +1069,9 @@ button.application-item {
 
 .analysis-grid {
   display: grid;
-  width: min(100%, 1040px);
-  grid-template-columns: 1fr;
-  gap: 38px;
+  width: min(100%, 1240px);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
   margin: 78px auto 0;
 }
 
@@ -1085,7 +1085,7 @@ button.application-item {
 
 .analysis-figure figcaption {
   display: flex;
-  min-height: 84px;
+  min-height: 94px;
   align-items: flex-start;
   padding: 20px 23px;
   border-bottom: 1px solid var(--line);
@@ -1118,21 +1118,20 @@ button.application-item {
   background: var(--surface);
 }
 
-.composition-chart {
-  min-height: 560px;
-}
-
+.composition-chart,
 .venue-chart {
-  min-height: 620px;
-}
-
-.venue-chart .d3-svg {
-  min-width: 760px;
+  min-height: 540px;
 }
 
 .trend-chart,
 .matrix-chart {
-  min-height: 520px;
+  min-height: 480px;
+}
+
+.analysis-grid .d3-svg {
+  width: min(100%, 640px);
+  min-width: 600px;
+  margin-inline: auto;
 }
 
 .d3-svg {
@@ -1413,6 +1412,11 @@ button.application-item {
     grid-template-columns: 240px minmax(0, 1fr);
     gap: 38px;
   }
+
+  .analysis-grid {
+    width: min(100%, 1040px);
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 900px) {
@@ -1491,10 +1495,6 @@ button.application-item {
 
   .analysis-grid {
     grid-template-columns: 1fr;
-  }
-
-  .analysis-figure-wide {
-    grid-column: auto;
   }
 
   .about-grid {
@@ -1651,10 +1651,6 @@ button.application-item {
 
   .analysis-figure img {
     min-width: 640px;
-  }
-
-  .analysis-figure-wide img {
-    min-width: 720px;
   }
 
   .footer-grid {

@@ -55,7 +55,19 @@ class SiteBuildTests(unittest.TestCase):
             self.assertTrue((output / "favicon.svg").is_file())
             self.assertTrue((output / ".nojekyll").is_file())
             index = (output / "index.html").read_text(encoding="utf-8")
-            self.assertIn('src="assets/charts.js"', index)
+            self.assertRegex(
+                index, r'src="assets/charts\.js\?v=[0-9a-f]{12}"'
+            )
+            self.assertRegex(
+                index, r'src="assets/app\.js\?v=[0-9a-f]{12}"'
+            )
+            self.assertRegex(
+                index, r'href="assets/styles\.css\?v=[0-9a-f]{12}"'
+            )
+            self.assertRegex(
+                index,
+                r'data-catalog-url="data/catalog\.json\?v=[0-9a-f]{12}"',
+            )
             self.assertIn('id="venue-chart"', index)
             self.assertNotIn('src="visualization/', index)
 

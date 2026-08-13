@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import shutil
 from collections import Counter
@@ -17,6 +18,8 @@ from venue_registry import load_venues
 ROOT = Path(__file__).resolve().parent.parent
 SITE_SOURCE = ROOT / "site"
 DEFAULT_OUTPUT = ROOT / "_site"
+
+
 def _count(rows: list[dict[str, str]], field: str, value: str) -> int:
     return sum(row[field] == value for row in rows)
 
@@ -151,6 +154,21 @@ def build_site(output: Path = DEFAULT_OUTPUT) -> Path:
         json.dumps(payload, ensure_ascii=False, separators=(",", ":")),
         encoding="utf-8",
     )
+
+    index_path = output / "index.html"
+    index = index_path.read_text(encoding="utf-8")
+    versioned_assets = (
+        "assets/styles.css",
+        "assets/app.js",
+        "assets/charts.js",
+        "data/catalog.json",
+    )
+    for relative_path in versioned_assets:
+        digest = hashlib.sha256((output / relative_path).read_bytes()).hexdigest()[:12]
+        index = index.replace(
+            f'"{relative_path}"', f'"{relative_path}?v={digest}"'
+        )
+    index_path.write_text(index, encoding="utf-8")
 
     (output / ".nojekyll").touch()
     return output
