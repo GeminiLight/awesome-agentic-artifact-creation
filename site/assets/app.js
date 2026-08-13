@@ -1,6 +1,7 @@
 document.documentElement.classList.add("js");
 
-const PAGE_SIZE = 18;
+const DEFAULT_PAGE_SIZE = 25;
+const PAGE_SIZE_OPTIONS = [10, 25, 50, 100];
 const FALLBACK_COLOR = "#8a96a8";
 
 const state = {
@@ -12,7 +13,8 @@ const state = {
   status: "",
   search: "",
   sort: "recent",
-  shown: PAGE_SIZE,
+  page: 1,
+  pageSize: DEFAULT_PAGE_SIZE,
 };
 
 const elements = {
@@ -20,7 +22,7 @@ const elements = {
   paperList: document.querySelector("#paper-list"),
   resultCount: document.querySelector("#result-count"),
   emptyState: document.querySelector("#empty-state"),
-  loadMore: document.querySelector("#load-more"),
+  pagination: document.querySelector("#pagination"),
   search: document.querySelector("#paper-search"),
   primary: document.querySelector("#primary-filter"),
   primaryLabel: document.querySelector("#primary-filter-label"),
@@ -28,6 +30,7 @@ const elements = {
   kind: document.querySelector("#kind-filter"),
   status: document.querySelector("#status-filter"),
   sort: document.querySelector("#sort-order"),
+  pageSize: document.querySelector("#page-size"),
   activeFilters: document.querySelector("#active-filters"),
   clearFilters: document.querySelector("#clear-filters"),
   familyOverview: document.querySelector("#family-overview"),
@@ -43,6 +46,12 @@ function createElement(tag, className, text) {
   if (className) element.className = className;
   if (text !== undefined) element.textContent = text;
   return element;
+}
+
+function createIcon(name) {
+  const icon = createElement("i", `ph ${name}`);
+  icon.setAttribute("aria-hidden", "true");
+  return icon;
 }
 
 function titleCase(value) {
@@ -207,9 +216,14 @@ function enhanceSelect(select) {
 }
 
 function setupCustomSelects() {
-  [elements.primary, elements.year, elements.kind, elements.status, elements.sort].forEach(
-    enhanceSelect,
-  );
+  [
+    elements.primary,
+    elements.year,
+    elements.kind,
+    elements.status,
+    elements.pageSize,
+    elements.sort,
+  ].forEach(enhanceSelect);
   document.addEventListener("pointerdown", (event) => {
     selectWidgetList.forEach((widget) => {
       if (!widget.wrapper.contains(event.target)) closeCustomSelect(widget);
@@ -383,11 +397,16 @@ function paperTag(value) {
   return value ? createElement("span", "paper-tag", value) : null;
 }
 
-function externalLink(label, href) {
-  const link = createElement("a", "", label);
+function externalLink(label, href, iconName = "") {
+  const link = createElement("a");
   link.href = href;
   link.target = "_blank";
   link.rel = "noreferrer";
+  if (iconName) {
+    link.append(createIcon(iconName), createElement("span", "", label));
+  } else {
+    link.textContent = label;
+  }
   return link;
 }
 
@@ -425,8 +444,8 @@ function renderPaper(paper) {
   meta.append(createElement("span", "paper-year", paper.year));
   meta.append(createElement("span", `status-pill ${paper.type}`, titleCase(paper.type)));
   const links = createElement("div", "paper-links");
-  links.append(externalLink("Paper", paper.link));
-  if (paper.code) links.append(externalLink("Code", paper.code));
+  links.append(externalLink("Paper", paper.link, "ph-file-text"));
+  if (paper.code) links.append(externalLink("Code", paper.code, "ph-code"));
   meta.append(links);
 
   item.append(body, meta);
@@ -474,9 +493,15 @@ function syncControls() {
   elements.kind.value = state.kind;
   elements.status.value = state.status;
   elements.sort.value = state.sort;
-  [elements.primary, elements.year, elements.kind, elements.status, elements.sort].forEach(
-    refreshCustomSelect,
-  );
+  elements.pageSize.value = String(state.pageSize);
+  [
+    elements.primary,
+    elements.year,
+    elements.kind,
+    elements.status,
+    elements.pageSize,
+    elements.sort,
+  ].forEach(refreshCustomSelect);
 }
 
 function updateUrl() {
@@ -488,23 +513,124 @@ function updateUrl() {
   if (state.status) params.set("status", state.status);
   if (state.search) params.set("q", state.search);
   if (state.sort !== "recent") params.set("sort", state.sort);
+  if (state.page > 1) params.set("page", String(state.page));
+  if (state.pageSize !== DEFAULT_PAGE_SIZE) {
+    params.set("perPage", String(state.pageSize));
+  }
   const query = params.toString();
   history.replaceState(null, "", `${location.pathname}${query ? `?${query}` : ""}${location.hash}`);
 }
 
-function updateCatalog({ preserveShown = false } = {}) {
-  if (!preserveShown) state.shown = PAGE_SIZE;
+function paginationItems(currentPage, totalPages) {
+  if (totalPages <= 7) {
+    return Array.from({ length: totalPages }, (_, index) => index + 1);
+  }
+  if (currentPage <= 4) return [1, 2, 3, 4, 5, "ellipsis", totalPages];
+  if (currentPage >= totalPages - 3) {
+    return [
+      1,
+      "ellipsis",
+      totalPages - 4,
+      totalPages - 3,
+      totalPages - 2,
+      totalPages - 1,
+      totalPages,
+    ];
+  }
+  return [
+    1,
+    "ellipsis-start",
+    currentPage - 1,
+    currentPage,
+    currentPage + 1,
+    "ellipsis-end",
+    totalPages,
+  ];
+}
+
+function scrollToCatalogResults() {
+  const behavior = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ? "auto"
+    : "smooth";
+  elements.resultsPanel.scrollIntoView({ behavior, block: "start" });
+}
+
+function setCatalogPage(page) {
+  state.page = page;
+  updateCatalog({ resetPage: false });
+  window.requestAnimationFrame(() => {
+    elements.pagination
+      .querySelector(`[data-page="${state.page}"]`)
+      ?.focus({ preventScroll: true });
+    scrollToCatalogResults();
+  });
+}
+
+function renderPagination(totalPapers, firstVisible, lastVisible, totalPages) {
+  elements.pagination.hidden = totalPages <= 1 || totalPapers === 0;
+  if (elements.pagination.hidden) {
+    elements.pagination.replaceChildren();
+    return;
+  }
+
+  const summary = createElement(
+    "p",
+    "pagination-summary",
+    `${formatNumber(firstVisible)}–${formatNumber(lastVisible)} of ${formatNumber(totalPapers)}`,
+  );
+  const controls = createElement("div", "pagination-controls");
+  const previous = createElement("button", "pagination-direction");
+  previous.type = "button";
+  previous.append(createIcon("ph-arrow-left"), createElement("span", "", "Previous"));
+  previous.disabled = state.page === 1;
+  previous.addEventListener("click", () => setCatalogPage(state.page - 1));
+  controls.append(previous);
+
+  const pages = createElement("div", "pagination-pages");
+  paginationItems(state.page, totalPages).forEach((item) => {
+    if (typeof item !== "number") {
+      const ellipsis = createElement("span", "pagination-ellipsis", "…");
+      ellipsis.setAttribute("aria-hidden", "true");
+      pages.append(ellipsis);
+      return;
+    }
+    const page = createElement("button", "pagination-page", String(item));
+    page.type = "button";
+    page.dataset.page = String(item);
+    page.setAttribute("aria-label", `Go to page ${item}`);
+    if (item === state.page) {
+      page.classList.add("is-current");
+      page.setAttribute("aria-current", "page");
+      page.setAttribute("aria-label", `Page ${item}, current page`);
+    }
+    page.addEventListener("click", () => setCatalogPage(item));
+    pages.append(page);
+  });
+  controls.append(pages);
+
+  const next = createElement("button", "pagination-direction");
+  next.type = "button";
+  next.append(createElement("span", "", "Next"), createIcon("ph-arrow-right"));
+  next.disabled = state.page === totalPages;
+  next.addEventListener("click", () => setCatalogPage(state.page + 1));
+  controls.append(next);
+  elements.pagination.replaceChildren(summary, controls);
+}
+
+function updateCatalog({ resetPage = true } = {}) {
+  if (resetPage) state.page = 1;
   const papers = filteredPapers();
-  const visible = papers.slice(0, state.shown);
+  const totalPages = Math.max(1, Math.ceil(papers.length / state.pageSize));
+  state.page = Math.min(Math.max(1, state.page), totalPages);
+  const start = (state.page - 1) * state.pageSize;
+  const end = Math.min(start + state.pageSize, papers.length);
+  const visible = papers.slice(start, end);
   const fragment = document.createDocumentFragment();
   visible.forEach((paper) => fragment.append(renderPaper(paper)));
   elements.paperList.replaceChildren(fragment);
   elements.resultCount.textContent = formatNumber(papers.length);
   elements.emptyState.hidden = papers.length > 0;
-  elements.loadMore.hidden = visible.length >= papers.length;
-  if (!elements.loadMore.hidden) {
-    elements.loadMore.textContent = `Show more · ${formatNumber(papers.length - visible.length)} remaining`;
-  }
+  renderPagination(papers.length, start + 1, end, totalPages);
   renderActiveFilters();
   updateUrl();
   elements.resultsPanel.setAttribute("aria-busy", "false");
@@ -542,6 +668,15 @@ function readUrlState() {
   state.status = params.get("status") || "";
   state.search = params.get("q") || "";
   state.sort = params.get("sort") === "title" ? "title" : "recent";
+  const requestedPage = Number.parseInt(params.get("page") || "1", 10);
+  const requestedPageSize = Number.parseInt(
+    params.get("perPage") || String(DEFAULT_PAGE_SIZE),
+    10,
+  );
+  state.page = Number.isFinite(requestedPage) && requestedPage > 0 ? requestedPage : 1;
+  state.pageSize = PAGE_SIZE_OPTIONS.includes(requestedPageSize)
+    ? requestedPageSize
+    : DEFAULT_PAGE_SIZE;
 }
 
 function setupAxisTabs() {
@@ -594,6 +729,10 @@ function setupEvents() {
     state.sort = event.target.value;
     updateCatalog();
   });
+  elements.pageSize.addEventListener("change", (event) => {
+    state.pageSize = Number.parseInt(event.target.value, 10);
+    updateCatalog();
+  });
   document.querySelectorAll('input[name="catalog-view"]').forEach((input) => {
     input.addEventListener("change", (event) => setCatalogView(event.target.value));
   });
@@ -601,15 +740,11 @@ function setupEvents() {
   document.querySelectorAll("[data-clear-filters]").forEach((button) => {
     button.addEventListener("click", clearFilters);
   });
-  elements.loadMore.addEventListener("click", () => {
-    state.shown += PAGE_SIZE;
-    updateCatalog({ preserveShown: true });
-  });
   window.addEventListener("popstate", () => {
     readUrlState();
     renderFilterOptions();
     syncControls();
-    updateCatalog();
+    updateCatalog({ resetPage: false });
   });
   document.querySelectorAll(".mobile-menu a").forEach((link) => {
     link.addEventListener("click", () => link.closest("details").removeAttribute("open"));
@@ -667,7 +802,7 @@ async function initialize() {
     setupCustomSelects();
     syncControls();
     setupEvents();
-    updateCatalog();
+    updateCatalog({ resetPage: false });
   } catch (error) {
     console.error(error);
     settleStalledCharts(

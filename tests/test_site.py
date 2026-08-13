@@ -69,6 +69,16 @@ class SiteBuildTests(unittest.TestCase):
                 r'data-catalog-url="data/catalog\.json\?v=[0-9a-f]{12}"',
             )
             self.assertIn('id="venue-chart"', index)
+            self.assertLess(
+                index.index('href="#analysis">Analysis'),
+                index.index('href="#catalog">Explore'),
+            )
+            self.assertLess(index.index('id="analysis"'), index.index('id="catalog"'))
+            self.assertIn('id="page-size"', index)
+            self.assertIn('id="pagination"', index)
+            self.assertNotIn('id="load-more"', index)
+            self.assertIn('@phosphor-icons/web@2.1.2', index)
+            self.assertIn('ph-github-logo', index)
             self.assertNotIn('src="visualization/', index)
 
             payload = json.loads(

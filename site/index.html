@@ -10,6 +10,10 @@
     <meta name="theme-color" content="#ffffff">
     <title>Awesome Agentic Artifact Creation</title>
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css"
+    >
     <link rel="stylesheet" href="assets/styles.css">
     <script src="assets/app.js" defer></script>
     <script type="module" src="assets/charts.js"></script>
@@ -28,22 +32,24 @@
         </a>
         <nav class="desktop-nav" aria-label="Primary navigation">
           <a href="#scope">Scope</a>
-          <a href="#catalog">Explore</a>
           <a href="#analysis">Analysis</a>
+          <a href="#catalog">Explore</a>
           <a href="#about">About</a>
         </nav>
         <a
           class="header-github"
           href="https://github.com/GeminiLight/awesome-agentic-artifact-creation"
-        >GitHub</a>
+        ><i class="ph ph-github-logo" aria-hidden="true"></i><span>GitHub</span></a>
         <details class="mobile-menu">
           <summary>Menu</summary>
           <nav aria-label="Mobile navigation">
             <a href="#scope">Scope</a>
-            <a href="#catalog">Explore</a>
             <a href="#analysis">Analysis</a>
+            <a href="#catalog">Explore</a>
             <a href="#about">About</a>
-            <a href="https://github.com/GeminiLight/awesome-agentic-artifact-creation">GitHub</a>
+            <a href="https://github.com/GeminiLight/awesome-agentic-artifact-creation">
+              <i class="ph ph-github-logo" aria-hidden="true"></i><span>GitHub</span>
+            </a>
           </nav>
         </details>
       </div>
@@ -58,11 +64,13 @@
             Explore systems and benchmarks by artifact family or application domain.
           </p>
           <div class="hero-actions">
-            <a class="button button-primary" href="#catalog">Explore papers</a>
+            <a class="button button-primary" href="#catalog">
+              <i class="ph ph-magnifying-glass" aria-hidden="true"></i><span>Explore papers</span>
+            </a>
             <a
               class="button button-secondary"
               href="https://github.com/GeminiLight/agentic-creation-survey"
-            >Read the survey</a>
+            ><i class="ph ph-file-text" aria-hidden="true"></i><span>Read the survey</span></a>
           </div>
         </div>
 
@@ -161,113 +169,6 @@
         </div>
       </section>
 
-      <section class="catalog-section section-block" id="catalog" aria-labelledby="catalog-title">
-        <div class="section-shell">
-          <div class="catalog-heading reveal">
-            <div class="section-intro compact">
-              <h2 id="catalog-title">Search the catalog.</h2>
-            </div>
-            <p class="catalog-lede">
-              Search by title, author, system, venue, artifact, or application.
-            </p>
-          </div>
-
-          <div class="catalog-layout">
-            <aside class="filter-panel reveal" aria-label="Paper filters">
-              <div class="filter-heading">
-                <h3>Refine</h3>
-                <button class="text-button" id="clear-filters" type="button">Clear all</button>
-              </div>
-
-              <label class="search-field" for="paper-search">
-                <span>Search</span>
-                <input
-                  id="paper-search"
-                  type="search"
-                  placeholder="Title, author, system…"
-                  autocomplete="off"
-                >
-              </label>
-
-              <fieldset class="view-filter">
-                <legend>Browse view</legend>
-                <label>
-                  <input type="radio" name="catalog-view" value="artifact" checked>
-                  <span>Artifact</span>
-                </label>
-                <label>
-                  <input type="radio" name="catalog-view" value="application">
-                  <span>Application</span>
-                </label>
-              </fieldset>
-
-              <div class="filter-control">
-                <span id="primary-filter-label">Artifact family</span>
-                <select id="primary-filter" aria-labelledby="primary-filter-label">
-                  <option value="">All families</option>
-                </select>
-              </div>
-
-              <div class="filter-control">
-                <span id="year-filter-label">Year</span>
-                <select id="year-filter" aria-labelledby="year-filter-label">
-                  <option value="">All years</option>
-                </select>
-              </div>
-
-              <div class="filter-control">
-                <span id="kind-filter-label">Entry kind</span>
-                <select id="kind-filter" aria-labelledby="kind-filter-label">
-                  <option value="">Systems & benchmarks</option>
-                  <option value="system">Systems</option>
-                  <option value="benchmark">Benchmarks</option>
-                </select>
-              </div>
-
-              <div class="filter-control">
-                <span id="status-filter-label">Publication status</span>
-                <select id="status-filter" aria-labelledby="status-filter-label">
-                  <option value="">All statuses</option>
-                  <option value="published">Published</option>
-                  <option value="preprint">Preprint</option>
-                  <option value="project">Project</option>
-                </select>
-              </div>
-            </aside>
-
-            <div class="results-panel reveal" aria-live="polite" aria-busy="true">
-              <div class="results-header">
-                <p><strong id="result-count">...</strong> matching papers</p>
-                <div class="filter-control sort-control">
-                  <span id="sort-order-label">Sort</span>
-                  <select id="sort-order" aria-labelledby="sort-order-label">
-                    <option value="recent">Newest first</option>
-                    <option value="title">Title A-Z</option>
-                  </select>
-                </div>
-              </div>
-              <div class="active-filters" id="active-filters" aria-label="Active filters"></div>
-              <ol class="paper-list" id="paper-list"></ol>
-              <div class="empty-state" id="empty-state" hidden>
-                <p>No papers match this combination.</p>
-                <button class="button button-secondary" type="button" data-clear-filters>
-                  Reset filters
-                </button>
-              </div>
-              <button class="load-more" id="load-more" type="button" hidden>
-                Show more papers
-              </button>
-              <noscript>
-                <p class="noscript-note">
-                  JavaScript is required for the interactive catalog. The complete
-                  paper list remains available in the repository README.
-                </p>
-              </noscript>
-            </div>
-          </div>
-        </div>
-      </section>
-
       <section class="analysis section-shell section-block" id="analysis" aria-labelledby="analysis-title">
         <div class="section-intro reveal">
           <h2 id="analysis-title">Catalog structure and coverage.</h2>
@@ -336,6 +237,125 @@
         </div>
       </section>
 
+      <section class="catalog-section section-block" id="catalog" aria-labelledby="catalog-title">
+        <div class="section-shell">
+          <div class="catalog-heading reveal">
+            <div class="section-intro compact">
+              <h2 id="catalog-title">Search the catalog.</h2>
+            </div>
+            <p class="catalog-lede">
+              Search by title, author, system, venue, artifact, or application.
+            </p>
+          </div>
+
+          <div class="catalog-layout">
+            <aside class="filter-panel reveal" aria-label="Paper filters">
+              <div class="filter-heading">
+                <h3><i class="ph ph-funnel-simple" aria-hidden="true"></i><span>Refine</span></h3>
+                <button class="text-button" id="clear-filters" type="button">
+                  <i class="ph ph-x" aria-hidden="true"></i><span>Clear all</span>
+                </button>
+              </div>
+
+              <label class="search-field" for="paper-search">
+                <span><i class="ph ph-magnifying-glass" aria-hidden="true"></i>Search</span>
+                <input
+                  id="paper-search"
+                  type="search"
+                  placeholder="Title, author, system…"
+                  autocomplete="off"
+                >
+              </label>
+
+              <fieldset class="view-filter">
+                <legend>Browse view</legend>
+                <label>
+                  <input type="radio" name="catalog-view" value="artifact" checked>
+                  <span>Artifact</span>
+                </label>
+                <label>
+                  <input type="radio" name="catalog-view" value="application">
+                  <span>Application</span>
+                </label>
+              </fieldset>
+
+              <div class="filter-control">
+                <span id="primary-filter-label">Artifact family</span>
+                <select id="primary-filter" aria-labelledby="primary-filter-label">
+                  <option value="">All families</option>
+                </select>
+              </div>
+
+              <div class="filter-control">
+                <span id="year-filter-label">Year</span>
+                <select id="year-filter" aria-labelledby="year-filter-label">
+                  <option value="">All years</option>
+                </select>
+              </div>
+
+              <div class="filter-control">
+                <span id="kind-filter-label">Entry kind</span>
+                <select id="kind-filter" aria-labelledby="kind-filter-label">
+                  <option value="">Systems & benchmarks</option>
+                  <option value="system">Systems</option>
+                  <option value="benchmark">Benchmarks</option>
+                </select>
+              </div>
+
+              <div class="filter-control">
+                <span id="status-filter-label">Publication status</span>
+                <select id="status-filter" aria-labelledby="status-filter-label">
+                  <option value="">All statuses</option>
+                  <option value="published">Published</option>
+                  <option value="preprint">Preprint</option>
+                  <option value="project">Project</option>
+                </select>
+              </div>
+            </aside>
+
+            <div class="results-panel reveal" aria-live="polite" aria-busy="true">
+              <div class="results-header">
+                <p><strong id="result-count">...</strong> matching papers</p>
+                <div class="results-controls">
+                  <div class="filter-control page-size-control">
+                    <span id="page-size-label">Per page</span>
+                    <select id="page-size" aria-labelledby="page-size-label">
+                      <option value="10">10</option>
+                      <option value="25" selected>25</option>
+                      <option value="50">50</option>
+                      <option value="100">100</option>
+                    </select>
+                  </div>
+                  <div class="filter-control sort-control">
+                    <span id="sort-order-label">Sort</span>
+                    <select id="sort-order" aria-labelledby="sort-order-label">
+                      <option value="recent">Newest first</option>
+                      <option value="title">Title A-Z</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="active-filters" id="active-filters" aria-label="Active filters"></div>
+              <ol class="paper-list" id="paper-list"></ol>
+              <div class="empty-state" id="empty-state" hidden>
+                <p>No papers match this combination.</p>
+                <button class="button button-secondary" type="button" data-clear-filters>
+                  <i class="ph ph-arrow-counter-clockwise" aria-hidden="true"></i>
+                  <span>Reset filters</span>
+                </button>
+              </div>
+              <nav class="pagination" id="pagination" aria-label="Catalog pages" hidden></nav>
+              <noscript>
+                <p class="noscript-note">
+                  JavaScript is required for the interactive catalog. The complete
+                  paper list remains available in the repository README.
+                </p>
+              </noscript>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section class="about section-block" id="about" aria-labelledby="about-title">
         <div class="section-shell about-grid">
           <div class="section-intro reveal">
@@ -354,13 +374,22 @@
             </p>
             <div class="resource-links">
               <a href="https://github.com/GeminiLight/awesome-agentic-artifact-creation/blob/main/AUDIT.md">
-                <span>Audit protocol</span>
+                <span class="resource-link-label">
+                  <i class="ph ph-shield-check" aria-hidden="true"></i><span>Audit protocol</span>
+                </span>
+                <i class="ph ph-arrow-up-right" aria-hidden="true"></i>
               </a>
               <a href="https://github.com/GeminiLight/awesome-agentic-artifact-creation/tree/main/data">
-                <span>Open data</span>
+                <span class="resource-link-label">
+                  <i class="ph ph-database" aria-hidden="true"></i><span>Open data</span>
+                </span>
+                <i class="ph ph-arrow-up-right" aria-hidden="true"></i>
               </a>
               <a href="https://github.com/GeminiLight/awesome-agentic-artifact-creation/blob/main/CONTRIBUTING.md">
-                <span>Contribute a paper</span>
+                <span class="resource-link-label">
+                  <i class="ph ph-plus-circle" aria-hidden="true"></i><span>Contribute a paper</span>
+                </span>
+                <i class="ph ph-arrow-up-right" aria-hidden="true"></i>
               </a>
             </div>
           </div>
@@ -379,9 +408,13 @@
           Licensed under CC BY 4.0.
         </p>
         <div class="footer-links">
-          <a href="#top">Back to top</a>
-          <a href="https://github.com/GeminiLight/awesome-agentic-artifact-creation">GitHub</a>
-          <a href="https://github.com/GeminiLight/awesome-agentic-artifact-creation/blob/main/LICENSE">License</a>
+          <a href="#top"><i class="ph ph-arrow-up" aria-hidden="true"></i><span>Back to top</span></a>
+          <a href="https://github.com/GeminiLight/awesome-agentic-artifact-creation">
+            <i class="ph ph-github-logo" aria-hidden="true"></i><span>GitHub</span>
+          </a>
+          <a href="https://github.com/GeminiLight/awesome-agentic-artifact-creation/blob/main/LICENSE">
+            <i class="ph ph-scales" aria-hidden="true"></i><span>License</span>
+          </a>
         </div>
       </div>
     </footer>
