@@ -638,11 +638,25 @@ function setupRevealMotion() {
   revealElements.forEach((element) => observer.observe(element));
 }
 
+function settleStalledCharts(message) {
+  document.querySelectorAll(".chart-loading").forEach((loading) => {
+    const error = document.createElement("p");
+    error.className = "chart-error";
+    error.textContent = message;
+    loading.replaceWith(error);
+  });
+}
+
 async function initialize() {
   setupRevealMotion();
   setupAxisTabs();
+  window.setTimeout(
+    () => settleStalledCharts("Chart loading timed out. Reload the page to try again."),
+    10000,
+  );
   try {
-    const response = await fetch("data/catalog.json");
+    const catalogUrl = document.body.dataset.catalogUrl || "data/catalog.json";
+    const response = await fetch(catalogUrl);
     if (!response.ok) throw new Error(`Catalog request failed: ${response.status}`);
     state.catalog = await response.json();
     readUrlState();
@@ -656,6 +670,11 @@ async function initialize() {
     updateCatalog();
   } catch (error) {
     console.error(error);
+    settleStalledCharts(
+      window.location.protocol === "file:"
+        ? "Charts require the published site or a local web server."
+        : "The chart data could not be loaded. Reload the page to try again.",
+    );
     elements.resultsPanel.setAttribute("aria-busy", "false");
     elements.paperList.replaceChildren();
     elements.emptyState.hidden = false;

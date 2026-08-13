@@ -32,7 +32,7 @@ const VENUE_DOMAIN_LABELS = new Map([
   ["Data Mining and Information Retrieval", "Data Mining & IR"],
   ["Software Engineering", "Software Eng."],
   ["Systems & Hardware", "Systems & Hardware"],
-  ["Multimodal & Audio", "Multimodal & Audio"],
+  ["Multimodal & Audio", "Multimodal"],
   ["Interdisciplinary & General Science", "Interdisciplinary"],
 ]);
 
@@ -185,9 +185,9 @@ function drawHeroFamilies(catalog) {
 }
 
 function drawComposition(catalog) {
-  const width = 1160;
-  const height = 650;
-  const center = { x: 340, y: 330 };
+  const width = 640;
+  const height = 560;
+  const center = { x: 320, y: 210 };
   const familyTotal = d3.sum(catalog.families, (family) => family.count);
   const applicationOnly = catalog.summary.total - familyTotal;
   const families = catalog.families.map((family) => ({ ...family }));
@@ -234,8 +234,8 @@ function drawComposition(catalog) {
 
   const familyPie = d3.pie().sort(null).value((item) => item.count)(families);
   const typePie = d3.pie().sort(null).value((item) => item.count)(outerData);
-  const familyArc = d3.arc().innerRadius(108).outerRadius(184);
-  const typeArc = d3.arc().innerRadius(190).outerRadius(255);
+  const familyArc = d3.arc().innerRadius(76).outerRadius(125);
+  const typeArc = d3.arc().innerRadius(130).outerRadius(178);
   const chart = svg.append("g").attr("transform", `translate(${center.x},${center.y})`);
 
   chart
@@ -292,39 +292,38 @@ function drawComposition(catalog) {
 
   const legend = svg
     .append("g")
-    .attr("class", "chart-legend")
-    .attr("transform", "translate(665,85)");
+    .attr("class", "chart-legend");
   const legendRows = legend
     .selectAll("g")
     .data(families)
     .join("g")
-    .attr("transform", (_, index) => `translate(0,${index * 76})`);
+    .attr(
+      "transform",
+      (_, index) => `translate(${28 + (index % 3) * 205},${414 + Math.floor(index / 3) * 47})`,
+    );
   legendRows
     .append("rect")
-    .attr("width", 10)
-    .attr("height", 38)
+    .attr("width", 8)
+    .attr("height", 29)
     .attr("fill", (item) => item.color);
   legendRows
     .append("text")
     .attr("class", "legend-title")
-    .attr("x", 24)
-    .attr("y", 13)
+    .attr("x", 17)
+    .attr("y", 11)
     .text((item) => `${item.name}  ${item.count}`);
   legendRows
     .append("text")
     .attr("class", "legend-detail")
-    .attr("x", 24)
-    .attr("y", 34)
-    .text((item) => {
-      const types = item.types.filter((type) => type.count).map((type) => type.name);
-      return types.length ? types.join(" / ") : share(item.count, catalog.summary.total);
-    });
+    .attr("x", 17)
+    .attr("y", 29)
+    .text((item) => share(item.count, catalog.summary.total));
 }
 
 function drawTrend(catalog) {
-  const width = 960;
-  const height = 610;
-  const margin = { top: 118, right: 34, bottom: 68, left: 68 };
+  const width = 640;
+  const height = 520;
+  const margin = { top: 102, right: 24, bottom: 60, left: 52 };
   const familyNames = catalog.families.map((family) => family.name);
   const color = new Map(catalog.families.map((family) => [family.name, family.color]));
   const years = [...new Set(catalog.papers.map((paper) => paper.year))].sort();
@@ -409,7 +408,10 @@ function drawTrend(catalog) {
     .selectAll("g")
     .data(catalog.families)
     .join("g")
-    .attr("transform", (_, index) => `translate(${margin.left + (index % 3) * 290},${34 + Math.floor(index / 3) * 32})`);
+    .attr(
+      "transform",
+      (_, index) => `translate(${margin.left + (index % 3) * 194},${26 + Math.floor(index / 3) * 30})`,
+    );
   legendItem.append("rect").attr("width", 12).attr("height", 12).attr("fill", (item) => item.color);
   legendItem
     .append("text")
@@ -420,8 +422,8 @@ function drawTrend(catalog) {
 }
 
 function drawVenues(catalog) {
-  const width = 1000;
-  const height = 650;
+  const width = 640;
+  const height = 560;
   const venues = catalog.publication_venues || [];
   const domainGroups = d3
     .groups(venues, (venue) => venue.domain)
@@ -550,9 +552,9 @@ function drawVenues(catalog) {
 }
 
 function drawMatrix(catalog) {
-  const width = 1180;
-  const height = 650;
-  const margin = { top: 142, right: 70, bottom: 58, left: 224 };
+  const width = 640;
+  const height = 520;
+  const margin = { top: 120, right: 76, bottom: 48, left: 160 };
   const rows = [...catalog.families.map((family) => family.name), "Application-only"];
   const columns = [
     ...catalog.applications.map((application) => application.name),
@@ -658,7 +660,8 @@ function showChartError(error) {
 }
 
 async function initializeCharts() {
-  const response = await fetch("data/catalog.json");
+  const catalogUrl = document.body.dataset.catalogUrl || "data/catalog.json";
+  const response = await fetch(catalogUrl);
   if (!response.ok) throw new Error(`Catalog request failed: ${response.status}`);
   const catalog = await response.json();
   drawHeroFamilies(catalog);
