@@ -376,6 +376,13 @@ def render_badges(papers: list[dict[str, str]]) -> str:
         [
             "  <p>",
             (
+                '    <a href="https://geminilight.github.io/'
+                'awesome-agentic-artifact-creation/"><img '
+                'alt="Website: Explore" '
+                'src="https://img.shields.io/badge/Website-Explore-66ADD0'
+                '?style=flat-square"></a>'
+            ),
+            (
                 '    <a href="https://github.com/GeminiLight/'
                 'agentic-creation-survey"><img alt="Paper: Coming Soon" '
                 'src="https://img.shields.io/badge/Paper-Coming%20Soon-9380C1'

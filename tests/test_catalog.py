@@ -427,6 +427,10 @@ class CatalogTest(unittest.TestCase):
     def test_header_badges_are_generated_from_catalog(self):
         rendered = render_readme(self.papers, self.taxonomy)
         self.assertNotIn("<!-- catalog-badges -->", rendered)
+        self.assertIn(
+            "geminilight.github.io/awesome-agentic-artifact-creation/", rendered
+        )
+        self.assertIn("Website-Explore-66ADD0", rendered)
         self.assertIn("Paper-Coming%20Soon-9380C1", rendered)
         self.assertIn("Papers-229-4C9D96", rendered)
         self.assertIn(

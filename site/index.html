@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      name="description"
+      content="An interactive catalog of agentic systems and benchmarks that create, inspect, and revise artifacts."
+    >
+    <meta name="theme-color" content="#ffffff">
+    <title>Awesome Agentic Artifact Creation</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="assets/styles.css">
+    <script src="assets/app.js" defer></script>
+    <script type="module" src="assets/charts.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#catalog">Skip to the paper catalog</a>
+
+    <header class="site-header" id="top">
+      <div class="header-inner">
+        <a class="brand" href="#top" aria-label="Awesome Agentic Artifact Creation home">
+          <span class="brand-symbol" aria-hidden="true"></span>
+          <span class="brand-lockup">
+            <strong>AAC</strong>
+            <span>Agentic Artifact Creation</span>
+          </span>
+        </a>
+        <nav class="desktop-nav" aria-label="Primary navigation">
+          <a href="#scope">Scope</a>
+          <a href="#catalog">Explore</a>
+          <a href="#analysis">Analysis</a>
+          <a href="#about">About</a>
+        </nav>
+        <a
+          class="header-github"
+          href="https://github.com/GeminiLight/awesome-agentic-artifact-creation"
+        >GitHub <span aria-hidden="true">↗</span></a>
+        <details class="mobile-menu">
+          <summary>Menu</summary>
+          <nav aria-label="Mobile navigation">
+            <a href="#scope">Scope</a>
+            <a href="#catalog">Explore</a>
+            <a href="#analysis">Analysis</a>
+            <a href="#about">About</a>
+            <a href="https://github.com/GeminiLight/awesome-agentic-artifact-creation">GitHub</a>
+          </nav>
+        </details>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero section-shell" aria-labelledby="hero-title">
+        <div class="hero-copy reveal">
+          <p class="eyebrow">Research catalog</p>
+          <h1 id="hero-title">Agentic artifact creation.</h1>
+          <p class="hero-summary">
+            Explore systems and benchmarks by artifact family or application domain.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#catalog">Explore papers</a>
+            <a
+              class="button button-secondary"
+              href="https://github.com/GeminiLight/agentic-creation-survey"
+            >Read the survey <span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+
+        <div class="hero-visual reveal" aria-label="Artifact taxonomy overview">
+          <div class="visual-header">
+            <span>Artifact families</span>
+            <span id="hero-total">Loading catalog...</span>
+          </div>
+          <div
+            class="d3-chart hero-chart"
+            id="hero-family-chart"
+            aria-label="Paper counts across artifact families"
+          ><p class="chart-loading">Preparing chart...</p></div>
+        </div>
+      </section>
+
+      <section class="stat-band section-shell" aria-label="Catalog summary">
+        <dl>
+          <div>
+            <dt>Papers</dt>
+            <dd data-stat="total">...</dd>
+          </div>
+          <div>
+            <dt>Named systems</dt>
+            <dd data-stat="named_systems">...</dd>
+          </div>
+          <div>
+            <dt>Benchmarks</dt>
+            <dd data-stat="benchmarks">...</dd>
+          </div>
+          <div>
+            <dt>Publication sources</dt>
+            <dd data-stat="venues">...</dd>
+          </div>
+          <div>
+            <dt>Dual-axis records</dt>
+            <dd data-stat="dual_classified">...</dd>
+          </div>
+        </dl>
+      </section>
+
+      <section class="scope section-shell section-block" id="scope" aria-labelledby="scope-title">
+        <div class="section-intro reveal">
+          <h2 id="scope-title">Browse by artifact or application.</h2>
+          <p>
+            The artifact axis asks <em>what is constructed</em>. The application
+            axis asks <em>where the construction work matters</em>. A paper may
+            appear in either view or both.
+          </p>
+        </div>
+
+        <div class="axis-switcher reveal">
+          <div class="segmented-control" role="tablist" aria-label="Taxonomy view">
+            <button
+              id="artifact-tab"
+              role="tab"
+              aria-selected="true"
+              aria-controls="artifact-panel"
+              data-axis-tab="artifact"
+            >Artifact-centered</button>
+            <button
+              id="application-tab"
+              role="tab"
+              aria-selected="false"
+              aria-controls="application-panel"
+              data-axis-tab="application"
+            >Application-centered</button>
+          </div>
+
+          <div
+            class="taxonomy-panel"
+            id="artifact-panel"
+            role="tabpanel"
+            aria-labelledby="artifact-tab"
+          >
+            <div class="taxonomy-heading">
+              <p>Organize by output medium and artifact behavior.</p>
+              <span>Six families</span>
+            </div>
+            <div class="taxonomy-list" id="family-overview"></div>
+          </div>
+
+          <div
+            class="taxonomy-panel"
+            id="application-panel"
+            role="tabpanel"
+            aria-labelledby="application-tab"
+            hidden
+          >
+            <div class="taxonomy-heading">
+              <p>Organize by the real-world context of use.</p>
+              <span>Six domains</span>
+            </div>
+            <div class="application-list" id="application-overview"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="catalog-section section-block" id="catalog" aria-labelledby="catalog-title">
+        <div class="section-shell">
+          <div class="catalog-heading reveal">
+            <div class="section-intro compact">
+              <h2 id="catalog-title">Search the catalog.</h2>
+            </div>
+            <p class="catalog-lede">
+              Search by title, author, system, venue, artifact, or application.
+            </p>
+          </div>
+
+          <div class="catalog-layout">
+            <aside class="filter-panel reveal" aria-label="Paper filters">
+              <div class="filter-heading">
+                <h3>Refine</h3>
+                <button class="text-button" id="clear-filters" type="button">Clear all</button>
+              </div>
+
+              <label class="search-field" for="paper-search">
+                <span>Search</span>
+                <input
+                  id="paper-search"
+                  type="search"
+                  placeholder="Title, author, system…"
+                  autocomplete="off"
+                >
+              </label>
+
+              <fieldset class="view-filter">
+                <legend>Browse view</legend>
+                <label>
+                  <input type="radio" name="catalog-view" value="artifact" checked>
+                  <span>Artifact</span>
+                </label>
+                <label>
+                  <input type="radio" name="catalog-view" value="application">
+                  <span>Application</span>
+                </label>
+              </fieldset>
+
+              <label for="primary-filter">
+                <span id="primary-filter-label">Artifact family</span>
+                <select id="primary-filter">
+                  <option value="">All families</option>
+                </select>
+              </label>
+
+              <label for="year-filter">
+                <span>Year</span>
+                <select id="year-filter">
+                  <option value="">All years</option>
+                </select>
+              </label>
+
+              <label for="kind-filter">
+                <span>Entry kind</span>
+                <select id="kind-filter">
+                  <option value="">Systems & benchmarks</option>
+                  <option value="system">Systems</option>
+                  <option value="benchmark">Benchmarks</option>
+                </select>
+              </label>
+
+              <label for="status-filter">
+                <span>Publication status</span>
+                <select id="status-filter">
+                  <option value="">All statuses</option>
+                  <option value="published">Published</option>
+                  <option value="preprint">Preprint</option>
+                  <option value="project">Project</option>
+                </select>
+              </label>
+            </aside>
+
+            <div class="results-panel reveal" aria-live="polite" aria-busy="true">
+              <div class="results-header">
+                <p><strong id="result-count">...</strong> matching papers</p>
+                <label for="sort-order">
+                  <span>Sort</span>
+                  <select id="sort-order">
+                    <option value="recent">Newest first</option>
+                    <option value="title">Title A-Z</option>
+                  </select>
+                </label>
+              </div>
+              <div class="active-filters" id="active-filters" aria-label="Active filters"></div>
+              <ol class="paper-list" id="paper-list"></ol>
+              <div class="empty-state" id="empty-state" hidden>
+                <p>No papers match this combination.</p>
+                <button class="button button-secondary" type="button" data-clear-filters>
+                  Reset filters
+                </button>
+              </div>
+              <button class="load-more" id="load-more" type="button" hidden>
+                Show more papers
+              </button>
+              <noscript>
+                <p class="noscript-note">
+                  JavaScript is required for the interactive catalog. The complete
+                  paper list remains available in the repository README.
+                </p>
+              </noscript>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="analysis section-shell section-block" id="analysis" aria-labelledby="analysis-title">
+        <div class="section-intro reveal">
+          <h2 id="analysis-title">Catalog structure and coverage.</h2>
+          <p>
+            Family composition, growth, and cross-axis density reveal where
+            agentic creation research concentrates and where room remains.
+          </p>
+        </div>
+
+        <div class="analysis-grid">
+          <figure class="analysis-figure analysis-figure-wide reveal">
+            <figcaption>
+              <div>
+                <strong>Artifact taxonomy composition</strong>
+                <p>Family totals with their internal artifact-type structure.</p>
+              </div>
+            </figcaption>
+            <div
+              class="d3-chart composition-chart"
+              id="composition-chart"
+              aria-label="Artifact family and artifact type composition chart"
+            ><p class="chart-loading">Preparing chart...</p></div>
+          </figure>
+
+          <figure class="analysis-figure reveal">
+            <figcaption>
+              <div>
+                <strong>Family growth</strong>
+                <p>Annual counts across the six artifact families.</p>
+              </div>
+            </figcaption>
+            <div
+              class="d3-chart trend-chart"
+              id="trend-chart"
+              aria-label="Annual artifact family paper counts"
+            ><p class="chart-loading">Preparing chart...</p></div>
+          </figure>
+
+          <figure class="analysis-figure reveal">
+            <figcaption>
+              <div>
+                <strong>Artifact × application</strong>
+                <p>Coverage density at every cross-axis intersection.</p>
+              </div>
+            </figcaption>
+            <div
+              class="d3-chart matrix-chart"
+              id="matrix-chart"
+              aria-label="Artifact family by application domain coverage matrix"
+            ><p class="chart-loading">Preparing chart...</p></div>
+          </figure>
+        </div>
+      </section>
+
+      <section class="about section-block" id="about" aria-labelledby="about-title">
+        <div class="section-shell about-grid">
+          <div class="section-intro reveal">
+            <h2 id="about-title">Audit and inclusion.</h2>
+          </div>
+          <div class="about-copy reveal">
+            <p class="about-lead">
+              This catalog tracks systems that plan, generate, inspect, revise,
+              or maintain an artifact through agentic interaction.
+            </p>
+            <p>
+              Every public entry is derived from an auditable CSV ledger and a
+              controlled taxonomy. Published venue links are preferred when a
+              formal version exists; uncertain or out-of-scope candidates stay
+              outside the public paper list.
+            </p>
+            <div class="resource-links">
+              <a href="https://github.com/GeminiLight/awesome-agentic-artifact-creation/blob/main/AUDIT.md">
+                <span>Audit protocol</span><span aria-hidden="true">↗</span>
+              </a>
+              <a href="https://github.com/GeminiLight/awesome-agentic-artifact-creation/tree/main/data">
+                <span>Open data</span><span aria-hidden="true">↗</span>
+              </a>
+              <a href="https://github.com/GeminiLight/awesome-agentic-artifact-creation/blob/main/CONTRIBUTING.md">
+                <span>Contribute a paper</span><span aria-hidden="true">↗</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="section-shell footer-grid">
+        <div>
+          <span class="footer-symbol" aria-hidden="true"></span>
+          <p>Awesome Agentic Artifact Creation</p>
+        </div>
+        <p>
+          Built from an open, audited catalog.<br>
+          Licensed under CC BY 4.0.
+        </p>
+        <div class="footer-links">
+          <a href="#top">Back to top</a>
+          <a href="https://github.com/GeminiLight/awesome-agentic-artifact-creation">GitHub</a>
+          <a href="https://github.com/GeminiLight/awesome-agentic-artifact-creation/blob/main/LICENSE">License</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

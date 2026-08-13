@@ -1,0 +1,492 @@
+document.documentElement.classList.add("js");
+
+const PAGE_SIZE = 18;
+const FALLBACK_COLOR = "#8a96a8";
+
+const state = {
+  catalog: null,
+  view: "artifact",
+  primary: "",
+  year: "",
+  kind: "",
+  status: "",
+  search: "",
+  sort: "recent",
+  shown: PAGE_SIZE,
+};
+
+const elements = {
+  resultsPanel: document.querySelector(".results-panel"),
+  paperList: document.querySelector("#paper-list"),
+  resultCount: document.querySelector("#result-count"),
+  emptyState: document.querySelector("#empty-state"),
+  loadMore: document.querySelector("#load-more"),
+  search: document.querySelector("#paper-search"),
+  primary: document.querySelector("#primary-filter"),
+  primaryLabel: document.querySelector("#primary-filter-label"),
+  year: document.querySelector("#year-filter"),
+  kind: document.querySelector("#kind-filter"),
+  status: document.querySelector("#status-filter"),
+  sort: document.querySelector("#sort-order"),
+  activeFilters: document.querySelector("#active-filters"),
+  clearFilters: document.querySelector("#clear-filters"),
+  familyOverview: document.querySelector("#family-overview"),
+  applicationOverview: document.querySelector("#application-overview"),
+};
+
+function createElement(tag, className, text) {
+  const element = document.createElement(tag);
+  if (className) element.className = className;
+  if (text !== undefined) element.textContent = text;
+  return element;
+}
+
+function titleCase(value) {
+  return value ? value.charAt(0).toUpperCase() + value.slice(1) : "";
+}
+
+function formatNumber(value) {
+  return new Intl.NumberFormat("en").format(value);
+}
+
+function familyColor(paper) {
+  const family = state.catalog.families.find(
+    (candidate) => candidate.name === paper.artifact_family,
+  );
+  return family ? family.color : FALLBACK_COLOR;
+}
+
+function setSelectOptions(select, options, emptyLabel) {
+  select.replaceChildren();
+  const empty = new Option(emptyLabel, "");
+  select.add(empty);
+  options.forEach(({ label, value }) => select.add(new Option(label, value)));
+}
+
+function hydrateSummary() {
+  const { summary } = state.catalog;
+  document.querySelectorAll("[data-stat]").forEach((element) => {
+    element.textContent = formatNumber(summary[element.dataset.stat]);
+  });
+  document.querySelector("#hero-total").textContent = `${formatNumber(summary.total)} audited papers`;
+}
+
+function renderTaxonomyOverview() {
+  const familyFragment = document.createDocumentFragment();
+  state.catalog.families.forEach((family) => {
+    const button = createElement("button", "taxonomy-item");
+    button.type = "button";
+    button.style.setProperty("--family-color", family.color);
+    button.setAttribute("aria-label", `Browse ${family.name}`);
+
+    button.append(createElement("span", "taxonomy-swatch"));
+    button.append(createElement("strong", "", family.name));
+    button.append(
+      createElement(
+        "span",
+        "taxonomy-types",
+        family.types
+          .filter((type) => type.count)
+          .map((type) => type.name)
+          .join(" · "),
+      ),
+    );
+    button.append(
+      createElement("span", "taxonomy-count", `${family.count} papers`),
+    );
+    button.addEventListener("click", () => openCatalog("artifact", family.name));
+    familyFragment.append(button);
+  });
+  elements.familyOverview.replaceChildren(familyFragment);
+
+  const applicationFragment = document.createDocumentFragment();
+  state.catalog.applications.forEach((application, index) => {
+    const button = createElement("button", "application-item");
+    button.type = "button";
+    button.setAttribute("aria-label", `Browse ${application.name}`);
+    button.append(
+      createElement("span", "application-index", String(index + 1).padStart(2, "0")),
+    );
+    button.append(createElement("strong", "", application.name));
+    button.append(
+      createElement("span", "application-count", `${application.count} papers`),
+    );
+    button.addEventListener("click", () => openCatalog("application", application.name));
+    applicationFragment.append(button);
+  });
+  elements.applicationOverview.replaceChildren(applicationFragment);
+}
+
+function renderFilterOptions() {
+  const options =
+    state.view === "artifact"
+      ? state.catalog.families.map((family) => ({
+          label: `${family.name} (${family.count})`,
+          value: family.name,
+        }))
+      : state.catalog.applications.map((application) => ({
+          label: `${application.name} (${application.count})`,
+          value: application.name,
+        }));
+
+  const noneLabel =
+    state.view === "artifact" ? "No artifact label" : "No application label";
+  const emptyLabel = state.view === "artifact" ? "All families" : "All domains";
+  options.push({ label: noneLabel, value: "__none__" });
+  setSelectOptions(elements.primary, options, emptyLabel);
+  elements.primary.value = state.primary;
+  elements.primaryLabel.textContent =
+    state.view === "artifact" ? "Artifact family" : "Application domain";
+
+  document.querySelectorAll('input[name="catalog-view"]').forEach((input) => {
+    input.checked = input.value === state.view;
+  });
+}
+
+function renderYearOptions() {
+  setSelectOptions(
+    elements.year,
+    state.catalog.years.map(({ year, count }) => ({
+      label: `${year} (${count})`,
+      value: year,
+    })),
+    "All years",
+  );
+  elements.year.value = state.year;
+}
+
+function searchableText(paper) {
+  return [
+    paper.title,
+    paper.name,
+    paper.authors,
+    paper.venue_display_name,
+    paper.artifact_family,
+    paper.artifact_type,
+    paper.artifact_subtype,
+    paper.application_domain,
+    paper.application_subdomain,
+  ]
+    .join(" ")
+    .toLocaleLowerCase();
+}
+
+function filteredPapers() {
+  const primaryField =
+    state.view === "artifact" ? "artifact_family" : "application_domain";
+  const queryTerms = state.search
+    .trim()
+    .toLocaleLowerCase()
+    .split(/\s+/)
+    .filter(Boolean);
+
+  const papers = state.catalog.papers.filter((paper) => {
+    const primaryMatches =
+      !state.primary ||
+      (state.primary === "__none__"
+        ? !paper[primaryField]
+        : paper[primaryField] === state.primary);
+    return (
+      primaryMatches &&
+      (!state.year || paper.year === state.year) &&
+      (!state.kind || paper.entry_kind === state.kind) &&
+      (!state.status || paper.type === state.status) &&
+      (!queryTerms.length ||
+        queryTerms.every((term) => searchableText(paper).includes(term)))
+    );
+  });
+
+  return papers.sort((left, right) => {
+    if (state.sort === "title") {
+      return left.title.localeCompare(right.title);
+    }
+    return (
+      Number(right.year) - Number(left.year) ||
+      left.venue_display_name.localeCompare(right.venue_display_name) ||
+      left.title.localeCompare(right.title)
+    );
+  });
+}
+
+function paperTag(value) {
+  return value ? createElement("span", "paper-tag", value) : null;
+}
+
+function externalLink(label, href) {
+  const link = createElement("a", "", label);
+  link.href = href;
+  link.target = "_blank";
+  link.rel = "noreferrer";
+  return link;
+}
+
+function renderPaper(paper) {
+  const item = createElement("li", "paper-item");
+  item.style.setProperty("--paper-color", familyColor(paper));
+
+  const body = createElement("div", "paper-body");
+  const kicker = createElement("div", "paper-kicker");
+  kicker.append(createElement("span", "", titleCase(paper.entry_kind)));
+  if (paper.name && !["n/a", "na", "none"].includes(paper.name.toLowerCase())) {
+    kicker.append(createElement("span", "system-name", paper.name));
+  }
+  body.append(kicker);
+
+  const title = createElement("h3", "paper-title");
+  title.append(externalLink(paper.title, paper.link));
+  body.append(title);
+  body.append(createElement("p", "paper-authors", paper.authors));
+
+  const tags = createElement("div", "paper-tags");
+  const tagValues =
+    state.view === "artifact"
+      ? [paper.artifact_family, paper.artifact_type, paper.application_domain]
+      : [paper.application_domain, paper.artifact_family, paper.artifact_type];
+  tagValues.forEach((value) => {
+    const tag = paperTag(value);
+    if (tag) tags.append(tag);
+  });
+  if (!tags.children.length) tags.append(paperTag("Unclassified"));
+  body.append(tags);
+
+  const meta = createElement("div", "paper-meta");
+  meta.append(createElement("span", "paper-venue", paper.venue_display_name));
+  meta.append(createElement("span", "paper-year", paper.year));
+  meta.append(createElement("span", `status-pill ${paper.type}`, titleCase(paper.type)));
+  const links = createElement("div", "paper-links");
+  links.append(externalLink("Paper ↗", paper.link));
+  if (paper.code) links.append(externalLink("Code ↗", paper.code));
+  meta.append(links);
+
+  item.append(body, meta);
+  return item;
+}
+
+function activeFilterDefinitions() {
+  const primaryLabel =
+    state.primary === "__none__"
+      ? state.view === "artifact"
+        ? "No artifact label"
+        : "No application label"
+      : state.primary;
+  return [
+    { key: "search", label: state.search ? `Search: ${state.search}` : "" },
+    { key: "primary", label: primaryLabel },
+    { key: "year", label: state.year },
+    { key: "kind", label: state.kind ? titleCase(state.kind) : "" },
+    { key: "status", label: state.status ? titleCase(state.status) : "" },
+  ].filter((filter) => filter.label);
+}
+
+function renderActiveFilters() {
+  const fragment = document.createDocumentFragment();
+  activeFilterDefinitions().forEach((filter) => {
+    const button = createElement("button", "filter-chip");
+    button.type = "button";
+    button.setAttribute("aria-label", `Remove filter ${filter.label}`);
+    button.append(createElement("span", "", filter.label));
+    button.append(createElement("span", "", "×"));
+    button.addEventListener("click", () => {
+      state[filter.key] = "";
+      syncControls();
+      updateCatalog();
+    });
+    fragment.append(button);
+  });
+  elements.activeFilters.replaceChildren(fragment);
+}
+
+function syncControls() {
+  elements.search.value = state.search;
+  elements.primary.value = state.primary;
+  elements.year.value = state.year;
+  elements.kind.value = state.kind;
+  elements.status.value = state.status;
+  elements.sort.value = state.sort;
+}
+
+function updateUrl() {
+  const params = new URLSearchParams();
+  if (state.view !== "artifact") params.set("view", state.view);
+  if (state.primary) params.set("filter", state.primary);
+  if (state.year) params.set("year", state.year);
+  if (state.kind) params.set("kind", state.kind);
+  if (state.status) params.set("status", state.status);
+  if (state.search) params.set("q", state.search);
+  if (state.sort !== "recent") params.set("sort", state.sort);
+  const query = params.toString();
+  history.replaceState(null, "", `${location.pathname}${query ? `?${query}` : ""}${location.hash}`);
+}
+
+function updateCatalog({ preserveShown = false } = {}) {
+  if (!preserveShown) state.shown = PAGE_SIZE;
+  const papers = filteredPapers();
+  const visible = papers.slice(0, state.shown);
+  const fragment = document.createDocumentFragment();
+  visible.forEach((paper) => fragment.append(renderPaper(paper)));
+  elements.paperList.replaceChildren(fragment);
+  elements.resultCount.textContent = formatNumber(papers.length);
+  elements.emptyState.hidden = papers.length > 0;
+  elements.loadMore.hidden = visible.length >= papers.length;
+  if (!elements.loadMore.hidden) {
+    elements.loadMore.textContent = `Show more · ${formatNumber(papers.length - visible.length)} remaining`;
+  }
+  renderActiveFilters();
+  updateUrl();
+  elements.resultsPanel.setAttribute("aria-busy", "false");
+}
+
+function setCatalogView(view, primary = "") {
+  state.view = view === "application" ? "application" : "artifact";
+  state.primary = primary;
+  renderFilterOptions();
+  syncControls();
+  updateCatalog();
+}
+
+function openCatalog(view, primary) {
+  setCatalogView(view, primary);
+  document.querySelector("#catalog").scrollIntoView({ behavior: "smooth" });
+}
+
+function clearFilters() {
+  state.primary = "";
+  state.year = "";
+  state.kind = "";
+  state.status = "";
+  state.search = "";
+  syncControls();
+  updateCatalog();
+}
+
+function readUrlState() {
+  const params = new URLSearchParams(location.search);
+  state.view = params.get("view") === "application" ? "application" : "artifact";
+  state.primary = params.get("filter") || "";
+  state.year = params.get("year") || "";
+  state.kind = params.get("kind") || "";
+  state.status = params.get("status") || "";
+  state.search = params.get("q") || "";
+  state.sort = params.get("sort") === "title" ? "title" : "recent";
+}
+
+function setupAxisTabs() {
+  const tabs = [...document.querySelectorAll("[data-axis-tab]")];
+  tabs.forEach((tab, index) => {
+    tab.addEventListener("click", () => activateAxisTab(tab.dataset.axisTab));
+    tab.addEventListener("keydown", (event) => {
+      if (!["ArrowLeft", "ArrowRight"].includes(event.key)) return;
+      event.preventDefault();
+      const direction = event.key === "ArrowRight" ? 1 : -1;
+      const next = tabs[(index + direction + tabs.length) % tabs.length];
+      activateAxisTab(next.dataset.axisTab);
+      next.focus();
+    });
+  });
+}
+
+function activateAxisTab(axis) {
+  document.querySelectorAll("[data-axis-tab]").forEach((tab) => {
+    const selected = tab.dataset.axisTab === axis;
+    tab.setAttribute("aria-selected", String(selected));
+    tab.tabIndex = selected ? 0 : -1;
+  });
+  document.querySelector("#artifact-panel").hidden = axis !== "artifact";
+  document.querySelector("#application-panel").hidden = axis !== "application";
+}
+
+function setupEvents() {
+  elements.search.addEventListener("input", (event) => {
+    state.search = event.target.value;
+    updateCatalog();
+  });
+  elements.primary.addEventListener("change", (event) => {
+    state.primary = event.target.value;
+    updateCatalog();
+  });
+  elements.year.addEventListener("change", (event) => {
+    state.year = event.target.value;
+    updateCatalog();
+  });
+  elements.kind.addEventListener("change", (event) => {
+    state.kind = event.target.value;
+    updateCatalog();
+  });
+  elements.status.addEventListener("change", (event) => {
+    state.status = event.target.value;
+    updateCatalog();
+  });
+  elements.sort.addEventListener("change", (event) => {
+    state.sort = event.target.value;
+    updateCatalog();
+  });
+  document.querySelectorAll('input[name="catalog-view"]').forEach((input) => {
+    input.addEventListener("change", (event) => setCatalogView(event.target.value));
+  });
+  elements.clearFilters.addEventListener("click", clearFilters);
+  document.querySelectorAll("[data-clear-filters]").forEach((button) => {
+    button.addEventListener("click", clearFilters);
+  });
+  elements.loadMore.addEventListener("click", () => {
+    state.shown += PAGE_SIZE;
+    updateCatalog({ preserveShown: true });
+  });
+  window.addEventListener("popstate", () => {
+    readUrlState();
+    renderFilterOptions();
+    syncControls();
+    updateCatalog();
+  });
+  document.querySelectorAll(".mobile-menu a").forEach((link) => {
+    link.addEventListener("click", () => link.closest("details").removeAttribute("open"));
+  });
+}
+
+function setupRevealMotion() {
+  const revealElements = document.querySelectorAll(".reveal");
+  if (
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+    !("IntersectionObserver" in window)
+  ) {
+    revealElements.forEach((element) => element.classList.add("is-visible"));
+    return;
+  }
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-visible");
+        observer.unobserve(entry.target);
+      });
+    },
+    { threshold: 0.08, rootMargin: "0px 0px -40px" },
+  );
+  revealElements.forEach((element) => observer.observe(element));
+}
+
+async function initialize() {
+  setupRevealMotion();
+  setupAxisTabs();
+  try {
+    const response = await fetch("data/catalog.json");
+    if (!response.ok) throw new Error(`Catalog request failed: ${response.status}`);
+    state.catalog = await response.json();
+    readUrlState();
+    hydrateSummary();
+    renderTaxonomyOverview();
+    renderFilterOptions();
+    renderYearOptions();
+    syncControls();
+    setupEvents();
+    updateCatalog();
+  } catch (error) {
+    console.error(error);
+    elements.resultsPanel.setAttribute("aria-busy", "false");
+    elements.paperList.replaceChildren();
+    elements.emptyState.hidden = false;
+    elements.emptyState.querySelector("p").textContent =
+      "The catalog could not be loaded. Please try again or use the repository README.";
+  }
+}
+
+initialize();
