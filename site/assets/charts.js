@@ -2,12 +2,9 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm";
 
 
 const FALLBACK_COLOR = "#8a96a8";
-const INK = "#172033";
-const MUTED = "#697386";
-const LINE = "#dfe5ec";
-const SURFACE = "#f6f8fb";
-const PAPER = "#ffffff";
-const TEAL = "#4c9d96";
+const INK = "var(--ink)";
+const PAPER = "var(--paper)";
+const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 const VENUE_DOMAIN_COLORS = new Map([
   ["Artificial Intelligence", "#4c9d96"],
   ["Machine Learning", "#66add0"],
@@ -49,6 +46,26 @@ function format(value) {
 
 function share(value, total) {
   return d3.format(".1%")(value / total);
+}
+
+function themeColor(property, fallback) {
+  return getComputedStyle(document.documentElement).getPropertyValue(property).trim() || fallback;
+}
+
+function markForMotion(selection, step = 36, offset = 0) {
+  selection
+    .classed("motion-mark", true)
+    .style("--motion-delay", (_, index) => `${offset + index * step}ms`);
+}
+
+function prepareChartMotion(svg, animate) {
+  if (!animate || reducedMotion.matches) {
+    svg.classed("is-motion-ready is-motion-disabled", true);
+    return;
+  }
+  window.requestAnimationFrame(() => {
+    window.requestAnimationFrame(() => svg.classed("is-motion-ready", true));
+  });
 }
 
 function showTooltip(event, title, detail) {
@@ -96,7 +113,7 @@ function addGrid(svg, scale, ticks, x1, x2) {
     .attr("y2", (value) => scale(value));
 }
 
-function drawHeroFamilies(catalog) {
+function drawHeroFamilies(catalog, animate = true) {
   const width = 760;
   const height = 430;
   const margin = { top: 42, right: 64, bottom: 34, left: 222 };
@@ -182,9 +199,11 @@ function drawHeroFamilies(catalog) {
     .attr("x", (item) => x(item.count) + 10)
     .attr("y", (item) => y(item.name) + y.bandwidth() / 2 + 5)
     .text((item) => item.count);
+  markForMotion(rows, 72, 100);
+  prepareChartMotion(svg, animate);
 }
 
-function drawComposition(catalog) {
+function drawComposition(catalog, animate = true) {
   const width = 640;
   const height = 560;
   const center = { x: 320, y: 210 };
@@ -238,7 +257,7 @@ function drawComposition(catalog) {
   const typeArc = d3.arc().innerRadius(130).outerRadius(178);
   const chart = svg.append("g").attr("transform", `translate(${center.x},${center.y})`);
 
-  chart
+  const familyPaths = chart
     .selectAll("path.family-arc")
     .data(familyPie)
     .join("path")
@@ -257,7 +276,7 @@ function drawComposition(catalog) {
     .on("pointermove", moveTooltip)
     .on("pointerleave", hideTooltip);
 
-  chart
+  const typePaths = chart
     .selectAll("path.type-arc")
     .data(typePie)
     .join("path")
@@ -318,9 +337,13 @@ function drawComposition(catalog) {
     .attr("x", 17)
     .attr("y", 29)
     .text((item) => share(item.count, catalog.summary.total));
+  markForMotion(familyPaths, 54, 80);
+  markForMotion(typePaths, 18, 160);
+  markForMotion(legendRows, 55, 280);
+  prepareChartMotion(svg, animate);
 }
 
-function drawTrend(catalog) {
+function drawTrend(catalog, animate = true) {
   const width = 640;
   const height = 520;
   const margin = { top: 102, right: 24, bottom: 60, left: 52 };
@@ -370,7 +393,7 @@ function drawTrend(catalog) {
     .attr("transform", `translate(${margin.left},0)`)
     .call(d3.axisLeft(y).ticks(5).tickSize(0).tickPadding(12));
 
-  svg
+  const bars = svg
     .append("g")
     .selectAll("g")
     .data(series)
@@ -392,7 +415,7 @@ function drawTrend(catalog) {
     .on("pointermove", moveTooltip)
     .on("pointerleave", hideTooltip);
 
-  svg
+  const totals = svg
     .append("g")
     .selectAll("text")
     .data(byYear)
@@ -419,9 +442,13 @@ function drawTrend(catalog) {
     .attr("x", 21)
     .attr("y", 11)
     .text((item) => item.name);
+  markForMotion(bars, 24, 90);
+  markForMotion(totals, 80, 320);
+  markForMotion(legendItem, 45, 60);
+  prepareChartMotion(svg, animate);
 }
 
-function drawVenues(catalog) {
+function drawVenues(catalog, animate = true) {
   const width = 640;
   const height = 560;
   const venues = catalog.publication_venues || [];
@@ -549,9 +576,12 @@ function drawVenues(catalog) {
     .attr("x", (leaf) => leaf.x0 + 9)
     .attr("y", (leaf) => leaf.y0 + 38)
     .text((leaf) => `${format(leaf.value)} papers`);
+  markForMotion(domains, 48, 60);
+  markForMotion(leaves, 18, 160);
+  prepareChartMotion(svg, animate);
 }
 
-function drawMatrix(catalog) {
+function drawMatrix(catalog, animate = true) {
   const width = 640;
   const height = 520;
   const margin = { top: 120, right: 76, bottom: 48, left: 160 };
@@ -593,7 +623,12 @@ function drawMatrix(catalog) {
   const color = d3
     .scaleSequential()
     .domain([0, d3.max(cells, (cell) => cell.count)])
-    .interpolator((value) => d3.interpolateRgb(SURFACE, TEAL)(value));
+    .interpolator((value) =>
+      d3.interpolateRgb(
+        themeColor("--surface", "#f6f8fb"),
+        themeColor("--teal", "#4c9d96"),
+      )(value),
+    );
 
   const columnLabels = svg
     .append("g")
@@ -647,6 +682,8 @@ function drawMatrix(catalog) {
     .attr("text-anchor", "middle")
     .attr("fill", (item) => (item.count > 14 ? PAPER : INK))
     .text((item) => item.count);
+  markForMotion(cell, 9, 80);
+  prepareChartMotion(svg, animate);
 }
 
 function showChartError(error) {
@@ -659,16 +696,23 @@ function showChartError(error) {
   });
 }
 
+function drawCharts(catalog, animate = true) {
+  drawHeroFamilies(catalog, animate);
+  drawComposition(catalog, animate);
+  drawVenues(catalog, animate);
+  drawTrend(catalog, animate);
+  drawMatrix(catalog, animate);
+}
+
 async function initializeCharts() {
   const catalogUrl = document.body.dataset.catalogUrl || "data/catalog.json";
   const response = await fetch(catalogUrl);
   if (!response.ok) throw new Error(`Catalog request failed: ${response.status}`);
   const catalog = await response.json();
-  drawHeroFamilies(catalog);
-  drawComposition(catalog);
-  drawVenues(catalog);
-  drawTrend(catalog);
-  drawMatrix(catalog);
+  drawCharts(catalog);
+  window.addEventListener("aac:themechange", () => {
+    window.requestAnimationFrame(() => drawCharts(catalog, false));
+  });
 }
 
 initializeCharts().catch(showChartError);

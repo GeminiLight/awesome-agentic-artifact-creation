@@ -24,7 +24,7 @@ if (root) {
     import(THREE_MODULE_URL)
       .then((THREE) => initializeConstructionLoop(THREE))
       .catch((error) => {
-        console.error("Construction loop could not initialize", error);
+        console.error("Construction process could not initialize", error);
         root.classList.add("is-fallback");
         motionToggle.hidden = true;
       });

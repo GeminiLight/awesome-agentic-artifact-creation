@@ -162,6 +162,7 @@ def build_site(output: Path = DEFAULT_OUTPUT) -> Path:
     index = index_path.read_text(encoding="utf-8")
     versioned_assets = (
         "assets/styles.css",
+        "assets/theme.js",
         "assets/app.js",
         "assets/charts.js",
         "assets/construction-loop.js",

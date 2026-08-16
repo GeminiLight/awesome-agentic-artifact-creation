@@ -104,6 +104,39 @@ class SiteBuildTests(unittest.TestCase):
             )
             self.assertEqual(payload["summary"]["total"], len(payload["papers"]))
 
+    def test_site_exposes_a_system_aware_theme_selector(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            output = build_site(Path(temporary_directory) / "public")
+            index = (output / "index.html").read_text(encoding="utf-8")
+            styles = (output / "assets" / "styles.css").read_text(encoding="utf-8")
+
+            self.assertTrue((output / "assets" / "theme.js").is_file())
+            self.assertRegex(index, r'src="assets/theme\.js\?v=[0-9a-f]{12}"')
+            self.assertIn('aria-label="Color theme"', index)
+            self.assertIn('data-theme-option="system"', index)
+            self.assertIn('data-theme-option="light"', index)
+            self.assertIn('data-theme-option="dark"', index)
+            self.assertIn("prefers-color-scheme: dark", styles)
+            self.assertIn(':root[data-theme="dark"]', styles)
+
+    def test_interactive_framework_is_named_a_construction_process(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            output = build_site(Path(temporary_directory) / "public")
+            index = (output / "index.html").read_text(encoding="utf-8")
+
+            self.assertIn("A live construction process.", index)
+            self.assertIn("three-dimensional construction process", index)
+            self.assertIn(">Construction process</span>", index)
+
+    def test_site_exposes_progressive_motion_hooks(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            output = build_site(Path(temporary_directory) / "public")
+            index = (output / "index.html").read_text(encoding="utf-8")
+
+            self.assertIn('class="hero-copy reveal reveal-sequence"', index)
+            self.assertEqual(5, index.count("data-count-up"))
+            self.assertGreaterEqual(index.count("data-reveal-order"), 4)
+
 
 if __name__ == "__main__":
     unittest.main()

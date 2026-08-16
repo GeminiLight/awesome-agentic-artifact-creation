@@ -28,7 +28,7 @@ This repository accompanies the
 and curates the related papers, systems, and benchmarks.
 
 <p align="center">
-  <img src="assets/fig2-construction-process.png" alt="Agentic artifact creation construction loop connecting task specification, construction policy, operational representation, runtime verification, feedback, and the delivered artifact" width="100%">
+  <img src="assets/fig2-construction-process.png" alt="Agentic artifact creation construction process connecting task specification, construction policy, operational representation, runtime verification, feedback, and the delivered artifact" width="100%">
 </p>
 
 ## Survey Scope

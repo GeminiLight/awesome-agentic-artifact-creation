@@ -62,6 +62,32 @@ function formatNumber(value) {
   return new Intl.NumberFormat("en").format(value);
 }
 
+function animateCount(element, target, index) {
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reducedMotion || !Number.isFinite(target)) {
+    element.textContent = formatNumber(target);
+    return;
+  }
+
+  const delay = index * 80;
+  const duration = 900;
+  const start = performance.now() + delay;
+  element.textContent = "0";
+
+  function update(timestamp) {
+    if (timestamp < start) {
+      window.requestAnimationFrame(update);
+      return;
+    }
+    const progress = Math.min((timestamp - start) / duration, 1);
+    const eased = 1 - (1 - progress) ** 3;
+    element.textContent = formatNumber(Math.round(target * eased));
+    if (progress < 1) window.requestAnimationFrame(update);
+  }
+
+  window.requestAnimationFrame(update);
+}
+
 function closeCustomSelect(widget, { restoreFocus = false } = {}) {
   if (!widget || !widget.wrapper.classList.contains("is-open")) return;
   widget.wrapper.classList.remove("is-open");
@@ -248,18 +274,24 @@ function setSelectOptions(select, options, emptyLabel) {
 
 function hydrateSummary() {
   const { summary } = state.catalog;
-  document.querySelectorAll("[data-stat]").forEach((element) => {
-    element.textContent = formatNumber(summary[element.dataset.stat]);
+  document.querySelectorAll("[data-stat]").forEach((element, index) => {
+    const value = summary[element.dataset.stat];
+    if (element.hasAttribute("data-count-up")) {
+      animateCount(element, value, index);
+    } else {
+      element.textContent = formatNumber(value);
+    }
   });
   document.querySelector("#hero-total").textContent = `${formatNumber(summary.total)} audited papers`;
 }
 
 function renderTaxonomyOverview() {
   const familyFragment = document.createDocumentFragment();
-  state.catalog.families.forEach((family) => {
+  state.catalog.families.forEach((family, index) => {
     const button = createElement("button", "taxonomy-item");
     button.type = "button";
     button.style.setProperty("--family-color", family.color);
+    button.style.setProperty("--item-delay", `${index * 45}ms`);
     button.setAttribute("aria-label", `Browse ${family.name}`);
 
     button.append(createElement("span", "taxonomy-swatch"));
@@ -286,6 +318,7 @@ function renderTaxonomyOverview() {
   state.catalog.applications.forEach((application, index) => {
     const button = createElement("button", "application-item");
     button.type = "button";
+    button.style.setProperty("--item-delay", `${index * 45}ms`);
     button.setAttribute("aria-label", `Browse ${application.name}`);
     button.append(
       createElement("span", "application-index", String(index + 1).padStart(2, "0")),
