@@ -3,6 +3,10 @@ document.documentElement.classList.add("js");
 const DEFAULT_PAGE_SIZE = 25;
 const PAGE_SIZE_OPTIONS = [10, 25, 50, 100];
 const FALLBACK_COLOR = "#8a96a8";
+const PAPER_TAG_ICONS = {
+  artifact: "ph-cube",
+  application: "ph-compass",
+};
 
 const state = {
   catalog: null,
@@ -33,6 +37,8 @@ const elements = {
   pageSize: document.querySelector("#page-size"),
   activeFilters: document.querySelector("#active-filters"),
   clearFilters: document.querySelector("#clear-filters"),
+  filterPanel: document.querySelector(".filter-panel"),
+  filterPanelToggle: document.querySelector(".filter-panel-toggle"),
   familyOverview: document.querySelector("#family-overview"),
   applicationOverview: document.querySelector("#application-overview"),
 };
@@ -426,8 +432,25 @@ function filteredPapers() {
   });
 }
 
-function paperTag(value) {
-  return value ? createElement("span", "paper-tag", value) : null;
+function paperTag(value, dimension = "") {
+  if (!value) return null;
+  const className = dimension
+    ? `paper-tag paper-tag-${dimension} paper-tag-filter`
+    : "paper-tag";
+  const tag = dimension
+    ? createElement("button", className)
+    : createElement("span", className);
+  if (dimension) {
+    tag.type = "button";
+    tag.dataset.catalogView = dimension;
+    tag.dataset.catalogFilter = value;
+    tag.setAttribute("aria-label", `Filter catalog by ${value}`);
+    tag.addEventListener("click", () => filterCatalogFromTag(dimension, value));
+  }
+  const iconName = PAPER_TAG_ICONS[dimension];
+  if (iconName) tag.append(createIcon(iconName));
+  tag.append(createElement("span", "paper-tag-label", value));
+  return tag;
 }
 
 function externalLink(label, href, iconName = "") {
@@ -461,12 +484,20 @@ function renderPaper(paper) {
   body.append(createElement("p", "paper-authors", paper.authors));
 
   const tags = createElement("div", "paper-tags");
-  const tagValues =
+  const tagDefinitions =
     state.view === "artifact"
-      ? [paper.artifact_family, paper.artifact_type, paper.application_domain]
-      : [paper.application_domain, paper.artifact_family, paper.artifact_type];
-  tagValues.forEach((value) => {
-    const tag = paperTag(value);
+      ? [
+          { value: paper.artifact_family, dimension: "artifact" },
+          { value: paper.artifact_type },
+          { value: paper.application_domain, dimension: "application" },
+        ]
+      : [
+          { value: paper.application_domain, dimension: "application" },
+          { value: paper.artifact_family, dimension: "artifact" },
+          { value: paper.artifact_type },
+        ];
+  tagDefinitions.forEach(({ value, dimension = "" }) => {
+    const tag = paperTag(value, dimension);
     if (tag) tags.append(tag);
   });
   if (!tags.children.length) tags.append(paperTag("Unclassified"));
@@ -682,6 +713,11 @@ function openCatalog(view, primary) {
   document.querySelector("#catalog").scrollIntoView({ behavior: "smooth" });
 }
 
+function filterCatalogFromTag(dimension, value) {
+  setCatalogView(dimension, value);
+  window.requestAnimationFrame(scrollToCatalogResults);
+}
+
 function clearFilters() {
   state.primary = "";
   state.year = "";
@@ -725,6 +761,72 @@ function setupAxisTabs() {
       next.focus();
     });
   });
+}
+
+function setupSectionNavigation() {
+  const links = [
+    ...document.querySelectorAll(
+      '.desktop-nav a[href^="#"], .mobile-menu a[href^="#"]',
+    ),
+  ];
+  const sections = [...new Set(links.map((link) => link.hash.slice(1)))]
+    .map((id) => document.getElementById(id))
+    .filter(Boolean);
+  let frameRequested = false;
+
+  function updateCurrentSection() {
+    frameRequested = false;
+    const activationLine = Math.min(window.innerHeight * 0.28, 220);
+    let currentId = "";
+    sections.forEach((section) => {
+      if (section.getBoundingClientRect().top <= activationLine) {
+        currentId = section.id;
+      }
+    });
+
+    links.forEach((link) => {
+      const isCurrent = Boolean(currentId) && link.hash === `#${currentId}`;
+      link.classList.toggle("is-current", isCurrent);
+      if (isCurrent) {
+        link.setAttribute("aria-current", "location");
+      } else {
+        link.removeAttribute("aria-current");
+      }
+    });
+  }
+
+  function scheduleUpdate() {
+    if (frameRequested) return;
+    frameRequested = true;
+    window.requestAnimationFrame(updateCurrentSection);
+  }
+
+  window.addEventListener("scroll", scheduleUpdate, { passive: true });
+  window.addEventListener("resize", scheduleUpdate);
+  updateCurrentSection();
+}
+
+function setupFilterDisclosure() {
+  if (!elements.filterPanel || !elements.filterPanelToggle) return;
+  const mobileFilters = window.matchMedia("(max-width: 640px)");
+  const label = elements.filterPanelToggle.querySelector("span");
+
+  function setExpanded(expanded) {
+    elements.filterPanel.classList.toggle("is-expanded", expanded);
+    elements.filterPanelToggle.setAttribute("aria-expanded", String(expanded));
+    label.textContent = expanded ? "Hide filters" : "Show filters";
+  }
+
+  function syncForViewport() {
+    setExpanded(!mobileFilters.matches);
+  }
+
+  elements.filterPanelToggle.addEventListener("click", () => {
+    const expanded = elements.filterPanelToggle.getAttribute("aria-expanded") === "true";
+    setExpanded(!expanded);
+  });
+  mobileFilters.addEventListener("change", syncForViewport);
+  syncForViewport();
 }
 
 function activateAxisTab(axis) {
@@ -818,6 +920,8 @@ function settleStalledCharts(message) {
 async function initialize() {
   setupRevealMotion();
   setupAxisTabs();
+  setupSectionNavigation();
+  setupFilterDisclosure();
   window.setTimeout(
     () => settleStalledCharts("Chart loading timed out. Reload the page to try again."),
     10000,

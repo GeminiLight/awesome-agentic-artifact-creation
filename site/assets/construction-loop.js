@@ -16,11 +16,13 @@ if (root) {
   );
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   const narrowViewport = window.matchMedia("(max-width: 719px)");
+  const mobileProcess = setupMobileProcess();
+  let threeLoadStarted = false;
+  let threeNearViewportObserver = null;
 
-  if (reducedMotion.matches || narrowViewport.matches || !window.WebGLRenderingContext) {
-    root.classList.add("is-fallback");
-    motionToggle.hidden = true;
-  } else {
+  function requestThreeModule() {
+    if (threeLoadStarted) return;
+    threeLoadStarted = true;
     import(THREE_MODULE_URL)
       .then((THREE) => initializeConstructionLoop(THREE))
       .catch((error) => {
@@ -29,6 +31,122 @@ if (root) {
         motionToggle.hidden = true;
       });
   }
+
+  function loadThreeWhenNearViewport() {
+    if (threeLoadStarted || narrowViewport.matches) return;
+    if (!("IntersectionObserver" in window)) {
+      requestThreeModule();
+      return;
+    }
+    threeNearViewportObserver?.disconnect();
+    threeNearViewportObserver = new IntersectionObserver(
+      (entries, observer) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return;
+        observer.disconnect();
+        requestThreeModule();
+      },
+      { rootMargin: "160px 0px" },
+    );
+    threeNearViewportObserver.observe(root);
+  }
+
+  function activateResponsiveExperience() {
+    if (narrowViewport.matches) {
+      root.classList.add("is-mobile-process");
+      root.classList.remove("is-fallback");
+      motionToggle.hidden = true;
+      threeNearViewportObserver?.disconnect();
+      mobileProcess.start();
+      return;
+    }
+
+    root.classList.remove("is-mobile-process");
+    mobileProcess.stop();
+    statusText.textContent = defaultStatusText;
+    if (reducedMotion.matches || !window.WebGLRenderingContext) {
+      root.classList.add("is-fallback");
+      motionToggle.hidden = true;
+      return;
+    }
+    root.classList.remove("is-fallback");
+    motionToggle.hidden = false;
+    loadThreeWhenNearViewport();
+  }
+
+  function setupMobileProcess() {
+    const steps = [...root.querySelectorAll("[data-loop-mobile-step]")];
+    const stages = steps.map((step) => step.dataset.loopMobileStep);
+    const stageCopy = {
+      task: "Define the goal, constraints, and acceptance criteria.",
+      policy: "Choose the decision control and agent topology.",
+      representation: "Construct through an editable intermediate form.",
+      verification: "Observe the result and return actionable feedback.",
+      artifact: "Release the accepted artifact into the next task cycle.",
+    };
+    let currentIndex = 0;
+    let timer = 0;
+    let processIsVisible = !("IntersectionObserver" in window);
+
+    function showStage(index) {
+      currentIndex = (index + steps.length) % steps.length;
+      const currentStage = stages[currentIndex];
+      steps.forEach((step, stepIndex) => {
+        const active = stepIndex === currentIndex;
+        step.classList.toggle("is-active", active);
+        step.setAttribute("aria-pressed", String(active));
+      });
+      root.dataset.mobileStage = currentStage;
+      if (narrowViewport.matches) {
+        statusText.textContent = stageCopy[currentStage];
+      }
+    }
+
+    function schedule() {
+      window.clearTimeout(timer);
+      if (
+        reducedMotion.matches ||
+        !narrowViewport.matches ||
+        !processIsVisible ||
+        document.hidden
+      ) {
+        return;
+      }
+      timer = window.setTimeout(() => {
+        showStage(currentIndex + 1);
+        schedule();
+      }, 3400);
+    }
+
+    steps.forEach((step, index) => {
+      step.addEventListener("click", () => {
+        showStage(index);
+        schedule();
+      });
+    });
+
+    if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          processIsVisible = entry.isIntersecting;
+          schedule();
+        },
+        { threshold: 0.2 },
+      );
+      observer.observe(root);
+    }
+    document.addEventListener("visibilitychange", schedule);
+    showStage(0);
+
+    return {
+      start: schedule,
+      stop() {
+        window.clearTimeout(timer);
+      },
+    };
+  }
+
+  activateResponsiveExperience();
+  narrowViewport.addEventListener("change", activateResponsiveExperience);
 
   function initializeConstructionLoop(THREE) {
     const colors = {
@@ -64,11 +182,13 @@ if (root) {
     };
     const flowDetails = [
       { label: "Task specification", stage: "task" },
-      { label: "Action", stage: "representation" },
-      { label: "Observation", stage: "verification" },
-      { label: "Accept", stage: "artifact" },
-      { label: "Feedback", stage: "policy" },
+      { label: "Construction policy", stage: "policy" },
+      { label: "Operational representation", stage: "representation" },
+      { label: "Runtime verification", stage: "verification" },
+      { label: "Delivered artifact", stage: "artifact" },
     ];
+    const STAGE_DURATION_SECONDS = 3.4;
+    const ACTIVE_MOTION_TEMPO = 0.62;
 
     const renderer = new THREE.WebGLRenderer({
       alpha: true,
@@ -125,10 +245,20 @@ if (root) {
 
     const stageGroups = new Map();
     const stageMeshes = new Map();
+    const stageAccents = new Map();
+    const stageMotionState = {
+      task: { card: null, targetRing: null, checks: [], bars: [] },
+      policy: { nodes: [], controls: [] },
+      representation: { layers: [], blueprint: null, modes: [] },
+      verification: { arch: null, dialRim: null, needle: null, specimens: [] },
+      artifact: { cube: null, pieces: [], star: null },
+    };
     Object.keys(stageColors).forEach((stage) => {
       const group = new THREE.Group();
       group.userData.baseY = 0;
       group.userData.hoverAmount = 0;
+      group.userData.activeAmount = 0;
+      group.userData.active = false;
       group.userData.hovered = false;
       stageGroups.set(stage, group);
       stageMeshes.set(stage, []);
@@ -248,6 +378,36 @@ if (root) {
         stageMeshes.get(stage).push(child);
       });
       stageGroups.get(stage).add(object);
+    }
+
+    function addActivationHalo(stage, host, radius, depthScale = 1) {
+      const halo = new THREE.Group();
+      halo.position.y = 0.28;
+      const rings = [
+        { radius, tube: 0.035, opacity: 0.76 },
+        { radius: radius * 0.78, tube: 0.018, opacity: 0.48 },
+      ].map((ringConfig, index) => {
+        const ring = new THREE.Mesh(
+          new THREE.TorusGeometry(ringConfig.radius, ringConfig.tube, 10, 72),
+          new THREE.MeshBasicMaterial({
+            color: stageColors[stage],
+            transparent: true,
+            opacity: 0,
+            depthWrite: false,
+            blending: THREE.AdditiveBlending,
+          }),
+        );
+        ring.rotation.x = -Math.PI / 2;
+        ring.scale.y = depthScale;
+        ring.renderOrder = 3;
+        ring.userData.baseDepthScale = depthScale;
+        ring.userData.maxOpacity = ringConfig.opacity;
+        ring.userData.phase = index * Math.PI;
+        halo.add(ring);
+        return ring;
+      });
+      host.add(halo);
+      stageAccents.set(stage, { halo, rings });
     }
 
     const centralPlatform = roundedSlab(10.95, 3.48, 0.38, 0.42, colors.white, {
@@ -387,6 +547,7 @@ if (root) {
       card.rotation.x = Math.PI / 2;
       card.position.set(0, 1.32, 0.05);
       group.add(card);
+      stageMotionState.task.card = card;
 
       const cardInset = roundedSlab(1.58, 2.18, 0.08, 0.13, 0xfff8f6, {
         roughness: 0.78,
@@ -404,6 +565,7 @@ if (root) {
       targetRing.position.set(0, 2.04, 0.27);
       targetRing.castShadow = true;
       group.add(targetRing);
+      stageMotionState.task.targetRing = targetRing;
       const targetDot = cylinder(0.045, 0.06, colors.coral, 24);
       targetDot.rotation.x = Math.PI / 2;
       targetDot.position.set(0, 2.04, 0.28);
@@ -433,6 +595,8 @@ if (root) {
           { segments: 12 },
         );
         group.add(check);
+        check.userData.baseZ = check.position.z;
+        stageMotionState.task.checks.push(check);
         const line = box(index === 2 ? 0.56 : 0.7, 0.035, 0.025, colors.coral);
         line.position.set(-0.03, y, 0.27);
         group.add(line);
@@ -443,6 +607,7 @@ if (root) {
         const bar = box(0.055, height, 0.03, colors.coral);
         bar.position.set(0.36 + index * 0.1, 0.25 + height / 2, 0.28);
         group.add(bar);
+        stageMotionState.task.bars.push(bar);
       });
       group.add(
         tube(
@@ -461,6 +626,7 @@ if (root) {
           { segments: 20 },
         ),
       );
+      addActivationHalo("task", group, 1.12, 0.82);
       registerStage("task", group);
     }
 
@@ -513,26 +679,35 @@ if (root) {
         const node = cylinder(index > 3 ? 0.16 : 0.21, 0.2, colors.lavender);
         node.position.set(x, 0.78, z);
         group.add(node);
+        node.userData.baseY = node.position.y;
+        node.userData.motionIndex = index;
+        stageMotionState.policy.nodes.push(node);
       });
 
       const controls = roundedSlab(1.08, 0.52, 0.16, 0.09, 0xeadcf9);
       controls.position.set(-0.64, 0.66, 1.04);
       group.add(controls);
-      [-0.92, -0.65, -0.38].forEach((x, index) => {
-        const control = index === 1 ? cylinder(0.1, 0.13, colors.lavender) : box(0.18, 0.13, 0.18, colors.lavender);
-        control.position.set(x, 0.83, 1.04);
-        group.add(control);
-      });
       const decisionPad = roundedSlab(1.02, 0.52, 0.16, 0.09, 0xe4d3f7);
       decisionPad.position.set(0.72, 0.66, 1.04);
       group.add(decisionPad);
-      [0.46, 0.72, 0.98].forEach((x) => {
-        [-0.08, 0.14].forEach((zOffset) => {
-          const control = cylinder(0.09, 0.13, colors.lavender);
-          control.position.set(x, 0.83, 1.04 + zOffset);
-          group.add(control);
-        });
+
+      const policyControlLayout = [
+        { kind: "box", x: -0.88, z: 1.04 },
+        { kind: "cylinder", x: -0.48, z: 1.04 },
+        { kind: "cylinder", x: 0.48, z: 0.98 },
+        { kind: "cylinder", x: 0.74, z: 1.12 },
+        { kind: "cylinder", x: 1, z: 0.98 },
+      ];
+      policyControlLayout.forEach(({ kind, x, z }) => {
+        const control = kind === "box"
+          ? box(0.18, 0.13, 0.18, colors.lavender)
+          : cylinder(0.09, 0.13, colors.lavender);
+        control.position.set(x, 0.83, z);
+        group.add(control);
+        control.userData.baseY = control.position.y;
+        stageMotionState.policy.controls.push(control);
       });
+      addActivationHalo("policy", group, 1.48, 0.94);
       registerStage("policy", group);
     }
 
@@ -550,6 +725,9 @@ if (root) {
         );
         layer.position.set(index * 0.055, 0.35 + index * 0.13, -index * 0.04);
         group.add(layer);
+        layer.userData.basePosition = layer.position.clone();
+        layer.userData.motionIndex = index;
+        stageMotionState.representation.layers.push(layer);
       });
 
       const blueprint = roundedSlab(1.68, 1.76, 0.09, 0.1, 0xdceeff, {
@@ -557,6 +735,7 @@ if (root) {
       });
       blueprint.position.set(-0.42, 0.96, -0.13);
       group.add(blueprint);
+      stageMotionState.representation.blueprint = blueprint;
       [-0.78, -0.42, -0.06, 0.3].forEach((x) => {
         const gridLine = box(0.016, 0.025, 1.45, 0x86bdf0);
         gridLine.position.set(x, 1.04, -0.13);
@@ -649,7 +828,11 @@ if (root) {
           : roundedSlab(0.14, 0.14, 0.11, 0.03, colors.white);
         mode.position.set(1.18 + offset, 1.09, 0.92);
         group.add(mode);
+        mode.userData.baseY = mode.position.y;
+        mode.userData.motionIndex = index;
+        stageMotionState.representation.modes.push(mode);
       });
+      addActivationHalo("representation", group, 1.82, 0.84);
       registerStage("representation", group);
     }
 
@@ -678,6 +861,7 @@ if (root) {
       arch.position.set(-0.14, 1.26, 0.04);
       arch.castShadow = true;
       group.add(arch);
+      stageMotionState.verification.arch = arch;
       [-0.92, 0.64].forEach((x) => {
         const support = box(0.29, 0.7, 0.31, colors.teal);
         support.position.set(x, 0.92, 0.04);
@@ -701,6 +885,7 @@ if (root) {
       dialRim.position.set(-0.14, 1.17, 0.61);
       dialRim.castShadow = true;
       group.add(dialRim);
+      stageMotionState.verification.dialRim = dialRim;
       for (let index = 0; index < 12; index += 1) {
         const angle = (index / 12) * Math.PI * 2;
         const tick = box(0.025, 0.11, 0.025, colors.deepTeal);
@@ -738,6 +923,7 @@ if (root) {
       needleHub.rotation.x = Math.PI / 2;
       verificationNeedle.add(needleHub);
       group.add(verificationNeedle);
+      stageMotionState.verification.needle = verificationNeedle;
 
       const ruler = roundedSlab(0.3, 1.48, 0.1, 0.06, colors.white);
       ruler.rotation.x = Math.PI / 2;
@@ -764,6 +950,9 @@ if (root) {
           cube.position.set(x, 0.58 + level * 0.19, 0.92);
           cube.rotation.y = Math.PI / 4;
           group.add(cube);
+          cube.userData.baseY = cube.position.y;
+          cube.userData.motionIndex = index * 3 + level;
+          stageMotionState.verification.specimens.push(cube);
         });
         const glass = new THREE.Mesh(
           new THREE.CylinderGeometry(0.29, 0.29, 0.76, 32, 1, true),
@@ -785,6 +974,7 @@ if (root) {
         rim.position.set(x, 1.16, 0.92);
         group.add(rim);
       });
+      addActivationHalo("verification", group, 1.5, 0.96);
       registerStage("verification", group);
     }
 
@@ -806,6 +996,7 @@ if (root) {
       artifactCube = new THREE.Group();
       artifactCube.position.set(0, 0.98, 0);
       artifactCube.rotation.y = -0.2;
+      stageMotionState.artifact.cube = artifactCube;
       [-0.28, 0.28].forEach((x) => {
         [-0.28, 0.28].forEach((y) => {
           [-0.28, 0.28].forEach((z) => {
@@ -818,7 +1009,9 @@ if (root) {
               clearcoat: 0.34,
             });
             piece.position.set(x, y, z);
+            piece.userData.basePosition = piece.position.clone();
             artifactCube.add(piece);
+            stageMotionState.artifact.pieces.push(piece);
           });
         });
       });
@@ -847,6 +1040,8 @@ if (root) {
       starMesh.position.set(0, 0, 0.61);
       starMesh.castShadow = true;
       artifactCube.add(starMesh);
+      stageMotionState.artifact.star = starMesh;
+      addActivationHalo("artifact", group, 1.02, 0.88);
       registerStage("artifact", group);
     }
 
@@ -855,6 +1050,130 @@ if (root) {
     addRepresentationStage();
     addVerificationStage();
     addArtifactStage();
+
+    function smoothPulse(phase) {
+      const sine = Math.sin(phase);
+      const halfWave = Math.min(1, Math.max(0, sine));
+      return halfWave * halfWave * (3 - 2 * halfWave);
+    }
+
+    function animateActivationHalo(stage, elapsed, activeAmount) {
+      const accent = stageAccents.get(stage);
+      if (!accent) return;
+      const activeMotionTime = elapsed * ACTIVE_MOTION_TEMPO;
+      accent.halo.visible = activeAmount > 0.01;
+      accent.halo.rotation.y = activeMotionTime * 0.22;
+      accent.rings.forEach((ring, index) => {
+        const pulse = 0.5 + Math.sin(activeMotionTime * 3.1 + ring.userData.phase) * 0.5;
+        const expansion = 1 + activeAmount * (0.06 + pulse * 0.17 + index * 0.05);
+        ring.scale.x = expansion;
+        ring.scale.y = ring.userData.baseDepthScale * expansion;
+        ring.material.opacity = activeAmount * ring.userData.maxOpacity * (0.58 + pulse * 0.42);
+      });
+    }
+
+    function animateTaskStage(elapsed, activeAmount, hoverAmount) {
+      const task = stageMotionState.task;
+      const activeMotionTime = elapsed * ACTIVE_MOTION_TEMPO;
+      const energy = 0.38 + activeAmount * 0.92 + hoverAmount * 0.26;
+      const targetPulse = 0.5 + Math.sin(activeMotionTime * 2.7) * 0.5;
+      task.targetRing.rotation.z = activeMotionTime * 0.92;
+      task.targetRing.scale.setScalar(1 + targetPulse * 0.08 * energy);
+      task.card.rotation.z = Math.sin(activeMotionTime * 0.82) * 0.012 + activeAmount * Math.sin(activeMotionTime * 2.5) * 0.018;
+
+      task.checks.forEach((check, index) => {
+        const scan = smoothPulse(activeMotionTime * 2.15 - index * 0.82);
+        const checkScale = 1 + scan * (0.08 + activeAmount * 0.18);
+        check.scale.setScalar(checkScale);
+        check.position.z = check.userData.baseZ + scan * 0.04 * energy;
+      });
+      task.bars.forEach((bar, index) => {
+        const meter = 0.5 + Math.sin(activeMotionTime * 2.45 - index * 0.52) * 0.5;
+        bar.scale.y = 0.88 + meter * (0.12 + activeAmount * 0.34);
+      });
+    }
+
+    function animatePolicyStage(elapsed, activeAmount, hoverAmount) {
+      const policy = stageMotionState.policy;
+      const activeMotionTime = elapsed * ACTIVE_MOTION_TEMPO;
+      const decisionSpeed = 1.95;
+      policy.nodes.forEach((node, index) => {
+        const decisionWave = smoothPulse(activeMotionTime * decisionSpeed - index * 0.72);
+        node.position.y = node.userData.baseY + decisionWave * (0.055 + activeAmount * 0.16);
+        node.scale.setScalar(1 + decisionWave * (0.08 + activeAmount * 0.24));
+      });
+      policy.controls.forEach((control, index) => {
+        const switchPulse = 0.5 + Math.sin(activeMotionTime * 2.8 + index * 1.35) * 0.5;
+        control.position.y = control.userData.baseY + switchPulse * activeAmount * 0.06;
+        control.rotation.y = Math.sin(activeMotionTime * 1.9 + index) * activeAmount * 0.3;
+      });
+    }
+
+    function animateRepresentationStage(elapsed, activeAmount, hoverAmount) {
+      const representation = stageMotionState.representation;
+      const activeMotionTime = elapsed * ACTIVE_MOTION_TEMPO;
+      const spread = activeAmount * (0.11 + (0.5 + Math.sin(activeMotionTime * 1.25) * 0.5) * 0.055);
+      representation.layers.forEach((layer, index) => {
+        const base = layer.userData.basePosition;
+        const centeredIndex = index - (representation.layers.length - 1) / 2;
+        const drift = Math.sin(activeMotionTime * 0.88 + index * 0.8);
+        layer.position.x = base.x + centeredIndex * spread * 0.34;
+        layer.position.y = base.y + index * spread + drift * (0.008 + hoverAmount * 0.01);
+        layer.position.z = base.z - index * spread * 0.22;
+        layer.rotation.y = centeredIndex * activeAmount * 0.025 + drift * 0.006;
+      });
+      representation.blueprint.rotation.y = Math.sin(activeMotionTime * 0.72) * 0.018 + activeAmount * 0.045;
+      representation.blueprint.rotation.z = Math.sin(activeMotionTime * 1.05) * (0.006 + activeAmount * 0.016);
+      representation.modes.forEach((mode, index) => {
+        const selection = smoothPulse(activeMotionTime * 2.15 - index * 1.42);
+        mode.position.y = mode.userData.baseY + selection * (0.025 + activeAmount * 0.09);
+        mode.scale.setScalar(1 + selection * activeAmount * 0.16);
+      });
+    }
+
+    function animateVerificationStage(elapsed, activeAmount, hoverAmount) {
+      const verification = stageMotionState.verification;
+      const activeMotionTime = elapsed * ACTIVE_MOTION_TEMPO;
+      const sweepSpeed = 1.28;
+      verification.needle.rotation.z = -0.5 + Math.sin(activeMotionTime * sweepSpeed) * (0.48 + activeAmount * 0.22);
+      const dialPulse = 1 + (0.5 + Math.sin(activeMotionTime * 3.2) * 0.5) * activeAmount * 0.12;
+      verification.dialRim.scale.setScalar(dialPulse);
+      verification.arch.scale.y = 1 + Math.sin(activeMotionTime * 1.55) * (0.012 + activeAmount * 0.045);
+      verification.specimens.forEach((specimen, index) => {
+        const scan = smoothPulse(activeMotionTime * 2.35 - index * 0.58);
+        specimen.position.y = specimen.userData.baseY + scan * activeAmount * 0.075;
+        specimen.rotation.y = Math.PI / 4 + activeMotionTime * 0.15 * (index % 2 ? -1 : 1);
+        specimen.scale.setScalar(1 + scan * activeAmount * 0.12);
+      });
+    }
+
+    function animateArtifactStage(elapsed, activeAmount, hoverAmount) {
+      const artifact = stageMotionState.artifact;
+      const activeMotionTime = elapsed * ACTIVE_MOTION_TEMPO;
+      const burstPulse = 0.5 + Math.sin(activeMotionTime * 2.45) * 0.5;
+      const spread = 0.025 + activeAmount * (0.18 + burstPulse * 0.2) + hoverAmount * 0.05;
+      artifact.cube.rotation.y = -0.2 + activeMotionTime * 0.3;
+      artifact.cube.rotation.x = Math.sin(activeMotionTime * 0.78) * (0.028 + activeAmount * 0.085);
+      artifact.cube.position.y = 0.98 + Math.sin(activeMotionTime * 1.1) * (0.025 + activeAmount * 0.075);
+      artifact.pieces.forEach((piece, index) => {
+        const base = piece.userData.basePosition;
+        const stagger = 0.92 + (index % 3) * 0.06;
+        piece.position.copy(base).multiplyScalar(1 + spread * stagger);
+        piece.rotation.x = Math.sin(activeMotionTime * 1.7 + index) * activeAmount * 0.12;
+        piece.rotation.z = Math.cos(activeMotionTime * 1.45 + index * 0.7) * activeAmount * 0.12;
+      });
+      const starPulse = 1 + activeAmount * (0.12 + burstPulse * 0.24);
+      artifact.star.scale.setScalar(starPulse);
+      artifact.star.rotation.z = -activeMotionTime * 0.62;
+    }
+
+    const stageMotionControllers = {
+      task: animateTaskStage,
+      policy: animatePolicyStage,
+      representation: animateRepresentationStage,
+      verification: animateVerificationStage,
+      artifact: animateArtifactStage,
+    };
 
     function addBridge(x, width = 1) {
       const depth = 0.58;
@@ -954,24 +1273,24 @@ if (root) {
       0.31,
       { radius: 0.055 },
     );
-    const feedbackPoints = [
-        [4.12, 0.38, 1.72],
-        [4.1, 0.11, 2.28],
-        [3.52, 0.04, 2.62],
-        [0, 0.02, 2.72],
-        [-3.55, 0.04, 2.62],
-        [-4.08, 0.11, 2.28],
-        [-4.1, 0.38, 1.72],
-      ];
+    const artifactToTaskFeedbackPoints = [
+      [6.92, 0.52, 1.24],
+      [6.55, 0.08, 2.36],
+      [4.12, 0.02, 2.75],
+      [0, 0, 2.92],
+      [-4.2, 0.02, 2.75],
+      [-6.72, 0.08, 2.35],
+      [-7.1, 0.52, 1.22],
+    ];
     addFlow(
-      feedbackPoints,
+      artifactToTaskFeedbackPoints,
       colors.deepTeal,
       14,
       0.12,
       { radius: 0.112, arrowScale: 1.2, segments: 112, tension: 0.16 },
     );
     const feedbackHighlight = curveThrough(
-      feedbackPoints.map(([x, y, z]) => [x, y + 0.075, z - 0.018]),
+      artifactToTaskFeedbackPoints.map(([x, y, z]) => [x, y + 0.075, z - 0.018]),
       0.16,
     );
     world.add(
@@ -1071,24 +1390,29 @@ if (root) {
       statusText?.classList.toggle("is-inspecting", Boolean(hoveredStage));
     }
 
+    function dampMotion(current, target, sharpness, delta) {
+      return target + (current - target) * Math.exp(-sharpness * delta);
+    }
+
     function updateStageEmphasis(activeStage) {
+      const emphasizedStage = hoveredStage || activeStage;
       stageMeshes.forEach((meshes, stage) => {
-        const emphasized = stage === hoveredStage || (!hoveredStage && stage === activeStage);
+        const emphasized = stage === emphasizedStage;
         const group = stageGroups.get(stage);
-        if (group) group.userData.hovered = stage === hoveredStage;
-        meshes.forEach((mesh) => {
-          if (!mesh.material?.emissive) return;
-          mesh.material.emissive.set(stageColors[stage]);
-          mesh.material.emissiveIntensity = emphasized ? 0.075 : 0;
-        });
-        labelElements.get(stage)?.classList.toggle("is-active", emphasized);
+        if (group) {
+          group.userData.active = emphasized;
+          group.userData.hovered = stage === hoveredStage;
+        }
       });
     }
 
-    function renderFrame(elapsed) {
-      const cycleIndex = Math.floor(Math.max(0, elapsed) / 2.2) % flowDetails.length;
+    function renderFrame(elapsed, frameDelta = 1 / 60) {
+      const cycleIndex =
+        Math.floor(Math.max(0, elapsed) / STAGE_DURATION_SECONDS) % flowDetails.length;
       const activeFlow = flowDetails[cycleIndex] || flowDetails[0];
       if (!hoveredStage) progressLabel.textContent = activeFlow.label;
+      updateHover();
+      updateStageEmphasis(activeFlow.stage);
 
       flows.forEach((flow) => {
         flow.particles.forEach(({ mesh, offset }, particleIndex) => {
@@ -1103,27 +1427,62 @@ if (root) {
         });
       });
 
+      let dominantStage = activeFlow.stage;
+      let dominantAmount = -1;
       stageGroups.forEach((group, stage) => {
         const stageIndex = [...stageGroups.keys()].indexOf(stage);
+        const activeTarget = group.userData.active ? 1 : 0;
         const hoverTarget = group.userData.hovered ? 1 : 0;
-        group.userData.hoverAmount += (hoverTarget - group.userData.hoverAmount) * 0.12;
+        group.userData.activeAmount = dampMotion(
+          group.userData.activeAmount,
+          activeTarget,
+          2.2,
+          frameDelta,
+        );
+        group.userData.hoverAmount = dampMotion(
+          group.userData.hoverAmount,
+          hoverTarget,
+          4.6,
+          frameDelta,
+        );
+        const activeAmount = group.userData.activeAmount;
         const hoverAmount = group.userData.hoverAmount;
         group.position.y =
           group.userData.baseY +
-          Math.sin(elapsed * 0.68 + stageIndex) * 0.014 +
+          Math.sin(elapsed * 0.68 + stageIndex) * 0.008 +
+          activeAmount * (0.05 + Math.sin(elapsed * 1.35 + stageIndex) * 0.012) +
           hoverAmount * 0.075;
-        group.scale.setScalar(1 + hoverAmount * 0.016);
+        group.scale.setScalar(1 + activeAmount * 0.024 + hoverAmount * 0.022);
+        stageMeshes.get(stage).forEach((mesh) => {
+          if (!mesh.material?.emissive) return;
+          mesh.material.emissive.set(stageColors[stage]);
+          mesh.material.emissiveIntensity = activeAmount * (0.095 + hoverAmount * 0.075);
+        });
+        stageMotionControllers[stage]?.(elapsed, activeAmount, hoverAmount);
+        animateActivationHalo(stage, elapsed, activeAmount);
+        const stageLabel = labelElements.get(stage);
+        stageLabel?.style.setProperty("--loop-active-amount", activeAmount.toFixed(3));
+        stageLabel?.classList.toggle("is-active", activeAmount >= 0.5);
+        if (activeAmount > dominantAmount) {
+          dominantAmount = activeAmount;
+          dominantStage = stage;
+        }
       });
-      verificationNeedle.rotation.z = -0.5 + Math.sin(elapsed * 0.78) * 0.46;
-      artifactCube.rotation.y = -0.2 + Math.sin(elapsed * 0.38) * 0.08;
-      artifactCube.rotation.x = Math.sin(elapsed * 0.31) * 0.018;
-      artifactCube.position.y = 0.98 + Math.sin(elapsed * 0.52) * 0.018;
+      viewport.dataset.activeStage = dominantStage;
 
-      camera.position.x += (cameraTarget.x - camera.position.x) * 0.035;
-      camera.position.y += (7.55 + cameraTarget.y - camera.position.y) * 0.035;
+      camera.position.x = dampMotion(
+        camera.position.x,
+        cameraTarget.x,
+        2.15,
+        frameDelta,
+      );
+      camera.position.y = dampMotion(
+        camera.position.y,
+        7.55 + cameraTarget.y,
+        2.15,
+        frameDelta,
+      );
       camera.lookAt(0, 0.72, 0.15);
-      updateHover();
-      updateStageEmphasis(activeFlow.stage);
       renderer.render(scene, camera);
       updateLabels();
     }
@@ -1139,7 +1498,7 @@ if (root) {
       previousFrameTime = currentFrameTime;
       if (!isVisible || manualPaused) return;
       elapsedTime += frameDelta;
-      renderFrame(elapsedTime);
+      renderFrame(elapsedTime, frameDelta);
     }
 
     viewport.addEventListener("pointermove", (event) => {
