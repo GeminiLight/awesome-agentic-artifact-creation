@@ -7,13 +7,14 @@
       name="description"
       content="An interactive catalog of agentic systems and benchmarks that create, inspect, and revise artifacts."
     >
-    <meta name="theme-color" content="#ffffff">
+    <meta id="theme-color" name="theme-color" content="#ffffff">
     <title>Awesome Agentic Artifact Creation</title>
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css"
     >
+    <script src="assets/theme.js"></script>
     <link rel="stylesheet" href="assets/styles.css">
     <script src="assets/app.js" defer></script>
     <script type="module" src="assets/charts.js"></script>
@@ -37,28 +38,56 @@
           <a href="#catalog">Explore</a>
           <a href="#about">About</a>
         </nav>
-        <a
-          class="header-github"
-          href="https://github.com/GeminiLight/awesome-agentic-artifact-creation"
-        ><i class="ph ph-github-logo" aria-hidden="true"></i><span>GitHub</span></a>
-        <details class="mobile-menu">
-          <summary>Menu</summary>
-          <nav aria-label="Mobile navigation">
-            <a href="#scope">Scope</a>
-            <a href="#analysis">Analysis</a>
-            <a href="#catalog">Explore</a>
-            <a href="#about">About</a>
-            <a href="https://github.com/GeminiLight/awesome-agentic-artifact-creation">
-              <i class="ph ph-github-logo" aria-hidden="true"></i><span>GitHub</span>
-            </a>
-          </nav>
-        </details>
+        <div class="header-actions">
+          <div class="theme-switcher" role="group" aria-label="Color theme">
+            <button
+              class="theme-option"
+              type="button"
+              data-theme-option="system"
+              data-label="System"
+              aria-label="Follow system theme"
+              aria-pressed="false"
+            ><i class="ph ph-desktop" aria-hidden="true"></i><span class="sr-only">System</span></button>
+            <button
+              class="theme-option"
+              type="button"
+              data-theme-option="light"
+              data-label="Light"
+              aria-label="Use light theme"
+              aria-pressed="false"
+            ><i class="ph ph-sun" aria-hidden="true"></i><span class="sr-only">Light</span></button>
+            <button
+              class="theme-option"
+              type="button"
+              data-theme-option="dark"
+              data-label="Dark"
+              aria-label="Use dark theme"
+              aria-pressed="false"
+            ><i class="ph ph-moon" aria-hidden="true"></i><span class="sr-only">Dark</span></button>
+          </div>
+          <a
+            class="header-github"
+            href="https://github.com/GeminiLight/awesome-agentic-artifact-creation"
+          ><i class="ph ph-github-logo" aria-hidden="true"></i><span>GitHub</span></a>
+          <details class="mobile-menu">
+            <summary>Menu</summary>
+            <nav aria-label="Mobile navigation">
+              <a href="#scope">Scope</a>
+              <a href="#analysis">Analysis</a>
+              <a href="#catalog">Explore</a>
+              <a href="#about">About</a>
+              <a href="https://github.com/GeminiLight/awesome-agentic-artifact-creation">
+                <i class="ph ph-github-logo" aria-hidden="true"></i><span>GitHub</span>
+              </a>
+            </nav>
+          </details>
+        </div>
       </div>
     </header>
 
     <main>
       <section class="hero section-shell" aria-labelledby="hero-title">
-        <div class="hero-copy reveal">
+        <div class="hero-copy reveal reveal-sequence">
           <p class="eyebrow">Research catalog</p>
           <h1 id="hero-title">Agentic artifact creation.</h1>
           <p class="hero-summary">
@@ -75,7 +104,7 @@
           </div>
         </div>
 
-        <div class="hero-visual reveal" aria-label="Artifact taxonomy overview">
+        <div class="hero-visual reveal" data-reveal-order="1" aria-label="Artifact taxonomy overview">
           <div class="visual-header">
             <span>Artifact families</span>
             <span id="hero-total">Loading catalog...</span>
@@ -88,27 +117,27 @@
         </div>
       </section>
 
-      <section class="stat-band section-shell" aria-label="Catalog summary">
+      <section class="stat-band stat-reveal section-shell reveal" data-reveal-order="2" aria-label="Catalog summary">
         <dl>
           <div>
             <dt>Papers</dt>
-            <dd data-stat="total">...</dd>
+            <dd data-stat="total" data-count-up>...</dd>
           </div>
           <div>
             <dt>Named systems</dt>
-            <dd data-stat="named_systems">...</dd>
+            <dd data-stat="named_systems" data-count-up>...</dd>
           </div>
           <div>
             <dt>Benchmarks</dt>
-            <dd data-stat="benchmarks">...</dd>
+            <dd data-stat="benchmarks" data-count-up>...</dd>
           </div>
           <div>
             <dt>Publication sources</dt>
-            <dd data-stat="venues">...</dd>
+            <dd data-stat="venues" data-count-up>...</dd>
           </div>
           <div>
             <dt>Dual-axis records</dt>
-            <dd data-stat="dual_classified">...</dd>
+            <dd data-stat="dual_classified" data-count-up>...</dd>
           </div>
         </dl>
       </section>
@@ -116,7 +145,7 @@
       <section id="construction-loop" class="loop-explainer section-shell section-block" aria-labelledby="loop-title">
         <div class="loop-intro reveal">
           <p class="eyebrow">Interactive framework</p>
-          <h2 id="loop-title">A live construction loop.</h2>
+          <h2 id="loop-title">A live construction process.</h2>
           <p>
             Follow actions, observations, verification, and feedback as an
             artifact takes shape.
@@ -130,7 +159,7 @@
             aria-describedby="loop-description"
           >
             <p class="sr-only" id="loop-description">
-              An interactive three-dimensional construction loop. A task
+              An interactive three-dimensional construction process. A task
               specification enters the construction policy, which acts on an
               operational representation. Runtime verification observes the
               result and either accepts a delivered artifact or returns
@@ -143,7 +172,7 @@
               aria-hidden="true"
             >
             <div class="loop-label-layer" aria-hidden="true">
-              <span class="loop-frame-label" data-loop-label="loop">Construction loop</span>
+              <span class="loop-frame-label" data-loop-label="loop">Construction process</span>
               <span class="loop-role-label loop-role-label-task" data-loop-label="task">
                 <strong>Task specification</strong>
                 <small>goal · constraints<br>acceptance criteria</small>
@@ -253,7 +282,7 @@
         </div>
 
         <div class="analysis-grid">
-          <figure class="analysis-figure reveal">
+          <figure class="analysis-figure reveal" data-reveal-order="1">
             <figcaption>
               <div>
                 <strong>Artifact taxonomy composition</strong>
@@ -267,7 +296,7 @@
             ><p class="chart-loading">Preparing chart...</p></div>
           </figure>
 
-          <figure class="analysis-figure reveal">
+          <figure class="analysis-figure reveal" data-reveal-order="2">
             <figcaption>
               <div>
                 <strong>Publication venue distribution</strong>
@@ -281,7 +310,7 @@
             ><p class="chart-loading">Preparing chart...</p></div>
           </figure>
 
-          <figure class="analysis-figure reveal">
+          <figure class="analysis-figure reveal" data-reveal-order="3">
             <figcaption>
               <div>
                 <strong>Family growth</strong>
@@ -295,7 +324,7 @@
             ><p class="chart-loading">Preparing chart...</p></div>
           </figure>
 
-          <figure class="analysis-figure reveal">
+          <figure class="analysis-figure reveal" data-reveal-order="4">
             <figcaption>
               <div>
                 <strong>Artifact × application</strong>
