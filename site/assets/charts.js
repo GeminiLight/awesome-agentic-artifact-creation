@@ -1,4 +1,5 @@
-import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm";
+(() => {
+const d3 = window.d3;
 
 
 const FALLBACK_COLOR = "#8a96a8";
@@ -98,6 +99,18 @@ function createSvg(containerSelector, width, height, title, description) {
   svg.append("desc").text(description);
   container.replaceChildren(svg.node());
   return svg;
+}
+
+function centerChartOnNarrowViewport(containerSelector) {
+  if (!window.matchMedia("(max-width: 640px)").matches) return;
+  const container = document.querySelector(containerSelector);
+  if (!container) return;
+  window.requestAnimationFrame(() => {
+    container.scrollLeft = Math.max(
+      0,
+      Math.round((container.scrollWidth - container.clientWidth) / 2),
+    );
+  });
 }
 
 function addGrid(svg, scale, ticks, x1, x2) {
@@ -341,6 +354,7 @@ function drawComposition(catalog, animate = true) {
   markForMotion(typePaths, 18, 160);
   markForMotion(legendRows, 55, 280);
   prepareChartMotion(svg, animate);
+  centerChartOnNarrowViewport("#composition-chart");
 }
 
 function drawTrend(catalog, animate = true) {
@@ -716,3 +730,4 @@ async function initializeCharts() {
 }
 
 initializeCharts().catch(showChartError);
+})();

@@ -167,6 +167,7 @@ def build_site(output: Path = DEFAULT_OUTPUT) -> Path:
         "assets/charts.js",
         "assets/construction-loop.js",
         "assets/fig2-construction-process.png",
+        "assets/fig2-construction-process.webp",
         "data/catalog.json",
     )
     for relative_path in versioned_assets:

@@ -17,7 +17,8 @@
     <script src="assets/theme.js"></script>
     <link rel="stylesheet" href="assets/styles.css">
     <script src="assets/app.js" defer></script>
-    <script type="module" src="assets/charts.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js" defer></script>
+    <script src="assets/charts.js" defer></script>
     <script type="module" src="assets/construction-loop.js"></script>
   </head>
   <body data-catalog-url="data/catalog.json">
@@ -33,6 +34,7 @@
           </span>
         </a>
         <nav class="desktop-nav" aria-label="Primary navigation">
+          <a href="#construction-loop">Process</a>
           <a href="#scope">Scope</a>
           <a href="#analysis">Analysis</a>
           <a href="#catalog">Explore</a>
@@ -72,6 +74,7 @@
           <details class="mobile-menu">
             <summary>Menu</summary>
             <nav aria-label="Mobile navigation">
+              <a href="#construction-loop">Process</a>
               <a href="#scope">Scope</a>
               <a href="#analysis">Analysis</a>
               <a href="#catalog">Explore</a>
@@ -147,12 +150,101 @@
           <p class="eyebrow">Interactive framework</p>
           <h2 id="loop-title">A live construction process.</h2>
           <p>
-            Follow actions, observations, verification, and feedback as an
-            artifact takes shape.
+            Follow the ordered path from task and policy through representation
+            and verification to the artifact, then back to the next task.
           </p>
         </div>
 
         <div class="loop-stage reveal" data-construction-loop>
+          <div class="loop-mobile-process" aria-label="Construction process stages">
+            <ol class="loop-mobile-track">
+              <li>
+                <button
+                  class="loop-mobile-step is-active"
+                  type="button"
+                  data-loop-mobile-step="task"
+                  aria-pressed="true"
+                >
+                  <span class="loop-mobile-step-index">01</span>
+                  <span class="loop-mobile-step-icon" aria-hidden="true"><i class="ph ph-crosshair"></i></span>
+                  <span class="loop-mobile-step-copy">
+                    <strong>Task specification</strong>
+                    <small>Goal · constraints · acceptance criteria</small>
+                  </span>
+                  <span class="loop-mobile-step-verb">Define</span>
+                </button>
+              </li>
+              <li>
+                <button
+                  class="loop-mobile-step"
+                  type="button"
+                  data-loop-mobile-step="policy"
+                  aria-pressed="false"
+                >
+                  <span class="loop-mobile-step-index">02</span>
+                  <span class="loop-mobile-step-icon" aria-hidden="true"><i class="ph ph-git-branch"></i></span>
+                  <span class="loop-mobile-step-copy">
+                    <strong>Construction policy</strong>
+                    <small>Decision control · agent topology</small>
+                  </span>
+                  <span class="loop-mobile-step-verb">Direct</span>
+                </button>
+              </li>
+              <li>
+                <button
+                  class="loop-mobile-step"
+                  type="button"
+                  data-loop-mobile-step="representation"
+                  aria-pressed="false"
+                >
+                  <span class="loop-mobile-step-index">03</span>
+                  <span class="loop-mobile-step-icon" aria-hidden="true"><i class="ph ph-stack"></i></span>
+                  <span class="loop-mobile-step-copy">
+                    <strong>Operational representation</strong>
+                    <small>Intermediate form · edit interface</small>
+                  </span>
+                  <span class="loop-mobile-step-verb">Construct</span>
+                </button>
+              </li>
+              <li>
+                <button
+                  class="loop-mobile-step"
+                  type="button"
+                  data-loop-mobile-step="verification"
+                  aria-pressed="false"
+                >
+                  <span class="loop-mobile-step-index">04</span>
+                  <span class="loop-mobile-step-icon" aria-hidden="true"><i class="ph ph-scan"></i></span>
+                  <span class="loop-mobile-step-copy">
+                    <strong>Runtime verification</strong>
+                    <small>Observation source · feedback function</small>
+                  </span>
+                  <span class="loop-mobile-step-verb">Inspect</span>
+                </button>
+              </li>
+              <li>
+                <button
+                  class="loop-mobile-step"
+                  type="button"
+                  data-loop-mobile-step="artifact"
+                  aria-pressed="false"
+                >
+                  <span class="loop-mobile-step-index">05</span>
+                  <span class="loop-mobile-step-icon" aria-hidden="true"><i class="ph ph-cube"></i></span>
+                  <span class="loop-mobile-step-copy">
+                    <strong>Delivered artifact</strong>
+                    <small>Accepted output · reusable result</small>
+                  </span>
+                  <span class="loop-mobile-step-verb">Release</span>
+                </button>
+              </li>
+            </ol>
+            <p class="loop-mobile-feedback">
+              <i class="ph ph-arrow-bend-left-up" aria-hidden="true"></i>
+              <span>Artifact becomes the next task</span>
+            </p>
+          </div>
+
           <div
             class="loop-viewport"
             role="img"
@@ -162,15 +254,23 @@
               An interactive three-dimensional construction process. A task
               specification enters the construction policy, which acts on an
               operational representation. Runtime verification observes the
-              result and either accepts a delivered artifact or returns
-              feedback to the policy.
+              result, accepts a delivered artifact, and the artifact can begin the next task cycle.
             </p>
-            <img
-              class="loop-fallback"
-              src="assets/fig2-construction-process.png"
-              alt=""
-              aria-hidden="true"
-            >
+            <picture>
+              <source
+                srcset="assets/fig2-construction-process.webp"
+                type="image/webp"
+              >
+              <img
+                class="loop-fallback"
+                src="assets/fig2-construction-process.png"
+                alt=""
+                aria-hidden="true"
+                loading="lazy"
+                decoding="async"
+                fetchpriority="low"
+              >
+            </picture>
             <div class="loop-label-layer" aria-hidden="true">
               <span class="loop-frame-label" data-loop-label="loop">Construction process</span>
               <span class="loop-role-label loop-role-label-task" data-loop-label="task">
@@ -201,7 +301,7 @@
             </div>
             <div class="loop-progress" aria-hidden="true">
               <span class="loop-progress-mark"></span>
-              <span data-loop-progress>Action</span>
+              <span data-loop-progress>Task specification</span>
             </div>
           </div>
 
@@ -288,10 +388,12 @@
                 <strong>Artifact taxonomy composition</strong>
                 <p>Family totals with their internal artifact-type structure.</p>
               </div>
+              <span class="chart-mobile-hint" aria-hidden="true"><i class="ph ph-arrows-horizontal"></i>Swipe</span>
             </figcaption>
             <div
               class="d3-chart composition-chart"
               id="composition-chart"
+              tabindex="0"
               aria-label="Artifact family and artifact type composition chart"
             ><p class="chart-loading">Preparing chart...</p></div>
           </figure>
@@ -302,10 +404,12 @@
                 <strong>Publication venue distribution</strong>
                 <p>Rectangle area shows paper count; color groups parent venues by research area.</p>
               </div>
+              <span class="chart-mobile-hint" aria-hidden="true"><i class="ph ph-arrows-horizontal"></i>Swipe</span>
             </figcaption>
             <div
               class="d3-chart venue-chart"
               id="venue-chart"
+              tabindex="0"
               aria-label="Treemap of published paper counts by venue and research area"
             ><p class="chart-loading">Preparing chart...</p></div>
           </figure>
@@ -316,10 +420,12 @@
                 <strong>Family growth</strong>
                 <p>Annual counts across the six artifact families.</p>
               </div>
+              <span class="chart-mobile-hint" aria-hidden="true"><i class="ph ph-arrows-horizontal"></i>Swipe</span>
             </figcaption>
             <div
               class="d3-chart trend-chart"
               id="trend-chart"
+              tabindex="0"
               aria-label="Annual artifact family paper counts"
             ><p class="chart-loading">Preparing chart...</p></div>
           </figure>
@@ -330,10 +436,12 @@
                 <strong>Artifact × application</strong>
                 <p>Coverage density at every cross-axis intersection.</p>
               </div>
+              <span class="chart-mobile-hint" aria-hidden="true"><i class="ph ph-arrows-horizontal"></i>Swipe</span>
             </figcaption>
             <div
               class="d3-chart matrix-chart"
               id="matrix-chart"
+              tabindex="0"
               aria-label="Artifact family by application domain coverage matrix"
             ><p class="chart-loading">Preparing chart...</p></div>
           </figure>
@@ -355,64 +463,76 @@
             <aside class="filter-panel reveal" aria-label="Paper filters">
               <div class="filter-heading">
                 <h3><i class="ph ph-funnel-simple" aria-hidden="true"></i><span>Refine</span></h3>
-                <button class="text-button" id="clear-filters" type="button">
-                  <i class="ph ph-x" aria-hidden="true"></i><span>Clear all</span>
-                </button>
+                <div class="filter-heading-actions">
+                  <button class="text-button" id="clear-filters" type="button">
+                    <i class="ph ph-x" aria-hidden="true"></i><span>Clear all</span>
+                  </button>
+                  <button
+                    class="filter-panel-toggle"
+                    type="button"
+                    aria-expanded="false"
+                    aria-controls="catalog-filter-controls"
+                  >
+                    <span>Show filters</span>
+                    <i class="ph ph-caret-down" aria-hidden="true"></i>
+                  </button>
+                </div>
               </div>
 
-              <label class="search-field" for="paper-search">
-                <span><i class="ph ph-magnifying-glass" aria-hidden="true"></i>Search</span>
-                <input
-                  id="paper-search"
-                  type="search"
-                  placeholder="Title, author, system…"
-                  autocomplete="off"
-                >
-              </label>
-
-              <fieldset class="view-filter">
-                <legend>Browse view</legend>
-                <label>
-                  <input type="radio" name="catalog-view" value="artifact" checked>
-                  <span>Artifact</span>
+              <div class="filter-panel-controls" id="catalog-filter-controls">
+                <label class="search-field" for="paper-search">
+                  <span><i class="ph ph-magnifying-glass" aria-hidden="true"></i>Search</span>
+                  <input
+                    id="paper-search"
+                    type="search"
+                    placeholder="Title, author, system…"
+                    autocomplete="off"
+                  >
                 </label>
-                <label>
-                  <input type="radio" name="catalog-view" value="application">
-                  <span>Application</span>
-                </label>
-              </fieldset>
 
-              <div class="filter-control">
-                <span id="primary-filter-label">Artifact family</span>
-                <select id="primary-filter" aria-labelledby="primary-filter-label">
-                  <option value="">All families</option>
-                </select>
-              </div>
+                <fieldset class="view-filter">
+                  <legend>Browse view</legend>
+                  <label>
+                    <input type="radio" name="catalog-view" value="artifact" checked>
+                    <span>Artifact</span>
+                  </label>
+                  <label>
+                    <input type="radio" name="catalog-view" value="application">
+                    <span>Application</span>
+                  </label>
+                </fieldset>
 
-              <div class="filter-control">
-                <span id="year-filter-label">Year</span>
-                <select id="year-filter" aria-labelledby="year-filter-label">
-                  <option value="">All years</option>
-                </select>
-              </div>
+                <div class="filter-control">
+                  <span id="primary-filter-label">Artifact family</span>
+                  <select id="primary-filter" aria-labelledby="primary-filter-label">
+                    <option value="">All families</option>
+                  </select>
+                </div>
 
-              <div class="filter-control">
-                <span id="kind-filter-label">Entry kind</span>
-                <select id="kind-filter" aria-labelledby="kind-filter-label">
-                  <option value="">Systems & benchmarks</option>
-                  <option value="system">Systems</option>
-                  <option value="benchmark">Benchmarks</option>
-                </select>
-              </div>
+                <div class="filter-control">
+                  <span id="year-filter-label">Year</span>
+                  <select id="year-filter" aria-labelledby="year-filter-label">
+                    <option value="">All years</option>
+                  </select>
+                </div>
 
-              <div class="filter-control">
-                <span id="status-filter-label">Publication status</span>
-                <select id="status-filter" aria-labelledby="status-filter-label">
-                  <option value="">All statuses</option>
-                  <option value="published">Published</option>
-                  <option value="preprint">Preprint</option>
-                  <option value="project">Project</option>
-                </select>
+                <div class="filter-control">
+                  <span id="kind-filter-label">Entry kind</span>
+                  <select id="kind-filter" aria-labelledby="kind-filter-label">
+                    <option value="">Systems & benchmarks</option>
+                    <option value="system">Systems</option>
+                    <option value="benchmark">Benchmarks</option>
+                  </select>
+                </div>
+
+                <div class="filter-control">
+                  <span id="status-filter-label">Publication status</span>
+                  <select id="status-filter" aria-labelledby="status-filter-label">
+                    <option value="">All statuses</option>
+                    <option value="published">Published</option>
+                    <option value="preprint">Preprint</option>
+                  </select>
+                </div>
               </div>
             </aside>
 
