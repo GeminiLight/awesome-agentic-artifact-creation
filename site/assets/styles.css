@@ -415,14 +415,6 @@ img {
   transform: translate(-50%, 0);
 }
 
-:root[data-theme="dark"] .brand-symbol,
-:root[data-theme="dark"] .footer-symbol,
-:root[data-resolved-theme="dark"] .brand-symbol,
-:root[data-resolved-theme="dark"] .footer-symbol {
-  filter: brightness(0) invert(1);
-  opacity: 0.9;
-}
-
 .mobile-menu {
   display: none;
   justify-self: end;

@@ -60,6 +60,13 @@ class SiteBuildTests(unittest.TestCase):
             self.assertTrue((output / "favicon.svg").is_file())
             self.assertTrue((output / ".nojekyll").is_file())
             index = (output / "index.html").read_text(encoding="utf-8")
+            styles = (output / "assets" / "styles.css").read_text(
+                encoding="utf-8"
+            )
+            logo = (output / "assets" / "logo-mark.svg").read_text(
+                encoding="utf-8"
+            )
+            favicon = (output / "favicon.svg").read_text(encoding="utf-8")
             self.assertIn('id="construction-loop"', index)
             self.assertIn("data-loop-status", index)
             self.assertIn("decision control<br>agent topology", index)
@@ -82,6 +89,14 @@ class SiteBuildTests(unittest.TestCase):
             self.assertRegex(
                 index, r'href="assets/styles\.css\?v=[0-9a-f]{12}"'
             )
+            self.assertRegex(index, r'href="favicon\.svg\?v=[0-9a-f]{12}"')
+            self.assertRegex(
+                styles, r'url\("logo-mark\.svg\?v=[0-9a-f]{12}"\)'
+            )
+            self.assertIn("Six colored artifact-family modules", logo)
+            self.assertEqual(logo, favicon)
+            self.assertNotIn("<image", logo)
+            self.assertNotIn("data:image", logo)
             self.assertRegex(
                 index,
                 r'data-catalog-url="data/catalog\.json\?v=[0-9a-f]{12}"',

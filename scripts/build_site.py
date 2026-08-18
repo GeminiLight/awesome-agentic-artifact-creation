@@ -160,7 +160,21 @@ def build_site(output: Path = DEFAULT_OUTPUT) -> Path:
 
     index_path = output / "index.html"
     index = index_path.read_text(encoding="utf-8")
+
+    # The logo is referenced from CSS rather than HTML, so fingerprint it
+    # before fingerprinting the stylesheet itself.
+    styles_path = output / "assets" / "styles.css"
+    styles = styles_path.read_text(encoding="utf-8")
+    logo_digest = hashlib.sha256(
+        (output / "assets" / "logo-mark.svg").read_bytes()
+    ).hexdigest()[:12]
+    styles = styles.replace(
+        'url("logo-mark.svg")', f'url("logo-mark.svg?v={logo_digest}")'
+    )
+    styles_path.write_text(styles, encoding="utf-8")
+
     versioned_assets = (
+        "favicon.svg",
         "assets/styles.css",
         "assets/theme.js",
         "assets/app.js",
