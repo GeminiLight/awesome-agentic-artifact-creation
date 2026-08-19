@@ -373,6 +373,7 @@ def render_statistics(
 
 def render_badges(papers: list[dict[str, str]]) -> str:
     venue_count = len({paper["venue_id"] for paper in papers})
+    kinds = Counter(paper["entry_kind"] for paper in papers)
     return "\n".join(
         [
             "  <p>",
@@ -393,6 +394,16 @@ def render_badges(papers: list[dict[str, str]]) -> str:
                 f'    <a href="#catalog-analysis"><img alt="Papers: {len(papers)}" '
                 f'src="https://img.shields.io/badge/Papers-{len(papers)}-4C9D96'
                 '?style=flat-square"></a>'
+            ),
+            (
+                f'    <a href="#catalog-analysis"><img alt="Systems: {kinds["system"]}" '
+                f'src="https://img.shields.io/badge/Systems-{kinds["system"]}-55A2D5'
+                '?style=flat-square"></a>'
+            ),
+            (
+                f'    <a href="#catalog-analysis"><img alt="Benchmarks: '
+                f'{kinds["benchmark"]}" src="https://img.shields.io/badge/'
+                f'Benchmarks-{kinds["benchmark"]}-957CC3?style=flat-square"></a>'
             ),
             (
                 f'    <a href="#survey-scope"><img alt="Venues: {venue_count}" '
