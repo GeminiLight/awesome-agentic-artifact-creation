@@ -1,4 +1,5 @@
 import sys
+import re
 import unittest
 from collections import Counter
 from pathlib import Path
@@ -35,26 +36,26 @@ class CatalogTest(unittest.TestCase):
         cls.papers = load_papers(taxonomy=cls.taxonomy, venues=cls.venues)
 
     def test_audit_covers_current_candidate_set(self):
-        self.assertEqual(len(self.audit), 303)
+        self.assertEqual(len(self.audit), 321)
         self.assertEqual(
             Counter(row["original_role"] for row in self.audit),
-            {"system": 224, "benchmark": 29, "supporting": 50},
+            {"system": 241, "benchmark": 29, "supporting": 51},
         )
         self.assertEqual(
             Counter(row["audit_verdict"] for row in self.audit),
             {
-                "include_system": 235,
+                "include_system": 252,
                 "include_benchmark": 33,
-                "pending_full_text": 18,
+                "pending_full_text": 19,
                 "exclude": 17,
             },
         )
 
     def test_public_catalog_is_derived_from_audit(self):
-        self.assertEqual(len(self.papers), 257)
+        self.assertEqual(len(self.papers), 255)
         self.assertEqual(
             Counter(paper["entry_kind"] for paper in self.papers),
-            {"system": 227, "benchmark": 30},
+            {"system": 227, "benchmark": 28},
         )
         self.assertEqual(
             (ROOT / "data" / "papers.csv").read_text(encoding="utf-8"),
@@ -63,16 +64,16 @@ class CatalogTest(unittest.TestCase):
 
     def test_survey_membership_is_derived_from_public_views(self):
         membership = derive_survey_membership(self.papers)
-        self.assertEqual(len(membership), 257)
+        self.assertEqual(len(membership), 255)
         self.assertEqual(
             Counter(
                 (row["artifact_view"], row["application_view"])
                 for row in membership
             ),
             {
-                ("true", "true"): 217,
-                ("true", "false"): 32,
-                ("false", "true"): 8,
+                ("true", "true"): 219,
+                ("true", "false"): 30,
+                ("false", "true"): 6,
             },
         )
         self.assertEqual(
@@ -90,9 +91,9 @@ class CatalogTest(unittest.TestCase):
         )
 
     def test_venue_registry_normalizes_catalog_sources(self):
-        self.assertEqual(len(self.venues), 59)
+        self.assertEqual(len(self.venues), 60)
         used_venue_ids = {row["venue_id"] for row in self.audit}
-        self.assertEqual(len(used_venue_ids), 58)
+        self.assertEqual(len(used_venue_ids), 59)
         self.assertEqual(
             set(self.venues) - used_venue_ids,
             {"wacv"},
@@ -102,15 +103,22 @@ class CatalogTest(unittest.TestCase):
         )
         held_venues = {
             "asme_idetc_cie",
+            "acl_findings",
+            "acl_system_demos",
             "cc",
             "cikm",
             "coling",
+            "digital_discovery",
             "ease",
+            "emnlp_findings",
+            "emnlp_system_demos",
             "fdg",
             "ieee_cog",
             "ieee_tlt",
+            "iccc",
             "ismir",
             "learning_at_scale",
+            "semeval",
             "wacv_workshops",
         }
         self.assertEqual(
@@ -151,6 +159,85 @@ class CatalogTest(unittest.TestCase):
             audit_by_key["D3_EZBlender2026"]["venue_id"],
             "wacv_workshops",
         )
+
+    def test_anthology_tracks_are_not_mislabeled_as_main_conference(self):
+        expected_tracks = {
+            r"\.findings-acl\.": "acl_findings",
+            r"\.findings-emnlp\.": "emnlp_findings",
+            r"\.acl-demo\.": "acl_system_demos",
+            r"\.emnlp-demos\.": "emnlp_system_demos",
+        }
+        for row in self.audit:
+            for pattern, venue_id in expected_tracks.items():
+                if re.search(pattern, row["link"]):
+                    self.assertEqual(row["venue_id"], venue_id, row["bib_key"])
+
+    def test_main_track_refresh_is_synchronized(self):
+        expected_venues = {
+            "Video_PhyT2V2025": "cvpr",
+            "Image_UniEditI2026": "cvpr",
+            "Image_MultiTurnConsistent2025": "iccv",
+            "Image_Idea2Img2024": "eccv",
+            "D3_DreamScene3602024": "eccv",
+            "D3_ChatEdit3D2024": "eccv",
+            "Code_MapCoder2024": "acl",
+            "D3_SceneGenAgent2025": "acl",
+            "DataViz_AMACE2025": "emnlp",
+            "Code_CodeTree2025": "naacl",
+            "Image_CultureTRIP2025": "naacl",
+            "Text_MCQGSRefine2025": "naacl",
+            "Animation_LogoMotion2025": "chi",
+            "Game_DreamGarden2025": "chi",
+            "DataViz_DataFormulator2_2025": "chi",
+            "Image_APPO2026": "chi",
+        }
+        audit_by_key = {row["bib_key"]: row for row in self.audit}
+        public_by_key = {row["bib_key"]: row for row in self.papers}
+        for bib_key, venue_id in expected_venues.items():
+            self.assertEqual(audit_by_key[bib_key]["venue_id"], venue_id)
+            self.assertIn(bib_key, public_by_key)
+
+        self.assertEqual(audit_by_key["Video_VISTA2025"]["venue_id"], "cvpr")
+        self.assertEqual(audit_by_key["Video_VISTA2025"]["year"], "2026")
+        self.assertEqual(audit_by_key["Game_RPGAgent2026"]["venue_id"], "chi")
+        self.assertEqual(
+            audit_by_key["Game_RPGAgent2026"]["audit_verdict"],
+            "pending_full_text",
+        )
+        self.assertNotIn("Game_RPGAgent2026", public_by_key)
+        for bib_key in (
+            "Slide_DeepPresenter2026",
+            "Video_SCMAPR2026",
+            "Code_DocAgent2025",
+        ):
+            self.assertEqual(
+                self.venues[audit_by_key[bib_key]["venue_id"]]["catalog_status"],
+                "hold",
+            )
+            self.assertNotIn(bib_key, public_by_key)
+
+    def test_autodesign_is_synchronized(self):
+        audit_by_key = {row["bib_key"]: row for row in self.audit}
+        public_by_key = {row["bib_key"]: row for row in self.papers}
+        row = audit_by_key["Poster_AutoDesign2026"]
+        self.assertEqual(row["venue_id"], "arxiv")
+        self.assertEqual(row["audit_verdict"], "include_system")
+        self.assertEqual(row["evidence_basis"], "full_text")
+        self.assertEqual(
+            (
+                row["artifact_family"],
+                row["artifact_type"],
+                row["artifact_subtype"],
+                row["application_domain"],
+            ),
+            (
+                "2D Visual Artifacts",
+                "Visual Documents",
+                "Posters",
+                "Scientific Research",
+            ),
+        )
+        self.assertIn("Poster_AutoDesign2026", public_by_key)
 
     def test_names_are_populated_and_propagated(self):
         audit_names = {row["bib_key"]: row["name"] for row in self.audit}
@@ -193,13 +280,13 @@ class CatalogTest(unittest.TestCase):
         self.assertEqual(
             Counter(paper["artifact_family"] for paper in self.papers),
             {
-                "Textual Artifacts": 37,
-                "2D Visual Artifacts": 58,
-                "Audio Artifacts": 12,
+                "Textual Artifacts": 34,
+                "2D Visual Artifacts": 61,
+                "Audio Artifacts": 11,
                 "Video Artifacts": 34,
-                "Spatial Artifacts": 32,
-                "Behavioral Artifacts": 76,
-                "": 8,
+                "Spatial Artifacts": 35,
+                "Behavioral Artifacts": 74,
+                "": 6,
             },
         )
 
@@ -264,7 +351,7 @@ class CatalogTest(unittest.TestCase):
         )
         self.assertEqual(
             sum(bool(row["application_domain"]) for row in self.audit),
-            266,
+            284,
         )
 
     def test_chapter_five_supporting_import_is_audited(self):
@@ -273,7 +360,7 @@ class CatalogTest(unittest.TestCase):
             for row in self.audit
             if row["original_role"] == "supporting"
         }
-        self.assertEqual(len(supporting), 50)
+        self.assertEqual(len(supporting), 51)
         self.assertEqual(
             supporting["CAD_SPADA2026"]["audit_verdict"],
             "include_system",
@@ -429,14 +516,17 @@ class CatalogTest(unittest.TestCase):
         rendered = render_readme(self.papers, self.taxonomy)
         self.assertNotIn("<!-- catalog-badges -->", rendered)
         self.assertIn(
+            "https://agentic-creation.github.io/", rendered
+        )
+        self.assertNotIn(
             "geminilight.github.io/awesome-agentic-artifact-creation/", rendered
         )
         self.assertIn('src="assets/badge-website.svg" height="56"', rendered)
         self.assertIn('src="assets/badge-paper.svg" height="56"', rendered)
-        self.assertIn("Papers-257-4C9D96", rendered)
+        self.assertIn("Papers-255-4C9D96", rendered)
         self.assertIn("Systems-227-55A2D5", rendered)
-        self.assertIn("Benchmarks-30-957CC3", rendered)
-        self.assertIn("Venues-41-D58B68", rendered)
+        self.assertIn("Benchmarks-28-957CC3", rendered)
+        self.assertIn("Venues-35-D58B68", rendered)
         self.assertIn(
             "github/last-commit/GeminiLight/"
             "awesome-agentic-artifact-creation/main",
@@ -449,7 +539,7 @@ class CatalogTest(unittest.TestCase):
         ]
         self.assertIn("badge-website.svg", first_badge_row)
         self.assertIn("badge-paper.svg", first_badge_row)
-        self.assertNotIn("Papers-257", first_badge_row)
+        self.assertNotIn("Papers-255", first_badge_row)
         badge_block = rendered[
             rendered.index("  <p>\n    <a") : rendered.index(
                 "</div>", rendered.index("  <p>\n    <a")
@@ -457,6 +547,15 @@ class CatalogTest(unittest.TestCase):
         ]
         self.assertNotIn(">\n      <img", badge_block)
         self.assertNotIn("</a>\n    </a>", badge_block)
+
+    def test_header_framework_uses_latest_pdf_export(self):
+        rendered = render_readme(self.papers, self.taxonomy)
+        self.assertIn(
+            'href="assets/fig2-construction-process.pdf"', rendered
+        )
+        self.assertIn(
+            'src="assets/fig2-construction-process.png"', rendered
+        )
 
     def test_header_uses_a_theme_aware_brand_logo(self):
         rendered = render_readme(self.papers, self.taxonomy)
@@ -485,38 +584,38 @@ class CatalogTest(unittest.TestCase):
 
     def test_catalog_analysis_metrics(self):
         analysis = compute_analysis(self.papers, self.taxonomy)
-        self.assertEqual(analysis.total, 257)
+        self.assertEqual(analysis.total, 255)
         self.assertEqual(analysis.artifact_classified, 249)
         self.assertEqual(analysis.application_classified, 225)
-        self.assertEqual(analysis.dual_classified, 217)
-        self.assertEqual(analysis.artifact_only, 32)
-        self.assertEqual(analysis.application_only, 8)
-        self.assertEqual(analysis.named_systems, 215)
+        self.assertEqual(analysis.dual_classified, 219)
+        self.assertEqual(analysis.artifact_only, 30)
+        self.assertEqual(analysis.application_only, 6)
+        self.assertEqual(analysis.named_systems, 216)
         self.assertEqual(analysis.system_count, 227)
-        self.assertEqual(analysis.source_count, 41)
+        self.assertEqual(analysis.source_count, 35)
         self.assertEqual(
             [(item.year, item.total) for item in analysis.by_year],
-            [(2023, 4), (2024, 26), (2025, 90), (2026, 129)],
+            [(2023, 4), (2024, 29), (2025, 94), (2026, 122)],
         )
-        self.assertEqual(analysis.family_counts, (37, 58, 12, 34, 32, 76))
+        self.assertEqual(analysis.family_counts, (34, 61, 11, 34, 35, 74))
         self.assertEqual(
             analysis.family_type_counts,
             (
-                (10, 21, 6),
-                (9, 32, 16, 1),
-                (5, 1, 6),
-                (7, 18, 6, 3),
-                (12, 20),
-                (65, 11),
+                (8, 20, 6),
+                (10, 35, 15, 1),
+                (5, 0, 6),
+                (7, 17, 7, 3),
+                (12, 23),
+                (63, 11),
             ),
         )
-        self.assertEqual(analysis.application_counts, (83, 7, 9, 23, 51, 52))
+        self.assertEqual(analysis.application_counts, (87, 7, 8, 26, 45, 52))
         self.assertEqual(
             analysis.top_pairs[:3],
             (
                 ("Behavioral Artifacts", "Engineering Design", 30),
                 ("Video Artifacts", "Creative Production", 25),
-                ("Spatial Artifacts", "Engineering Design", 19),
+                ("Spatial Artifacts", "Engineering Design", 20),
             ),
         )
 
@@ -595,12 +694,13 @@ class CatalogTest(unittest.TestCase):
             rendered,
         )
         self.assertIn(
-            "Findings of ACL, 2026. "
-            "[Published](https://aclanthology.org/2026.findings-acl.1816/) · "
-            "[Code](https://github.com/wywyWang/CoachAI-Projects) · "
-            "`Benchmark` · `📦 Textual Artifacts` · `🎯 Professional Work`",
+            "CHI, 2025. "
+            "[Published](https://doi.org/10.1145/3706598.3714233) · "
+            "`System` · `📦 Behavioral Artifacts` · `🎯 Creative Production`",
             rendered,
         )
+        self.assertNotIn("Findings of ACL,", rendered)
+        self.assertNotIn("ACL System Demonstrations,", rendered)
         self.assertNotIn("application: `", rendered)
         self.assertNotIn("**System**", rendered)
         self.assertNotIn("**Benchmark**", rendered)

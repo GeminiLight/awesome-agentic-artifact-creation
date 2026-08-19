@@ -51,11 +51,11 @@ are reviewable rather than silent.
 
 | Verdict | Count |
 |---|---:|
-| Included systems | 235 |
+| Included systems | 252 |
 | Included benchmarks | 33 |
-| Pending full-text review | 18 |
+| Pending full-text review | 19 |
 | Excluded | 17 |
-| Audited candidates | 303 |
+| Audited candidates | 321 |
 
 Two entries originally labeled as systems are published as benchmarks in this
 catalog. The initial audit replaced the provisional “144 systems + 9
@@ -76,7 +76,34 @@ ledger to 299 decisions. A subsequent corpus-alignment review added DRACO as
 a benchmark of structured long-form report construction, bringing the ledger
 to 300 decisions. A targeted ICCC, SemEval, and audio-scene review then added
 three observation-conditioned construction systems, bringing the ledger to
-303 decisions.
+303 decisions. The August 19 main-track refresh added 16 systems from CVPR,
+ICCV, ECCV, ACL, EMNLP, NAACL, and CHI, and added RPGAgent as a pending
+full-text case. It also normalized VISTA to CVPR 2026 and corrected archival
+track metadata for DeepPresenter, SCMAPR, and DocAgent, bringing the ledger to
+320 decisions. The subsequent AutoDesign full-text review added one core
+paper-to-poster system with nested artifact-revision and harness-update loops,
+bringing the ledger to 321 decisions.
+
+The ICCC, SemEval, Digital Discovery, ACL/EMNLP Findings, and ACL/EMNLP System
+Demonstrations venue records remain in the audit ledger but are held from the
+generated public catalog. After applying those venue controls, the public
+catalog contains 255 entries.
+
+## Synchronization with the survey corpus
+
+This repository and the parent survey use `bib_key` as their stable join key.
+They intentionally retain separate authorities: this audit ledger and venue
+registry determine public-catalog eligibility, while the parent
+`reference/survey-canonical-corpus.csv` determines survey membership and
+coding. A publication update may change venue, year, title, or archival link
+without renaming its stable key.
+
+A synchronized change updates the bibliography, both source ledgers, and any
+new venue record before running `scripts/build_catalog.py`,
+`scripts/generate_readme.py`, the parent `build_survey_paper_csv.py`, and their
+checks. Derived catalog files and survey views are regenerated; they are not
+used to overwrite either source ledger. Any held-venue citation or membership
+disagreement must be resolved explicitly.
 
 ## Limitations
 
