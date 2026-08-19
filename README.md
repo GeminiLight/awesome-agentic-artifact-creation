@@ -1,4 +1,10 @@
 <div align="center">
+  <a href="https://agentic-creation.github.io/">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="site/assets/logo-mark-dark.svg">
+      <img src="site/assets/logo-mark.svg" alt="Agentic Creation" width="150">
+    </picture>
+  </a>
   <h1>Awesome Agentic Artifact Creation</h1>
   <p>
     A curated list of papers on agentic systems that plan, generate, inspect,
@@ -10,6 +16,8 @@
   </p>
   <p>
     <a href="#catalog-analysis"><img alt="Papers: 257" src="https://img.shields.io/badge/Papers-257-4C9D96?style=flat-square"></a>
+    <a href="#catalog-analysis"><img alt="Systems: 227" src="https://img.shields.io/badge/Systems-227-55A2D5?style=flat-square"></a>
+    <a href="#catalog-analysis"><img alt="Benchmarks: 30" src="https://img.shields.io/badge/Benchmarks-30-957CC3?style=flat-square"></a>
     <a href="#survey-scope"><img alt="Venues: 41" src="https://img.shields.io/badge/Venues-41-D58B68?style=flat-square"></a>
     <a href="https://github.com/GeminiLight/awesome-agentic-artifact-creation/commits/main"><img alt="Last Updated" src="https://img.shields.io/github/last-commit/GeminiLight/awesome-agentic-artifact-creation/main?style=flat-square&amp;label=Updated&amp;color=718DCA"></a>
   </p>

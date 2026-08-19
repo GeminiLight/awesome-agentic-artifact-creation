@@ -1,4 +1,10 @@
 <div align="center">
+  <a href="https://agentic-creation.github.io/">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="site/assets/logo-mark-dark.svg">
+      <img src="site/assets/logo-mark.svg" alt="Agentic Creation" width="150">
+    </picture>
+  </a>
   <h1>Awesome Agentic Artifact Creation</h1>
   <p>
     A curated list of papers on agentic systems that plan, generate, inspect,
