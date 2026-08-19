@@ -377,8 +377,7 @@ def render_badges(papers: list[dict[str, str]]) -> str:
         [
             "  <p>",
             (
-                '    <a href="https://geminilight.github.io/'
-                'awesome-agentic-artifact-creation/"><img '
+                '    <a href="https://agentic-creation.github.io/"><img '
                 'alt="Website — Explore the catalog" '
                 'src="assets/badge-website.svg" height="56"></a>&nbsp;&nbsp;'
             ),

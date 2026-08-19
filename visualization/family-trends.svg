@@ -66,76 +66,76 @@
   <text class="value" x="238.8" y="473.3" text-anchor="middle">4</text>
   <text class="label" x="238.8" y="518" text-anchor="middle">2023</text>
   <rect x="426.7" y="483.3" width="139.1" height="8.7" fill="var(--family-0)" stroke="var(--background)" stroke-width="1.5">
-    <title>2024 · Textual Artifacts: 4 papers (15.4%)</title>
+    <title>2024 · Textual Artifacts: 4 papers (13.8%)</title>
   </rect>
   <rect x="426.7" y="472.5" width="139.1" height="10.9" fill="var(--family-1)" stroke="var(--background)" stroke-width="1.5">
-    <title>2024 · 2D Visual Artifacts: 5 papers (19.2%)</title>
+    <title>2024 · 2D Visual Artifacts: 5 papers (17.2%)</title>
   </rect>
   <rect x="426.7" y="470.3" width="139.1" height="2.2" fill="var(--family-2)" stroke="var(--background)" stroke-width="1.5">
-    <title>2024 · Audio Artifacts: 1 papers (3.8%)</title>
+    <title>2024 · Audio Artifacts: 1 papers (3.4%)</title>
   </rect>
   <rect x="426.7" y="468.1" width="139.1" height="2.2" fill="var(--family-3)" stroke="var(--background)" stroke-width="1.5">
-    <title>2024 · Video Artifacts: 1 papers (3.8%)</title>
+    <title>2024 · Video Artifacts: 1 papers (3.4%)</title>
   </rect>
-  <rect x="426.7" y="461.6" width="139.1" height="6.5" fill="var(--family-4)" stroke="var(--background)" stroke-width="1.5">
-    <title>2024 · Spatial Artifacts: 3 papers (11.5%)</title>
+  <rect x="426.7" y="457.3" width="139.1" height="10.9" fill="var(--family-4)" stroke="var(--background)" stroke-width="1.5">
+    <title>2024 · Spatial Artifacts: 5 papers (17.2%)</title>
   </rect>
-  <rect x="426.7" y="435.5" width="139.1" height="26.1" fill="var(--family-5)" stroke="var(--background)" stroke-width="1.5">
-    <title>2024 · Behavioral Artifacts: 12 papers (46.2%)</title>
+  <rect x="426.7" y="429.0" width="139.1" height="28.2" fill="var(--family-5)" stroke="var(--background)" stroke-width="1.5">
+    <title>2024 · Behavioral Artifacts: 13 papers (44.8%)</title>
   </rect>
-  <text class="bar-segment-value" x="496.2" y="452.6" text-anchor="middle" style="fill:var(--family-text-5)">12</text>
-  <text class="value" x="496.2" y="425.5" text-anchor="middle">26</text>
+  <text class="bar-segment-value" x="496.2" y="447.1" text-anchor="middle" style="fill:var(--family-text-5)">13</text>
+  <text class="value" x="496.2" y="419.0" text-anchor="middle">29</text>
   <text class="label" x="496.2" y="518" text-anchor="middle">2024</text>
-  <rect x="684.2" y="459.4" width="139.1" height="32.6" fill="var(--family-0)" stroke="var(--background)" stroke-width="1.5">
-    <title>2025 · Textual Artifacts: 15 papers (16.7%)</title>
+  <rect x="684.2" y="461.6" width="139.1" height="30.4" fill="var(--family-0)" stroke="var(--background)" stroke-width="1.5">
+    <title>2025 · Textual Artifacts: 14 papers (14.9%)</title>
   </rect>
-  <text class="bar-segment-value" x="753.8" y="479.7" text-anchor="middle" style="fill:var(--family-text-0)">15</text>
-  <rect x="684.2" y="411.7" width="139.1" height="47.8" fill="var(--family-1)" stroke="var(--background)" stroke-width="1.5">
-    <title>2025 · 2D Visual Artifacts: 22 papers (24.4%)</title>
+  <text class="bar-segment-value" x="753.8" y="480.8" text-anchor="middle" style="fill:var(--family-text-0)">14</text>
+  <rect x="684.2" y="409.5" width="139.1" height="52.1" fill="var(--family-1)" stroke="var(--background)" stroke-width="1.5">
+    <title>2025 · 2D Visual Artifacts: 24 papers (25.5%)</title>
   </rect>
-  <text class="bar-segment-value" x="753.8" y="439.5" text-anchor="middle" style="fill:var(--family-text-1)">22</text>
-  <rect x="684.2" y="398.6" width="139.1" height="13.0" fill="var(--family-2)" stroke="var(--background)" stroke-width="1.5">
-    <title>2025 · Audio Artifacts: 6 papers (6.7%)</title>
+  <text class="bar-segment-value" x="753.8" y="439.5" text-anchor="middle" style="fill:var(--family-text-1)">24</text>
+  <rect x="684.2" y="398.6" width="139.1" height="10.9" fill="var(--family-2)" stroke="var(--background)" stroke-width="1.5">
+    <title>2025 · Audio Artifacts: 5 papers (5.3%)</title>
   </rect>
-  <rect x="684.2" y="372.6" width="139.1" height="26.1" fill="var(--family-3)" stroke="var(--background)" stroke-width="1.5">
-    <title>2025 · Video Artifacts: 12 papers (13.3%)</title>
+  <rect x="684.2" y="370.4" width="139.1" height="28.2" fill="var(--family-3)" stroke="var(--background)" stroke-width="1.5">
+    <title>2025 · Video Artifacts: 13 papers (13.8%)</title>
   </rect>
-  <text class="bar-segment-value" x="753.8" y="389.6" text-anchor="middle" style="fill:var(--family-text-3)">12</text>
-  <rect x="684.2" y="346.5" width="139.1" height="26.1" fill="var(--family-4)" stroke="var(--background)" stroke-width="1.5">
-    <title>2025 · Spatial Artifacts: 12 papers (13.3%)</title>
+  <text class="bar-segment-value" x="753.8" y="388.5" text-anchor="middle" style="fill:var(--family-text-3)">13</text>
+  <rect x="684.2" y="342.2" width="139.1" height="28.2" fill="var(--family-4)" stroke="var(--background)" stroke-width="1.5">
+    <title>2025 · Spatial Artifacts: 13 papers (13.8%)</title>
   </rect>
-  <text class="bar-segment-value" x="753.8" y="363.5" text-anchor="middle" style="fill:var(--family-text-4)">12</text>
-  <rect x="684.2" y="296.6" width="139.1" height="49.9" fill="var(--family-5)" stroke="var(--background)" stroke-width="1.5">
-    <title>2025 · Behavioral Artifacts: 23 papers (25.6%)</title>
+  <text class="bar-segment-value" x="753.8" y="360.3" text-anchor="middle" style="fill:var(--family-text-4)">13</text>
+  <rect x="684.2" y="287.9" width="139.1" height="54.3" fill="var(--family-5)" stroke="var(--background)" stroke-width="1.5">
+    <title>2025 · Behavioral Artifacts: 25 papers (26.6%)</title>
   </rect>
-  <text class="bar-segment-value" x="753.8" y="325.5" text-anchor="middle" style="fill:var(--family-text-5)">23</text>
-  <text class="value" x="753.8" y="286.6" text-anchor="middle">90</text>
+  <text class="bar-segment-value" x="753.8" y="319.0" text-anchor="middle" style="fill:var(--family-text-5)">25</text>
+  <text class="value" x="753.8" y="277.9" text-anchor="middle">94</text>
   <text class="label" x="753.8" y="518" text-anchor="middle">2025</text>
-  <rect x="941.7" y="452.9" width="139.1" height="39.1" fill="var(--family-0)" stroke="var(--background)" stroke-width="1.5">
-    <title>2026 · Textual Artifacts: 18 papers (14.0%)</title>
+  <rect x="941.7" y="457.3" width="139.1" height="34.7" fill="var(--family-0)" stroke="var(--background)" stroke-width="1.5">
+    <title>2026 · Textual Artifacts: 16 papers (13.1%)</title>
   </rect>
-  <text class="bar-segment-value" x="1011.2" y="476.5" text-anchor="middle" style="fill:var(--family-text-0)">18</text>
-  <rect x="941.7" y="387.8" width="139.1" height="65.1" fill="var(--family-1)" stroke="var(--background)" stroke-width="1.5">
-    <title>2026 · 2D Visual Artifacts: 30 papers (23.3%)</title>
+  <text class="bar-segment-value" x="1011.2" y="478.6" text-anchor="middle" style="fill:var(--family-text-0)">16</text>
+  <rect x="941.7" y="389.9" width="139.1" height="67.3" fill="var(--family-1)" stroke="var(--background)" stroke-width="1.5">
+    <title>2026 · 2D Visual Artifacts: 31 papers (25.4%)</title>
   </rect>
-  <text class="bar-segment-value" x="1011.2" y="424.3" text-anchor="middle" style="fill:var(--family-text-1)">30</text>
-  <rect x="941.7" y="376.9" width="139.1" height="10.9" fill="var(--family-2)" stroke="var(--background)" stroke-width="1.5">
-    <title>2026 · Audio Artifacts: 5 papers (3.9%)</title>
+  <text class="bar-segment-value" x="1011.2" y="427.6" text-anchor="middle" style="fill:var(--family-text-1)">31</text>
+  <rect x="941.7" y="379.1" width="139.1" height="10.9" fill="var(--family-2)" stroke="var(--background)" stroke-width="1.5">
+    <title>2026 · Audio Artifacts: 5 papers (4.1%)</title>
   </rect>
-  <rect x="941.7" y="333.5" width="139.1" height="43.4" fill="var(--family-3)" stroke="var(--background)" stroke-width="1.5">
-    <title>2026 · Video Artifacts: 20 papers (15.5%)</title>
+  <rect x="941.7" y="337.8" width="139.1" height="41.3" fill="var(--family-3)" stroke="var(--background)" stroke-width="1.5">
+    <title>2026 · Video Artifacts: 19 papers (15.6%)</title>
   </rect>
-  <text class="bar-segment-value" x="1011.2" y="359.2" text-anchor="middle" style="fill:var(--family-text-3)">20</text>
-  <rect x="941.7" y="298.7" width="139.1" height="34.7" fill="var(--family-4)" stroke="var(--background)" stroke-width="1.5">
-    <title>2026 · Spatial Artifacts: 16 papers (12.4%)</title>
+  <text class="bar-segment-value" x="1011.2" y="362.5" text-anchor="middle" style="fill:var(--family-text-3)">19</text>
+  <rect x="941.7" y="303.1" width="139.1" height="34.7" fill="var(--family-4)" stroke="var(--background)" stroke-width="1.5">
+    <title>2026 · Spatial Artifacts: 16 papers (13.1%)</title>
   </rect>
-  <text class="bar-segment-value" x="1011.2" y="320.1" text-anchor="middle" style="fill:var(--family-text-4)">16</text>
-  <rect x="941.7" y="211.9" width="139.1" height="86.9" fill="var(--family-5)" stroke="var(--background)" stroke-width="1.5">
-    <title>2026 · Behavioral Artifacts: 40 papers (31.0%)</title>
+  <text class="bar-segment-value" x="1011.2" y="324.5" text-anchor="middle" style="fill:var(--family-text-4)">16</text>
+  <rect x="941.7" y="227.1" width="139.1" height="76.0" fill="var(--family-5)" stroke="var(--background)" stroke-width="1.5">
+    <title>2026 · Behavioral Artifacts: 35 papers (28.7%)</title>
   </rect>
-  <text class="bar-segment-value" x="1011.2" y="259.3" text-anchor="middle" style="fill:var(--family-text-5)">40</text>
-  <text class="value" x="1011.2" y="201.9" text-anchor="middle">129</text>
+  <text class="bar-segment-value" x="1011.2" y="269.1" text-anchor="middle" style="fill:var(--family-text-5)">35</text>
+  <text class="value" x="1011.2" y="217.1" text-anchor="middle">122</text>
   <text class="label" x="1011.2" y="518" text-anchor="middle">2026</text>
   <rect class="frame" x="110" y="188" width="1030" height="304"/>
-  <text class="note" x="54" y="558">Artifact-classified papers only (n=249); 8 application-only entries are excluded. 2026 is incomplete.</text>
+  <text class="note" x="54" y="558">Artifact-classified papers only (n=249); 6 application-only entries are excluded. 2026 is incomplete.</text>
 </svg>

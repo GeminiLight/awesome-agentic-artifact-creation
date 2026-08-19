@@ -15,12 +15,14 @@ refine artifacts through planning, tool use, feedback, and revision. These
 artifacts span text, visual media, audio, video, 3D environments, software, and
 interactive experiences.
 
-This repository accompanies the
-[Agentic Artifact Creation survey](https://github.com/GeminiLight/agentic-creation-survey)
-and curates the related papers, systems, and benchmarks.
+This repository contains the paper catalog for the
+[Agentic Artifact Creation survey](https://github.com/GeminiLight/agentic-creation-survey),
+covering both agentic creation systems and benchmarks.
 
 <p align="center">
-  <img src="assets/fig2-construction-process.png" alt="Agentic artifact creation construction process connecting task specification, construction policy, operational representation, runtime verification, feedback, and the delivered artifact" width="100%">
+  <a href="assets/fig2-construction-process.pdf">
+    <img src="assets/fig2-construction-process.png" alt="Functional architecture of Agentic Artifact Creation, from task specification through construction policy, operational representation, runtime verification, feedback, and the delivered artifact" width="100%">
+  </a>
 </p>
 
 ## Survey Scope
@@ -47,10 +49,10 @@ domain research. The list is indicative rather than exhaustive; relevant
 workshops, journals, and preprints are also considered. Representative venues
 monitored by this survey include:
 
-- **Artificial Intelligence:** AAAI, IJCAI, and ICCC.
+- **Artificial Intelligence:** AAAI and IJCAI.
 - **Machine Learning:** NeurIPS, ICML, and ICLR.
-- **Natural Language Processing:** ACL, EMNLP, NAACL, COLM, EACL, SemEval, and
-  Findings tracks.
+- **Natural Language Processing:** ACL, EMNLP, NAACL, COLM, and EACL main
+  proceedings.
 - **Computer Vision:** CVPR, ICCV, ECCV, and TPAMI.
 - **Graphics and Visualization:** SIGGRAPH, SIGGRAPH Asia, and IEEE VIS/TVCG.
 - **Human–Computer Interaction:** CHI, UIST, CSCW, and TOCHI.

@@ -550,7 +550,7 @@ function drawVenues(catalog, animate = true) {
       showTooltip(
         event,
         leaf.data.name,
-        `${format(leaf.value)} published papers, ${share(leaf.value, catalog.summary.published)} of published papers, ${leaf.data.domain}`,
+        `${format(leaf.value)} published papers, ${share(leaf.value, catalog.summary.publication_venue_chart_total)} of displayed venue papers, ${leaf.data.domain}`,
       ),
     )
     .on("pointermove", moveTooltip)

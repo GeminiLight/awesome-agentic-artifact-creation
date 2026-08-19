@@ -32,8 +32,11 @@ class SiteBuildTests(unittest.TestCase):
         )
         publication_venues = payload["publication_venues"]
         self.assertEqual(
-            summary["published"],
+            summary["publication_venue_chart_total"],
             sum(venue["count"] for venue in publication_venues),
+        )
+        self.assertLessEqual(
+            summary["publication_venue_chart_total"], summary["published"]
         )
         self.assertEqual(
             len(publication_venues),
@@ -45,6 +48,36 @@ class SiteBuildTests(unittest.TestCase):
             len({venue["domain"] for venue in publication_venues}), 8
         )
 
+    def test_date_is_omitted_only_from_the_publication_venue_treemap(self) -> None:
+        payload = build_payload()
+        publication_venues = {
+            venue["name"]: venue["count"]
+            for venue in payload["publication_venues"]
+        }
+
+        self.assertTrue(
+            any(
+                paper["venue_display_name"] == "DATE"
+                for paper in payload["papers"]
+            )
+        )
+        self.assertNotIn("DATE", publication_venues)
+        self.assertEqual(
+            payload["summary"]["publication_venue_chart_total"],
+            sum(publication_venues.values()),
+        )
+
+    def test_venue_treemap_shares_use_the_displayed_venue_total(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            output = build_site(Path(temporary_directory) / "public")
+            charts = (output / "assets" / "charts.js").read_text(
+                encoding="utf-8"
+            )
+
+            self.assertIn(
+                "catalog.summary.publication_venue_chart_total", charts
+            )
+
     def test_site_contains_runtime_assets_and_catalog(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:
             output = build_site(Path(temporary_directory) / "public")
@@ -55,6 +88,9 @@ class SiteBuildTests(unittest.TestCase):
             self.assertTrue((output / "assets" / "construction-loop.js").is_file())
             self.assertTrue(
                 (output / "assets" / "fig2-construction-process.png").is_file()
+            )
+            self.assertTrue(
+                (output / "assets" / "fig2-construction-process.pdf").is_file()
             )
             self.assertTrue((output / "assets" / "logo-mark.svg").is_file())
             self.assertTrue((output / "favicon.svg").is_file())

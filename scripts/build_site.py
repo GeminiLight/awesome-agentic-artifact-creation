@@ -19,6 +19,7 @@ ROOT = Path(__file__).resolve().parent.parent
 SITE_SOURCE = ROOT / "site"
 ROOT_ASSETS = ROOT / "assets"
 DEFAULT_OUTPUT = ROOT / "_site"
+VENUE_TREEMAP_EXCLUDED_IDS = {"date"}
 
 
 def _count(rows: list[dict[str, str]], field: str, value: str) -> int:
@@ -69,6 +70,8 @@ def build_payload() -> dict[str, object]:
         if paper["type"] != "published":
             continue
         venue_id = paper["parent_venue_id"] or paper["venue_id"]
+        if venue_id in VENUE_TREEMAP_EXCLUDED_IDS:
+            continue
         venue = venue_registry.get(venue_id)
         venue_name = venue["display_name"] if venue else paper["venue_display_name"]
         publication_venues[venue_name] += 1
@@ -115,6 +118,7 @@ def build_payload() -> dict[str, object]:
             "earliest_year": analysis.earliest_year,
             "latest_year": analysis.latest_year,
             "venues": len(venues),
+            "publication_venue_chart_total": sum(publication_venues.values()),
         },
         "families": families,
         "applications": applications,
