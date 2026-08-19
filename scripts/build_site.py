@@ -165,16 +165,23 @@ def build_site(output: Path = DEFAULT_OUTPUT) -> Path:
     # before fingerprinting the stylesheet itself.
     styles_path = output / "assets" / "styles.css"
     styles = styles_path.read_text(encoding="utf-8")
-    logo_digest = hashlib.sha256(
-        (output / "assets" / "logo-mark.svg").read_bytes()
-    ).hexdigest()[:12]
-    styles = styles.replace(
-        'url("logo-mark.svg")', f'url("logo-mark.svg?v={logo_digest}")'
-    )
+    for logo_name in ("logo-mark.svg", "logo-mark-dark.svg"):
+        logo_digest = hashlib.sha256(
+            (output / "assets" / logo_name).read_bytes()
+        ).hexdigest()[:12]
+        styles = styles.replace(
+            f'url("{logo_name}")', f'url("{logo_name}?v={logo_digest}")'
+        )
     styles_path.write_text(styles, encoding="utf-8")
+
+    shutil.copy2(
+        output / "assets" / "logo-mark-dark.svg",
+        output / "favicon-dark.svg",
+    )
 
     versioned_assets = (
         "favicon.svg",
+        "favicon-dark.svg",
         "assets/styles.css",
         "assets/theme.js",
         "assets/app.js",

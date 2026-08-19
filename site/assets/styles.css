@@ -270,6 +270,13 @@ img {
   background: url("logo-mark.svg") center / contain no-repeat;
 }
 
+:root[data-theme="dark"] .brand-symbol,
+:root[data-theme="dark"] .footer-symbol,
+:root[data-resolved-theme="dark"] .brand-symbol,
+:root[data-resolved-theme="dark"] .footer-symbol {
+  background-image: url("logo-mark-dark.svg");
+}
+
 .brand-lockup {
   display: grid;
   grid-template-columns: auto auto;

@@ -57,7 +57,11 @@ class SiteBuildTests(unittest.TestCase):
                 (output / "assets" / "fig2-construction-process.png").is_file()
             )
             self.assertTrue((output / "assets" / "logo-mark.svg").is_file())
+            self.assertTrue(
+                (output / "assets" / "logo-mark-dark.svg").is_file()
+            )
             self.assertTrue((output / "favicon.svg").is_file())
+            self.assertTrue((output / "favicon-dark.svg").is_file())
             self.assertTrue((output / ".nojekyll").is_file())
             index = (output / "index.html").read_text(encoding="utf-8")
             styles = (output / "assets" / "styles.css").read_text(
@@ -66,7 +70,13 @@ class SiteBuildTests(unittest.TestCase):
             logo = (output / "assets" / "logo-mark.svg").read_text(
                 encoding="utf-8"
             )
+            dark_logo = (output / "assets" / "logo-mark-dark.svg").read_text(
+                encoding="utf-8"
+            )
             favicon = (output / "favicon.svg").read_text(encoding="utf-8")
+            dark_favicon = (output / "favicon-dark.svg").read_text(
+                encoding="utf-8"
+            )
             self.assertIn('id="construction-loop"', index)
             self.assertIn("data-loop-status", index)
             self.assertIn("decision control<br>agent topology", index)
@@ -91,12 +101,31 @@ class SiteBuildTests(unittest.TestCase):
             )
             self.assertRegex(index, r'href="favicon\.svg\?v=[0-9a-f]{12}"')
             self.assertRegex(
+                index,
+                r'data-light-href="favicon\.svg\?v=[0-9a-f]{12}"',
+            )
+            self.assertRegex(
+                index,
+                r'data-dark-href="favicon-dark\.svg\?v=[0-9a-f]{12}"',
+            )
+            self.assertRegex(
                 styles, r'url\("logo-mark\.svg\?v=[0-9a-f]{12}"\)'
+            )
+            self.assertRegex(
+                styles, r'url\("logo-mark-dark\.svg\?v=[0-9a-f]{12}"\)'
             )
             self.assertIn("Six colored artifact-family modules", logo)
             self.assertEqual(logo, favicon)
+            self.assertEqual(dark_logo, dark_favicon)
+            self.assertIn('<rect width="1254" height="1254" fill="#fff"/>', logo)
+            self.assertNotIn(
+                '<rect width="1254" height="1254" fill="#fff"/>', dark_logo
+            )
+            self.assertIn('stop-color="#f7f9fc"', dark_logo)
             self.assertNotIn("<image", logo)
             self.assertNotIn("data:image", logo)
+            self.assertNotIn("<image", dark_logo)
+            self.assertNotIn("data:image", dark_logo)
             self.assertRegex(
                 index,
                 r'data-catalog-url="data/catalog\.json\?v=[0-9a-f]{12}"',
@@ -125,6 +154,7 @@ class SiteBuildTests(unittest.TestCase):
             output = build_site(Path(temporary_directory) / "public")
             index = (output / "index.html").read_text(encoding="utf-8")
             styles = (output / "assets" / "styles.css").read_text(encoding="utf-8")
+            theme = (output / "assets" / "theme.js").read_text(encoding="utf-8")
 
             self.assertTrue((output / "assets" / "theme.js").is_file())
             self.assertRegex(index, r'src="assets/theme\.js\?v=[0-9a-f]{12}"')
@@ -134,6 +164,10 @@ class SiteBuildTests(unittest.TestCase):
             self.assertIn('data-theme-option="dark"', index)
             self.assertIn("prefers-color-scheme: dark", styles)
             self.assertIn(':root[data-theme="dark"]', styles)
+            self.assertIn('id="site-favicon"', index)
+            self.assertIn('document.querySelector("#site-favicon")', theme)
+            self.assertIn("favicon.dataset.darkHref", theme)
+            self.assertIn("updateFavicon(resolved)", theme)
 
     def test_catalog_tags_icon_artifact_and_application_dimensions_only(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:
