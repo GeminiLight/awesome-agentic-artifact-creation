@@ -30,6 +30,16 @@
     });
   }
 
+  function updateFavicon(resolved) {
+    const favicon = document.querySelector("#site-favicon");
+    if (!favicon) return;
+
+    favicon.href =
+      resolved === "dark"
+        ? favicon.dataset.darkHref
+        : favicon.dataset.lightHref;
+  }
+
   function applyTheme(preference, persist = false) {
     const choice = OPTIONS.has(preference) ? preference : "system";
     const resolved = resolvedTheme(choice);
@@ -47,6 +57,7 @@
     if (themeColor) {
       themeColor.content = resolved === "dark" ? "#101620" : "#ffffff";
     }
+    updateFavicon(resolved);
     updateControls(choice);
 
     if (persist) {

@@ -524,6 +524,8 @@ class CatalogTest(unittest.TestCase):
         self.assertIn('src="assets/badge-website.svg" height="56"', rendered)
         self.assertIn('src="assets/badge-paper.svg" height="56"', rendered)
         self.assertIn("Papers-255-4C9D96", rendered)
+        self.assertIn("Systems-227-55A2D5", rendered)
+        self.assertIn("Benchmarks-28-957CC3", rendered)
         self.assertIn("Venues-35-D58B68", rendered)
         self.assertIn(
             "github/last-commit/GeminiLight/"
@@ -554,6 +556,25 @@ class CatalogTest(unittest.TestCase):
         self.assertIn(
             'src="assets/fig2-construction-process.png"', rendered
         )
+
+    def test_header_uses_a_theme_aware_brand_logo(self):
+        rendered = render_readme(self.papers, self.taxonomy)
+        self.assertIn("<picture>", rendered)
+        title_index = rendered.index("<h1>Awesome Agentic Artifact Creation</h1>")
+        logo_index = rendered.index("<picture>")
+
+        self.assertLess(logo_index, title_index)
+        self.assertIn(
+            'media="(prefers-color-scheme: dark)"', rendered[:title_index]
+        )
+        self.assertIn(
+            'srcset="site/assets/logo-mark-dark.svg"', rendered[:title_index]
+        )
+        self.assertIn(
+            'src="site/assets/logo-mark.svg"', rendered[:title_index]
+        )
+        self.assertIn('alt="Agentic Creation"', rendered[:title_index])
+        self.assertIn('width="150"', rendered[:title_index])
 
     def test_license_footer_closes_generated_readme(self):
         rendered = render_readme(self.papers, self.taxonomy)
