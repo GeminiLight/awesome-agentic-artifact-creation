@@ -224,6 +224,92 @@ class SiteBuildTests(unittest.TestCase):
             )
             self.assertIn(".paper-tag i {", styles)
 
+    def test_scope_uses_distinct_visual_galleries_for_both_axes(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            output = build_site(Path(temporary_directory) / "public")
+            index = (output / "index.html").read_text(encoding="utf-8")
+            app = (output / "assets" / "app.js").read_text(encoding="utf-8")
+            styles = (output / "assets" / "styles.css").read_text(encoding="utf-8")
+
+            self.assertIn('class="axis-tab-icon"', index)
+            artifact_tab = index.split('id="artifact-tab"', 1)[1].split(
+                "</button>", 1
+            )[0]
+            self.assertIn('class="ph ph-cube"', artifact_tab)
+            self.assertIn("What is constructed", index)
+            self.assertIn("Where it matters", index)
+            self.assertIn("const ARTIFACT_VISUALS = {", app)
+            self.assertIn("const APPLICATION_VISUALS = {", app)
+            for visual in (
+                "textual",
+                "visual",
+                "audio",
+                "video",
+                "spatial",
+                "behavioral",
+            ):
+                self.assertIn(f'visual: "{visual}"', app)
+                self.assertIn(f'data-artifact-visual="{visual}"', app)
+            for visual in (
+                "creative",
+                "brand",
+                "education",
+                "professional",
+                "science",
+                "engineering",
+            ):
+                self.assertIn(f'visual: "{visual}"', app)
+                self.assertIn(f'data-application-visual="{visual}"', app)
+            self.assertIn("function createArtifactMiniature", app)
+            self.assertIn("function createApplicationMiniature", app)
+            self.assertIn(".taxonomy-list,", styles)
+            self.assertIn(".artifact-miniature", styles)
+            self.assertIn(".application-miniature", styles)
+            self.assertIn("@keyframes artifact-audio-wave", styles)
+            self.assertIn("@keyframes artifact-spatial-float", styles)
+            self.assertIn("@keyframes scope-panel-enter", styles)
+
+    def test_scope_miniatures_use_layered_materials_and_display_surfaces(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            output = build_site(Path(temporary_directory) / "public")
+            app = (output / "assets" / "app.js").read_text(encoding="utf-8")
+            styles = (output / "assets" / "styles.css").read_text(encoding="utf-8")
+
+            self.assertGreaterEqual(app.count("<linearGradient"), 12)
+            self.assertGreaterEqual(app.count("<radialGradient"), 12)
+            for layer in (
+                "miniature-platform",
+                "miniature-depth",
+                "miniature-highlight",
+                "miniature-detail",
+            ):
+                self.assertEqual(12, app.count(f'class="{layer}"'))
+                self.assertIn(f".{layer}", styles)
+            self.assertIn("@keyframes miniature-highlight-sweep", styles)
+            self.assertIn("@keyframes miniature-platform-breathe", styles)
+
+    def test_scope_showcase_motion_is_calm_interactive_and_accessible(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            output = build_site(Path(temporary_directory) / "public")
+            app = (output / "assets" / "app.js").read_text(encoding="utf-8")
+            styles = (output / "assets" / "styles.css").read_text(encoding="utf-8")
+
+            self.assertIn("const MINIATURE_SHOWCASE_INTERVAL = 3600;", app)
+            self.assertIn("function setupMiniatureShowcaseMotion()", app)
+            self.assertIn("function setupMiniatureCardTilt()", app)
+            self.assertIn('window.matchMedia("(pointer: fine)")', app)
+            self.assertIn('window.matchMedia("(prefers-reduced-motion: reduce)")', app)
+            self.assertIn("document.hidden", app)
+            self.assertIn("new IntersectionObserver", app)
+            self.assertIn('classList.toggle("is-showcase-active"', app)
+            self.assertIn('new CustomEvent("aac:axischange"', app)
+            self.assertIn("setupMiniatureShowcaseMotion();", app)
+            self.assertIn("setupMiniatureCardTilt();", app)
+            self.assertIn("--card-tilt-x", styles)
+            self.assertIn("--card-tilt-y", styles)
+            self.assertIn(".is-showcase-active", styles)
+            self.assertIn("@keyframes miniature-stage-arrive", styles)
+
     def test_catalog_dimension_tags_are_filter_buttons(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:
             output = build_site(Path(temporary_directory) / "public")
@@ -283,6 +369,39 @@ class SiteBuildTests(unittest.TestCase):
             self.assertIn('rootMargin: "160px 0px"', motion)
             self.assertIn("function loadThreeWhenNearViewport()", motion)
 
+    def test_construction_process_uses_a_neutral_loader_before_3d(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            output = build_site(Path(temporary_directory) / "public")
+            index = (output / "index.html").read_text(encoding="utf-8")
+            motion = (output / "assets" / "construction-loop.js").read_text(
+                encoding="utf-8"
+            )
+            styles = (output / "assets" / "styles.css").read_text(encoding="utf-8")
+
+            self.assertIn('class="loop-stage reveal is-loading"', index)
+            self.assertIn('class="loop-loading"', index)
+            self.assertRegex(
+                styles,
+                r"\.loop-fallback\s*\{[^}]*opacity:\s*0",
+            )
+            self.assertRegex(
+                styles,
+                r"\.loop-stage\.is-fallback\s+\.loop-fallback\s*\{[^}]*opacity:\s*1",
+            )
+            self.assertIn("@keyframes process-loader-node", styles)
+            self.assertIn('root.classList.remove("is-loading")', motion)
+
+    def test_visible_construction_process_initializes_without_an_extra_scroll(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            output = build_site(Path(temporary_directory) / "public")
+            motion = (output / "assets" / "construction-loop.js").read_text(
+                encoding="utf-8"
+            )
+
+            self.assertIn("function constructionLoopIsNearViewport()", motion)
+            self.assertIn("bounds.top <= window.innerHeight + 160", motion)
+            self.assertIn("if (constructionLoopIsNearViewport())", motion)
+
     def test_d3_uses_one_deferred_distribution_instead_of_an_esm_waterfall(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:
             output = build_site(Path(temporary_directory) / "public")
@@ -296,6 +415,24 @@ class SiteBuildTests(unittest.TestCase):
             self.assertIn("const d3 = window.d3", charts)
             self.assertTrue(charts.startswith("(() => {\n"))
             self.assertTrue(charts.rstrip().endswith("})();"))
+
+    def test_hero_artifact_family_chart_excludes_application_only_records(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            output = build_site(Path(temporary_directory) / "public")
+            charts = (output / "assets" / "charts.js").read_text(encoding="utf-8")
+
+            hero_chart = re.search(
+                r"function drawHeroFamilies\(.*?\n\}\n\nfunction drawComposition",
+                charts,
+                re.DOTALL,
+            )
+            self.assertIsNotNone(hero_chart)
+            self.assertNotIn("Application-only", hero_chart.group(0))
+            self.assertNotIn("applicationOnly", hero_chart.group(0))
+            self.assertIn(
+                "Horizontal bars compare paper counts across the six artifact families.",
+                hero_chart.group(0),
+            )
 
     def test_mobile_controls_expose_generous_touch_targets(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:
@@ -526,6 +663,37 @@ class SiteBuildTests(unittest.TestCase):
             self.assertIn('class="hero-copy reveal reveal-sequence"', index)
             self.assertEqual(5, index.count("data-count-up"))
             self.assertGreaterEqual(index.count("data-reveal-order"), 4)
+
+    def test_survey_insights_bridge_analysis_to_catalog_exploration(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            output = build_site(Path(temporary_directory) / "public")
+            index = (output / "index.html").read_text(encoding="utf-8")
+            styles = (output / "assets" / "styles.css").read_text(encoding="utf-8")
+
+            self.assertEqual(2, index.count('href="#insights">Insights</a>'))
+            self.assertLess(
+                index.index('href="#insights">Insights</a>'),
+                index.index('href="#catalog">Explore</a>'),
+            )
+            self.assertLess(index.index('id="analysis"'), index.index('id="insights"'))
+            self.assertLess(index.index('id="insights"'), index.index('id="catalog"'))
+            self.assertEqual(4, index.count('class="insight-claim reveal"'))
+            for insight in (
+                "More agents do not create more agency.",
+                "A score is not yet actionable feedback.",
+                "Accepted evidence has a version.",
+                "Control should match construction difficulty.",
+            ):
+                self.assertIn(insight, index)
+            self.assertIn('href="#catalog" class="insight-link insight-link-primary"', index)
+            self.assertIn(".insight-claim.is-visible::before", styles)
+            self.assertIsNotNone(
+                re.search(
+                    r"@media \(prefers-reduced-motion: reduce\).*?\.insight-claim",
+                    styles,
+                    re.DOTALL,
+                )
+            )
 
 
 if __name__ == "__main__":
