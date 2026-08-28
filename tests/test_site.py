@@ -167,8 +167,10 @@ class SiteBuildTests(unittest.TestCase):
                 r'data-catalog-url="data/catalog\.json\?v=[0-9a-f]{12}"',
             )
             self.assertIn('id="venue-chart"', index)
+            self.assertEqual(2, index.count('href="#analysis">Statistics</a>'))
+            self.assertNotIn('href="#analysis">Analysis</a>', index)
             self.assertLess(
-                index.index('href="#analysis">Analysis'),
+                index.index('href="#analysis">Statistics'),
                 index.index('href="#catalog">Explore'),
             )
             self.assertLess(index.index('id="analysis"'), index.index('id="catalog"'))
@@ -702,12 +704,17 @@ class SiteBuildTests(unittest.TestCase):
             app = (output / "assets" / "app.js").read_text(encoding="utf-8")
             styles = (output / "assets" / "styles.css").read_text(encoding="utf-8")
 
-            self.assertIn("About this project.", index)
+            self.assertIn("About the survey.", index)
             self.assertIn(
-                "This site accompanies our survey and keeps its paper catalog, "
-                "taxonomy, and evidence trail in one place.",
+                "A survey and open catalog of agentic systems for creating, "
+                "inspecting, and revising artifacts.",
                 index,
             )
+            self.assertIn(
+                "Browse papers, inspect the data, or suggest an addition.",
+                index,
+            )
+            self.assertNotIn("This site accompanies", index)
             self.assertEqual(3, index.count('class="about-resource"'))
             for resource_description in (
                 "How papers enter the catalog",
