@@ -27,13 +27,23 @@ if (root) {
       .then((THREE) => initializeConstructionLoop(THREE))
       .catch((error) => {
         console.error("Construction process could not initialize", error);
+        root.classList.remove("is-loading", "is-ready");
         root.classList.add("is-fallback");
         motionToggle.hidden = true;
       });
   }
 
+  function constructionLoopIsNearViewport() {
+    const bounds = root.getBoundingClientRect();
+    return bounds.bottom >= -160 && bounds.top <= window.innerHeight + 160;
+  }
+
   function loadThreeWhenNearViewport() {
     if (threeLoadStarted || narrowViewport.matches) return;
+    if (constructionLoopIsNearViewport()) {
+      requestThreeModule();
+      return;
+    }
     if (!("IntersectionObserver" in window)) {
       requestThreeModule();
       return;
@@ -53,7 +63,7 @@ if (root) {
   function activateResponsiveExperience() {
     if (narrowViewport.matches) {
       root.classList.add("is-mobile-process");
-      root.classList.remove("is-fallback");
+      root.classList.remove("is-loading", "is-fallback");
       motionToggle.hidden = true;
       threeNearViewportObserver?.disconnect();
       mobileProcess.start();
@@ -64,11 +74,15 @@ if (root) {
     mobileProcess.stop();
     statusText.textContent = defaultStatusText;
     if (reducedMotion.matches || !window.WebGLRenderingContext) {
+      root.classList.remove("is-loading", "is-ready");
       root.classList.add("is-fallback");
       motionToggle.hidden = true;
       return;
     }
     root.classList.remove("is-fallback");
+    if (!root.classList.contains("is-ready")) {
+      root.classList.add("is-loading");
+    }
     motionToggle.hidden = false;
     loadThreeWhenNearViewport();
   }
@@ -1548,9 +1562,10 @@ if (root) {
       { once: true },
     );
 
-    root.classList.add("is-ready");
     resize();
     renderFrame(0);
+    root.classList.remove("is-loading");
+    root.classList.add("is-ready");
     window.requestAnimationFrame(animate);
   }
 }

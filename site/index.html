@@ -44,6 +44,7 @@
           <a href="#construction-loop">Process</a>
           <a href="#scope">Scope</a>
           <a href="#analysis">Analysis</a>
+          <a href="#insights">Insights</a>
           <a href="#catalog">Explore</a>
           <a href="#about">About</a>
         </nav>
@@ -84,6 +85,7 @@
               <a href="#construction-loop">Process</a>
               <a href="#scope">Scope</a>
               <a href="#analysis">Analysis</a>
+              <a href="#insights">Insights</a>
               <a href="#catalog">Explore</a>
               <a href="#about">About</a>
               <a href="https://github.com/GeminiLight/awesome-agentic-artifact-creation">
@@ -162,7 +164,7 @@
           </p>
         </div>
 
-        <div class="loop-stage reveal" data-construction-loop>
+        <div class="loop-stage reveal is-loading" data-construction-loop>
           <div class="loop-mobile-process" aria-label="Construction process stages">
             <ol class="loop-mobile-track">
               <li>
@@ -263,6 +265,16 @@
               operational representation. Runtime verification observes the
               result, accepts a delivered artifact, and the artifact can begin the next task cycle.
             </p>
+            <div class="loop-loading" aria-hidden="true">
+              <div class="loop-loading-track">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              <p>Assembling the interactive process</p>
+            </div>
             <picture>
               <source
                 srcset="assets/fig2-construction-process.webp"
@@ -340,14 +352,26 @@
               aria-selected="true"
               aria-controls="artifact-panel"
               data-axis-tab="artifact"
-            >Artifact-centered</button>
+            >
+              <span class="axis-tab-icon" aria-hidden="true"><i class="ph ph-cube"></i></span>
+              <span class="axis-tab-copy">
+                <strong>Artifact-centered</strong>
+                <small>What is constructed</small>
+              </span>
+            </button>
             <button
               id="application-tab"
               role="tab"
               aria-selected="false"
               aria-controls="application-panel"
               data-axis-tab="application"
-            >Application-centered</button>
+            >
+              <span class="axis-tab-icon" aria-hidden="true"><i class="ph ph-compass"></i></span>
+              <span class="axis-tab-copy">
+                <strong>Application-centered</strong>
+                <small>Where it matters</small>
+              </span>
+            </button>
           </div>
 
           <div
@@ -452,6 +476,136 @@
               aria-label="Artifact family by application domain coverage matrix"
             ><p class="chart-loading">Preparing chart...</p></div>
           </figure>
+        </div>
+      </section>
+
+      <section class="insights section-block" id="insights" aria-labelledby="insights-title">
+        <div class="section-shell insights-layout">
+          <div class="insights-intro reveal">
+            <p class="insights-kicker">Survey synthesis</p>
+            <h2 id="insights-title">The catalog maps the field. The survey explains what matters.</h2>
+            <p class="insights-lede">
+              Reliable creation depends less on workflow size than on keeping
+              commitments, state, evidence, and repair inspectably connected.
+            </p>
+
+            <div class="insight-lens" aria-label="Qualitative construction difficulty lens">
+              <span>
+                <i class="ph ph-tree-structure" aria-hidden="true"></i>
+                <small>Decision</small>
+                <strong>Interdependence</strong>
+              </span>
+              <span>
+                <i class="ph ph-eye" aria-hidden="true"></i>
+                <small>Failure</small>
+                <strong>Observability</strong>
+              </span>
+              <span>
+                <i class="ph ph-wrench" aria-hidden="true"></i>
+                <small>Diagnosis</small>
+                <strong>Repairability</strong>
+              </span>
+            </div>
+          </div>
+
+          <div class="insight-ledger" aria-label="Four survey insights">
+            <article class="insight-claim reveal" data-reveal-order="1">
+              <div class="insight-claim-icon" aria-hidden="true">
+                <i class="ph ph-git-branch"></i>
+              </div>
+              <div class="insight-claim-copy">
+                <p>Agency</p>
+                <h3>More agents do not create more agency.</h3>
+                <p>
+                  Agency appears when intermediate evidence can redirect later
+                  construction decisions, not when a workflow simply adds roles or stages.
+                </p>
+              </div>
+              <p class="insight-relation">
+                <span>Observation</span>
+                <i class="ph ph-arrow-right" aria-hidden="true"></i>
+                <strong>Decision</strong>
+              </p>
+            </article>
+
+            <article class="insight-claim reveal" data-reveal-order="2">
+              <div class="insight-claim-icon" aria-hidden="true">
+                <i class="ph ph-crosshair-simple"></i>
+              </div>
+              <div class="insight-claim-copy">
+                <p>Feedback</p>
+                <h3>A score is not yet actionable feedback.</h3>
+                <p>
+                  Feedback becomes operational when evidence names a criterion,
+                  localizes affected state, and reaches a feasible repair or escalation.
+                </p>
+              </div>
+              <p class="insight-relation">
+                <span>Evidence</span>
+                <i class="ph ph-arrow-right" aria-hidden="true"></i>
+                <strong>Repair</strong>
+              </p>
+            </article>
+
+            <article class="insight-claim reveal" data-reveal-order="3">
+              <div class="insight-claim-icon" aria-hidden="true">
+                <i class="ph ph-stamp"></i>
+              </div>
+              <div class="insight-claim-copy">
+                <p>Validity</p>
+                <h3>Accepted evidence has a version.</h3>
+                <p>
+                  When requirements, sources, tools, or artifact state change,
+                  dependent approvals should expire before selective revalidation.
+                </p>
+              </div>
+              <p class="insight-relation">
+                <span>Change</span>
+                <i class="ph ph-arrow-right" aria-hidden="true"></i>
+                <strong>Revalidation</strong>
+              </p>
+            </article>
+
+            <article class="insight-claim reveal" data-reveal-order="4">
+              <div class="insight-claim-icon" aria-hidden="true">
+                <i class="ph ph-scales"></i>
+              </div>
+              <div class="insight-claim-copy">
+                <p>Proportionality</p>
+                <h3>Control should match construction difficulty.</h3>
+                <p>
+                  Stronger explicit control helps when decisions are interdependent,
+                  failures are hard to observe, or diagnosis does not map cleanly to repair.
+                </p>
+              </div>
+              <p class="insight-relation">
+                <span>Difficulty</span>
+                <i class="ph ph-arrow-right" aria-hidden="true"></i>
+                <strong>Control cost</strong>
+              </p>
+            </article>
+          </div>
+
+          <div class="insights-bridge reveal">
+            <p>
+              <strong>The open edge</strong>
+              Global coherence, targeted repair, and persistent system evolution
+              remain thinly evidenced across artifact families.
+            </p>
+            <div class="insight-actions">
+              <a href="#catalog" class="insight-link insight-link-primary">
+                <span>Explore evidence</span>
+                <i class="ph ph-arrow-down" aria-hidden="true"></i>
+              </a>
+              <a
+                class="insight-link"
+                href="https://github.com/GeminiLight/agentic-creation-survey"
+              >
+                <span>Read the survey</span>
+                <i class="ph ph-arrow-up-right" aria-hidden="true"></i>
+              </a>
+            </div>
+          </div>
         </div>
       </section>
 

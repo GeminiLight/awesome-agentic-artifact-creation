@@ -130,19 +130,14 @@ function drawHeroFamilies(catalog, animate = true) {
   const width = 760;
   const height = 430;
   const margin = { top: 42, right: 64, bottom: 34, left: 222 };
-  const familyTotal = d3.sum(catalog.families, (family) => family.count);
-  const applicationOnly = catalog.summary.total - familyTotal;
   const data = catalog.families.map((family) => ({ ...family }));
-  if (applicationOnly) {
-    data.push({ name: "Application-only", count: applicationOnly, color: FALLBACK_COLOR });
-  }
 
   const svg = createSvg(
     "#hero-family-chart",
     width,
     height,
     "Artifact family distribution",
-    "Horizontal bars compare paper counts across six artifact families and application-only records.",
+    "Horizontal bars compare paper counts across the six artifact families.",
   );
   if (!svg) return;
 

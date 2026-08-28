@@ -58,10 +58,10 @@
     <title>Textual Artifacts × Brand Communication: 1 papers</title>
   </rect>
   <text class="segment-value" x="489.0" y="204.0" text-anchor="middle">1</text>
-  <rect x="555" y="173" width="120" height="52" rx="8" fill="var(--heat)" fill-opacity="0.238">
-    <title>Textual Artifacts × Educational Support: 3 papers</title>
+  <rect x="555" y="173" width="120" height="52" rx="8" fill="var(--heat)" fill-opacity="0.264">
+    <title>Textual Artifacts × Educational Support: 4 papers</title>
   </rect>
-  <text class="segment-value" x="615.0" y="204.0" text-anchor="middle">3</text>
+  <text class="segment-value" x="615.0" y="204.0" text-anchor="middle">4</text>
   <rect x="681" y="173" width="120" height="52" rx="8" fill="var(--heat)" fill-opacity="0.342">
     <title>Textual Artifacts × Professional Work: 7 papers</title>
   </rect>
@@ -78,7 +78,7 @@
     <title>Textual Artifacts × No application label: 3 papers</title>
   </rect>
   <text class="segment-value" x="1119.0" y="204.0" text-anchor="middle">3</text>
-  <text class="value" x="1206" y="204.0">34</text>
+  <text class="value" x="1206" y="204.0">35</text>
   <text class="label" x="282" y="262.0" text-anchor="end">2D Visual Artifacts</text>
   <rect x="303" y="231" width="120" height="52" rx="8" fill="var(--heat)" fill-opacity="0.654">
     <title>2D Visual Artifacts × Creative Production: 19 papers</title>
@@ -246,10 +246,10 @@
     <title>Application-only × Professional Work: 0 papers</title>
   </rect>
   <text class="segment-value" x="741.0" y="552.0" text-anchor="middle">0</text>
-  <rect x="807" y="521" width="120" height="52" rx="8" fill="var(--heat)" fill-opacity="0.264">
-    <title>Application-only × Scientific Research: 4 papers</title>
+  <rect x="807" y="521" width="120" height="52" rx="8" fill="var(--heat)" fill-opacity="0.290">
+    <title>Application-only × Scientific Research: 5 papers</title>
   </rect>
-  <text class="segment-value" x="867.0" y="552.0" text-anchor="middle">4</text>
+  <text class="segment-value" x="867.0" y="552.0" text-anchor="middle">5</text>
   <rect x="933" y="521" width="120" height="52" rx="8" fill="var(--surface)" fill-opacity="1.000">
     <title>Application-only × Engineering Design: 0 papers</title>
   </rect>
@@ -258,16 +258,16 @@
     <title>Application-only × No application label: 0 papers</title>
   </rect>
   <text class="segment-value" x="1119.0" y="552.0" text-anchor="middle">0</text>
-  <text class="value" x="1206" y="552.0">6</text>
+  <text class="value" x="1206" y="552.0">7</text>
   <text class="axis" x="1206" y="149" text-anchor="middle">Total</text>
   <text class="value" x="363.0" y="605" text-anchor="middle">87</text>
   <text class="value" x="489.0" y="605" text-anchor="middle">7</text>
-  <text class="value" x="615.0" y="605" text-anchor="middle">8</text>
+  <text class="value" x="615.0" y="605" text-anchor="middle">9</text>
   <text class="value" x="741.0" y="605" text-anchor="middle">26</text>
-  <text class="value" x="867.0" y="605" text-anchor="middle">45</text>
+  <text class="value" x="867.0" y="605" text-anchor="middle">46</text>
   <text class="value" x="993.0" y="605" text-anchor="middle">52</text>
   <text class="value" x="1119.0" y="605" text-anchor="middle">30</text>
   <text class="axis" x="282" y="605" text-anchor="end">Total</text>
   <rect class="frame" x="300" y="170" width="882" height="406"/>
-  <text class="note" x="54" y="684">All 255 papers appear once. The final row and column retain entries classified on only one axis.</text>
+  <text class="note" x="54" y="684">All 257 papers appear once. The final row and column retain entries classified on only one axis.</text>
 </svg>

@@ -3,9 +3,468 @@ document.documentElement.classList.add("js");
 const DEFAULT_PAGE_SIZE = 25;
 const PAGE_SIZE_OPTIONS = [10, 25, 50, 100];
 const FALLBACK_COLOR = "#8a96a8";
+const MINIATURE_SHOWCASE_INTERVAL = 3600;
 const PAPER_TAG_ICONS = {
   artifact: "ph-cube",
   application: "ph-compass",
+};
+
+const ARTIFACT_VISUALS = {
+  "Textual Artifacts": {
+    visual: "textual",
+    markup: `
+      <svg viewBox="0 0 240 140" data-artifact-visual="textual" focusable="false">
+        <defs>
+          <linearGradient id="textual-material" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" style="stop-color:color-mix(in srgb, white 88%, var(--paper))"></stop>
+            <stop offset="0.58" style="stop-color:color-mix(in srgb, var(--card-color) 12%, var(--paper))"></stop>
+            <stop offset="1" style="stop-color:color-mix(in srgb, var(--card-color) 38%, var(--surface))"></stop>
+          </linearGradient>
+          <radialGradient id="textual-platform">
+            <stop offset="0" style="stop-color:var(--card-color);stop-opacity:.34"></stop>
+            <stop offset="0.62" style="stop-color:var(--card-color);stop-opacity:.1"></stop>
+            <stop offset="1" style="stop-color:var(--card-color);stop-opacity:0"></stop>
+          </radialGradient>
+        </defs>
+        <ellipse class="miniature-platform" cx="120" cy="125" rx="74" ry="10" style="fill:url(#textual-platform)"></ellipse>
+        <path class="miniature-depth" d="m66 105 10 12h80l9-12-7 18H72Z" style="fill:url(#textual-material)"></path>
+        <path class="miniature-highlight" d="M81 37c17-9 45-12 66-6" style="fill:none"></path>
+        <g class="miniature-detail"><circle cx="151" cy="111" r="2"></circle><path d="M78 112h68"></path></g>
+        <g class="text-page text-page-back">
+          <rect x="55" y="27" width="84" height="94" rx="3"></rect>
+          <line x1="68" y1="48" x2="117" y2="48"></line>
+          <line x1="68" y1="58" x2="126" y2="58"></line>
+        </g>
+        <g class="text-page text-page-middle">
+          <rect x="91" y="20" width="88" height="101" rx="3"></rect>
+          <line x1="105" y1="47" x2="162" y2="47"></line>
+          <line x1="105" y1="57" x2="151" y2="57"></line>
+          <line x1="105" y1="67" x2="162" y2="67"></line>
+        </g>
+        <g class="text-page text-page-front">
+          <rect x="72" y="29" width="91" height="96" rx="3"></rect>
+          <text x="87" y="52">Aa</text>
+          <line x1="87" y1="64" x2="147" y2="64"></line>
+          <line x1="87" y1="74" x2="138" y2="74"></line>
+          <line x1="87" y1="84" x2="147" y2="84"></line>
+          <line x1="87" y1="94" x2="128" y2="94"></line>
+        </g>
+      </svg>`,
+  },
+  "2D Visual Artifacts": {
+    visual: "visual",
+    markup: `
+      <svg viewBox="0 0 240 140" data-artifact-visual="visual" focusable="false">
+        <defs>
+          <linearGradient id="visual-material" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" style="stop-color:color-mix(in srgb, white 84%, var(--paper))"></stop>
+            <stop offset="0.56" style="stop-color:color-mix(in srgb, var(--card-color) 18%, var(--paper))"></stop>
+            <stop offset="1" style="stop-color:color-mix(in srgb, var(--card-color) 46%, var(--surface))"></stop>
+          </linearGradient>
+          <radialGradient id="visual-platform">
+            <stop offset="0" style="stop-color:var(--card-color);stop-opacity:.38"></stop>
+            <stop offset="0.68" style="stop-color:var(--card-color);stop-opacity:.09"></stop>
+            <stop offset="1" style="stop-color:var(--card-color);stop-opacity:0"></stop>
+          </radialGradient>
+        </defs>
+        <ellipse class="miniature-platform" cx="122" cy="125" rx="80" ry="10" style="fill:url(#visual-platform)"></ellipse>
+        <path class="miniature-depth" d="m48 109 9 9h103l8-9-4 14H53Z" style="fill:url(#visual-material)"></path>
+        <path class="miniature-highlight" d="M57 30h93" style="fill:none"></path>
+        <g class="miniature-detail"><circle cx="55" cy="28" r="2"></circle><circle cx="63" cy="28" r="2"></circle><path d="M175 50v54"></path></g>
+        <g class="visual-board visual-board-back">
+          <rect x="116" y="36" width="72" height="75" rx="4"></rect>
+          <rect class="visual-bar" x="131" y="79" width="8" height="19"></rect>
+          <rect class="visual-bar" x="145" y="67" width="8" height="31"></rect>
+          <rect class="visual-bar" x="159" y="56" width="8" height="42"></rect>
+        </g>
+        <g class="visual-board visual-board-front">
+          <rect x="49" y="23" width="112" height="91" rx="4"></rect>
+          <path class="visual-mountain" d="M66 87 86 64 100 77 119 50 145 87Z"></path>
+          <circle class="visual-orbit" cx="132" cy="48" r="14"></circle>
+          <path class="visual-orbit-slice" d="M132 34a14 14 0 0 1 12 21l-12-7Z"></path>
+          <line x1="66" y1="98" x2="145" y2="98"></line>
+        </g>
+      </svg>`,
+  },
+  "Audio Artifacts": {
+    visual: "audio",
+    markup: `
+      <svg viewBox="0 0 240 140" data-artifact-visual="audio" focusable="false">
+        <defs>
+          <linearGradient id="audio-material" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" style="stop-color:color-mix(in srgb, white 78%, var(--paper))"></stop>
+            <stop offset="0.5" style="stop-color:color-mix(in srgb, var(--card-color) 22%, var(--paper))"></stop>
+            <stop offset="1" style="stop-color:color-mix(in srgb, var(--card-color) 54%, var(--surface))"></stop>
+          </linearGradient>
+          <radialGradient id="audio-platform">
+            <stop offset="0" style="stop-color:var(--card-color);stop-opacity:.4"></stop>
+            <stop offset="0.66" style="stop-color:var(--card-color);stop-opacity:.08"></stop>
+            <stop offset="1" style="stop-color:var(--card-color);stop-opacity:0"></stop>
+          </radialGradient>
+        </defs>
+        <ellipse class="miniature-platform" cx="120" cy="124" rx="82" ry="10" style="fill:url(#audio-platform)"></ellipse>
+        <path class="miniature-depth" d="m43 106 8 10h142l9-10-4 17H47Z" style="fill:url(#audio-material)"></path>
+        <path class="miniature-highlight" d="M48 38c12-8 29-8 40 0M108 48h82" style="fill:none"></path>
+        <g class="miniature-detail"><circle cx="110" cy="51" r="2"></circle><circle cx="118" cy="51" r="2"></circle><path d="M111 98h78"></path></g>
+        <g class="audio-speaker">
+          <rect x="42" y="31" width="52" height="81" rx="8"></rect>
+          <circle cx="68" cy="57" r="11"></circle>
+          <circle class="speaker-cone" cx="68" cy="86" r="17"></circle>
+          <circle cx="68" cy="86" r="6"></circle>
+        </g>
+        <g class="audio-player">
+          <rect x="99" y="41" width="103" height="61" rx="7"></rect>
+          <g class="audio-wave">
+            <line x1="113" y1="69" x2="113" y2="77"></line>
+            <line x1="121" y1="63" x2="121" y2="83"></line>
+            <line x1="129" y1="58" x2="129" y2="88"></line>
+            <line x1="137" y1="65" x2="137" y2="81"></line>
+            <line x1="145" y1="54" x2="145" y2="92"></line>
+            <line x1="153" y1="61" x2="153" y2="85"></line>
+            <line x1="161" y1="57" x2="161" y2="89"></line>
+            <line x1="169" y1="66" x2="169" y2="80"></line>
+            <line x1="177" y1="61" x2="177" y2="85"></line>
+            <line x1="185" y1="68" x2="185" y2="78"></line>
+          </g>
+          <line class="audio-track" x1="113" y1="91" x2="188" y2="91"></line>
+          <circle class="audio-playhead" cx="139" cy="91" r="4"></circle>
+        </g>
+      </svg>`,
+  },
+  "Video Artifacts": {
+    visual: "video",
+    markup: `
+      <svg viewBox="0 0 240 140" data-artifact-visual="video" focusable="false">
+        <defs>
+          <linearGradient id="video-material" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" style="stop-color:color-mix(in srgb, var(--ink) 84%, var(--card-color))"></stop>
+            <stop offset="0.55" style="stop-color:color-mix(in srgb, var(--ink) 62%, var(--card-color))"></stop>
+            <stop offset="1" style="stop-color:color-mix(in srgb, var(--card-color) 58%, var(--surface))"></stop>
+          </linearGradient>
+          <radialGradient id="video-platform">
+            <stop offset="0" style="stop-color:var(--card-color);stop-opacity:.42"></stop>
+            <stop offset="0.68" style="stop-color:var(--card-color);stop-opacity:.09"></stop>
+            <stop offset="1" style="stop-color:var(--card-color);stop-opacity:0"></stop>
+          </radialGradient>
+        </defs>
+        <ellipse class="miniature-platform" cx="120" cy="124" rx="86" ry="10" style="fill:url(#video-platform)"></ellipse>
+        <path class="miniature-depth" d="m31 98 8 10h161l9-10-4 17H35Z" style="fill:url(#video-material)"></path>
+        <path class="miniature-highlight" d="M38 42h163" style="fill:none"></path>
+        <g class="miniature-detail"><circle cx="48" cy="108" r="2"></circle><circle cx="56" cy="108" r="2"></circle><path d="M63 108h124"></path></g>
+        <g class="video-rail">
+          <rect x="31" y="38" width="178" height="65" rx="5"></rect>
+          <path class="video-perf" d="M38 44h7m7 0h7m7 0h7m7 0h7m7 0h7m7 0h7m7 0h7m7 0h7m7 0h7m7 0h7m7 0h7m7 0h7M38 97h7m7 0h7m7 0h7m7 0h7m7 0h7m7 0h7m7 0h7m7 0h7m7 0h7m7 0h7m7 0h7m7 0h7m7 0h7"></path>
+          <g class="video-strip">
+            <rect x="42" y="51" width="46" height="39" rx="2"></rect>
+            <path d="M48 83 60 68 69 77 82 60v23Z"></path>
+            <rect x="97" y="51" width="46" height="39" rx="2"></rect>
+            <path class="video-play" d="m115 62 14 9-14 9Z"></path>
+            <rect x="152" y="51" width="46" height="39" rx="2"></rect>
+            <circle cx="175" cy="67" r="7"></circle>
+            <path d="M161 85c3-10 24-10 28 0"></path>
+          </g>
+        </g>
+        <circle class="video-scrubber" cx="91" cy="113" r="5"></circle>
+        <line class="video-timeline" x1="54" y1="113" x2="186" y2="113"></line>
+      </svg>`,
+  },
+  "Spatial Artifacts": {
+    visual: "spatial",
+    markup: `
+      <svg viewBox="0 0 240 140" data-artifact-visual="spatial" focusable="false">
+        <defs>
+          <linearGradient id="spatial-material" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" style="stop-color:color-mix(in srgb, white 68%, var(--paper))"></stop>
+            <stop offset="0.48" style="stop-color:color-mix(in srgb, var(--card-color) 26%, var(--paper))"></stop>
+            <stop offset="1" style="stop-color:color-mix(in srgb, var(--card-color) 62%, var(--surface))"></stop>
+          </linearGradient>
+          <radialGradient id="spatial-platform">
+            <stop offset="0" style="stop-color:var(--card-color);stop-opacity:.46"></stop>
+            <stop offset="0.62" style="stop-color:var(--card-color);stop-opacity:.11"></stop>
+            <stop offset="1" style="stop-color:var(--card-color);stop-opacity:0"></stop>
+          </radialGradient>
+        </defs>
+        <ellipse class="miniature-platform" cx="120" cy="125" rx="80" ry="10" style="fill:url(#spatial-platform)"></ellipse>
+        <path class="miniature-depth" d="m45 105 78 32 73-32-8 13-65 27-70-29Z" style="fill:url(#spatial-material)"></path>
+        <path class="miniature-highlight" d="m83 49 38-21 39 21" style="fill:none"></path>
+        <g class="miniature-detail"><circle cx="121" cy="27" r="2"></circle><circle cx="45" cy="105" r="2"></circle><circle cx="196" cy="105" r="2"></circle></g>
+        <g class="spatial-grid">
+          <path d="m45 105 73-42 78 42-73 32Z"></path>
+          <path d="M62 95l74 33M79 85l74 35M96 75l74 35M179 95l-73 34M162 85l-74 35M145 75l-74 35"></path>
+        </g>
+        <g class="spatial-frame">
+          <path d="m82 49 39-22 41 22-41 23Z"></path>
+          <path d="M82 49v45l39 23 41-23V49M121 72v45"></path>
+        </g>
+        <g class="spatial-cubes">
+          <g class="spatial-cube cube-a">
+            <path class="cube-top" d="m105 66 14 8-14 8-14-8Z"></path>
+            <path class="cube-left" d="m91 74 14 8v17l-14-8Z"></path>
+            <path class="cube-right" d="m119 74-14 8v17l14-8Z"></path>
+          </g>
+          <g class="spatial-cube cube-b">
+            <path class="cube-top" d="m136 50 13 7-13 8-13-8Z"></path>
+            <path class="cube-left" d="m123 57 13 8v15l-13-8Z"></path>
+            <path class="cube-right" d="m149 57-13 8v15l13-8Z"></path>
+          </g>
+          <g class="spatial-cube cube-c">
+            <path class="cube-top" d="m143 81 12 6-12 7-11-7Z"></path>
+            <path class="cube-left" d="m132 87 11 7v13l-11-6Z"></path>
+            <path class="cube-right" d="m155 87-12 7v13l12-6Z"></path>
+          </g>
+        </g>
+      </svg>`,
+  },
+  "Behavioral Artifacts": {
+    visual: "behavioral",
+    markup: `
+      <svg viewBox="0 0 240 140" data-artifact-visual="behavioral" focusable="false">
+        <defs>
+          <linearGradient id="behavioral-material" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" style="stop-color:color-mix(in srgb, var(--ink) 88%, var(--card-color))"></stop>
+            <stop offset="0.52" style="stop-color:color-mix(in srgb, var(--ink) 66%, var(--card-color))"></stop>
+            <stop offset="1" style="stop-color:color-mix(in srgb, var(--card-color) 55%, var(--surface))"></stop>
+          </linearGradient>
+          <radialGradient id="behavioral-platform">
+            <stop offset="0" style="stop-color:var(--card-color);stop-opacity:.44"></stop>
+            <stop offset="0.66" style="stop-color:var(--card-color);stop-opacity:.1"></stop>
+            <stop offset="1" style="stop-color:var(--card-color);stop-opacity:0"></stop>
+          </radialGradient>
+        </defs>
+        <ellipse class="miniature-platform" cx="120" cy="124" rx="84" ry="10" style="fill:url(#behavioral-platform)"></ellipse>
+        <path class="miniature-depth" d="m28 103 10 12h161l10-12-5 20H33Z" style="fill:url(#behavioral-material)"></path>
+        <path class="miniature-highlight" d="M36 31h96" style="fill:none"></path>
+        <g class="miniature-detail"><circle cx="147" cy="39" r="2"></circle><circle cx="155" cy="39" r="2"></circle><path d="M146 45h54"></path></g>
+        <g class="behavior-window">
+          <rect x="28" y="27" width="113" height="82" rx="5"></rect>
+          <line x1="28" y1="42" x2="141" y2="42"></line>
+          <circle cx="38" cy="35" r="2"></circle>
+          <circle cx="46" cy="35" r="2"></circle>
+          <circle cx="54" cy="35" r="2"></circle>
+          <path class="behavior-code" d="m48 59-8 7 8 7m19-14 8 7-8 7M61 54 54 78"></path>
+          <path class="behavior-code-soft" d="M84 57h37M84 67h29M84 77h34M42 91h80"></path>
+        </g>
+        <g class="behavior-flow">
+          <path d="M147 54h17v21h14M147 91h17V75"></path>
+          <rect class="behavior-node node-a" x="164" y="43" width="24" height="20" rx="4"></rect>
+          <rect class="behavior-node node-b" x="178" y="65" width="31" height="20" rx="4"></rect>
+          <rect class="behavior-node node-c" x="156" y="89" width="27" height="20" rx="4"></rect>
+          <circle class="behavior-pulse" cx="164" cy="75" r="3"></circle>
+        </g>
+      </svg>`,
+  },
+};
+
+const APPLICATION_VISUALS = {
+  "Creative Production": {
+    visual: "creative",
+    color: "#b777a7",
+    descriptor: "Writing · Images · Music · Video",
+    markup: `
+      <svg viewBox="0 0 240 140" data-application-visual="creative" focusable="false">
+        <defs>
+          <linearGradient id="creative-material" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" style="stop-color:color-mix(in srgb, white 84%, var(--paper))"></stop>
+            <stop offset="0.55" style="stop-color:color-mix(in srgb, var(--card-color) 18%, var(--paper))"></stop>
+            <stop offset="1" style="stop-color:color-mix(in srgb, var(--card-color) 52%, var(--surface))"></stop>
+          </linearGradient>
+          <radialGradient id="creative-platform">
+            <stop offset="0" style="stop-color:var(--card-color);stop-opacity:.42"></stop>
+            <stop offset="0.66" style="stop-color:var(--card-color);stop-opacity:.09"></stop>
+            <stop offset="1" style="stop-color:var(--card-color);stop-opacity:0"></stop>
+          </radialGradient>
+        </defs>
+        <ellipse class="miniature-platform" cx="120" cy="124" rx="80" ry="10" style="fill:url(#creative-platform)"></ellipse>
+        <path class="miniature-depth" d="m45 102 9 13h130l8-13-4 21H50Z" style="fill:url(#creative-material)"></path>
+        <path class="miniature-highlight" d="M52 37h91" style="fill:none"></path>
+        <g class="miniature-detail"><circle cx="53" cy="36" r="2"></circle><circle cx="61" cy="36" r="2"></circle><path d="M53 104h119"></path></g>
+        <g class="app-canvas">
+          <rect x="45" y="31" width="106" height="77" rx="5"></rect>
+          <path d="M58 91 79 68l16 16 18-27 26 34Z"></path>
+          <circle cx="123" cy="50" r="8"></circle>
+        </g>
+        <g class="creative-tools">
+          <path d="m162 39 7-15 7 15 15 7-15 7-7 15-7-15-15-7Z"></path>
+          <path d="m156 81 26-18 8 8-18 26-18 5Z"></path>
+          <path d="m154 102 18-5-13-13Z"></path>
+        </g>
+      </svg>`,
+  },
+  "Brand Communication": {
+    visual: "brand",
+    color: "#d89368",
+    descriptor: "Identity · Campaigns · Storytelling",
+    markup: `
+      <svg viewBox="0 0 240 140" data-application-visual="brand" focusable="false">
+        <defs>
+          <linearGradient id="brand-material" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" style="stop-color:color-mix(in srgb, white 76%, var(--paper))"></stop>
+            <stop offset="0.5" style="stop-color:color-mix(in srgb, var(--card-color) 25%, var(--paper))"></stop>
+            <stop offset="1" style="stop-color:color-mix(in srgb, var(--card-color) 58%, var(--surface))"></stop>
+          </linearGradient>
+          <radialGradient id="brand-platform">
+            <stop offset="0" style="stop-color:var(--card-color);stop-opacity:.42"></stop>
+            <stop offset="0.65" style="stop-color:var(--card-color);stop-opacity:.09"></stop>
+            <stop offset="1" style="stop-color:var(--card-color);stop-opacity:0"></stop>
+          </radialGradient>
+        </defs>
+        <ellipse class="miniature-platform" cx="120" cy="124" rx="78" ry="10" style="fill:url(#brand-platform)"></ellipse>
+        <path class="miniature-depth" d="m48 92 10 18h130l8-18-4 31H54Z" style="fill:url(#brand-material)"></path>
+        <path class="miniature-highlight" d="M52 65h14M64 55l47-18" style="fill:none"></path>
+        <g class="miniature-detail"><circle cx="187" cy="91" r="2"></circle><circle cx="197" cy="91" r="2"></circle><path d="M154 107h51"></path></g>
+        <g class="brand-megaphone">
+          <path d="M58 63v24l58 21V42Z"></path>
+          <rect x="45" y="60" width="24" height="30" rx="5"></rect>
+          <path d="m72 89 12 31h20L92 96"></path>
+        </g>
+        <g class="brand-signal">
+          <path d="M134 51c14 8 14 39 0 47"></path>
+          <path d="M149 39c23 16 23 54 0 70"></path>
+          <circle cx="184" cy="49" r="10"></circle>
+          <path d="m184 39 3 7 7 3-7 3-3 7-3-7-7-3 7-3Z"></path>
+        </g>
+      </svg>`,
+  },
+  "Educational Support": {
+    visual: "education",
+    color: "#718dca",
+    descriptor: "Teaching · Tutoring · Learning materials",
+    markup: `
+      <svg viewBox="0 0 240 140" data-application-visual="education" focusable="false">
+        <defs>
+          <linearGradient id="education-material" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" style="stop-color:color-mix(in srgb, white 86%, var(--paper))"></stop>
+            <stop offset="0.56" style="stop-color:color-mix(in srgb, var(--card-color) 16%, var(--paper))"></stop>
+            <stop offset="1" style="stop-color:color-mix(in srgb, var(--card-color) 48%, var(--surface))"></stop>
+          </linearGradient>
+          <radialGradient id="education-platform">
+            <stop offset="0" style="stop-color:var(--card-color);stop-opacity:.42"></stop>
+            <stop offset="0.66" style="stop-color:var(--card-color);stop-opacity:.09"></stop>
+            <stop offset="1" style="stop-color:var(--card-color);stop-opacity:0"></stop>
+          </radialGradient>
+        </defs>
+        <ellipse class="miniature-platform" cx="120" cy="124" rx="82" ry="10" style="fill:url(#education-platform)"></ellipse>
+        <path class="miniature-depth" d="m37 100 12 15h139l10-15-5 23H43Z" style="fill:url(#education-material)"></path>
+        <path class="miniature-highlight" d="M44 53c22-6 42-1 60 10" style="fill:none"></path>
+        <g class="miniature-detail"><circle cx="48" cy="110" r="2"></circle><circle cx="190" cy="110" r="2"></circle><path d="M56 114h126"></path></g>
+        <g class="education-book">
+          <path d="M37 48c31-8 55 3 72 18v52c-19-15-42-24-72-17Z"></path>
+          <path d="M109 66c18-15 42-26 74-18v53c-30-7-54 2-74 17Z"></path>
+          <path d="M51 62c19-2 35 3 46 12M51 75c19-2 35 3 46 12M169 62c-19-2-35 3-47 12M169 75c-19-2-35 3-47 12"></path>
+        </g>
+        <g class="education-cap">
+          <path d="m143 30 35-16 35 16-35 17Z"></path>
+          <path d="M157 38v16c12 9 31 9 43 0V38"></path>
+          <path d="M211 31v28"></path>
+          <circle cx="211" cy="62" r="3"></circle>
+        </g>
+      </svg>`,
+  },
+  "Professional Work": {
+    visual: "professional",
+    color: "#4c9d96",
+    descriptor: "Documents · Decisions · Operations",
+    markup: `
+      <svg viewBox="0 0 240 140" data-application-visual="professional" focusable="false">
+        <defs>
+          <linearGradient id="professional-material" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" style="stop-color:color-mix(in srgb, white 84%, var(--paper))"></stop>
+            <stop offset="0.54" style="stop-color:color-mix(in srgb, var(--card-color) 17%, var(--paper))"></stop>
+            <stop offset="1" style="stop-color:color-mix(in srgb, var(--card-color) 50%, var(--surface))"></stop>
+          </linearGradient>
+          <radialGradient id="professional-platform">
+            <stop offset="0" style="stop-color:var(--card-color);stop-opacity:.44"></stop>
+            <stop offset="0.66" style="stop-color:var(--card-color);stop-opacity:.1"></stop>
+            <stop offset="1" style="stop-color:var(--card-color);stop-opacity:0"></stop>
+          </radialGradient>
+        </defs>
+        <ellipse class="miniature-platform" cx="120" cy="124" rx="80" ry="10" style="fill:url(#professional-platform)"></ellipse>
+        <path class="miniature-depth" d="m42 109 9 9h146l9-9-5 14H47Z" style="fill:url(#professional-material)"></path>
+        <path class="miniature-highlight" d="M49 31h141" style="fill:none"></path>
+        <g class="miniature-detail"><circle cx="174" cy="96" r="2"></circle><circle cx="183" cy="96" r="2"></circle><path d="M151 104h38"></path></g>
+        <g class="professional-window">
+          <rect x="42" y="25" width="155" height="91" rx="6"></rect>
+          <line x1="42" y1="42" x2="197" y2="42"></line>
+          <circle cx="53" cy="34" r="2"></circle><circle cx="61" cy="34" r="2"></circle><circle cx="69" cy="34" r="2"></circle>
+          <rect x="57" y="56" width="47" height="8" rx="2"></rect>
+          <rect x="57" y="72" width="86" height="5" rx="2"></rect>
+          <rect x="57" y="84" width="70" height="5" rx="2"></rect>
+          <rect x="57" y="96" width="79" height="5" rx="2"></rect>
+          <path class="professional-check" d="m154 77 9 9 20-24"></path>
+        </g>
+      </svg>`,
+  },
+  "Scientific Research": {
+    visual: "science",
+    color: "#66add0",
+    descriptor: "Discovery · Analysis · Scholarly work",
+    markup: `
+      <svg viewBox="0 0 240 140" data-application-visual="science" focusable="false">
+        <defs>
+          <linearGradient id="science-material" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" style="stop-color:color-mix(in srgb, white 78%, var(--paper))"></stop>
+            <stop offset="0.5" style="stop-color:color-mix(in srgb, var(--card-color) 22%, var(--paper))"></stop>
+            <stop offset="1" style="stop-color:color-mix(in srgb, var(--card-color) 58%, var(--surface))"></stop>
+          </linearGradient>
+          <radialGradient id="science-platform">
+            <stop offset="0" style="stop-color:var(--card-color);stop-opacity:.46"></stop>
+            <stop offset="0.65" style="stop-color:var(--card-color);stop-opacity:.11"></stop>
+            <stop offset="1" style="stop-color:var(--card-color);stop-opacity:0"></stop>
+          </radialGradient>
+        </defs>
+        <ellipse class="miniature-platform" cx="120" cy="125" rx="80" ry="10" style="fill:url(#science-platform)"></ellipse>
+        <path class="miniature-depth" d="m50 104 10 13h140l9-13-5 19H55Z" style="fill:url(#science-material)"></path>
+        <path class="miniature-highlight" d="M152 39h30M73 25c11-4 22-4 33 0" style="fill:none"></path>
+        <g class="miniature-detail"><circle cx="53" cy="106" r="2"></circle><circle cx="202" cy="106" r="2"></circle><path d="M61 113h132"></path></g>
+        <g class="science-orbit">
+          <ellipse cx="89" cy="64" rx="46" ry="17"></ellipse>
+          <ellipse cx="89" cy="64" rx="46" ry="17" transform="rotate(60 89 64)"></ellipse>
+          <ellipse cx="89" cy="64" rx="46" ry="17" transform="rotate(120 89 64)"></ellipse>
+          <circle cx="89" cy="64" r="7"></circle>
+          <circle class="science-electron" cx="132" cy="64" r="4"></circle>
+        </g>
+        <g class="science-flask">
+          <path d="M163 32v29l-23 42c-5 9 1 17 12 17h48c11 0 17-8 12-17l-24-42V32"></path>
+          <line x1="158" y1="32" x2="193" y2="32"></line>
+          <path class="science-liquid" d="M151 93h49l12 20c-2 5-6 7-12 7h-48c-7 0-11-2-13-7Z"></path>
+          <circle cx="176" cy="82" r="4"></circle><circle cx="188" cy="91" r="3"></circle>
+        </g>
+      </svg>`,
+  },
+  "Engineering Design": {
+    visual: "engineering",
+    color: "#9380c1",
+    descriptor: "Software · Products · Built systems",
+    markup: `
+      <svg viewBox="0 0 240 140" data-application-visual="engineering" focusable="false">
+        <defs>
+          <linearGradient id="engineering-material" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" style="stop-color:color-mix(in srgb, white 82%, var(--paper))"></stop>
+            <stop offset="0.53" style="stop-color:color-mix(in srgb, var(--card-color) 19%, var(--paper))"></stop>
+            <stop offset="1" style="stop-color:color-mix(in srgb, var(--card-color) 56%, var(--surface))"></stop>
+          </linearGradient>
+          <radialGradient id="engineering-platform">
+            <stop offset="0" style="stop-color:var(--card-color);stop-opacity:.45"></stop>
+            <stop offset="0.66" style="stop-color:var(--card-color);stop-opacity:.1"></stop>
+            <stop offset="1" style="stop-color:var(--card-color);stop-opacity:0"></stop>
+          </radialGradient>
+        </defs>
+        <ellipse class="miniature-platform" cx="120" cy="124" rx="82" ry="10" style="fill:url(#engineering-platform)"></ellipse>
+        <path class="miniature-depth" d="m34 107 10 11h155l9-11-5 16H39Z" style="fill:url(#engineering-material)"></path>
+        <path class="miniature-highlight" d="M42 35h115" style="fill:none"></path>
+        <g class="miniature-detail"><circle cx="174" cy="33" r="2"></circle><circle cx="182" cy="33" r="2"></circle><path d="M170 41h37"></path></g>
+        <g class="engineering-plan">
+          <rect x="34" y="28" width="133" height="88" rx="4"></rect>
+          <path d="M51 45h42v24H51ZM104 45h46v54h-27V81h-19ZM51 80h40v19H51Z"></path>
+          <path d="M45 40h112M45 108h112"></path>
+        </g>
+        <g class="engineering-gear">
+          <path d="m185 49 6 4 8-2 4 7-5 7 1 8-7 4-7-5-8 2-4-7 5-7-1-8Z"></path>
+          <circle cx="188" cy="62" r="8"></circle>
+          <path class="engineering-pencil" d="m158 95 38-38 10 10-38 38-15 5Z"></path>
+        </g>
+      </svg>`,
+  },
 };
 
 const state = {
@@ -291,29 +750,55 @@ function hydrateSummary() {
   document.querySelector("#hero-total").textContent = `${formatNumber(summary.total)} audited papers`;
 }
 
+function createArtifactMiniature(config) {
+  const miniature = createElement("span", "artifact-miniature");
+  miniature.setAttribute("aria-hidden", "true");
+  miniature.innerHTML = config.markup;
+  return miniature;
+}
+
+function createApplicationMiniature(config) {
+  const miniature = createElement("span", "application-miniature");
+  miniature.setAttribute("aria-hidden", "true");
+  miniature.innerHTML = config.markup;
+  return miniature;
+}
+
+function createGalleryCardCopy(title, description, swatch = false) {
+  const copy = createElement("span", "taxonomy-card-copy");
+  const heading = createElement("span", "taxonomy-card-heading");
+  if (swatch) heading.append(createElement("span", "taxonomy-swatch"));
+  heading.append(createElement("strong", "", title));
+  copy.append(heading, createElement("span", "taxonomy-types", description));
+  return copy;
+}
+
 function renderTaxonomyOverview() {
   const familyFragment = document.createDocumentFragment();
   state.catalog.families.forEach((family, index) => {
-    const button = createElement("button", "taxonomy-item");
+    const visual = ARTIFACT_VISUALS[family.name];
+    const button = createElement("button", "taxonomy-item taxonomy-card");
     button.type = "button";
     button.style.setProperty("--family-color", family.color);
+    button.style.setProperty("--card-color", family.color);
     button.style.setProperty("--item-delay", `${index * 45}ms`);
     button.setAttribute("aria-label", `Browse ${family.name}`);
+    button.dataset.artifactVisual = visual.visual;
 
-    button.append(createElement("span", "taxonomy-swatch"));
-    button.append(createElement("strong", "", family.name));
     button.append(
-      createElement(
-        "span",
-        "taxonomy-types",
+      createArtifactMiniature(visual),
+      createGalleryCardCopy(
+        family.name,
         family.types
           .filter((type) => type.count)
           .map((type) => type.name)
           .join(" · "),
+        true,
       ),
     );
     button.append(
       createElement("span", "taxonomy-count", `${family.count} papers`),
+      createIcon("ph-arrow-up-right"),
     );
     button.addEventListener("click", () => openCatalog("artifact", family.name));
     familyFragment.append(button);
@@ -322,16 +807,20 @@ function renderTaxonomyOverview() {
 
   const applicationFragment = document.createDocumentFragment();
   state.catalog.applications.forEach((application, index) => {
-    const button = createElement("button", "application-item");
+    const visual = APPLICATION_VISUALS[application.name];
+    const button = createElement("button", "application-item application-card");
     button.type = "button";
+    button.style.setProperty("--card-color", visual.color);
     button.style.setProperty("--item-delay", `${index * 45}ms`);
     button.setAttribute("aria-label", `Browse ${application.name}`);
+    button.dataset.applicationVisual = visual.visual;
     button.append(
-      createElement("span", "application-index", String(index + 1).padStart(2, "0")),
+      createApplicationMiniature(visual),
+      createGalleryCardCopy(application.name, visual.descriptor),
     );
-    button.append(createElement("strong", "", application.name));
     button.append(
       createElement("span", "application-count", `${application.count} papers`),
+      createIcon("ph-arrow-up-right"),
     );
     button.addEventListener("click", () => openCatalog("application", application.name));
     applicationFragment.append(button);
@@ -835,8 +1324,144 @@ function activateAxisTab(axis) {
     tab.setAttribute("aria-selected", String(selected));
     tab.tabIndex = selected ? 0 : -1;
   });
-  document.querySelector("#artifact-panel").hidden = axis !== "artifact";
-  document.querySelector("#application-panel").hidden = axis !== "application";
+  const artifactPanel = document.querySelector("#artifact-panel");
+  const applicationPanel = document.querySelector("#application-panel");
+  const activePanel = axis === "application" ? applicationPanel : artifactPanel;
+  artifactPanel.hidden = axis !== "artifact";
+  applicationPanel.hidden = axis !== "application";
+  activePanel.classList.remove("is-entering");
+  window.requestAnimationFrame(() => activePanel.classList.add("is-entering"));
+  document.dispatchEvent(new CustomEvent("aac:axischange", { detail: { axis } }));
+}
+
+function setupMiniatureCardTilt() {
+  if (
+    !window.matchMedia("(pointer: fine)").matches ||
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  ) {
+    return;
+  }
+
+  document.querySelectorAll(".taxonomy-item, .application-item").forEach((card) => {
+    card.addEventListener("pointermove", (event) => {
+      const bounds = card.getBoundingClientRect();
+      const horizontal = (event.clientX - bounds.left) / bounds.width - 0.5;
+      const vertical = (event.clientY - bounds.top) / bounds.height - 0.5;
+      card.style.setProperty("--card-tilt-x", `${(-vertical * 2.8).toFixed(2)}deg`);
+      card.style.setProperty("--card-tilt-y", `${(horizontal * 3.6).toFixed(2)}deg`);
+    });
+    card.addEventListener("pointerleave", () => {
+      card.style.removeProperty("--card-tilt-x");
+      card.style.removeProperty("--card-tilt-y");
+    });
+  });
+}
+
+function setupMiniatureShowcaseMotion() {
+  const scope = document.querySelector("#scope");
+  const switcher = scope?.querySelector(".axis-switcher");
+  if (!scope || !switcher) return;
+
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  if (!("IntersectionObserver" in window)) return;
+
+  let activeIndex = 0;
+  let timer = null;
+  let scopeVisible = false;
+  let interactionPaused = false;
+
+  function visibleCards() {
+    const activePanel = switcher.querySelector(".taxonomy-panel:not([hidden])");
+    return [...(activePanel?.querySelectorAll(".taxonomy-item, .application-item") || [])];
+  }
+
+  function clearActive() {
+    switcher
+      .querySelectorAll(".taxonomy-item, .application-item")
+      .forEach((card) => card.classList.remove("is-showcase-active"));
+  }
+
+  function activateCurrent() {
+    const cards = visibleCards();
+    if (!cards.length) return;
+    activeIndex %= cards.length;
+    cards.forEach((card, index) => {
+      card.classList.toggle("is-showcase-active", index === activeIndex);
+    });
+  }
+
+  function stop() {
+    window.clearInterval(timer);
+    timer = null;
+  }
+
+  function start({ immediate = true } = {}) {
+    stop();
+    if (reduceMotion.matches || !scopeVisible || interactionPaused || document.hidden) {
+      clearActive();
+      return;
+    }
+    if (immediate) activateCurrent();
+    timer = window.setInterval(() => {
+      const cards = visibleCards();
+      if (!cards.length) return;
+      activeIndex = (activeIndex + 1) % cards.length;
+      activateCurrent();
+    }, MINIATURE_SHOWCASE_INTERVAL);
+  }
+
+  function pauseForInteraction() {
+    interactionPaused = true;
+    stop();
+    clearActive();
+  }
+
+  function resumeAfterInteraction() {
+    interactionPaused = false;
+    activeIndex = (activeIndex + 1) % Math.max(visibleCards().length, 1);
+    start();
+  }
+
+  switcher.addEventListener("pointerenter", pauseForInteraction);
+  switcher.addEventListener("pointerleave", resumeAfterInteraction);
+  switcher.addEventListener("focusin", pauseForInteraction);
+  switcher.addEventListener("focusout", (event) => {
+    if (!switcher.contains(event.relatedTarget)) resumeAfterInteraction();
+  });
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+      stop();
+      clearActive();
+    } else {
+      start();
+    }
+  });
+  document.addEventListener("aac:axischange", () => {
+    activeIndex = 0;
+    start();
+  });
+  reduceMotion.addEventListener("change", () => {
+    if (reduceMotion.matches) {
+      stop();
+      clearActive();
+    } else {
+      start();
+    }
+  });
+
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      scopeVisible = entry.isIntersecting;
+      if (scopeVisible) {
+        start();
+      } else {
+        stop();
+        clearActive();
+      }
+    },
+    { threshold: 0.22 },
+  );
+  observer.observe(scope);
 }
 
 function setupEvents() {
@@ -934,6 +1559,8 @@ async function initialize() {
     readUrlState();
     hydrateSummary();
     renderTaxonomyOverview();
+    setupMiniatureShowcaseMotion();
+    setupMiniatureCardTilt();
     renderFilterOptions();
     renderYearOptions();
     setupCustomSelects();
