@@ -3440,10 +3440,49 @@ button.application-item {
   background: var(--surface);
 }
 
+.about-layout {
+  display: grid;
+  gap: clamp(68px, 9vw, 122px);
+}
+
 .about-grid {
   display: grid;
-  grid-template-columns: minmax(330px, 0.9fr) minmax(400px, 0.72fr);
-  gap: clamp(80px, 14vw, 220px);
+  grid-template-columns: minmax(330px, 0.82fr) minmax(420px, 0.9fr);
+  gap: clamp(72px, 12vw, 190px);
+}
+
+.about-intro .eyebrow {
+  margin-bottom: 22px;
+}
+
+.about-index {
+  display: grid;
+  max-width: 360px;
+  margin: 58px 0 0;
+  padding: 0;
+  border-top: 1px solid var(--line-strong);
+  list-style: none;
+}
+
+.about-index li {
+  display: grid;
+  grid-template-columns: 42px 1fr;
+  min-height: 46px;
+  align-items: center;
+  border-bottom: 1px solid var(--line-strong);
+}
+
+.about-index span {
+  color: var(--teal-text);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.about-index strong {
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .about-copy {
@@ -3507,6 +3546,142 @@ button.application-item {
 .resource-links a:hover > .ph {
   color: var(--teal);
   transform: translate(2px, -2px);
+}
+
+.citation-panel {
+  position: relative;
+  display: grid;
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--teal) 34%, #32405a);
+  border-radius: 10px;
+  color: #edf3fb;
+  background:
+    radial-gradient(circle at 83% 0%, rgba(105, 198, 189, 0.14), transparent 31%),
+    linear-gradient(135deg, #111b2a 0%, #101722 58%, #151826 100%);
+  box-shadow: 0 28px 80px rgba(6, 12, 22, 0.2);
+}
+
+.citation-panel::before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 4px;
+  background: linear-gradient(var(--teal), var(--sky), var(--orchid));
+  content: "";
+}
+
+.citation-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 48px;
+  align-items: end;
+  padding: clamp(30px, 4vw, 54px) clamp(26px, 5vw, 68px) 30px;
+  border-bottom: 1px solid rgba(192, 208, 229, 0.17);
+}
+
+.citation-kicker {
+  margin: 0 0 12px;
+  color: #79d0c7;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.citation-header h3 {
+  margin: 0;
+  font-family: var(--font-editorial);
+  font-size: clamp(30px, 4vw, 52px);
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+}
+
+.citation-header p:last-child {
+  max-width: 680px;
+  margin: 17px 0 0;
+  color: #aebbd0;
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.citation-copy {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 0 17px;
+  border: 1px solid rgba(121, 208, 199, 0.5);
+  border-radius: 999px;
+  color: #dff8f4;
+  background: rgba(105, 198, 189, 0.08);
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.035em;
+  transition:
+    border-color 180ms ease,
+    color 180ms ease,
+    background 180ms ease,
+    transform 180ms ease;
+}
+
+.citation-copy:hover,
+.citation-copy:focus-visible {
+  border-color: #79d0c7;
+  color: #ffffff;
+  background: rgba(105, 198, 189, 0.16);
+  transform: translateY(-2px);
+}
+
+.citation-copy:active {
+  transform: translateY(0);
+}
+
+.citation-copy.is-copied {
+  border-color: #79d0c7;
+  color: #10221f;
+  background: #79d0c7;
+}
+
+.citation-code-frame {
+  position: relative;
+  min-width: 0;
+  padding: clamp(28px, 4vw, 48px) clamp(26px, 5vw, 68px) clamp(34px, 5vw, 58px);
+}
+
+.citation-code-label {
+  position: absolute;
+  top: 31px;
+  right: clamp(26px, 5vw, 68px);
+  color: rgba(174, 187, 208, 0.42);
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: 0.16em;
+}
+
+.citation-code-frame pre {
+  max-width: 100%;
+  margin: 0;
+  overflow-x: auto;
+  color: #d6dfed;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: clamp(11px, 1.1vw, 13px);
+  line-height: 1.72;
+  scrollbar-color: rgba(121, 208, 199, 0.45) transparent;
+}
+
+.citation-code-frame pre:focus-visible {
+  outline: 1px solid #79d0c7;
+  outline-offset: 9px;
+}
+
+.citation-code-frame code {
+  font: inherit;
 }
 
 .site-footer {
@@ -3971,6 +4146,20 @@ button.application-item {
     max-width: 680px;
     padding-top: 0;
   }
+
+  .about-index {
+    max-width: 100%;
+    margin-top: 34px;
+  }
+
+  .citation-header {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+
+  .citation-copy {
+    justify-self: start;
+  }
 }
 
 @media (max-width: 640px) {
@@ -3985,6 +4174,32 @@ button.application-item {
 
   .insights + .catalog-section {
     padding-top: 76px;
+  }
+
+  .about-layout {
+    gap: 54px;
+  }
+
+  .citation-header {
+    padding: 27px 21px 25px;
+  }
+
+  .citation-header h3 {
+    font-size: 34px;
+  }
+
+  .citation-code-frame {
+    padding: 28px 21px 32px;
+  }
+
+  .citation-code-label {
+    top: 30px;
+    right: 21px;
+  }
+
+  .citation-code-frame pre {
+    padding-top: 24px;
+    white-space: pre;
   }
 
   .site-header {

@@ -695,6 +695,30 @@ class SiteBuildTests(unittest.TestCase):
                 )
             )
 
+    def test_about_section_explains_project_and_provides_copyable_citation(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            output = build_site(Path(temporary_directory) / "public")
+            index = (output / "index.html").read_text(encoding="utf-8")
+            app = (output / "assets" / "app.js").read_text(encoding="utf-8")
+            styles = (output / "assets" / "styles.css").read_text(encoding="utf-8")
+
+            self.assertIn("An open research instrument.", index)
+            self.assertIn('id="survey-citation"', index)
+            self.assertIn("@misc{wang2026agenticartifactcreation,", index)
+            self.assertIn(
+                "Agentic Artifact Creation: A Survey of Systems, Evaluation, "
+                "Principles, and Opportunities",
+                index,
+            )
+            self.assertIn("data-copy-citation", index)
+            self.assertIn('aria-live="polite"', index)
+            self.assertIn("function setupCitationCopy()", app)
+            self.assertIn("function copyWithSelection()", app)
+            self.assertIn("navigator.clipboard.writeText", app)
+            self.assertIn("setupCitationCopy();", app)
+            self.assertIn(".citation-panel", styles)
+            self.assertIn(".citation-copy.is-copied", styles)
+
 
 if __name__ == "__main__":
     unittest.main()
