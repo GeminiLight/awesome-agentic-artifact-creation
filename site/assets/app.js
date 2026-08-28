@@ -1318,6 +1318,57 @@ function setupFilterDisclosure() {
   syncForViewport();
 }
 
+function setupCitationCopy() {
+  const button = document.querySelector("[data-copy-citation]");
+  const citation = document.querySelector("#survey-citation");
+  const status = document.querySelector("#citation-copy-status");
+  if (!button || !citation || !status) return;
+
+  const label = button.querySelector("[data-copy-label]");
+  let resetTimer = null;
+
+  function copyWithSelection() {
+    const selection = window.getSelection();
+    const range = document.createRange();
+    range.selectNodeContents(citation);
+    selection.removeAllRanges();
+    selection.addRange(range);
+    const copied = document.execCommand("copy");
+    if (!copied) throw new Error("Copy command was unavailable");
+    selection.removeAllRanges();
+  }
+
+  async function copyCitation() {
+    const citationText = citation.textContent.trim();
+    try {
+      if (navigator.clipboard?.writeText) {
+        try {
+          await navigator.clipboard.writeText(citationText);
+        } catch (clipboardError) {
+          copyWithSelection();
+        }
+      } else {
+        copyWithSelection();
+      }
+
+      window.clearTimeout(resetTimer);
+      button.classList.add("is-copied");
+      label.textContent = "Copied";
+      status.textContent = "BibTeX citation copied to clipboard.";
+      resetTimer = window.setTimeout(() => {
+        button.classList.remove("is-copied");
+        label.textContent = "Copy BibTeX";
+      }, 1800);
+    } catch (error) {
+      console.warn("Citation copy failed", error);
+      status.textContent = "Copy failed. Select the citation text and copy it manually.";
+      label.textContent = "Select manually";
+    }
+  }
+
+  button.addEventListener("click", copyCitation);
+}
+
 function activateAxisTab(axis) {
   document.querySelectorAll("[data-axis-tab]").forEach((tab) => {
     const selected = tab.dataset.axisTab === axis;
@@ -1547,6 +1598,7 @@ async function initialize() {
   setupAxisTabs();
   setupSectionNavigation();
   setupFilterDisclosure();
+  setupCitationCopy();
   window.setTimeout(
     () => settleStalledCharts("Chart loading timed out. Reload the page to try again."),
     10000,
