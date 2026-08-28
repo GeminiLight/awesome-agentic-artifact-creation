@@ -15,10 +15,10 @@
     <a href="https://github.com/GeminiLight/agentic-creation-survey"><img alt="Survey paper — Coming soon" src="assets/badge-paper.svg" height="56"></a>
   </p>
   <p>
-    <a href="#catalog-analysis"><img alt="Papers: 255" src="https://img.shields.io/badge/Papers-255-4C9D96?style=flat-square"></a>
-    <a href="#catalog-analysis"><img alt="Systems: 227" src="https://img.shields.io/badge/Systems-227-55A2D5?style=flat-square"></a>
+    <a href="#catalog-analysis"><img alt="Papers: 257" src="https://img.shields.io/badge/Papers-257-4C9D96?style=flat-square"></a>
+    <a href="#catalog-analysis"><img alt="Systems: 229" src="https://img.shields.io/badge/Systems-229-55A2D5?style=flat-square"></a>
     <a href="#catalog-analysis"><img alt="Benchmarks: 28" src="https://img.shields.io/badge/Benchmarks-28-957CC3?style=flat-square"></a>
-    <a href="#survey-scope"><img alt="Venues: 35" src="https://img.shields.io/badge/Venues-35-D58B68?style=flat-square"></a>
+    <a href="#survey-scope"><img alt="Venues: 36" src="https://img.shields.io/badge/Venues-36-D58B68?style=flat-square"></a>
     <a href="https://github.com/GeminiLight/awesome-agentic-artifact-creation/commits/main"><img alt="Last Updated" src="https://img.shields.io/github/last-commit/GeminiLight/awesome-agentic-artifact-creation/main?style=flat-square&amp;label=Updated&amp;color=718DCA"></a>
   </p>
 </div>
@@ -94,12 +94,12 @@ monitored by this survey include:
   <img src="visualization/artifact-application-matrix.svg" alt="Heatmap of paper counts across artifact families and application contexts" width="100%">
 </p>
 
-- **Catalog coverage:** 255 papers spanning **2023–2026**, from **35 publication sources**; 227 systems and 28 benchmarks.
-- **Dual-axis coverage:** 219 papers (**85.9%**) carry both artifact and application labels; 30 are artifact-only and 6 application-only.
-- **Largest artifact family:** Behavioral Artifacts — **74 papers (29.0%)**.
-- **Largest application context:** Creative Production — **87 papers (34.1%)**.
+- **Catalog coverage:** 257 papers spanning **2023–2026**, from **36 publication sources**; 229 systems and 28 benchmarks.
+- **Dual-axis coverage:** 220 papers (**85.6%**) carry both artifact and application labels; 30 are artifact-only and 7 application-only.
+- **Largest artifact family:** Behavioral Artifacts — **74 papers (28.8%)**.
+- **Largest application context:** Creative Production — **87 papers (33.9%)**.
 - **Strongest cross-axis concentrations:** Behavioral Artifacts × Engineering Design — **30**, Video Artifacts × Creative Production — **25**, Spatial Artifacts × Engineering Design — **20**.
-- **System-name coverage:** 216 of 227 systems (**95.2%**) have a verified name.
+- **System-name coverage:** 218 of 229 systems (**95.2%**) have a verified name.
 
 > [!NOTE]
 > Counts describe this audited catalog rather than total field output. The audit
@@ -289,61 +289,67 @@ This primary view organizes papers by the artifact they construct.
 
 ##### [Functional Documents](#content)
 
-1. **FormAct: Agentic Source Editing for Rich-Format Document Generation**
+1. **DeepTutor: Towards Agentic Personalized Tutoring**
+
+    *Bingxi Zhao, Jiahao Zhang, Xubin Ren, Zirui Guo, Tianzhe Chu, Yi Ma, Chao Huang*
+
+    arXiv, 2026. [Preprint](https://arxiv.org/abs/2604.26962) · [Code](https://github.com/HKUDS/DeepTutor) · `System` · `📦 Textual Artifacts` · `🎯 Educational Support`
+
+2. **FormAct: Agentic Source Editing for Rich-Format Document Generation**
 
     *Eugene Yu, Xingxing Zhang, Yuan Xia, Tao Ge, XWang, FNU Kartik, Vishwas Suryanarayanan, Cheng Yang, Amanda Jiang, Jiayu Ding, Xiangyu Wong, Tengchao Lv, Lei Cui, Si-Qing Chen, Furu Wei, Sujian Li*
 
     ICML, 2026. [Published](https://icml.cc/virtual/2026/poster/61769) · `System` · `📦 Textual Artifacts` · `🎯 Professional Work`
 
-2. **ProfiliTable: Profiling-Driven Tabular Data Processing via Agentic Workflows**
+3. **ProfiliTable: Profiling-Driven Tabular Data Processing via Agentic Workflows**
 
     *Wei Liu, Yang Gu, Xi Yan, Zihan Nan, Beicheng Xu, Keyao Ding, Bin Cui, Wentao Zhang*
 
     KDD, 2026. [Published](https://doi.org/10.1145/3770855.3817982) · `System` · `📦 Textual Artifacts` · `🎯 Professional Work`
 
-3. **AgentCTG: Harnessing Multi-Agent Collaboration for Fine-Grained Precise Control in Text Generation**
+4. **AgentCTG: Harnessing Multi-Agent Collaboration for Fine-Grained Precise Control in Text Generation**
 
     *Xinxu Zhou, Jiaqi Bai, Zhenqi Sun, Fanxiang Zeng, Yue Liu*
 
     arXiv, 2025. [Preprint](https://arxiv.org/abs/2509.13677) · `System` · `📦 Textual Artifacts`
 
-4. **EduAgentQG: A Multi-Agent Workflow Framework for Personalized Question Generation**
+5. **EduAgentQG: A Multi-Agent Workflow Framework for Personalized Question Generation**
 
     *Rui Jia, Min Zhang, Fengrui Liu, Bo Jiang, Kun Kuang, Zhongxiang Dai*
 
     arXiv, 2025. [Preprint](https://arxiv.org/abs/2511.11635) · `System` · `📦 Textual Artifacts` · `🎯 Educational Support`
 
-5. **PAME-AI: Patient Messaging Creation and Optimization using Agentic AI**
+6. **PAME-AI: Patient Messaging Creation and Optimization using Agentic AI**
 
     *Junjie Luo, Yihong Guo, Anqi Liu, Ritu Agarwal, Gordon Gao*
 
     arXiv, 2025. [Preprint](https://arxiv.org/abs/2509.24263) · `System` · `📦 Textual Artifacts` · `🎯 Professional Work`
 
-6. **MADS: Multi-Agent Dialogue Simulation for Diverse Persuasion Data Generation**
+7. **MADS: Multi-Agent Dialogue Simulation for Diverse Persuasion Data Generation**
 
     *Mingjin Li, Yu Liu, Huayi Liu, Xiang Ye, Chao Jiang, Hongguang Zhang, Yu Ruan*
 
     EMNLP Industry Track, 2025. [Published](https://aclanthology.org/2025.emnlp-industry.26/) · `System` · `📦 Textual Artifacts` · `🎯 Brand Communication`
 
-7. **MCQG-SRefine: Multiple Choice Question Generation and Evaluation with Iterative Self-Critique, Correction, and Comparison Feedback**
+8. **MCQG-SRefine: Multiple Choice Question Generation and Evaluation with Iterative Self-Critique, Correction, and Comparison Feedback**
 
     *Zonghai Yao, Aditya Parashar, Huixue Zhou, Won Seok Jang, Feiyun Ouyang, Zhichao Yang, Hong Yu*
 
     NAACL, 2025. [Published](https://aclanthology.org/2025.naacl-long.538/) · `System` · `📦 Textual Artifacts` · `🎯 Educational Support`
 
-8. **SheetAgent: Towards a Generalist Agent for Spreadsheet Reasoning and Manipulation via Large Language Models**
+9. **SheetAgent: Towards a Generalist Agent for Spreadsheet Reasoning and Manipulation via Large Language Models**
 
     *Yibin Chen, Yifu Yuan, Zeyu Zhang, Yan Zheng, Jinyi Liu, Fei Ni, Jianye Hao, Hangyu Mao, Fuzheng Zhang*
 
     The Web Conference, 2025. [Published](https://doi.org/10.1145/3696410.3714962) · [Code](https://github.com/cybisolated/SheetAgent) · `System` · `📦 Textual Artifacts` · `🎯 Professional Work`
 
-9. **LLM-powered Multi-agent Framework for Goal-oriented Learning in Intelligent Tutoring System**
+10. **LLM-powered Multi-agent Framework for Goal-oriented Learning in Intelligent Tutoring System**
 
     *Tianfu Wang, Yi Zhan, Jianxun Lian, Zhengyu Hu, Nicholas Jing Yuan, Qi Zhang, Xing Xie, Hui Xiong*
 
     The Web Conference Companion, 2025. [Published](https://doi.org/10.1145/3701716.3715244) · [Code](https://github.com/GeminiLight/gen-mentor) · `System` · `📦 Textual Artifacts` · `🎯 Educational Support`
 
-10. **AutoManual: Constructing Instruction Manuals by LLM Agents via Interactive Environmental Learning**
+11. **AutoManual: Constructing Instruction Manuals by LLM Agents via Interactive Environmental Learning**
 
     *Minghao Chen, Yihang Li, Yanting Yang, Shiyu Yu, Binbin Lin, Xiaofei He*
 
@@ -351,41 +357,41 @@ This primary view organizes papers by the artifact they construct.
 
 #### [Scholarly Manuscripts](#content)
 
-1. **SurGE: A Benchmark and Evaluation Framework for Scientific Survey Generation**
+1. **Towards end-to-end automation of AI research**
+
+    *Chris Lu, Cong Lu, Robert Tjarko Lange, Yutaro Yamada, Shengran Hu, Jakob Foerster, David Ha, Jeff Clune*
+
+    Nature, 2026. [Published](https://www.nature.com/articles/s41586-026-10265-5) · [Code](https://github.com/SakanaAI/AI-Scientist-v2) · `System` · `📦 Textual Artifacts` · `🎯 Scientific Research`
+
+2. **SurGE: A Benchmark and Evaluation Framework for Scientific Survey Generation**
 
     *Weihang Su, Anzhe Xie, Qingyao Ai, Jianming Long, Xuanyi Chen, Jiaxin Mao, Ziyi Ye, Yiqun Liu*
 
     SIGIR, 2026. [Published](https://doi.org/10.1145/3805712.3808598) · `Benchmark` · `📦 Textual Artifacts` · `🎯 Scientific Research`
 
-2. **PaperDebugger: A Plugin-Based Multi-Agent System for In-Editor Academic Writing, Review, and Editing**
+3. **PaperDebugger: A Plugin-Based Multi-Agent System for In-Editor Academic Writing, Review, and Editing**
 
     *Junyi Hou, Andre Lin Huikai, Nuo Chen, Yiwei Gong, Bingsheng He*
 
     The Web Conference Companion, 2026. [Published](https://doi.org/10.1145/3774905.3793122) · [Code](https://github.com/PaperDebugger/paperdebugger) · `System` · `📦 Textual Artifacts` · `🎯 Scientific Research`
 
-3. **IdeaSynth: Iterative Research Idea Development Through Evolving and Composing Idea Facets with Literature-Grounded Feedback**
+4. **IdeaSynth: Iterative Research Idea Development Through Evolving and Composing Idea Facets with Literature-Grounded Feedback**
 
     *Kevin Pu, K. J. Kevin Feng, Tovi Grossman, Tom Hope, Bhavana Dalvi Mishra, Matt Latzke, Jonathan Bragg, Joseph Chee Chang, Pao Siangliulue*
 
     CHI, 2025. [Published](https://doi.org/10.1145/3706598.3714057) · `System` · `📦 Textual Artifacts` · `🎯 Scientific Research`
 
-4. **ResearchAgent: Iterative Research Idea Generation over Scientific Literature with Large Language Models**
+5. **ResearchAgent: Iterative Research Idea Generation over Scientific Literature with Large Language Models**
 
     *Jinheon Baek, Sujay Kumar Jauhar, Silviu Cucerzan, Sung Ju Hwang*
 
     NAACL, 2025. [Published](https://aclanthology.org/2025.naacl-long.342/) · `System` · `📦 Textual Artifacts` · `🎯 Scientific Research`
 
-5. **MLR-Bench: Evaluating AI Agents on Open-Ended Machine Learning Research**
+6. **MLR-Bench: Evaluating AI Agents on Open-Ended Machine Learning Research**
 
     *Hui Chen, Miao Xiong, Yujie Lu, Wei Han, Ailin Deng, Yufei He, Jiaying Wu, Yibo Li, Yue Liu, Bryan Hooi*
 
     NeurIPS, 2025. [Published](https://proceedings.neurips.cc/paper_files/paper/2025/hash/ab8dd000d6f87f40061a73f8bca7fae4-Abstract-Datasets_and_Benchmarks_Track.html) · [Code](https://github.com/chchenhui/mlrbench) · `Benchmark` · `📦 Textual Artifacts` · `🎯 Scientific Research`
-
-6. **The AI Scientist: Towards Fully Automated Open-Ended Scientific Discovery**
-
-    *Chris Lu, Cong Lu, Robert Tjarko Lange, Jakob Foerster, Jeff Clune, David Ha*
-
-    arXiv, 2024. [Preprint](https://arxiv.org/abs/2408.06292) · [Code](https://github.com/SakanaAI/AI-Scientist) · `System` · `📦 Textual Artifacts` · `🎯 Scientific Research`
 
 
 ### [2D Visual Artifacts](#content)
@@ -2323,43 +2329,49 @@ This alternate view re-indexes application-classified papers by their use contex
 
     arXiv, 2026. [Preprint](https://arxiv.org/abs/2602.11790) · [Code](https://github.com/RobitsG/LASEV) · `System` · `📦 Video Artifacts` · `🎯 Educational Support`
 
-2. **ManimAgent: Self-Evolving Multimodal Agents for Visual Education**
+2. **DeepTutor: Towards Agentic Personalized Tutoring**
+
+    *Bingxi Zhao, Jiahao Zhang, Xubin Ren, Zirui Guo, Tianzhe Chu, Yi Ma, Chao Huang*
+
+    arXiv, 2026. [Preprint](https://arxiv.org/abs/2604.26962) · [Code](https://github.com/HKUDS/DeepTutor) · `System` · `📦 Textual Artifacts` · `🎯 Educational Support`
+
+3. **ManimAgent: Self-Evolving Multimodal Agents for Visual Education**
 
     *Wenjia Jiang, Zongyuan Cai, Yuanhang Shao, Chenru Wang, Boyan Han, Zhixue Song, Keyu Chen, Shengwei An, Xu Yang, Zhou Yang*
 
     arXiv, 2026. [Preprint](https://arxiv.org/abs/2606.30296) · `System` · `📦 Video Artifacts` · `🎯 Educational Support`
 
-3. **SlideBot: A Multi-Agent Framework for Generating Informative, Reliable, Multi-Modal Presentations**
+4. **SlideBot: A Multi-Agent Framework for Generating Informative, Reliable, Multi-Modal Presentations**
 
     *Eric Xie, Danielle Waterfield, Michael Kennedy, Aidong Zhang*
 
     EAAI, 2026. [Published](https://doi.org/10.1609/aaai.v40i48.42124) · `System` · `📦 2D Visual Artifacts` · `🎯 Educational Support`
 
-4. **Code2Video: A Code-centric Paradigm for Educational Video Creation**
+5. **Code2Video: A Code-centric Paradigm for Educational Video Creation**
 
     *Yanzhe Chen, Kevin Qinghong Lin, Mike Zheng Shou*
 
     ICML, 2026. [Published](https://icml.cc/virtual/2026/poster/65050) · [Code](https://github.com/showlab/Code2Video) · `System` · `📦 Video Artifacts` · `🎯 Educational Support`
 
-5. **Auto-Slides: An Interactive Multi-Agent System for Creating and Customizing Research Presentations**
+6. **Auto-Slides: An Interactive Multi-Agent System for Creating and Customizing Research Presentations**
 
     *Yuheng Yang, Wenjia Jiang, Yang Wang, Yi Song, Yiwei Wang, Chi Zhang*
 
     arXiv, 2025. [Preprint](https://arxiv.org/abs/2509.11062) · `System` · `📦 2D Visual Artifacts` · `🎯 Educational Support`
 
-6. **EduAgentQG: A Multi-Agent Workflow Framework for Personalized Question Generation**
+7. **EduAgentQG: A Multi-Agent Workflow Framework for Personalized Question Generation**
 
     *Rui Jia, Min Zhang, Fengrui Liu, Bo Jiang, Kun Kuang, Zhongxiang Dai*
 
     arXiv, 2025. [Preprint](https://arxiv.org/abs/2511.11635) · `System` · `📦 Textual Artifacts` · `🎯 Educational Support`
 
-7. **MCQG-SRefine: Multiple Choice Question Generation and Evaluation with Iterative Self-Critique, Correction, and Comparison Feedback**
+8. **MCQG-SRefine: Multiple Choice Question Generation and Evaluation with Iterative Self-Critique, Correction, and Comparison Feedback**
 
     *Zonghai Yao, Aditya Parashar, Huixue Zhou, Won Seok Jang, Feiyun Ouyang, Zhichao Yang, Hong Yu*
 
     NAACL, 2025. [Published](https://aclanthology.org/2025.naacl-long.538/) · `System` · `📦 Textual Artifacts` · `🎯 Educational Support`
 
-8. **LLM-powered Multi-agent Framework for Goal-oriented Learning in Intelligent Tutoring System**
+9. **LLM-powered Multi-agent Framework for Goal-oriented Learning in Intelligent Tutoring System**
 
     *Tianfu Wang, Yi Zhan, Jianxun Lian, Zhengyu Hu, Nicholas Jing Yuan, Qi Zhang, Xing Xie, Hui Xiong*
 
@@ -2663,133 +2675,139 @@ This alternate view re-indexes application-classified papers by their use contex
 
     KDD, 2026. [Published](https://doi.org/10.1145/3770855.3817525) · `Benchmark` · `📦 2D Visual Artifacts` · `🎯 Scientific Research`
 
-24. **SurGE: A Benchmark and Evaluation Framework for Scientific Survey Generation**
+24. **A multi-agent system for automating scientific discovery**
+
+    *Ali E. Ghareeb, Benjamin Chang, Ludovico Mitchener, Angela Yiu, Caralyn J. Szostkiewicz, Dmytro Shved, Gavin J. Gyimesi, Jon M. Laurent, Samantha M. Wright, Muhammed T. Razzak, Andrew D. White, Silvia C. Finnemann, Michaela M. Hinks, Samuel G. Rodriques*
+
+    Nature, 2026. [Published](https://www.nature.com/articles/s41586-026-10652-y) · [Code](https://github.com/Future-House/robin) · `System` · `🎯 Scientific Research`
+
+25. **Towards end-to-end automation of AI research**
+
+    *Chris Lu, Cong Lu, Robert Tjarko Lange, Yutaro Yamada, Shengran Hu, Jakob Foerster, David Ha, Jeff Clune*
+
+    Nature, 2026. [Published](https://www.nature.com/articles/s41586-026-10265-5) · [Code](https://github.com/SakanaAI/AI-Scientist-v2) · `System` · `📦 Textual Artifacts` · `🎯 Scientific Research`
+
+26. **SurGE: A Benchmark and Evaluation Framework for Scientific Survey Generation**
 
     *Weihang Su, Anzhe Xie, Qingyao Ai, Jianming Long, Xuanyi Chen, Jiaxin Mao, Ziyi Ye, Yiqun Liu*
 
     SIGIR, 2026. [Published](https://doi.org/10.1145/3805712.3808598) · `Benchmark` · `📦 Textual Artifacts` · `🎯 Scientific Research`
 
-25. **PaperDebugger: A Plugin-Based Multi-Agent System for In-Editor Academic Writing, Review, and Editing**
+27. **PaperDebugger: A Plugin-Based Multi-Agent System for In-Editor Academic Writing, Review, and Editing**
 
     *Junyi Hou, Andre Lin Huikai, Nuo Chen, Yiwei Gong, Bingsheng He*
 
     The Web Conference Companion, 2026. [Published](https://doi.org/10.1145/3774905.3793122) · [Code](https://github.com/PaperDebugger/paperdebugger) · `System` · `📦 Textual Artifacts` · `🎯 Scientific Research`
 
-26. **Can LLMs Identify Critical Limitations within Scientific Research? A Systematic Evaluation on AI Research Papers**
+28. **Can LLMs Identify Critical Limitations within Scientific Research? A Systematic Evaluation on AI Research Papers**
 
     *Zhijian Xu, Yilun Zhao, Manasi Patwardhan, Lovekesh Vig, Arman Cohan*
 
     ACL, 2025. [Published](https://aclanthology.org/2025.acl-long.1009/) · [Code](https://github.com/yale-nlp/LimitGen) · `Benchmark` · `📦 Textual Artifacts` · `🎯 Scientific Research`
 
-27. **Gen4Track: A Tuning-free Data Augmentation Framework via Self-correcting Diffusion Model for Vision-Language Tracking**
+29. **Gen4Track: A Tuning-free Data Augmentation Framework via Self-correcting Diffusion Model for Vision-Language Tracking**
 
     *Jiawei Ge, Xinyu Zhang, Jiuxin Cao, Xuelin Zhu, Weijia Liu, Qingqing Gao, Biwei Cao, Kun Wang, Chang Liu, Bo Liu, Chen Feng, Ioannis Patras*
 
     ACM MM, 2025. [Published](https://doi.org/10.1145/3746027.3754956) · `System` · `📦 Video Artifacts` · `🎯 Scientific Research`
 
-28. **From Pixels to Paths: A Multi-Agent Framework for Editable Scientific Illustration**
+30. **From Pixels to Paths: A Multi-Agent Framework for Editable Scientific Illustration**
 
     *Jianwen Sun, Fanrui Zhang, Yukang Feng, Chuanhao Li, Zizhen Li, Jiaxin Ai, Yifan Chang, Yu Dai, Kaipeng Zhang*
 
     arXiv, 2025. [Preprint](https://arxiv.org/abs/2510.27452) · `System` · `📦 2D Visual Artifacts` · `🎯 Scientific Research`
 
-29. **Paper2Agent: Reimagining Research Papers As Interactive and Reliable AI Agents**
+31. **Paper2Agent: Reimagining Research Papers As Interactive and Reliable AI Agents**
 
     *Jiacheng Miao, Joe R. Davis, Yaohui Zhang, Jonathan K. Pritchard, James Zou*
 
     arXiv, 2025. [Preprint](https://arxiv.org/abs/2509.06917) · [Code](https://github.com/jmiao24/Paper2Agent) · `System` · `📦 Behavioral Artifacts` · `🎯 Scientific Research`
 
-30. **Paper2Video: Automatic Video Generation from Scientific Papers**
+32. **Paper2Video: Automatic Video Generation from Scientific Papers**
 
     *Zeyu Zhu, Kevin Qinghong Lin, Mike Zheng Shou*
 
     arXiv, 2025. [Preprint](https://arxiv.org/abs/2510.05096) · [Code](https://github.com/showlab/Paper2Video) · `System` · `📦 Video Artifacts` · `🎯 Scientific Research`
 
-31. **SlideGen: Collaborative Multimodal Agents for Scientific Slide Generation**
+33. **SlideGen: Collaborative Multimodal Agents for Scientific Slide Generation**
 
     *Xin Liang, Xiang Zhang, Yiwei Xu, Siqi Sun, Chenyu You*
 
     arXiv, 2025. [Preprint](https://arxiv.org/abs/2512.04529) · `System` · `📦 2D Visual Artifacts` · `🎯 Scientific Research`
 
-32. **Queryome: Orchestrating Retrieval, Reasoning, and Synthesis across Biomedical Literature**
+34. **Queryome: Orchestrating Retrieval, Reasoning, and Synthesis across Biomedical Literature**
 
     *Pranav Punuru, Nabil Ibtehaz, Swagarika Jaharlal Giri, Harsha Srirangam, Emilia A Tugolukova, Daisuke Kihara*
 
     bioRxiv, 2025. [Preprint](https://doi.org/10.64898/2025.12.22.696019) · `System` · `📦 Textual Artifacts` · `🎯 Scientific Research`
 
-33. **IdeaSynth: Iterative Research Idea Development Through Evolving and Composing Idea Facets with Literature-Grounded Feedback**
+35. **IdeaSynth: Iterative Research Idea Development Through Evolving and Composing Idea Facets with Literature-Grounded Feedback**
 
     *Kevin Pu, K. J. Kevin Feng, Tovi Grossman, Tom Hope, Bhavana Dalvi Mishra, Matt Latzke, Jonathan Bragg, Joseph Chee Chang, Pao Siangliulue*
 
     CHI, 2025. [Published](https://doi.org/10.1145/3706598.3714057) · `System` · `📦 Textual Artifacts` · `🎯 Scientific Research`
 
-34. **ScienceAgentBench: Toward Rigorous Assessment of Language Agents for Data-Driven Scientific Discovery**
+36. **ScienceAgentBench: Toward Rigorous Assessment of Language Agents for Data-Driven Scientific Discovery**
 
     *Ziru Chen, Shijie Chen, Yuting Ning, Qianheng Zhang, Boshi Wang, Botao Yu, Yifei Li, Zeyi Liao, Chen Wei, Zitong Lu, Vishal Dey, Mingyi Xue, Frazier N. Baker, Benjamin Burns, Daniel Adu-Ampratwum, Xuhui Huang, Xia Ning, Song Gao, Yu Su, Huan Sun*
 
     ICLR, 2025. [Published](https://iclr.cc/virtual/2025/poster/32108) · [Code](https://github.com/OSU-NLP-Group/ScienceAgentBench) · `Benchmark` · `📦 Behavioral Artifacts` · `🎯 Scientific Research`
 
-35. **AutoML-Agent: A Multi-Agent LLM Framework for Full-Pipeline AutoML**
+37. **AutoML-Agent: A Multi-Agent LLM Framework for Full-Pipeline AutoML**
 
     *Patara Trirat, Wonyong Jeong, Sung Ju Hwang*
 
     ICML, 2025. [Published](https://proceedings.mlr.press/v267/trirat25a.html) · [Code](https://github.com/DeepAuto-AI/automl-agent) · `System` · `📦 Behavioral Artifacts` · `🎯 Scientific Research`
 
-36. **PaperBench: Evaluating AI’s Ability to Replicate AI Research**
+38. **PaperBench: Evaluating AI’s Ability to Replicate AI Research**
 
     *Giulio Starace, Oliver Jaffe, Dane Sherburn, James Aung, Jun Shern Chan, Leon Maksin, Rachel Dias, Evan Mays, Benjamin Kinsella, Wyatt Thompson, Johannes Heidecke, Amelia Glaese, Tejal Patwardhan*
 
     ICML, 2025. [Published](https://proceedings.mlr.press/v267/starace25a.html) · [Code](https://github.com/openai/preparedness) · `Benchmark` · `📦 Behavioral Artifacts` · `🎯 Scientific Research`
 
-37. **ResearchAgent: Iterative Research Idea Generation over Scientific Literature with Large Language Models**
+39. **ResearchAgent: Iterative Research Idea Generation over Scientific Literature with Large Language Models**
 
     *Jinheon Baek, Sujay Kumar Jauhar, Silviu Cucerzan, Sung Ju Hwang*
 
     NAACL, 2025. [Published](https://aclanthology.org/2025.naacl-long.342/) · `System` · `📦 Textual Artifacts` · `🎯 Scientific Research`
 
-38. **MLR-Bench: Evaluating AI Agents on Open-Ended Machine Learning Research**
+40. **MLR-Bench: Evaluating AI Agents on Open-Ended Machine Learning Research**
 
     *Hui Chen, Miao Xiong, Yujie Lu, Wei Han, Ailin Deng, Yufei He, Jiaying Wu, Yibo Li, Yue Liu, Bryan Hooi*
 
     NeurIPS, 2025. [Published](https://proceedings.neurips.cc/paper_files/paper/2025/hash/ab8dd000d6f87f40061a73f8bca7fae4-Abstract-Datasets_and_Benchmarks_Track.html) · [Code](https://github.com/chchenhui/mlrbench) · `Benchmark` · `📦 Textual Artifacts` · `🎯 Scientific Research`
 
-39. **Paper2Poster: Towards Multimodal Poster Automation from Scientific Papers**
+41. **Paper2Poster: Towards Multimodal Poster Automation from Scientific Papers**
 
     *Wei Pang, Kevin Qinghong Lin, Xiangru Jian, Xi He, Philip Torr*
 
     NeurIPS, 2025. [Published](https://openreview.net/forum?id=p0E74lpRBD) · [Code](https://github.com/Paper2Poster/Paper2Poster) · `System` · `📦 2D Visual Artifacts` · `🎯 Scientific Research`
 
-40. **PlotGen: Multi-Agent LLM-based Scientific Data Visualization via Multimodal Retrieval Feedback**
+42. **PlotGen: Multi-Agent LLM-based Scientific Data Visualization via Multimodal Retrieval Feedback**
 
     *Kanika Goswami, Puneet Mathur, Ryan Rossi, Franck Dernoncourt*
 
     The Web Conference Companion, 2025. [Published](https://doi.org/10.1145/3701716.3716888) · `System` · `📦 2D Visual Artifacts` · `🎯 Scientific Research`
 
-41. **DrugAgent: Automating AI-aided Drug Discovery Programming through LLM Multi-Agent Collaboration**
+43. **DrugAgent: Automating AI-aided Drug Discovery Programming through LLM Multi-Agent Collaboration**
 
     *Sizhe Liu, Yizhou Lu, Siyu Chen, Xiyang Hu, Jieyu Zhao, Yingzhou Lu, Yue Zhao*
 
     arXiv, 2024. [Preprint](https://arxiv.org/abs/2411.15692) · `System` · `📦 Behavioral Artifacts` · `🎯 Scientific Research`
 
-42. **MARG: Multi-Agent Review Generation for Scientific Papers**
+44. **MARG: Multi-Agent Review Generation for Scientific Papers**
 
     *Mike D'Arcy, Tom Hope, Larry Birnbaum, Doug Downey*
 
     arXiv, 2024. [Preprint](https://arxiv.org/abs/2401.04259) · `System` · `📦 Textual Artifacts` · `🎯 Scientific Research`
 
-43. **The AI Scientist: Towards Fully Automated Open-Ended Scientific Discovery**
-
-    *Chris Lu, Cong Lu, Robert Tjarko Lange, Jakob Foerster, Jeff Clune, David Ha*
-
-    arXiv, 2024. [Preprint](https://arxiv.org/abs/2408.06292) · [Code](https://github.com/SakanaAI/AI-Scientist) · `System` · `📦 Textual Artifacts` · `🎯 Scientific Research`
-
-44. **DS-Agent: Automated Data Science by Empowering Large Language Models with Case-Based Reasoning**
+45. **DS-Agent: Automated Data Science by Empowering Large Language Models with Case-Based Reasoning**
 
     *Siyuan Guo, Cheng Deng, Ying Wen, Hechang Chen, Yi Chang, Jun Wang*
 
     ICML, 2024. [Published](https://proceedings.mlr.press/v235/guo24b.html) · [Code](https://github.com/guosyjlu/DS-Agent) · `System` · `📦 Behavioral Artifacts` · `🎯 Scientific Research`
 
-45. **MLAgentBench: Evaluating Language Agents on Machine Learning Experimentation**
+46. **MLAgentBench: Evaluating Language Agents on Machine Learning Experimentation**
 
     *Qian Huang, Jian Vora, Percy Liang, Jure Leskovec*
 

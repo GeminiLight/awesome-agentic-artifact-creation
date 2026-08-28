@@ -131,12 +131,14 @@ Data_Jupybara2025,true,true
 Drug_DrugAgent2024,true,true
 Education_EduAgentQG2025,true,true
 Education_GoalOrientedLearning2025,true,true
+Education_DeepTutor2026,true,true
 Game_CreatorCentric2026,true,true
 Laboratory_AutonomousLaboratory2026,false,true
 Molecular_ChemCRAFT2026,false,true
 Robot_Debate2Create2025,true,true
 Sci_AgenticTCAD2025,true,true
 Sci_ClosedLoopDiscovery2026,false,true
+Sci_Robin2026,false,true
 Sci_IdeaSynth2025,true,true
 Sci_Queryome2025,true,true
 Simulation_AgenticReal2Sim2026,true,true

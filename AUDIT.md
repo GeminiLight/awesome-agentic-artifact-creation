@@ -51,11 +51,11 @@ are reviewable rather than silent.
 
 | Verdict | Count |
 |---|---:|
-| Included systems | 252 |
+| Included systems | 253 |
 | Included benchmarks | 33 |
 | Pending full-text review | 19 |
 | Excluded | 17 |
-| Audited candidates | 321 |
+| Audited candidates | 322 |
 
 Two entries originally labeled as systems are published as benchmarks in this
 catalog. The initial audit replaced the provisional “144 systems + 9
@@ -84,10 +84,14 @@ track metadata for DeepPresenter, SCMAPR, and DocAgent, bringing the ledger to
 paper-to-poster system with nested artifact-revision and harness-update loops,
 bringing the ledger to 321 decisions.
 
+The August 20 Nature refresh upgraded The AI Scientist from its arXiv record
+to the 2026 Nature article and added Robin as an application-only scientific
+discovery system, bringing the ledger to 322 decisions.
+
 The ICCC, SemEval, Digital Discovery, ACL/EMNLP Findings, and ACL/EMNLP System
 Demonstrations venue records remain in the audit ledger but are held from the
 generated public catalog. After applying those venue controls, the public
-catalog contains 255 entries.
+catalog contains 256 entries.
 
 ## Synchronization with the survey corpus
 
