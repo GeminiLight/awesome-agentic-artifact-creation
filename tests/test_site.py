@@ -716,7 +716,9 @@ class SiteBuildTests(unittest.TestCase):
             ):
                 self.assertIn(resource_description, index)
             self.assertIn('id="survey-citation"', index)
-            self.assertIn("@misc{wang2026agenticartifactcreation,", index)
+            self.assertIn("@article{wang2026agenticartifactcreation,", index)
+            self.assertNotIn("@misc{wang2026agenticartifactcreation,", index)
+            self.assertNotIn("Current preprint", index)
             self.assertIn(
                 "Agentic Artifact Creation: A Survey of Systems, Evaluation, "
                 "Principles, and Opportunities",
