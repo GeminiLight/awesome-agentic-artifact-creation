@@ -744,63 +744,54 @@
         <div class="section-shell about-layout">
           <div class="about-grid">
             <div class="section-intro about-intro reveal">
-              <p class="eyebrow">About the project</p>
-              <h2 id="about-title">An open research instrument.</h2>
-              <ol class="about-index" aria-label="Project components">
-                <li><span>01</span><strong>Survey</strong></li>
-                <li><span>02</span><strong>Catalog</strong></li>
-                <li><span>03</span><strong>Audit</strong></li>
-              </ol>
+              <p class="eyebrow">Survey companion</p>
+              <h2 id="about-title">About this project.</h2>
             </div>
             <div class="about-copy reveal">
               <p class="about-lead">
-                This website is the living companion to our survey of agentic
-                artifact creation.
+                This site accompanies our survey and keeps its paper catalog, taxonomy, and evidence trail in one place.
               </p>
               <p>
-                The survey develops a functional account of construction; the
-                catalog maps systems and benchmarks across artifact and application
-                axes; the audit records why each candidate is included, excluded,
-                or held outside the public evidence base.
+                Browse the collection, inspect the underlying data, or suggest a paper.
               </p>
-              <p>
-                Public views are generated from reviewable CSV ledgers rather than
-                edited by hand. Archival venue links are preferred when available,
-                and uncertain classifications remain visible in the audit trail.
-              </p>
-              <div class="resource-links">
-                <a href="https://github.com/GeminiLight/awesome-agentic-artifact-creation/blob/main/AUDIT.md">
-                  <span class="resource-link-label">
-                    <i class="ph ph-shield-check" aria-hidden="true"></i><span>Audit protocol</span>
-                  </span>
-                  <i class="ph ph-arrow-up-right" aria-hidden="true"></i>
-                </a>
-                <a href="https://github.com/GeminiLight/awesome-agentic-artifact-creation/tree/main/data">
-                  <span class="resource-link-label">
-                    <i class="ph ph-database" aria-hidden="true"></i><span>Open data</span>
-                  </span>
-                  <i class="ph ph-arrow-up-right" aria-hidden="true"></i>
-                </a>
-                <a href="https://github.com/GeminiLight/awesome-agentic-artifact-creation/blob/main/CONTRIBUTING.md">
-                  <span class="resource-link-label">
-                    <i class="ph ph-plus-circle" aria-hidden="true"></i><span>Contribute a paper</span>
-                  </span>
-                  <i class="ph ph-arrow-up-right" aria-hidden="true"></i>
-                </a>
-              </div>
             </div>
           </div>
 
-          <figure class="citation-panel reveal" aria-labelledby="citation-title">
-            <figcaption class="citation-header">
+          <nav class="about-resources reveal" aria-label="Project resources">
+            <a class="about-resource" href="https://github.com/GeminiLight/awesome-agentic-artifact-creation/blob/main/AUDIT.md">
+              <span class="about-resource-icon"><i class="ph ph-shield-check" aria-hidden="true"></i></span>
+              <span class="about-resource-copy">
+                <span>Method</span>
+                <strong>Audit protocol</strong>
+                <small>How papers enter the catalog</small>
+              </span>
+              <i class="ph ph-arrow-up-right about-resource-arrow" aria-hidden="true"></i>
+            </a>
+            <a class="about-resource" href="https://github.com/GeminiLight/awesome-agentic-artifact-creation/tree/main/data">
+              <span class="about-resource-icon"><i class="ph ph-database" aria-hidden="true"></i></span>
+              <span class="about-resource-copy">
+                <span>Data</span>
+                <strong>Open data</strong>
+                <small>Inspect the catalog sources</small>
+              </span>
+              <i class="ph ph-arrow-up-right about-resource-arrow" aria-hidden="true"></i>
+            </a>
+            <a class="about-resource" href="https://github.com/GeminiLight/awesome-agentic-artifact-creation/blob/main/CONTRIBUTING.md">
+              <span class="about-resource-icon"><i class="ph ph-plus-circle" aria-hidden="true"></i></span>
+              <span class="about-resource-copy">
+                <span>Community</span>
+                <strong>Contribute a paper</strong>
+                <small>Suggest a missing paper</small>
+              </span>
+              <i class="ph ph-arrow-up-right about-resource-arrow" aria-hidden="true"></i>
+            </a>
+          </nav>
+
+          <figure class="citation-block reveal" aria-labelledby="citation-title">
+            <figcaption class="citation-meta">
               <div>
-                <p class="citation-kicker">Reference · Current preprint</p>
-                <h3 id="citation-title">Cite the survey.</h3>
-                <p>
-                  If the catalog, taxonomy, or analysis supports your work, please
-                  cite the accompanying survey. This entry follows the current
-                  manuscript metadata.
-                </p>
+                <p class="citation-kicker">Citation</p>
+                <h3 id="citation-title">Current preprint</h3>
               </div>
               <button
                 class="citation-copy"
@@ -813,7 +804,6 @@
               </button>
             </figcaption>
             <div class="citation-code-frame">
-              <span class="citation-code-label" aria-hidden="true">BIB</span>
               <pre tabindex="0"><code id="survey-citation">@misc{wang2026agenticartifactcreation,
   title  = {Agentic Artifact Creation: A Survey of Systems, Evaluation, Principles, and Opportunities},
   author = {Wang, Tianfu and Hao, Zhezheng and Xia, Xilin and
@@ -821,8 +811,7 @@
             Chen, Xi and Liu, Ziyan and Lin, Xiankun and
             Zhang, Weijia and Yuan, Nicholas Jing and Xiong, Hui},
   year   = {2026},
-  url    = {https://agentic-creation.github.io/},
-  note   = {Project website and open research catalog}
+  url    = {https://agentic-creation.github.io/}
 }</code></pre>
             </div>
             <p id="citation-copy-status" class="sr-only" aria-live="polite"></p>

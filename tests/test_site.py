@@ -702,7 +702,19 @@ class SiteBuildTests(unittest.TestCase):
             app = (output / "assets" / "app.js").read_text(encoding="utf-8")
             styles = (output / "assets" / "styles.css").read_text(encoding="utf-8")
 
-            self.assertIn("An open research instrument.", index)
+            self.assertIn("About this project.", index)
+            self.assertIn(
+                "This site accompanies our survey and keeps its paper catalog, "
+                "taxonomy, and evidence trail in one place.",
+                index,
+            )
+            self.assertEqual(3, index.count('class="about-resource"'))
+            for resource_description in (
+                "How papers enter the catalog",
+                "Inspect the catalog sources",
+                "Suggest a missing paper",
+            ):
+                self.assertIn(resource_description, index)
             self.assertIn('id="survey-citation"', index)
             self.assertIn("@misc{wang2026agenticartifactcreation,", index)
             self.assertIn(
@@ -716,7 +728,10 @@ class SiteBuildTests(unittest.TestCase):
             self.assertIn("function copyWithSelection()", app)
             self.assertIn("navigator.clipboard.writeText", app)
             self.assertIn("setupCitationCopy();", app)
-            self.assertIn(".citation-panel", styles)
+            self.assertIn('class="citation-block reveal"', index)
+            self.assertIn(".about-resources", styles)
+            self.assertIn(".citation-block", styles)
+            self.assertNotIn(".citation-panel", styles)
             self.assertIn(".citation-copy.is-copied", styles)
 
 

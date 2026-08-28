@@ -3442,187 +3442,177 @@ button.application-item {
 
 .about-layout {
   display: grid;
-  gap: clamp(68px, 9vw, 122px);
+  gap: clamp(38px, 5vw, 66px);
 }
 
 .about-grid {
   display: grid;
-  grid-template-columns: minmax(330px, 0.82fr) minmax(420px, 0.9fr);
-  gap: clamp(72px, 12vw, 190px);
+  grid-template-columns: minmax(300px, 0.72fr) minmax(420px, 1fr);
+  gap: clamp(64px, 10vw, 160px);
+  align-items: end;
 }
 
 .about-intro .eyebrow {
-  margin-bottom: 22px;
-}
-
-.about-index {
-  display: grid;
-  max-width: 360px;
-  margin: 58px 0 0;
-  padding: 0;
-  border-top: 1px solid var(--line-strong);
-  list-style: none;
-}
-
-.about-index li {
-  display: grid;
-  grid-template-columns: 42px 1fr;
-  min-height: 46px;
-  align-items: center;
-  border-bottom: 1px solid var(--line-strong);
-}
-
-.about-index span {
-  color: var(--teal-text);
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-}
-
-.about-index strong {
-  font-size: 12px;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  margin-bottom: 18px;
 }
 
 .about-copy {
-  padding-top: 31px;
+  padding-bottom: 6px;
 }
 
 .about-copy p {
+  max-width: 660px;
+  margin: 14px 0 0;
   color: var(--ink-soft);
-  font-size: 16px;
-  line-height: 1.75;
+  font-size: 15px;
+  line-height: 1.65;
 }
 
 .about-copy .about-lead {
-  margin-top: 0;
+  max-width: 690px;
+  margin: 0;
   color: var(--ink);
   font-family: var(--font-editorial);
-  font-size: 24px;
-  line-height: 1.48;
+  font-size: clamp(22px, 2.2vw, 30px);
+  line-height: 1.42;
 }
 
-.resource-links {
-  margin-top: 45px;
-  border-top: 1px solid var(--line-strong);
+.about-resources {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-block: 1px solid var(--line-strong);
 }
 
-.resource-links a {
-  display: flex;
-  min-height: 58px;
+.about-resource {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr) auto;
+  min-width: 0;
+  min-height: 118px;
   align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid var(--line-strong);
+  gap: 16px;
+  padding: 22px 26px;
   color: var(--ink);
-  font-size: 13px;
-  font-weight: 700;
   text-decoration: none;
-  transition: color 180ms ease, padding 180ms ease;
+  transition: background 180ms ease;
 }
 
-.resource-link-label {
-  display: inline-flex;
-  align-items: center;
-  gap: 11px;
+.about-resource:not(:last-child) {
+  border-right: 1px solid var(--line-strong);
 }
 
-.resource-link-label .ph {
-  color: var(--teal);
-  font-size: 18px;
-}
-
-.resource-links a > .ph {
-  color: var(--muted);
-  font-size: 14px;
-  transition: color 180ms ease, transform 180ms ease;
-}
-
-.resource-links a:hover {
-  padding-left: 8px;
+.about-resource-icon {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--teal) 48%, var(--line));
   color: var(--teal-text);
+  background: color-mix(in srgb, var(--teal) 8%, transparent);
+  font-size: 19px;
+  transition: color 180ms ease, background 180ms ease, transform 180ms ease;
 }
 
-.resource-links a:hover > .ph {
-  color: var(--teal);
-  transform: translate(2px, -2px);
-}
-
-.citation-panel {
-  position: relative;
+.about-resource-copy {
   display: grid;
   min-width: 0;
-  margin: 0;
-  overflow: hidden;
-  border: 1px solid color-mix(in srgb, var(--teal) 34%, #32405a);
-  border-radius: 10px;
-  color: #edf3fb;
-  background:
-    radial-gradient(circle at 83% 0%, rgba(105, 198, 189, 0.14), transparent 31%),
-    linear-gradient(135deg, #111b2a 0%, #101722 58%, #151826 100%);
-  box-shadow: 0 28px 80px rgba(6, 12, 22, 0.2);
+  gap: 4px;
 }
 
-.citation-panel::before {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  width: 4px;
-  background: linear-gradient(var(--teal), var(--sky), var(--orchid));
-  content: "";
-}
-
-.citation-header {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 48px;
-  align-items: end;
-  padding: clamp(30px, 4vw, 54px) clamp(26px, 5vw, 68px) 30px;
-  border-bottom: 1px solid rgba(192, 208, 229, 0.17);
-}
-
-.citation-kicker {
-  margin: 0 0 12px;
-  color: #79d0c7;
-  font-size: 10px;
+.about-resource-copy > span {
+  color: var(--teal-text);
+  font-size: 9px;
   font-weight: 800;
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
-.citation-header h3 {
-  margin: 0;
-  font-family: var(--font-editorial);
-  font-size: clamp(30px, 4vw, 52px);
-  font-weight: 500;
-  letter-spacing: -0.025em;
-  line-height: 1.05;
+.about-resource-copy strong {
+  font-size: 14px;
+  line-height: 1.3;
 }
 
-.citation-header p:last-child {
-  max-width: 680px;
-  margin: 17px 0 0;
-  color: #aebbd0;
-  font-size: 13px;
-  line-height: 1.65;
+.about-resource-copy small {
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.35;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.about-resource-arrow {
+  color: var(--muted);
+  font-size: 14px;
+  transition: color 180ms ease, transform 180ms ease;
+}
+
+.about-resource:hover,
+.about-resource:focus-visible {
+  background: color-mix(in srgb, var(--teal) 6%, transparent);
+}
+
+.about-resource:hover .about-resource-icon,
+.about-resource:focus-visible .about-resource-icon {
+  color: var(--paper);
+  background: var(--teal-text);
+  transform: translateY(-2px);
+}
+
+.about-resource:hover .about-resource-arrow,
+.about-resource:focus-visible .about-resource-arrow {
+  color: var(--teal-text);
+  transform: translate(2px, -2px);
+}
+
+.citation-block {
+  display: grid;
+  grid-template-columns: minmax(190px, 0.27fr) minmax(0, 1fr);
+  min-width: 0;
+  margin: 0;
+  border-block: 1px solid var(--line-strong);
+  background: var(--paper);
+}
+
+.citation-meta {
+  display: grid;
+  align-content: space-between;
+  gap: 32px;
+  padding: 28px 30px 30px 0;
+  border-right: 1px solid var(--line-strong);
+}
+
+.citation-kicker {
+  margin: 0 0 8px;
+  color: var(--teal-text);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.citation-meta h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 750;
+  letter-spacing: -0.01em;
 }
 
 .citation-copy {
   display: inline-flex;
-  min-height: 44px;
+  width: max-content;
+  min-height: 38px;
   align-items: center;
   justify-content: center;
-  gap: 9px;
-  padding: 0 17px;
-  border: 1px solid rgba(121, 208, 199, 0.5);
-  border-radius: 999px;
-  color: #dff8f4;
-  background: rgba(105, 198, 189, 0.08);
+  gap: 8px;
+  padding: 0 13px;
+  border: 1px solid var(--line-strong);
+  border-radius: 2px;
+  color: var(--ink);
+  background: transparent;
   cursor: pointer;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 800;
-  letter-spacing: 0.035em;
+  letter-spacing: 0.025em;
   transition:
     border-color 180ms ease,
     color 180ms ease,
@@ -3632,9 +3622,9 @@ button.application-item {
 
 .citation-copy:hover,
 .citation-copy:focus-visible {
-  border-color: #79d0c7;
-  color: #ffffff;
-  background: rgba(105, 198, 189, 0.16);
+  border-color: var(--teal-text);
+  color: var(--teal-text);
+  background: color-mix(in srgb, var(--teal) 7%, transparent);
   transform: translateY(-2px);
 }
 
@@ -3643,41 +3633,30 @@ button.application-item {
 }
 
 .citation-copy.is-copied {
-  border-color: #79d0c7;
-  color: #10221f;
-  background: #79d0c7;
+  border-color: var(--teal-text);
+  color: var(--paper);
+  background: var(--teal-text);
 }
 
 .citation-code-frame {
-  position: relative;
   min-width: 0;
-  padding: clamp(28px, 4vw, 48px) clamp(26px, 5vw, 68px) clamp(34px, 5vw, 58px);
-}
-
-.citation-code-label {
-  position: absolute;
-  top: 31px;
-  right: clamp(26px, 5vw, 68px);
-  color: rgba(174, 187, 208, 0.42);
-  font-size: 10px;
-  font-weight: 850;
-  letter-spacing: 0.16em;
+  padding: 27px 0 29px 36px;
 }
 
 .citation-code-frame pre {
   max-width: 100%;
   margin: 0;
   overflow-x: auto;
-  color: #d6dfed;
+  color: var(--ink-soft);
   font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
-  font-size: clamp(11px, 1.1vw, 13px);
-  line-height: 1.72;
-  scrollbar-color: rgba(121, 208, 199, 0.45) transparent;
+  font-size: clamp(10px, 0.9vw, 12px);
+  line-height: 1.62;
+  scrollbar-color: color-mix(in srgb, var(--teal) 42%, transparent) transparent;
 }
 
 .citation-code-frame pre:focus-visible {
-  outline: 1px solid #79d0c7;
-  outline-offset: 9px;
+  outline: 1px solid var(--teal-text);
+  outline-offset: 7px;
 }
 
 .citation-code-frame code {
@@ -4139,26 +4118,12 @@ button.application-item {
   }
 
   .about-grid {
-    gap: 48px;
+    gap: 28px;
   }
 
   .about-copy {
     max-width: 680px;
-    padding-top: 0;
-  }
-
-  .about-index {
-    max-width: 100%;
-    margin-top: 34px;
-  }
-
-  .citation-header {
-    grid-template-columns: 1fr;
-    gap: 25px;
-  }
-
-  .citation-copy {
-    justify-self: start;
+    padding-bottom: 0;
   }
 }
 
@@ -4177,28 +4142,41 @@ button.application-item {
   }
 
   .about-layout {
-    gap: 54px;
+    gap: 40px;
   }
 
-  .citation-header {
-    padding: 27px 21px 25px;
+  .about-resources {
+    grid-template-columns: 1fr;
   }
 
-  .citation-header h3 {
-    font-size: 34px;
+  .about-resource {
+    min-height: 100px;
+    padding: 18px 10px;
+  }
+
+  .about-resource:not(:last-child) {
+    border-right: 0;
+    border-bottom: 1px solid var(--line-strong);
+  }
+
+  .citation-block {
+    grid-template-columns: 1fr;
+  }
+
+  .citation-meta {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 18px;
+    padding: 21px 0;
+    border-right: 0;
+    border-bottom: 1px solid var(--line-strong);
   }
 
   .citation-code-frame {
-    padding: 28px 21px 32px;
-  }
-
-  .citation-code-label {
-    top: 30px;
-    right: 21px;
+    padding: 23px 0 26px;
   }
 
   .citation-code-frame pre {
-    padding-top: 24px;
     white-space: pre;
   }
 
