@@ -328,7 +328,7 @@ class SiteBuildTests(unittest.TestCase):
             app = (output / "assets" / "app.js").read_text(encoding="utf-8")
             styles = (output / "assets" / "styles.css").read_text(encoding="utf-8")
 
-            self.assertEqual(2, index.count('href="#construction-loop">Process</a>'))
+            self.assertEqual(2, index.count('href="#construction-loop">Concept</a>'))
             self.assertIn("function setupSectionNavigation()", app)
             self.assertIn('link.setAttribute("aria-current", "location")', app)
             self.assertIn(".desktop-nav a.is-current", styles)
