@@ -51,6 +51,7 @@
   --max-width: 1440px;
   --font-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
   --font-editorial: Charter, "Bitstream Charter", "Sitka Text", Cambria, Georgia, serif;
+  --font-section: "Newsreader", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
 }
 
 :root[data-theme="dark"],
@@ -732,9 +733,10 @@ img {
 
 .loop-intro h2 {
   margin: 0;
-  font-family: var(--font-editorial);
+  font-family: var(--font-section);
   font-size: clamp(42px, 4.7vw, 70px);
   font-weight: 400;
+  font-optical-sizing: auto;
   letter-spacing: -0.04em;
   line-height: 1.05;
 }
@@ -1366,9 +1368,10 @@ img {
 
 .section-intro h2 {
   margin: 0;
-  font-family: var(--font-editorial);
+  font-family: var(--font-section);
   font-size: clamp(42px, 4.7vw, 70px);
   font-weight: 400;
+  font-optical-sizing: auto;
   letter-spacing: -0.04em;
   line-height: 1.05;
 }
@@ -3315,9 +3318,10 @@ button.application-item {
 .insights-intro h2 {
   max-width: 690px;
   margin: 0;
-  font-family: var(--font-editorial);
+  font-family: var(--font-section);
   font-size: clamp(45px, 4.7vw, 70px);
   font-weight: 400;
+  font-optical-sizing: auto;
   letter-spacing: -0.045em;
   line-height: 1.02;
 }

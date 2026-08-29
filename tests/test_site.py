@@ -550,6 +550,45 @@ class SiteBuildTests(unittest.TestCase):
                 "padding-block: 48px 34px;", mobile_hero_rule.group("body")
             )
 
+    def test_major_section_headings_use_a_modern_serif_typeface(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            output = build_site(Path(temporary_directory) / "public")
+            index = (output / "index.html").read_text(encoding="utf-8")
+            styles = (output / "assets" / "styles.css").read_text(
+                encoding="utf-8"
+            )
+
+            self.assertIn('href="https://fonts.googleapis.com"', index)
+            self.assertIn(
+                "family=Newsreader:opsz,wght@6..72,300..600&amp;display=swap",
+                index,
+            )
+            self.assertIn(
+                '--font-section: "Newsreader", "Iowan Old Style", '
+                '"Palatino Linotype", Palatino, Georgia, serif;',
+                styles,
+            )
+            for selector in (
+                ".loop-intro h2",
+                ".section-intro h2",
+                ".insights-intro h2",
+            ):
+                with self.subTest(selector=selector):
+                    rule = re.search(
+                        rf"{re.escape(selector)}\s*\{{(?P<body>[^}}]*)\}}",
+                        styles,
+                    )
+                    self.assertIsNotNone(rule)
+                    self.assertIn(
+                        "font-family: var(--font-section);", rule.group("body")
+                    )
+
+            hero_title = re.search(r"\.hero h1\s*\{(?P<body>[^}]*)\}", styles)
+            self.assertIsNotNone(hero_title)
+            self.assertIn(
+                "font-family: var(--font-editorial);", hero_title.group("body")
+            )
+
     def test_scope_uses_a_vertical_section_flow(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:
             output = build_site(Path(temporary_directory) / "public")
