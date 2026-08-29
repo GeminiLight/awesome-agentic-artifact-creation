@@ -558,6 +558,33 @@ class SiteBuildTests(unittest.TestCase):
                 r"\.hero-affiliations\s*\{[^}]*font-size:\s*12px;",
             )
 
+    def test_tsinghua_and_hku_use_standalone_emblems(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            output = build_site(Path(temporary_directory) / "public")
+            index = (output / "index.html").read_text(encoding="utf-8")
+            styles = (output / "assets" / "styles.css").read_text(
+                encoding="utf-8"
+            )
+
+            self.assertIn(
+                'data-institution-logo="tsinghua">\n'
+                '                    <img class="hero-affiliation-logo" '
+                'src="https://vi.tsinghua.edu.cn/favicon.ico"',
+                index,
+            )
+            self.assertIn(
+                'data-institution-logo="hku">\n'
+                '                    <img class="hero-affiliation-logo" '
+                'src="https://www.hku.hk/assets/img/apple-touch-icon.png"',
+                index,
+            )
+            self.assertNotIn("logo296.png", index)
+            self.assertNotIn("hku-115.svg", index)
+            self.assertNotRegex(
+                styles,
+                r'\.hero-affiliation-logo-frame\[data-institution-logo="tsinghua"\]',
+            )
+
     def test_homepage_summary_sits_close_to_the_hero_content(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:
             output = build_site(Path(temporary_directory) / "public")
