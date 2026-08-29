@@ -288,18 +288,7 @@ img {
 }
 
 .brand-lockup {
-  display: grid;
-  grid-template-columns: auto auto;
-  align-items: center;
-  gap: 10px;
-}
-
-.brand-lockup strong {
-  padding-right: 10px;
-  border-right: 1px solid var(--line-strong);
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
+  display: block;
 }
 
 .brand-lockup span {

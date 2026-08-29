@@ -207,6 +207,27 @@ class SiteBuildTests(unittest.TestCase):
             self.assertIn("favicon.dataset.darkHref", theme)
             self.assertIn("updateFavicon(resolved)", theme)
 
+    def test_header_brand_uses_the_mark_without_the_aac_abbreviation(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            output = build_site(Path(temporary_directory) / "public")
+            index = (output / "index.html").read_text(encoding="utf-8")
+            styles = (output / "assets" / "styles.css").read_text(
+                encoding="utf-8"
+            )
+
+            header = re.search(r"<header\b.*?</header>", index, re.DOTALL)
+            self.assertIsNotNone(header)
+            header_markup = header.group(0)
+
+            self.assertIn('class="brand-symbol"', header_markup)
+            self.assertIn("Agentic Artifact Creation", header_markup)
+            self.assertNotIn("<strong>AAC</strong>", header_markup)
+            self.assertRegex(
+                styles,
+                r"\.brand-lockup\s*\{[^}]*display:\s*block;",
+            )
+            self.assertNotRegex(styles, r"\.brand-lockup strong\s*\{")
+
     def test_catalog_tags_icon_artifact_and_application_dimensions_only(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:
             output = build_site(Path(temporary_directory) / "public")
