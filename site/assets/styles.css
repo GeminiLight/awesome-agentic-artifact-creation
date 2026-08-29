@@ -1377,6 +1377,7 @@ img {
 .scope .section-intro {
   display: block;
   max-width: none;
+  text-align: center;
 }
 
 .scope .section-intro > p:last-child {
@@ -3027,6 +3028,7 @@ button.application-item {
   width: min(100%, 1040px);
   max-width: none;
   margin-inline: auto;
+  text-align: center;
 }
 
 .analysis .section-intro > p:last-child {
