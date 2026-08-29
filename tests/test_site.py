@@ -494,6 +494,37 @@ class SiteBuildTests(unittest.TestCase):
             self.assertIn('class="hero-citation-link" href="#about"', hero_markup)
             self.assertIn("BibTeX", hero_markup)
 
+    def test_hero_authorship_is_readable_and_marks_each_institution(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            output = build_site(Path(temporary_directory) / "public")
+            index = (output / "index.html").read_text(encoding="utf-8")
+            styles = (output / "assets" / "styles.css").read_text(
+                encoding="utf-8"
+            )
+
+            hero = re.search(
+                r'<section class="hero section-shell".*?</section>',
+                index,
+                re.DOTALL,
+            )
+            self.assertIsNotNone(hero)
+            hero_markup = hero.group(0)
+
+            self.assertEqual(
+                hero_markup.count(
+                    'class="hero-affiliation-icon ph ph-buildings"'
+                ),
+                7,
+            )
+            self.assertRegex(
+                styles,
+                r"\.hero-authors\s*\{[^}]*font-size:\s*clamp\(14px, 1\.04vw, 15px\);",
+            )
+            self.assertRegex(
+                styles,
+                r"\.hero-affiliations\s*\{[^}]*font-size:\s*12px;",
+            )
+
     def test_scope_uses_a_vertical_section_flow(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:
             output = build_site(Path(temporary_directory) / "public")
