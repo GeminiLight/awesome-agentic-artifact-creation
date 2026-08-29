@@ -583,11 +583,37 @@ img {
   white-space: nowrap;
 }
 
-.hero-affiliation-icon {
-  margin-right: 1px;
-  color: var(--teal-text);
-  font-size: 15px;
-  line-height: 1;
+.hero-affiliation-logo-frame {
+  display: inline-flex;
+  flex: 0 0 22px;
+  align-items: center;
+  width: 22px;
+  height: 22px;
+  padding: 1px;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--line-strong) 72%, transparent);
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: 0 2px 6px rgb(16 33 54 / 9%);
+}
+
+.hero-affiliation-logo {
+  display: block;
+  flex: 0 0 auto;
+  width: auto;
+  height: 18px;
+  max-width: none;
+  object-fit: contain;
+}
+
+.hero-affiliation-logo-frame[data-institution-logo="zju"] {
+  border-color: #003f88;
+  background: #003f88;
+}
+
+.hero-affiliation-logo-frame[data-institution-logo="tsinghua"] {
+  border-color: #660874;
+  background: #660874;
 }
 
 .hero-affiliation-marker {
