@@ -418,22 +418,38 @@ class SiteBuildTests(unittest.TestCase):
             self.assertTrue(charts.startswith("(() => {\n"))
             self.assertTrue(charts.rstrip().endswith("})();"))
 
-    def test_hero_artifact_family_chart_excludes_application_only_records(self) -> None:
+    def test_hero_is_a_single_line_title_without_the_family_chart(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:
             output = build_site(Path(temporary_directory) / "public")
+            index = (output / "index.html").read_text(encoding="utf-8")
+            app = (output / "assets" / "app.js").read_text(encoding="utf-8")
             charts = (output / "assets" / "charts.js").read_text(encoding="utf-8")
+            styles = (output / "assets" / "styles.css").read_text(encoding="utf-8")
 
-            hero_chart = re.search(
-                r"function drawHeroFamilies\(.*?\n\}\n\nfunction drawComposition",
-                charts,
-                re.DOTALL,
-            )
-            self.assertIsNotNone(hero_chart)
-            self.assertNotIn("Application-only", hero_chart.group(0))
-            self.assertNotIn("applicationOnly", hero_chart.group(0))
             self.assertIn(
-                "Horizontal bars compare paper counts across the six artifact families.",
-                hero_chart.group(0),
+                '<h1 id="hero-title">AGENTIC ARTIFACT CREATION.</h1>',
+                index,
+            )
+            self.assertNotIn('id="hero-family-chart"', index)
+            self.assertNotIn('id="hero-total"', index)
+            self.assertNotIn("drawHeroFamilies", charts)
+            self.assertNotIn('querySelector("#hero-total")', app)
+            self.assertRegex(
+                styles,
+                r"\.hero h1\s*\{[^}]*white-space:\s*nowrap;",
+            )
+
+    def test_scope_uses_a_vertical_section_flow(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            output = build_site(Path(temporary_directory) / "public")
+            styles = (output / "assets" / "styles.css").read_text(encoding="utf-8")
+
+            scope_rule = re.search(r"\.scope\s*\{(?P<body>[^}]*)\}", styles)
+            self.assertIsNotNone(scope_rule)
+            self.assertIn("grid-template-columns: 1fr;", scope_rule.group("body"))
+            self.assertRegex(
+                styles,
+                r"\.scope \.section-intro\s*\{[^}]*display:\s*block;",
             )
 
     def test_mobile_controls_expose_generous_touch_targets(self) -> None:

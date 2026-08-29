@@ -747,7 +747,6 @@ function hydrateSummary() {
       element.textContent = formatNumber(value);
     }
   });
-  document.querySelector("#hero-total").textContent = `${formatNumber(summary.total)} audited papers`;
 }
 
 function createArtifactMiniature(config) {

@@ -126,91 +126,6 @@ function addGrid(svg, scale, ticks, x1, x2) {
     .attr("y2", (value) => scale(value));
 }
 
-function drawHeroFamilies(catalog, animate = true) {
-  const width = 760;
-  const height = 430;
-  const margin = { top: 42, right: 64, bottom: 34, left: 222 };
-  const data = catalog.families.map((family) => ({ ...family }));
-
-  const svg = createSvg(
-    "#hero-family-chart",
-    width,
-    height,
-    "Artifact family distribution",
-    "Horizontal bars compare paper counts across the six artifact families.",
-  );
-  if (!svg) return;
-
-  const x = d3
-    .scaleLinear()
-    .domain([0, d3.max(data, (item) => item.count)])
-    .nice()
-    .range([margin.left, width - margin.right]);
-  const y = d3
-    .scaleBand()
-    .domain(data.map((item) => item.name))
-    .range([margin.top, height - margin.bottom])
-    .padding(0.34);
-
-  svg
-    .append("g")
-    .attr("class", "chart-grid vertical-grid")
-    .selectAll("line")
-    .data(x.ticks(4))
-    .join("line")
-    .attr("x1", (value) => x(value))
-    .attr("x2", (value) => x(value))
-    .attr("y1", margin.top - 14)
-    .attr("y2", height - margin.bottom + 7);
-
-  svg
-    .append("g")
-    .attr("class", "chart-axis chart-axis-top")
-    .attr("transform", `translate(0,${margin.top - 14})`)
-    .call(d3.axisTop(x).ticks(4).tickSize(0));
-
-  const rows = svg
-    .append("g")
-    .selectAll("g")
-    .data(data)
-    .join("g")
-    .attr("class", "hero-bar-row")
-    .on("pointerenter", (event, item) =>
-      showTooltip(
-        event,
-        item.name,
-        `${format(item.count)} papers, ${share(item.count, catalog.summary.total)} of the catalog`,
-      ),
-    )
-    .on("pointermove", moveTooltip)
-    .on("pointerleave", hideTooltip);
-
-  rows
-    .append("text")
-    .attr("class", "chart-category")
-    .attr("x", margin.left - 16)
-    .attr("y", (item) => y(item.name) + y.bandwidth() / 2 + 5)
-    .attr("text-anchor", "end")
-    .text((item) => item.name);
-
-  rows
-    .append("rect")
-    .attr("x", margin.left)
-    .attr("y", (item) => y(item.name))
-    .attr("width", (item) => Math.max(2, x(item.count) - margin.left))
-    .attr("height", y.bandwidth())
-    .attr("fill", (item) => item.color);
-
-  rows
-    .append("text")
-    .attr("class", "chart-value")
-    .attr("x", (item) => x(item.count) + 10)
-    .attr("y", (item) => y(item.name) + y.bandwidth() / 2 + 5)
-    .text((item) => item.count);
-  markForMotion(rows, 72, 100);
-  prepareChartMotion(svg, animate);
-}
-
 function drawComposition(catalog, animate = true) {
   const width = 640;
   const height = 560;
@@ -706,7 +621,6 @@ function showChartError(error) {
 }
 
 function drawCharts(catalog, animate = true) {
-  drawHeroFamilies(catalog, animate);
   drawComposition(catalog, animate);
   drawVenues(catalog, animate);
   drawTrend(catalog, animate);
