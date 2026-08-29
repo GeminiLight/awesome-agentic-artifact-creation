@@ -531,13 +531,13 @@ img {
 }
 
 .hero-authors {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 18px;
+  display: grid;
+  grid-template-columns: repeat(6, max-content);
+  gap: 9px 22px;
   margin: 0;
   color: var(--ink);
-  font-size: 13px;
-  font-weight: 650;
+  font-size: clamp(14px, 1.04vw, 15px);
+  font-weight: 680;
   line-height: 1.45;
 }
 
@@ -550,31 +550,39 @@ img {
   top: -0.12em;
   margin-left: 2px;
   color: var(--teal-text);
-  font-size: 8px;
+  font-size: 9px;
   font-weight: 800;
 }
 
 .hero-affiliations {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px 17px;
-  margin: 12px 0 0;
+  gap: 8px 18px;
+  margin: 15px 0 0;
   padding: 0;
   color: var(--muted);
-  font-size: 11px;
+  font-size: 12px;
   line-height: 1.45;
   list-style: none;
 }
 
 .hero-affiliation {
   display: inline-flex;
-  align-items: baseline;
+  align-items: center;
   gap: 5px;
+  white-space: nowrap;
+}
+
+.hero-affiliation-icon {
+  margin-right: 1px;
+  color: var(--teal-text);
+  font-size: 15px;
+  line-height: 1;
 }
 
 .hero-affiliation-marker {
   color: var(--teal-text);
-  font-size: 8px;
+  font-size: 9px;
   font-weight: 800;
 }
 
@@ -4093,6 +4101,10 @@ button.application-item {
     padding-top: 35px;
   }
 
+  .hero-authors {
+    grid-template-columns: repeat(4, max-content);
+  }
+
   .stat-band {
     overflow-x: auto;
   }
@@ -4291,14 +4303,15 @@ button.application-item {
   }
 
   .hero-authors {
-    gap: 7px 14px;
-    font-size: 12px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px 15px;
+    font-size: 14px;
   }
 
   .hero-affiliations {
-    gap: 6px 13px;
-    margin-top: 14px;
-    font-size: 10px;
+    gap: 8px 14px;
+    margin-top: 16px;
+    font-size: 11.5px;
   }
 
   .hero-citation-link {
