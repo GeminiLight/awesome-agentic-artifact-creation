@@ -3316,7 +3316,9 @@ button.application-item {
 .insights-intro {
   position: relative;
   max-width: 980px;
+  margin-inline: auto;
   padding: 46px 0 56px;
+  text-align: center;
 }
 
 .insights-kicker {
@@ -3351,7 +3353,7 @@ button.application-item {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   max-width: 760px;
-  margin-top: 40px;
+  margin: 40px auto 0;
   border-top: 1px solid var(--line-strong);
   border-bottom: 1px solid var(--line-strong);
 }
@@ -3394,7 +3396,7 @@ button.application-item {
 .insight-claim {
   position: relative;
   display: grid;
-  grid-template-columns: 52px minmax(0, 1fr) minmax(158px, 0.4fr);
+  grid-template-columns: 52px minmax(0, 1fr) 170px;
   gap: 24px;
   align-items: start;
   min-height: 230px;
@@ -3451,17 +3453,18 @@ button.application-item {
 }
 
 .insight-claim-copy h3 {
-  max-width: 570px;
+  max-width: none;
   margin: 0;
   font-family: var(--font-editorial);
   font-size: clamp(25px, 2.35vw, 35px);
   font-weight: 400;
   letter-spacing: -0.025em;
   line-height: 1.12;
+  white-space: nowrap;
 }
 
 .insight-claim-copy > p:last-child {
-  max-width: 570px;
+  max-width: none;
   margin: 17px 0 0;
   color: var(--ink-soft);
   font-size: 14px;
@@ -4190,6 +4193,10 @@ button.application-item {
   .insights-intro {
     max-width: 720px;
     padding-top: 42px;
+  }
+
+  .insight-claim-copy h3 {
+    white-space: normal;
   }
 
   .insight-ledger {

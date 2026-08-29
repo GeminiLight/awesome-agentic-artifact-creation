@@ -1004,6 +1004,10 @@ class SiteBuildTests(unittest.TestCase):
                 "Reliable creation connects decisions, state, evidence, and repair.",
                 index,
             )
+            self.assertIn(
+                'class="section-shell inset-shell insights-layout"',
+                index,
+            )
             self.assertNotIn(
                 "The catalog maps the field. The survey explains what matters.",
                 index,
@@ -1021,6 +1025,30 @@ class SiteBuildTests(unittest.TestCase):
             )
             self.assertIsNotNone(insights_intro)
             self.assertNotIn("position: sticky", insights_intro.group("body"))
+            self.assertIn("margin-inline: auto", insights_intro.group("body"))
+            self.assertIn("text-align: center", insights_intro.group("body"))
+            insight_heading = re.search(
+                r"\.insight-claim-copy h3\s*\{(?P<body>[^}]*)\}", styles
+            )
+            self.assertIsNotNone(insight_heading)
+            self.assertIn("max-width: none", insight_heading.group("body"))
+            self.assertIn("white-space: nowrap", insight_heading.group("body"))
+            insight_claim = re.search(
+                r"\.insight-claim\s*\{(?P<body>[^}]*)\}", styles
+            )
+            self.assertIsNotNone(insight_claim)
+            self.assertRegex(
+                insight_claim.group("body"),
+                r"grid-template-columns:\s*52px\s+minmax\(0,\s*1fr\)\s+170px",
+            )
+            self.assertIsNotNone(
+                re.search(
+                    r"@media \(max-width: 900px\).*?"
+                    r"\.insight-claim-copy h3\s*\{[^}]*white-space:\s*normal;",
+                    styles,
+                    re.DOTALL,
+                )
+            )
             self.assertEqual(4, index.count('class="insight-claim reveal"'))
             for insight in (
                 "More agents do not create more agency.",
