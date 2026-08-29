@@ -3576,9 +3576,11 @@ button.application-item {
 .citation-meta {
   display: grid;
   align-content: space-between;
+  justify-items: center;
   gap: 32px;
-  padding: 28px 30px 30px 0;
+  padding: 28px 30px 30px;
   border-right: 1px solid var(--line-strong);
+  text-align: center;
 }
 
 .citation-kicker {
@@ -4159,10 +4161,12 @@ button.application-item {
   .citation-meta {
     grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
+    justify-items: stretch;
     gap: 18px;
     padding: 21px 0;
     border-right: 0;
     border-bottom: 1px solid var(--line-strong);
+    text-align: left;
   }
 
   .citation-code-frame {
