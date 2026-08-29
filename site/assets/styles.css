@@ -488,7 +488,7 @@ img {
   max-width: none;
   margin: 0;
   font-family: var(--font-editorial);
-  font-size: clamp(56px, 6.2vw, 94px);
+  font-size: clamp(48px, 4.9vw, 72px);
   font-weight: 400;
   letter-spacing: -0.052em;
   line-height: 0.92;
@@ -4152,7 +4152,7 @@ button.application-item {
   }
 
   .hero h1 {
-    font-size: clamp(52px, 16vw, 76px);
+    font-size: clamp(44px, 12vw, 54px);
     white-space: normal;
   }
 
