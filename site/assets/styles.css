@@ -611,9 +611,9 @@ img {
   background: #003f88;
 }
 
-.hero-affiliation-logo-frame[data-institution-logo="tsinghua"] {
-  border-color: #660874;
-  background: #660874;
+.hero-affiliation-logo-frame[data-institution-logo="hku"] .hero-affiliation-logo {
+  height: 32px;
+  transform: translateX(-6px);
 }
 
 .hero-affiliation-marker {
