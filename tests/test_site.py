@@ -444,6 +444,56 @@ class SiteBuildTests(unittest.TestCase):
                 r"\.hero h1\s*\{[^}]*font-size:\s*clamp\(48px, 4\.9vw, 72px\);",
             )
 
+    def test_hero_identifies_the_survey_authors_and_affiliations(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            output = build_site(Path(temporary_directory) / "public")
+            index = (output / "index.html").read_text(encoding="utf-8")
+
+            hero = re.search(
+                r'<section class="hero section-shell".*?</section>',
+                index,
+                re.DOTALL,
+            )
+            self.assertIsNotNone(hero)
+            hero_markup = hero.group(0)
+
+            self.assertIn(
+                "A Survey of Systems, Evaluation, Principles, and Opportunities",
+                hero_markup,
+            )
+            authors = (
+                "Tianfu Wang",
+                "Zhezheng Hao",
+                "Xilin Xia",
+                "Lixin Liu",
+                "Mengkang Hu",
+                "Hongzhang Liu",
+                "Xi Chen",
+                "Ziyan Liu",
+                "Xiankun Lin",
+                "Weijia Zhang",
+                "Nicholas Jing Yuan",
+                "Hui Xiong",
+            )
+            affiliations = (
+                "HKUST(GZ)",
+                "Zhejiang University",
+                "USTC",
+                "Tsinghua University",
+                "The University of Hong Kong",
+                "The University of Sydney",
+                "Sun Yat-sen University",
+            )
+            for author in authors:
+                self.assertIn(author, hero_markup)
+            for affiliation in affiliations:
+                self.assertIn(affiliation, hero_markup)
+
+            self.assertEqual(hero_markup.count('class="hero-author"'), 12)
+            self.assertEqual(hero_markup.count('class="hero-affiliation"'), 7)
+            self.assertIn('class="hero-citation-link" href="#about"', hero_markup)
+            self.assertIn("BibTeX", hero_markup)
+
     def test_scope_uses_a_vertical_section_flow(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:
             output = build_site(Path(temporary_directory) / "public")
