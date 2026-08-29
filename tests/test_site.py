@@ -999,6 +999,28 @@ class SiteBuildTests(unittest.TestCase):
             )
             self.assertLess(index.index('id="analysis"'), index.index('id="insights"'))
             self.assertLess(index.index('id="insights"'), index.index('id="catalog"'))
+            self.assertIn("What the survey reveals.", index)
+            self.assertIn(
+                "Reliable creation connects decisions, state, evidence, and repair.",
+                index,
+            )
+            self.assertNotIn(
+                "The catalog maps the field. The survey explains what matters.",
+                index,
+            )
+            insights_layout = re.search(
+                r"\.insights-layout\s*\{(?P<body>[^}]*)\}", styles
+            )
+            self.assertIsNotNone(insights_layout)
+            self.assertRegex(
+                insights_layout.group("body"),
+                r"grid-template-columns:\s*minmax\(0,\s*1fr\)",
+            )
+            insights_intro = re.search(
+                r"\.insights-intro\s*\{(?P<body>[^}]*)\}", styles
+            )
+            self.assertIsNotNone(insights_intro)
+            self.assertNotIn("position: sticky", insights_intro.group("body"))
             self.assertEqual(4, index.count('class="insight-claim reveal"'))
             for insight in (
                 "More agents do not create more agency.",
