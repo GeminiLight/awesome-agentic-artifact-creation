@@ -450,7 +450,7 @@ class SiteBuildTests(unittest.TestCase):
             index = (output / "index.html").read_text(encoding="utf-8")
 
             hero = re.search(
-                r'<section class="hero section-shell".*?</section>',
+                r'<section class="[^"]*\bhero\b[^"]*".*?</section>',
                 index,
                 re.DOTALL,
             )
@@ -503,7 +503,7 @@ class SiteBuildTests(unittest.TestCase):
             )
 
             hero = re.search(
-                r'<section class="hero section-shell".*?</section>',
+                r'<section class="[^"]*\bhero\b[^"]*".*?</section>',
                 index,
                 re.DOTALL,
             )
@@ -558,6 +558,45 @@ class SiteBuildTests(unittest.TestCase):
                     )
                     self.assertIsNotNone(match)
                     self.assertIn("max-width: none;", match.group("body"))
+
+    def test_stacked_sections_share_a_centered_desktop_content_frame(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            output = build_site(Path(temporary_directory) / "public")
+            index = (output / "index.html").read_text(encoding="utf-8")
+            styles = (output / "assets" / "styles.css").read_text(
+                encoding="utf-8"
+            )
+
+            for section_id in (
+                "hero-title",
+                "construction-loop",
+                "scope",
+                "analysis",
+            ):
+                section = re.search(
+                    rf'<section[^>]*(?:id="{section_id}"|aria-labelledby="{section_id}")[^>]*>',
+                    index,
+                )
+                self.assertIsNotNone(section)
+                self.assertIn("inset-shell", section.group(0))
+
+            stat_band = re.search(
+                r'<section class="[^"]*stat-band[^"]*"', index
+            )
+            self.assertIsNotNone(stat_band)
+            self.assertIn("inset-shell", stat_band.group(0))
+            self.assertNotRegex(
+                index,
+                r'<section class="[^"]*catalog-section[^"]*inset-shell',
+            )
+            self.assertRegex(
+                styles,
+                r"\.section-shell\.inset-shell\s*\{[^}]*width:\s*min\(calc\(100% - 48px\), 1240px\);",
+            )
+            self.assertRegex(
+                styles,
+                r"\.inset-shell > :is\(\.section-intro, \.loop-intro\)\s*\{[^}]*width:\s*min\(100%, 1040px\);[^}]*margin-inline:\s*auto;",
+            )
 
     def test_footer_summary_does_not_force_a_line_break(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:
