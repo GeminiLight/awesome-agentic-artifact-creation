@@ -467,12 +467,12 @@ img {
 }
 
 .hero {
-  display: grid;
-  grid-template-columns: minmax(380px, 0.82fr) minmax(560px, 1.18fr);
-  gap: clamp(48px, 7vw, 112px);
-  align-items: center;
-  min-height: min(770px, calc(100vh - 72px));
-  padding-block: 70px;
+  min-height: min(650px, calc(100vh - 72px));
+  padding-block: clamp(104px, 12vw, 170px);
+}
+
+.hero-copy {
+  width: 100%;
 }
 
 .eyebrow {
@@ -485,13 +485,14 @@ img {
 }
 
 .hero h1 {
-  max-width: 700px;
+  max-width: none;
   margin: 0;
   font-family: var(--font-editorial);
-  font-size: clamp(58px, 6.2vw, 94px);
+  font-size: clamp(56px, 6.2vw, 94px);
   font-weight: 400;
-  letter-spacing: -0.047em;
-  line-height: 0.96;
+  letter-spacing: -0.052em;
+  line-height: 0.92;
+  white-space: nowrap;
 }
 
 .hero-summary {
@@ -554,29 +555,6 @@ img {
 .button-secondary:hover {
   border-color: var(--teal);
   color: var(--teal-text);
-}
-
-.hero-visual {
-  min-width: 0;
-  overflow: hidden;
-  border: 1px solid var(--line);
-  background: var(--surface);
-  box-shadow: none;
-}
-
-.visual-header {
-  display: flex;
-  min-height: 52px;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 18px;
-  border-bottom: 1px solid var(--line);
-  color: var(--muted);
-  background: var(--paper);
-  font-size: 11px;
-  font-weight: 750;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
 }
 
 .stat-band {
@@ -1241,9 +1219,14 @@ img {
 
 .scope {
   display: grid;
-  grid-template-columns: minmax(280px, 0.66fr) minmax(690px, 1.34fr);
-  gap: clamp(58px, 7vw, 112px);
+  grid-template-columns: 1fr;
+  gap: clamp(52px, 6vw, 86px);
   align-items: start;
+}
+
+.scope .section-intro {
+  display: block;
+  max-width: 820px;
 }
 
 .section-intro {
@@ -2953,11 +2936,6 @@ button.application-item {
   background: var(--paper);
 }
 
-.hero-chart {
-  min-height: 430px;
-  background: var(--surface);
-}
-
 .composition-chart,
 .venue-chart {
   min-height: 540px;
@@ -3057,7 +3035,6 @@ button.application-item {
 
 .family-arc,
 .type-arc,
-.hero-bar-row rect,
 .treemap-leaf rect,
 .matrix-chart rect,
 .trend-chart rect {
@@ -3067,7 +3044,6 @@ button.application-item {
 
 .family-arc:hover,
 .type-arc:hover,
-.hero-bar-row:hover rect,
 .treemap-leaf:hover rect,
 .matrix-chart g:hover > rect,
 .trend-chart rect:hover {
@@ -3931,31 +3907,6 @@ button.application-item {
 }
 
 @media (max-width: 1120px) {
-  .hero {
-    grid-template-columns: 0.8fr 1.2fr;
-    gap: 42px;
-  }
-
-  .hero-visual img {
-    min-height: 420px;
-  }
-
-  .scope {
-    grid-template-columns: 1fr;
-  }
-
-  .scope .section-intro {
-    display: grid;
-    grid-template-columns: 1fr 0.8fr;
-    column-gap: 50px;
-    max-width: none;
-  }
-
-  .scope .section-intro > p:last-child {
-    align-self: end;
-    margin-top: 0;
-  }
-
   .catalog-layout {
     grid-template-columns: 240px minmax(0, 1fr);
     gap: 38px;
@@ -4020,20 +3971,11 @@ button.application-item {
   }
 
   .hero {
-    grid-template-columns: 1fr;
     min-height: auto;
   }
 
   .hero-copy {
     padding-top: 35px;
-  }
-
-  .hero h1 {
-    max-width: 740px;
-  }
-
-  .hero-visual img {
-    min-height: 0;
   }
 
   .stat-band {
@@ -4206,12 +4148,12 @@ button.application-item {
   }
 
   .hero {
-    gap: 50px;
     padding-block: 48px 58px;
   }
 
   .hero h1 {
     font-size: clamp(52px, 16vw, 76px);
+    white-space: normal;
   }
 
   .hero-summary {
@@ -4262,10 +4204,6 @@ button.application-item {
 
   .button {
     width: 100%;
-  }
-
-  .visual-header {
-    padding-inline: 13px;
   }
 
   .section-intro h2 {
