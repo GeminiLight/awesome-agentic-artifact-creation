@@ -742,6 +742,18 @@ class SiteBuildTests(unittest.TestCase):
             self.assertIn(".citation-block", styles)
             self.assertNotIn(".citation-panel", styles)
             self.assertIn(".citation-copy.is-copied", styles)
+            self.assertRegex(
+                styles,
+                r"\.citation-meta\s*\{[^}]*justify-items:\s*center;",
+            )
+            self.assertRegex(
+                styles,
+                re.compile(
+                    r"@media \(max-width: 640px\).*?\.citation-meta\s*\{"
+                    r"[^}]*justify-items:\s*stretch;",
+                    re.DOTALL,
+                ),
+            )
 
 
 if __name__ == "__main__":
