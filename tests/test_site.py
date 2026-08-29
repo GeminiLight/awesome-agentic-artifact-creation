@@ -1063,6 +1063,28 @@ class SiteBuildTests(unittest.TestCase):
                 insight_claim.group("body"),
                 r"grid-template-columns:\s*52px\s+minmax\(0,\s*1fr\)\s+170px",
             )
+            self.assertIn("min-height: 192px", insight_claim.group("body"))
+            insight_relation = re.search(
+                r"\.insight-relation\s*\{(?P<body>[^}]*)\}", styles
+            )
+            self.assertIsNotNone(insight_relation)
+            for declaration in (
+                "grid-template-columns: auto 18px auto",
+                "align-items: center",
+                "align-self: start",
+                "justify-self: end",
+                "min-height: 40px",
+                "margin-top: 21px",
+            ):
+                with self.subTest(declaration=declaration):
+                    self.assertIn(declaration, insight_relation.group("body"))
+            self.assertNotIn("align-self: end", insight_relation.group("body"))
+            insight_relation_arrow = re.search(
+                r"\.insight-relation \.ph\s*\{(?P<body>[^}]*)\}", styles
+            )
+            self.assertIsNotNone(insight_relation_arrow)
+            self.assertIn("grid-row: 1", insight_relation_arrow.group("body"))
+            self.assertIn("grid-column: 2", insight_relation_arrow.group("body"))
             self.assertIsNotNone(
                 re.search(
                     r"@media \(max-width: 900px\).*?"
