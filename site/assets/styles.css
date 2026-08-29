@@ -3309,16 +3309,14 @@ button.application-item {
 .insights-layout {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(310px, 0.78fr) minmax(580px, 1.22fr);
-  gap: 0 clamp(58px, 7vw, 118px);
+  grid-template-columns: minmax(0, 1fr);
   border-top: 1px solid var(--ink);
 }
 
 .insights-intro {
-  position: sticky;
-  top: 112px;
-  align-self: start;
-  padding: 46px 0 20px;
+  position: relative;
+  max-width: 980px;
+  padding: 46px 0 56px;
 }
 
 .insights-kicker {
@@ -3331,10 +3329,10 @@ button.application-item {
 }
 
 .insights-intro h2 {
-  max-width: 690px;
+  max-width: 860px;
   margin: 0;
   font-family: var(--font-section);
-  font-size: clamp(45px, 4.7vw, 70px);
+  font-size: clamp(45px, 5.2vw, 70px);
   font-weight: 400;
   font-optical-sizing: auto;
   letter-spacing: -0.045em;
@@ -3342,8 +3340,8 @@ button.application-item {
 }
 
 .insights-lede {
-  max-width: 530px;
-  margin: 30px 0 0;
+  max-width: 690px;
+  margin: 24px 0 0;
   color: var(--ink-soft);
   font-size: 17px;
   line-height: 1.7;
@@ -3352,7 +3350,8 @@ button.application-item {
 .insight-lens {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  margin-top: 48px;
+  max-width: 760px;
+  margin-top: 40px;
   border-top: 1px solid var(--line-strong);
   border-bottom: 1px solid var(--line-strong);
 }
@@ -3501,7 +3500,7 @@ button.application-item {
 
 .insights-bridge {
   display: grid;
-  grid-column: 2;
+  grid-column: 1;
   grid-template-columns: 1fr;
   gap: 28px;
   align-items: start;
@@ -4068,11 +4067,6 @@ button.application-item {
     grid-template-columns: 1fr;
   }
 
-  .insights-layout {
-    grid-template-columns: minmax(280px, 0.7fr) minmax(520px, 1.3fr);
-    gap: 0 48px;
-  }
-
   .insight-claim {
     grid-template-columns: 48px minmax(0, 1fr);
   }
@@ -4194,13 +4188,12 @@ button.application-item {
   }
 
   .insights-intro {
-    position: static;
     max-width: 720px;
     padding-top: 42px;
   }
 
   .insight-ledger {
-    margin-top: 64px;
+    margin-top: 0;
   }
 
   .insights-bridge {
