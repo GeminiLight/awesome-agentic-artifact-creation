@@ -3405,8 +3405,8 @@ button.application-item {
   grid-template-columns: 52px minmax(0, 1fr) 170px;
   gap: 24px;
   align-items: start;
-  min-height: 230px;
-  padding: 36px 0 34px;
+  min-height: 192px;
+  padding: 32px 0 30px;
   border-bottom: 1px solid var(--line-strong);
   transition: opacity 560ms ease, transform 560ms ease,
     background-color 220ms ease;
@@ -3479,18 +3479,25 @@ button.application-item {
 
 .insight-relation {
   display: grid;
-  grid-template-columns: 1fr auto;
-  align-self: end;
-  gap: 4px 10px;
-  margin: 0 0 2px;
+  grid-template-columns: auto 18px auto;
+  align-items: center;
+  align-self: start;
+  justify-self: end;
+  min-height: 40px;
+  gap: 10px;
+  margin-top: 21px;
+  padding: 0 12px;
+  border-block: 1px solid var(--line-strong);
   color: var(--muted);
+  background: color-mix(in srgb, var(--paper) 54%, transparent);
   font-size: 10px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .insight-relation .ph {
-  grid-row: 1 / span 2;
+  grid-row: 1;
   grid-column: 2;
   align-self: center;
   color: var(--teal);
@@ -3499,6 +3506,7 @@ button.application-item {
 }
 
 .insight-relation strong {
+  grid-column: 3;
   color: var(--ink);
   font-size: 12px;
 }
@@ -4084,8 +4092,9 @@ button.application-item {
     grid-column: 2;
     grid-template-columns: auto 18px auto;
     align-self: start;
+    justify-self: start;
     justify-content: start;
-    margin-top: 4px;
+    margin-top: 16px;
   }
 
   .insight-relation .ph {
