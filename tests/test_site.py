@@ -548,7 +548,11 @@ class SiteBuildTests(unittest.TestCase):
             self.assertEqual(len(logo_sources), 7)
             self.assertEqual(len(set(logo_sources)), 7)
             for source in logo_sources:
-                self.assertTrue(source.startswith("https://"))
+                self.assertTrue(source.startswith(("https://", "assets/")))
+            self.assertEqual(
+                ["assets/hku-shield.png"],
+                [source for source in logo_sources if source.startswith("assets/")],
+            )
             for institution in (
                 "hkust-gz",
                 "zju",
@@ -579,7 +583,7 @@ class SiteBuildTests(unittest.TestCase):
                 r"\.hero-affiliations\s*\{[^}]*font-size:\s*12px;",
             )
 
-    def test_tsinghua_and_hku_use_standalone_emblems(self) -> None:
+    def test_tsinghua_and_hku_render_standalone_emblems(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:
             output = build_site(Path(temporary_directory) / "public")
             index = (output / "index.html").read_text(encoding="utf-8")
@@ -596,14 +600,32 @@ class SiteBuildTests(unittest.TestCase):
             self.assertIn(
                 'data-institution-logo="hku">\n'
                 '                    <img class="hero-affiliation-logo" '
-                'src="https://www.hku.hk/assets/img/apple-touch-icon.png"',
+                'src="assets/hku-shield.png"',
                 index,
             )
             self.assertNotIn("logo296.png", index)
+            self.assertNotIn("apple-touch-icon.png", index)
             self.assertNotIn("hku-115.svg", index)
+            hku_shield = output / "assets" / "hku-shield.png"
+            self.assertTrue(hku_shield.exists())
+            hku_shield_bytes = hku_shield.read_bytes()
+            self.assertEqual(b"\x89PNG\r\n\x1a\n", hku_shield_bytes[:8])
+            self.assertIn(hku_shield_bytes[25], (4, 6))
             self.assertNotRegex(
                 styles,
                 r'\.hero-affiliation-logo-frame\[data-institution-logo="tsinghua"\]',
+            )
+            self.assertRegex(
+                styles,
+                r'\.hero-affiliation-logo-frame\[data-institution-logo="hku"\]'
+                r"\s*\{[^}]*border-color:\s*transparent;[^}]*"
+                r"background:\s*transparent;[^}]*box-shadow:\s*none;",
+            )
+            self.assertRegex(
+                styles,
+                r'\.hero-affiliation-logo-frame\[data-institution-logo="hku"\] '
+                r"\.hero-affiliation-logo\s*\{[^}]*height:\s*22px;[^}]*"
+                r"transform:\s*none;",
             )
 
     def test_homepage_summary_sits_close_to_the_hero_content(self) -> None:

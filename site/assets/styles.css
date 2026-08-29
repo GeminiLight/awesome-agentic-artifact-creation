@@ -600,9 +600,15 @@ img {
   background: #003f88;
 }
 
+.hero-affiliation-logo-frame[data-institution-logo="hku"] {
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+}
+
 .hero-affiliation-logo-frame[data-institution-logo="hku"] .hero-affiliation-logo {
-  height: 32px;
-  transform: translateX(-6px);
+  height: 22px;
+  transform: none;
 }
 
 .hero-affiliation-marker {
