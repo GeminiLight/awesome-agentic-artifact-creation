@@ -704,6 +704,46 @@ class SiteBuildTests(unittest.TestCase):
                 r"\.scope \.section-intro\s*\{[^}]*display:\s*block;",
             )
 
+    def test_scope_and_statistics_intros_are_concise_and_centered(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            output = build_site(Path(temporary_directory) / "public")
+            index = (output / "index.html").read_text(encoding="utf-8")
+            styles = (output / "assets" / "styles.css").read_text(
+                encoding="utf-8"
+            )
+
+            for copy in (
+                "Explore the field.",
+                "Choose a view to browse the catalog.",
+                "At a glance.",
+                "Artifacts, venues, growth, and applications.",
+            ):
+                with self.subTest(copy=copy):
+                    self.assertIn(copy, index)
+
+            for stale_copy in (
+                "Browse by artifact or application.",
+                "The artifact axis asks",
+                "Catalog structure and coverage.",
+                "Artifact structure, publication venues, growth, and cross-axis coverage",
+                "The field at a glance.",
+                "See patterns across artifacts, venues, years, and applications.",
+            ):
+                with self.subTest(stale_copy=stale_copy):
+                    self.assertNotIn(stale_copy, index)
+
+            for selector in (
+                ".scope .section-intro",
+                ".analysis .section-intro",
+            ):
+                with self.subTest(selector=selector):
+                    rule = re.search(
+                        rf"{re.escape(selector)}\s*\{{(?P<body>[^}}]*)\}}",
+                        styles,
+                    )
+                    self.assertIsNotNone(rule)
+                    self.assertIn("text-align: center;", rule.group("body"))
+
     def test_short_section_copy_is_not_artificially_constrained_on_desktop(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:
             output = build_site(Path(temporary_directory) / "public")
