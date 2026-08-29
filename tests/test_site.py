@@ -511,11 +511,43 @@ class SiteBuildTests(unittest.TestCase):
             self.assertIsNotNone(hero)
             hero_markup = hero.group(0)
 
+            self.assertNotIn("ph-buildings", hero_markup)
             self.assertEqual(
-                hero_markup.count(
-                    'class="hero-affiliation-icon ph ph-buildings"'
-                ),
+                hero_markup.count('class="hero-affiliation-logo-frame"'),
                 7,
+            )
+            self.assertEqual(
+                hero_markup.count('class="hero-affiliation-logo"'),
+                7,
+            )
+            logo_sources = re.findall(
+                r'class="hero-affiliation-logo"\s+src="([^"]+)"',
+                hero_markup,
+            )
+            self.assertEqual(len(logo_sources), 7)
+            self.assertEqual(len(set(logo_sources)), 7)
+            for source in logo_sources:
+                self.assertTrue(source.startswith("https://"))
+            for institution in (
+                "hkust-gz",
+                "zju",
+                "ustc",
+                "tsinghua",
+                "hku",
+                "sydney",
+                "sysu",
+            ):
+                self.assertIn(
+                    f'data-institution-logo="{institution}"',
+                    hero_markup,
+                )
+            self.assertRegex(
+                styles,
+                r"\.hero-affiliation-logo-frame\s*\{[^}]*overflow:\s*hidden;",
+            )
+            self.assertRegex(
+                styles,
+                r"\.hero-affiliation-logo\s*\{[^}]*height:\s*18px;[^}]*max-width:\s*none;",
             )
             self.assertRegex(
                 styles,
