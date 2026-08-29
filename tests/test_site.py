@@ -418,7 +418,7 @@ class SiteBuildTests(unittest.TestCase):
             self.assertTrue(charts.startswith("(() => {\n"))
             self.assertTrue(charts.rstrip().endswith("})();"))
 
-    def test_hero_is_a_single_line_title_without_the_family_chart(self) -> None:
+    def test_hero_uses_a_restrained_sentence_case_title_without_the_family_chart(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:
             output = build_site(Path(temporary_directory) / "public")
             index = (output / "index.html").read_text(encoding="utf-8")
@@ -427,9 +427,10 @@ class SiteBuildTests(unittest.TestCase):
             styles = (output / "assets" / "styles.css").read_text(encoding="utf-8")
 
             self.assertIn(
-                '<h1 id="hero-title">AGENTIC ARTIFACT CREATION.</h1>',
+                '<h1 id="hero-title">Agentic artifact creation.</h1>',
                 index,
             )
+            self.assertNotIn("AGENTIC ARTIFACT CREATION.", index)
             self.assertNotIn('id="hero-family-chart"', index)
             self.assertNotIn('id="hero-total"', index)
             self.assertNotIn("drawHeroFamilies", charts)
@@ -437,6 +438,10 @@ class SiteBuildTests(unittest.TestCase):
             self.assertRegex(
                 styles,
                 r"\.hero h1\s*\{[^}]*white-space:\s*nowrap;",
+            )
+            self.assertRegex(
+                styles,
+                r"\.hero h1\s*\{[^}]*font-size:\s*clamp\(48px, 4\.9vw, 72px\);",
             )
 
     def test_scope_uses_a_vertical_section_flow(self) -> None:
