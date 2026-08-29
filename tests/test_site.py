@@ -525,6 +525,30 @@ class SiteBuildTests(unittest.TestCase):
                 r"\.hero-affiliations\s*\{[^}]*font-size:\s*12px;",
             )
 
+    def test_homepage_summary_sits_close_to_the_hero_content(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            output = build_site(Path(temporary_directory) / "public")
+            styles = (output / "assets" / "styles.css").read_text(
+                encoding="utf-8"
+            )
+
+            hero_rule = re.search(r"\.hero\s*\{(?P<body>[^}]*)\}", styles)
+            self.assertIsNotNone(hero_rule)
+            self.assertIn("min-height: 0;", hero_rule.group("body"))
+            self.assertIn(
+                "padding-block: clamp(76px, 7.5vw, 108px) clamp(44px, 4vw, 56px);",
+                hero_rule.group("body"),
+            )
+
+            mobile_styles = styles.split("@media (max-width: 640px)", 1)[1]
+            mobile_hero_rule = re.search(
+                r"\.hero\s*\{(?P<body>[^}]*)\}", mobile_styles
+            )
+            self.assertIsNotNone(mobile_hero_rule)
+            self.assertIn(
+                "padding-block: 48px 34px;", mobile_hero_rule.group("body")
+            )
+
     def test_scope_uses_a_vertical_section_flow(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:
             output = build_site(Path(temporary_directory) / "public")

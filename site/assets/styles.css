@@ -476,8 +476,8 @@ img {
 }
 
 .hero {
-  min-height: min(650px, calc(100vh - 72px));
-  padding-block: clamp(76px, 7.5vw, 108px);
+  min-height: 0;
+  padding-block: clamp(76px, 7.5vw, 108px) clamp(44px, 4vw, 56px);
 }
 
 .hero-copy {
@@ -4288,7 +4288,7 @@ button.application-item {
   }
 
   .hero {
-    padding-block: 48px 58px;
+    padding-block: 48px 34px;
   }
 
   .hero h1 {
