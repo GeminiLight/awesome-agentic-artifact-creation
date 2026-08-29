@@ -229,6 +229,15 @@ img {
   margin-inline: auto;
 }
 
+.section-shell.inset-shell {
+  width: min(calc(100% - 48px), 1240px);
+}
+
+.inset-shell > :is(.section-intro, .loop-intro) {
+  width: min(100%, 1040px);
+  margin-inline: auto;
+}
+
 .section-block {
   padding-block: 126px;
   scroll-margin-top: 80px;
@@ -4195,6 +4204,10 @@ button.application-item {
   .section-shell,
   .header-inner {
     width: min(calc(100% - 30px), var(--max-width));
+  }
+
+  .section-shell.inset-shell {
+    width: min(calc(100% - 30px), 1240px);
   }
 
   .section-block {
