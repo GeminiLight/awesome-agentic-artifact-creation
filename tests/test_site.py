@@ -457,6 +457,41 @@ class SiteBuildTests(unittest.TestCase):
                 r"\.scope \.section-intro\s*\{[^}]*display:\s*block;",
             )
 
+    def test_short_section_copy_is_not_artificially_constrained_on_desktop(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            output = build_site(Path(temporary_directory) / "public")
+            styles = (output / "assets" / "styles.css").read_text(encoding="utf-8")
+
+            for selector in (
+                ".hero-summary",
+                ".loop-intro",
+                ".loop-intro > p:last-child",
+                ".scope .section-intro",
+                ".scope .section-intro > p:last-child",
+                ".analysis .section-intro > p:last-child",
+            ):
+                with self.subTest(selector=selector):
+                    match = re.search(
+                        rf"{re.escape(selector)}\s*\{{(?P<body>[^}}]*)\}}",
+                        styles,
+                    )
+                    self.assertIsNotNone(match)
+                    self.assertIn("max-width: none;", match.group("body"))
+
+    def test_footer_summary_does_not_force_a_line_break(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            output = build_site(Path(temporary_directory) / "public")
+            index = (output / "index.html").read_text(encoding="utf-8")
+
+            self.assertNotRegex(
+                index,
+                r"Built from an open, audited catalog\.<br>\s*Licensed under CC BY 4\.0\.",
+            )
+            self.assertRegex(
+                index,
+                r"Built from an open, audited catalog\.\s+Licensed under CC BY 4\.0\.",
+            )
+
     def test_mobile_controls_expose_generous_touch_targets(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:
             output = build_site(Path(temporary_directory) / "public")

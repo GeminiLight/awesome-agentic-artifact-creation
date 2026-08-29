@@ -496,7 +496,7 @@ img {
 }
 
 .hero-summary {
-  max-width: 560px;
+  max-width: none;
   margin: 34px 0 0;
   color: var(--ink-soft);
   font-size: clamp(18px, 1.8vw, 24px);
@@ -600,7 +600,7 @@ img {
 }
 
 .loop-intro {
-  max-width: 760px;
+  max-width: none;
 }
 
 .loop-intro h2 {
@@ -613,7 +613,7 @@ img {
 }
 
 .loop-intro > p:last-child {
-  max-width: 590px;
+  max-width: none;
   margin: 25px 0 0;
   color: var(--ink-soft);
   font-size: 18px;
@@ -1226,7 +1226,11 @@ img {
 
 .scope .section-intro {
   display: block;
-  max-width: 820px;
+  max-width: none;
+}
+
+.scope .section-intro > p:last-child {
+  max-width: none;
 }
 
 .section-intro {
@@ -2875,6 +2879,7 @@ button.application-item {
 }
 
 .analysis .section-intro > p:last-child {
+  max-width: none;
   margin: 28px 0 0;
 }
 
