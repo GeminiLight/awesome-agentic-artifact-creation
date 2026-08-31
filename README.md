@@ -12,7 +12,7 @@
   </p>
   <p>
     <a href="https://agentic-creation.github.io/"><img alt="Website — Explore the catalog" src="assets/badge-website.svg" height="56"></a>&nbsp;&nbsp;
-    <a href="https://github.com/GeminiLight/agentic-creation-survey"><img alt="Survey paper — Coming soon" src="assets/badge-paper.svg" height="56"></a>
+    <a href="https://arxiv.org/abs/2608.28122"><img alt="Survey paper — arXiv" src="assets/badge-paper.svg" height="56"></a>
   </p>
   <p>
     <a href="#catalog-analysis"><img alt="Papers: 257" src="https://img.shields.io/badge/Papers-257-4C9D96?style=flat-square"></a>
@@ -32,7 +32,7 @@ artifacts span text, visual media, audio, video, 3D environments, software, and
 interactive experiences.
 
 This repository contains the paper catalog for the
-[Agentic Artifact Creation survey](https://github.com/GeminiLight/agentic-creation-survey),
+[Agentic Artifact Creation survey](https://arxiv.org/abs/2608.28122),
 covering both agentic creation systems and benchmarks.
 
 <p align="center">

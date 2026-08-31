@@ -10,7 +10,7 @@ by these files.
 The candidate snapshot combines the 156 entries in
 `reference/survey-core-papers.csv` with 50 Chapter 5-only supporting works from
 `reference/survey-papers.csv` of the
-[Agentic Artifact Creation survey](https://github.com/GeminiLight/agentic-creation-survey).
+[Agentic Artifact Creation survey](https://arxiv.org/abs/2608.28122).
 The original 206 records, 39 additional ICLR, ICML, and NeurIPS candidates,
 18 additional KDD, The Web Conference, and SIGIR candidates, 16 additional
 ACM Multimedia candidates, and later proceedings and arXiv updates are retained

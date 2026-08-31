@@ -22,7 +22,7 @@ artifacts span text, visual media, audio, video, 3D environments, software, and
 interactive experiences.
 
 This repository contains the paper catalog for the
-[Agentic Artifact Creation survey](https://github.com/GeminiLight/agentic-creation-survey),
+[Agentic Artifact Creation survey](https://arxiv.org/abs/2608.28122),
 covering both agentic creation systems and benchmarks.
 
 <p align="center">

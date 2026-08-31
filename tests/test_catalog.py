@@ -518,6 +518,13 @@ class CatalogTest(unittest.TestCase):
         self.assertIn(
             "https://agentic-creation.github.io/", rendered
         )
+        self.assertIn("https://arxiv.org/abs/2608.28122", rendered)
+        self.assertIn('alt="Survey paper — arXiv"', rendered)
+        self.assertNotIn("Survey paper — Coming soon", rendered)
+        self.assertNotIn(
+            "https://github.com/GeminiLight/agentic-creation-survey",
+            rendered,
+        )
         self.assertNotIn(
             "geminilight.github.io/awesome-agentic-artifact-creation/", rendered
         )
@@ -540,6 +547,12 @@ class CatalogTest(unittest.TestCase):
         self.assertIn("badge-website.svg", first_badge_row)
         self.assertIn("badge-paper.svg", first_badge_row)
         self.assertNotIn("Papers-257", first_badge_row)
+
+        paper_badge = (ROOT / "assets" / "badge-paper.svg").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("arXiv 2608.28122", paper_badge)
+        self.assertNotIn("Coming soon", paper_badge)
         badge_block = rendered[
             rendered.index("  <p>\n    <a") : rendered.index(
                 "</div>", rendered.index("  <p>\n    <a")

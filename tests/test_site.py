@@ -480,7 +480,7 @@ class SiteBuildTests(unittest.TestCase):
             hero_markup = hero.group(0)
 
             self.assertIn(
-                "A Survey of Systems, Evaluation, Principles, and Opportunities",
+                "Systems, Evaluation, Principles, and Opportunities",
                 hero_markup,
             )
             authors = (
@@ -515,6 +515,29 @@ class SiteBuildTests(unittest.TestCase):
             self.assertEqual(hero_markup.count('class="hero-affiliation"'), 7)
             self.assertIn('class="hero-citation-link" href="#about"', hero_markup)
             self.assertIn("BibTeX", hero_markup)
+
+    def test_public_survey_links_target_the_arxiv_preprint(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            output = build_site(Path(temporary_directory) / "public")
+            index = (output / "index.html").read_text(encoding="utf-8")
+            paper_url = "https://arxiv.org/abs/2608.28122"
+
+            self.assertEqual(2, index.count(f'href="{paper_url}"'))
+            self.assertIn(f"url    = {{{paper_url}}}", index)
+            self.assertIn(
+                "Agentic Artifact Creation: Systems, Evaluation, Principles, "
+                "and Opportunities",
+                index,
+            )
+            self.assertNotIn(
+                "Agentic Artifact Creation: A Survey of Systems, Evaluation, "
+                "Principles, and Opportunities",
+                index,
+            )
+            self.assertNotIn(
+                "https://github.com/GeminiLight/agentic-creation-survey",
+                index,
+            )
 
     def test_hero_authorship_is_readable_and_marks_each_institution(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:
@@ -1181,7 +1204,7 @@ class SiteBuildTests(unittest.TestCase):
             self.assertNotIn("@misc{wang2026agenticartifactcreation,", index)
             self.assertNotIn("Current preprint", index)
             self.assertIn(
-                "Agentic Artifact Creation: A Survey of Systems, Evaluation, "
+                "Agentic Artifact Creation: Systems, Evaluation, "
                 "Principles, and Opportunities",
                 index,
             )
