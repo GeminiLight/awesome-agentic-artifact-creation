@@ -383,8 +383,8 @@ def render_badges(papers: list[dict[str, str]]) -> str:
                 'src="assets/badge-website.svg" height="56"></a>&nbsp;&nbsp;'
             ),
             (
-                '    <a href="https://github.com/GeminiLight/'
-                'agentic-creation-survey"><img alt="Survey paper — Coming soon" '
+                '    <a href="https://arxiv.org/abs/2608.28122"><img '
+                'alt="Survey paper — arXiv" '
                 'src="assets/badge-paper.svg" height="56"></a>'
             ),
             "  </p>",
