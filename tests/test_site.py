@@ -466,6 +466,47 @@ class SiteBuildTests(unittest.TestCase):
                 r"\.hero h1\s*\{[^}]*font-size:\s*clamp\(48px, 4\.9vw, 72px\);",
             )
 
+    def test_hero_features_a_compact_flat_project_mark(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            output = build_site(Path(temporary_directory) / "public")
+            index = (output / "index.html").read_text(encoding="utf-8")
+            styles = (output / "assets" / "styles.css").read_text(encoding="utf-8")
+
+            hero = re.search(
+                r'<section class="[^"]*\bhero\b[^"]*".*?</section>',
+                index,
+                re.DOTALL,
+            )
+            self.assertIsNotNone(hero)
+            hero_markup = hero.group(0)
+
+            self.assertIn('class="hero-heading"', hero_markup)
+            self.assertRegex(
+                hero_markup,
+                r'class="hero-emblem"\s+aria-hidden="true"',
+            )
+            self.assertNotIn('role="img"', hero_markup)
+            self.assertRegex(
+                styles,
+                r"\.hero-emblem\s*\{[^}]*"
+                r'background:\s*url\("logo-mark\.svg\?v=[0-9a-f]{12}"\)',
+            )
+            self.assertRegex(
+                styles,
+                r':root\[data-theme="dark"\] \.hero-emblem[^}]*'
+                r'background-image:\s*url\("logo-mark-dark\.svg\?v=[0-9a-f]{12}"\)',
+            )
+            heading_rule = re.search(r"\.hero-heading\s*\{(?P<body>[^}]*)\}", styles)
+            self.assertIsNotNone(heading_rule)
+            self.assertIn(
+                "grid-template-columns: minmax(0, 1fr) clamp(92px, 8.5vw, 128px);",
+                heading_rule.group("body"),
+            )
+            emblem_rule = re.search(r"\.hero-emblem\s*\{(?P<body>[^}]*)\}", styles)
+            self.assertIsNotNone(emblem_rule)
+            self.assertIn("filter: none;", emblem_rule.group("body"))
+            self.assertNotIn("drop-shadow", emblem_rule.group("body"))
+
     def test_hero_identifies_the_survey_authors_and_affiliations(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:
             output = build_site(Path(temporary_directory) / "public")
