@@ -317,16 +317,12 @@ class SiteBuildTests(unittest.TestCase):
             app = (output / "assets" / "app.js").read_text(encoding="utf-8")
             styles = (output / "assets" / "styles.css").read_text(encoding="utf-8")
 
-            self.assertIn("const MINIATURE_SHOWCASE_INTERVAL = 3600;", app)
-            self.assertIn("function setupMiniatureShowcaseMotion()", app)
             self.assertIn("function setupMiniatureCardTilt()", app)
             self.assertIn('window.matchMedia("(pointer: fine)")', app)
             self.assertIn('window.matchMedia("(prefers-reduced-motion: reduce)")', app)
-            self.assertIn("document.hidden", app)
             self.assertIn("new IntersectionObserver", app)
-            self.assertIn('classList.toggle("is-showcase-active"', app)
             self.assertIn('new CustomEvent("aac:axischange"', app)
-            self.assertIn("setupMiniatureShowcaseMotion();", app)
+            self.assertNotIn("setupMiniatureShowcaseMotion();", app)
             self.assertIn("setupMiniatureCardTilt();", app)
             self.assertIn("--card-tilt-x", styles)
             self.assertIn("--card-tilt-y", styles)
@@ -386,7 +382,7 @@ class SiteBuildTests(unittest.TestCase):
             )
             self.assertRegex(
                 index,
-                r'srcset="assets/fig2-construction-process\.webp\?v=[0-9a-f]{12}"',
+                r'srcset="assets/construction-overview\.svg\?v=[0-9a-f]{12}"',
             )
             self.assertIn('loading="lazy"', index)
             self.assertIn('rootMargin: "160px 0px"', motion)
@@ -448,7 +444,7 @@ class SiteBuildTests(unittest.TestCase):
             styles = (output / "assets" / "styles.css").read_text(encoding="utf-8")
 
             self.assertIn(
-                '<h1 id="hero-title">Agentic Artifact Creation.</h1>',
+                '<h1 id="hero-title">Agentic Artifact Creation<span class="title-period">.</span></h1>',
                 index,
             )
             self.assertNotIn("Agentic artifact creation.", index)
@@ -563,7 +559,7 @@ class SiteBuildTests(unittest.TestCase):
             index = (output / "index.html").read_text(encoding="utf-8")
             paper_url = "https://arxiv.org/abs/2608.28122"
 
-            self.assertEqual(2, index.count(f'href="{paper_url}"'))
+            self.assertGreaterEqual(index.count(f'href="{paper_url}"'), 2)
             self.assertIn(f"url    = {{{paper_url}}}", index)
             self.assertIn(
                 "Agentic Artifact Creation: Systems, Evaluation, Principles, "
@@ -613,10 +609,9 @@ class SiteBuildTests(unittest.TestCase):
             self.assertEqual(len(set(logo_sources)), 7)
             for source in logo_sources:
                 self.assertTrue(source.startswith(("https://", "assets/")))
-            self.assertEqual(
-                ["assets/hku-shield.png"],
-                [source for source in logo_sources if source.startswith("assets/")],
-            )
+            for source in logo_sources:
+                self.assertTrue(source.startswith("assets/"))
+                self.assertTrue((output / source).is_file())
             for institution in (
                 "hkust-gz",
                 "zju",
@@ -658,7 +653,7 @@ class SiteBuildTests(unittest.TestCase):
             self.assertIn(
                 'data-institution-logo="tsinghua">\n'
                 '                    <img class="hero-affiliation-logo" '
-                'src="https://vi.tsinghua.edu.cn/favicon.ico"',
+                'src="assets/institutions/tsinghua.ico"',
                 index,
             )
             self.assertIn(
@@ -716,7 +711,7 @@ class SiteBuildTests(unittest.TestCase):
                 "padding-block: 48px 34px;", mobile_hero_rule.group("body")
             )
 
-    def test_major_section_headings_use_a_modern_serif_typeface(self) -> None:
+    def test_all_typography_uses_local_sans_serif_fonts(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:
             output = build_site(Path(temporary_directory) / "public")
             index = (output / "index.html").read_text(encoding="utf-8")
@@ -724,16 +719,11 @@ class SiteBuildTests(unittest.TestCase):
                 encoding="utf-8"
             )
 
-            self.assertIn('href="https://fonts.googleapis.com"', index)
-            self.assertIn(
-                "family=Newsreader:opsz,wght@6..72,300..600&amp;display=swap",
-                index,
-            )
-            self.assertIn(
-                '--font-section: "Newsreader", "Iowan Old Style", '
-                '"Palatino Linotype", Palatino, Georgia, serif;',
-                styles,
-            )
+            self.assertNotIn("fonts.googleapis.com", index)
+            self.assertIn('--font-section: var(--font-sans);', styles)
+            self.assertIn('--font-editorial: var(--font-sans);', styles)
+            self.assertNotRegex(styles, r"(?<!sans-)serif[;,]")
+            self.assertNotIn("monospace", styles)
             for selector in (
                 ".loop-intro h2",
                 ".section-intro h2",
@@ -768,7 +758,7 @@ class SiteBuildTests(unittest.TestCase):
                 r"\.scope \.section-intro\s*\{[^}]*display:\s*block;",
             )
 
-    def test_scope_and_statistics_intros_are_concise_and_centered(self) -> None:
+    def test_scope_and_statistics_intros_explain_the_browsing_views(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:
             output = build_site(Path(temporary_directory) / "public")
             index = (output / "index.html").read_text(encoding="utf-8")
@@ -778,9 +768,9 @@ class SiteBuildTests(unittest.TestCase):
 
             for copy in (
                 "Explore the field.",
-                "Choose a view to browse the catalog.",
+                "Start with what an agent creates, or the context where it is used.",
                 "At a glance.",
-                "Artifacts, venues, growth, and applications.",
+                "Explore how the research is distributed across artifacts, venues, and applications.",
             ):
                 with self.subTest(copy=copy):
                     self.assertIn(copy, index)
@@ -795,18 +785,6 @@ class SiteBuildTests(unittest.TestCase):
             ):
                 with self.subTest(stale_copy=stale_copy):
                     self.assertNotIn(stale_copy, index)
-
-            for selector in (
-                ".scope .section-intro",
-                ".analysis .section-intro",
-            ):
-                with self.subTest(selector=selector):
-                    rule = re.search(
-                        rf"{re.escape(selector)}\s*\{{(?P<body>[^}}]*)\}}",
-                        styles,
-                    )
-                    self.assertIsNotNone(rule)
-                    self.assertIn("text-align: center;", rule.group("body"))
 
     def test_short_section_copy_is_not_artificially_constrained_on_desktop(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:

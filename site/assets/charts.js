@@ -60,6 +60,7 @@ function markForMotion(selection, step = 36, offset = 0) {
 }
 
 function prepareChartMotion(svg, animate) {
+  setupChartInspection(svg);
   if (!animate || reducedMotion.matches) {
     svg.classed("is-motion-ready is-motion-disabled", true);
     return;
@@ -70,21 +71,64 @@ function prepareChartMotion(svg, animate) {
 }
 
 function showTooltip(event, title, detail) {
-  tooltip
-    .html(`<strong>${title}</strong><span>${detail}</span>`)
-    .classed("is-visible", true);
+  tooltip.selectAll("*").remove();
+  tooltip.append("strong").text(title);
+  tooltip.append("span").text(detail);
+  tooltip.classed("is-visible", true);
   moveTooltip(event);
 }
 
 function moveTooltip(event) {
   const width = tooltip.node().offsetWidth;
+  const height = tooltip.node().offsetHeight;
   const left = Math.min(event.clientX + 16, window.innerWidth - width - 12);
-  tooltip.style("left", `${Math.max(12, left)}px`).style("top", `${event.clientY + 16}px`);
+  const top = event.clientY + 16 + height > window.innerHeight - 12
+    ? event.clientY - height - 16
+    : event.clientY + 16;
+  tooltip.style("left", `${Math.max(12, left)}px`).style("top", `${Math.max(12, top)}px`);
 }
 
 function hideTooltip() {
   tooltip.classed("is-visible", false);
 }
+
+// One tab stop per chart; arrow keys inspect marks without a long tab sequence.
+function setupChartInspection(svg) {
+  const marks = svg.selectAll("[aria-label]").filter(function () {
+    return Boolean(d3.select(this).on("pointerenter"));
+  });
+  const nodes = marks.nodes();
+  if (!nodes.length) return;
+  svg.attr("role", "group");
+  function inspect(node, item) {
+    const bounds = node.getBoundingClientRect();
+    d3.select(node).on("pointerenter").call(node, {
+      clientX: Math.min(window.innerWidth - 24, Math.max(12, bounds.left + bounds.width / 2)),
+      clientY: Math.min(window.innerHeight - 24, Math.max(12, bounds.top + bounds.height / 2)),
+    }, item);
+  }
+  marks.attr("tabindex", (_, index) => index === 0 ? 0 : -1)
+    .attr("role", "img")
+    .on("focus", function (_, item) { inspect(this, item); })
+    .on("blur", hideTooltip)
+    .on("click", function (_, item) { inspect(this, item); })
+    .on("keydown", function (event) {
+      if (event.key === "Escape") { hideTooltip(); return; }
+      if (!["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Home", "End"].includes(event.key)) return;
+      event.preventDefault();
+      const index = nodes.indexOf(this);
+      const direction = ["ArrowLeft", "ArrowUp"].includes(event.key) ? -1 : 1;
+      const nextIndex = event.key === "Home" ? 0 : event.key === "End" ? nodes.length - 1 : (index + direction + nodes.length) % nodes.length;
+      marks.attr("tabindex", (_, i) => i === nextIndex ? 0 : -1);
+      nodes[nextIndex].focus({ preventScroll: true });
+      nodes[nextIndex].scrollIntoView({ block: "nearest", inline: "nearest", behavior: "instant" });
+    });
+}
+
+document.addEventListener("pointerdown", (event) => {
+  if (!event.target.closest(".d3-chart")) hideTooltip();
+});
+window.addEventListener("scroll", hideTooltip, { passive: true });
 
 function createSvg(containerSelector, width, height, title, description) {
   const container = document.querySelector(containerSelector);
@@ -185,6 +229,7 @@ function drawComposition(catalog, animate = true) {
     .data(familyPie)
     .join("path")
     .attr("class", "family-arc")
+    .attr("aria-label", (item) => `${item.data.name}: ${format(item.data.count)} papers`)
     .attr("d", familyArc)
     .attr("fill", (item) => item.data.color)
     .attr("stroke", PAPER)
@@ -204,6 +249,7 @@ function drawComposition(catalog, animate = true) {
     .data(typePie)
     .join("path")
     .attr("class", "type-arc")
+    .attr("aria-label", (item) => `${item.data.family}, ${item.data.name}: ${format(item.data.count)} papers`)
     .attr("d", typeArc)
     .attr("fill", (item) => item.data.color)
     .attr("fill-opacity", (item, index) => 0.38 + (index % 3) * 0.18)
@@ -326,6 +372,7 @@ function drawTrend(catalog, animate = true) {
     .selectAll("rect")
     .data((layer) => layer.map((item) => ({ item, family: layer.key })))
     .join("rect")
+    .attr("aria-label", ({ item, family }) => `${item.data.year}, ${family}: ${format(item[1] - item[0])} papers`)
     .attr("x", ({ item }) => x(item.data.year))
     .attr("y", ({ item }) => y(item[1]))
     .attr("height", ({ item }) => Math.max(0, y(item[0]) - y(item[1])))
@@ -456,6 +503,7 @@ function drawVenues(catalog, animate = true) {
     .data(venueLeaves)
     .join("g")
     .attr("class", "treemap-leaf")
+    .attr("aria-label", (leaf) => `${leaf.data.name}: ${format(leaf.value)} published papers, ${leaf.data.domain}`)
     .on("pointerenter", (event, leaf) =>
       showTooltip(
         event,
@@ -581,6 +629,7 @@ function drawMatrix(catalog, animate = true) {
     .selectAll("g")
     .data(cells)
     .join("g")
+    .attr("aria-label", (item) => `${item.artifact}, ${item.application}: ${format(item.count)} papers`)
     .on("pointerenter", (event, item) =>
       showTooltip(
         event,

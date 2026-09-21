@@ -16,21 +16,35 @@ if (root) {
   );
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   const narrowViewport = window.matchMedia("(max-width: 719px)");
+  let mobilePaused = false;
   const mobileProcess = setupMobileProcess();
   let threeLoadStarted = false;
+  let threeReady = false;
+  let threeFailed = false;
   let threeNearViewportObserver = null;
 
   function requestThreeModule() {
     if (threeLoadStarted) return;
     threeLoadStarted = true;
+    const timeout = window.setTimeout(() => {
+      if (!threeReady) {
+        root.classList.remove("is-loading");
+        root.classList.add("is-fallback");
+        motionToggle.hidden = true;
+        statusText.textContent = "Construction overview · interactive scene is still loading.";
+      }
+    }, 10000);
     import(THREE_MODULE_URL)
       .then((THREE) => initializeConstructionLoop(THREE))
       .catch((error) => {
-        console.error("Construction process could not initialize", error);
+        threeFailed = true;
+        console.warn("Construction process could not initialize", error);
+        statusText.textContent = "Construction overview · interactive 3D is unavailable on this device.";
         root.classList.remove("is-loading", "is-ready");
         root.classList.add("is-fallback");
         motionToggle.hidden = true;
-      });
+      })
+      .finally(() => window.clearTimeout(timeout));
   }
 
   function constructionLoopIsNearViewport() {
@@ -64,7 +78,8 @@ if (root) {
     if (narrowViewport.matches) {
       root.classList.add("is-mobile-process");
       root.classList.remove("is-loading", "is-fallback");
-      motionToggle.hidden = true;
+      motionToggle.hidden = reducedMotion.matches;
+      syncMotionButton(mobilePaused);
       threeNearViewportObserver?.disconnect();
       mobileProcess.start();
       return;
@@ -73,13 +88,15 @@ if (root) {
     root.classList.remove("is-mobile-process");
     mobileProcess.stop();
     statusText.textContent = defaultStatusText;
-    if (reducedMotion.matches || !window.WebGLRenderingContext) {
+    if (reducedMotion.matches || threeFailed || !window.WebGLRenderingContext) {
       root.classList.remove("is-loading", "is-ready");
       root.classList.add("is-fallback");
       motionToggle.hidden = true;
+      statusText.textContent = "Construction overview · task, policy, representation, verification, and artifact.";
       return;
     }
     root.classList.remove("is-fallback");
+    root.classList.toggle("is-ready", threeReady);
     if (!root.classList.contains("is-ready")) {
       root.classList.add("is-loading");
     }
@@ -119,6 +136,7 @@ if (root) {
       window.clearTimeout(timer);
       if (
         reducedMotion.matches ||
+        mobilePaused ||
         !narrowViewport.matches ||
         !processIsVisible ||
         document.hidden
@@ -134,6 +152,8 @@ if (root) {
     steps.forEach((step, index) => {
       step.addEventListener("click", () => {
         showStage(index);
+        mobilePaused = true;
+        syncMotionButton(true);
         schedule();
       });
     });
@@ -159,6 +179,21 @@ if (root) {
     };
   }
 
+  function syncMotionButton(paused) {
+    root.classList.toggle("is-paused", paused);
+    motionToggle.querySelector("i").className = `ph ${paused ? "ph-play" : "ph-pause"}`;
+    motionToggle.querySelector("span").textContent = paused ? "Play motion" : "Pause motion";
+    motionToggle.setAttribute("aria-pressed", String(paused));
+  }
+  motionToggle.addEventListener("click", () => {
+    if (!narrowViewport.matches) return;
+    mobilePaused = !mobilePaused;
+    syncMotionButton(mobilePaused);
+    mobileProcess.start();
+  });
+  reducedMotion.addEventListener("change", () => {
+    activateResponsiveExperience();
+  });
   activateResponsiveExperience();
   narrowViewport.addEventListener("change", activateResponsiveExperience);
 
@@ -282,9 +317,9 @@ if (root) {
     function material(color, options = {}) {
       return new THREE.MeshPhysicalMaterial({
         color,
-        roughness: options.roughness ?? 0.48,
+        roughness: options.roughness ?? 0.36,
         metalness: options.metalness ?? 0.04,
-        clearcoat: options.clearcoat ?? 0.16,
+        clearcoat: options.clearcoat ?? 0.28,
         clearcoatRoughness: options.clearcoatRoughness ?? 0.42,
         ior: options.ior ?? 1.46,
         specularIntensity: options.specularIntensity ?? 0.46,
@@ -1319,11 +1354,11 @@ if (root) {
     const labelAnchors = new Map();
     [
       ["loop", 0, 3.12, -1.58],
-      ["task", -7.18, 1.43, 0.48],
+      ["task", -7.18, 2.8, -0.54],
       ["policy", -4.12, 2.53, -0.54],
       ["representation", -0.36, 2.58, -0.54],
       ["verification", 3.52, 2.53, -0.54],
-      ["artifact", 7.02, 0.05, 1.18],
+      ["artifact", 7.02, 2.53, -0.54],
       ["action", -2.48, 1.08, 0.08],
       ["observation", 1.74, 1.08, 0.08],
       ["accept", 5.72, 1.08, 0.08],
@@ -1348,6 +1383,9 @@ if (root) {
     let previousFrameTime = performance.now();
     let hoveredStage = "";
     let manualPaused = false;
+    let selectedStage = "";
+    let animationFrame = 0;
+    const stageButtons = [...root.querySelectorAll("[data-loop-select]")];
     let isVisible = true;
     let destroyed = false;
 
@@ -1391,6 +1429,7 @@ if (root) {
         [...stageGroups.values()].flatMap((group) => group.children),
         true,
       );
+      if (selectedStage) return;
       const nextStage = hits.find((hit) => hit.object.userData.stage)?.object.userData.stage || "";
       if (nextStage === hoveredStage) return;
       hoveredStage = nextStage;
@@ -1409,7 +1448,7 @@ if (root) {
     }
 
     function updateStageEmphasis(activeStage) {
-      const emphasizedStage = hoveredStage || activeStage;
+      const emphasizedStage = selectedStage || hoveredStage || activeStage;
       stageMeshes.forEach((meshes, stage) => {
         const emphasized = stage === emphasizedStage;
         const group = stageGroups.get(stage);
@@ -1424,7 +1463,7 @@ if (root) {
       const cycleIndex =
         Math.floor(Math.max(0, elapsed) / STAGE_DURATION_SECONDS) % flowDetails.length;
       const activeFlow = flowDetails[cycleIndex] || flowDetails[0];
-      if (!hoveredStage) progressLabel.textContent = activeFlow.label;
+      if (!hoveredStage) progressLabel.textContent = selectedStage ? stageDetails[selectedStage] : activeFlow.label;
       updateHover();
       updateStageEmphasis(activeFlow.stage);
 
@@ -1441,7 +1480,7 @@ if (root) {
         });
       });
 
-      let dominantStage = activeFlow.stage;
+      let dominantStage = selectedStage || activeFlow.stage;
       let dominantAmount = -1;
       stageGroups.forEach((group, stage) => {
         const stageIndex = [...stageGroups.keys()].indexOf(stage);
@@ -1503,17 +1542,61 @@ if (root) {
 
     function animate(frameTime) {
       if (destroyed) return;
-      window.requestAnimationFrame(animate);
+      animationFrame = 0;
       const currentFrameTime = Number.isFinite(frameTime) ? frameTime : performance.now();
       const frameDelta = Math.max(
         0,
         Math.min((currentFrameTime - previousFrameTime) / 1000, 0.1),
       );
       previousFrameTime = currentFrameTime;
-      if (!isVisible || manualPaused) return;
+      // Settle the responsive state before suspending the render loop.
+      if (reducedMotion.matches || narrowViewport.matches) {
+        activateResponsiveExperience();
+        return;
+      }
+      if (!isVisible || manualPaused || document.hidden) return;
       elapsedTime += frameDelta;
       renderFrame(elapsedTime, frameDelta);
+      animationFrame = window.requestAnimationFrame(animate);
     }
+
+    function resumeAnimation() {
+      if (animationFrame || destroyed) return;
+      previousFrameTime = performance.now();
+      animationFrame = window.requestAnimationFrame(animate);
+    }
+
+    function selectStage(stage) {
+      selectedStage = selectedStage === stage ? "" : stage;
+      manualPaused = Boolean(selectedStage);
+      stageButtons.forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.loopSelect === selectedStage)));
+      syncMotionButton(manualPaused);
+      if (selectedStage) {
+        elapsedTime = flowDetails.findIndex((flow) => flow.stage === selectedStage) * STAGE_DURATION_SECONDS;
+        statusText.textContent = stageDetails[selectedStage];
+      } else {
+        statusText.textContent = defaultStatusText;
+      }
+      renderFrame(elapsedTime, 1);
+      resumeAnimation();
+    }
+    stageButtons.forEach((button) => button.addEventListener("click", () => selectStage(button.dataset.loopSelect)));
+    document.addEventListener("visibilitychange", resumeAnimation);
+    reducedMotion.addEventListener("change", resumeAnimation);
+    narrowViewport.addEventListener("change", () => {
+      if (!narrowViewport.matches) {
+        syncMotionButton(manualPaused);
+        resize();
+        resumeAnimation();
+      }
+    });
+    function applySceneTheme() {
+      const dark = document.documentElement.dataset.resolvedTheme === "dark";
+      renderer.toneMappingExposure = dark ? 1.12 : 0.98;
+      ground.material.opacity = dark ? 0.12 : 0.16;
+      renderFrame(elapsedTime, 0);
+    }
+    window.addEventListener("aac:themechange", applySceneTheme);
 
     viewport.addEventListener("pointermove", (event) => {
       const bounds = renderer.domElement.getBoundingClientRect();
@@ -1526,18 +1609,19 @@ if (root) {
       cameraTarget.set(0, 0);
       hoveredStage = "";
       viewport.classList.remove("has-stage-hover");
-      if (statusText) statusText.textContent = defaultStatusText;
+      if (statusText) statusText.textContent = selectedStage ? stageDetails[selectedStage] : defaultStatusText;
       statusText?.classList.remove("is-inspecting");
     });
 
     motionToggle.addEventListener("click", () => {
+      if (narrowViewport.matches) return;
       manualPaused = !manualPaused;
-      const icon = motionToggle.querySelector("i");
-      const label = motionToggle.querySelector("span");
-      icon.className = `ph ${manualPaused ? "ph-play" : "ph-pause"}`;
-      label.textContent = manualPaused ? "Play motion" : "Pause motion";
-      motionToggle.setAttribute("aria-pressed", String(manualPaused));
+      selectedStage = "";
+      stageButtons.forEach((button) => button.setAttribute("aria-pressed", "false"));
+      syncMotionButton(manualPaused);
+      statusText.textContent = defaultStatusText;
       if (manualPaused) renderer.render(scene, camera);
+      resumeAnimation();
     });
 
     const resizeObserver = new ResizeObserver(resize);
@@ -1546,6 +1630,7 @@ if (root) {
       ([entry]) => {
         isVisible = entry.isIntersecting;
         if (isVisible && manualPaused) renderer.render(scene, camera);
+        if (isVisible) resumeAnimation();
       },
       { rootMargin: "180px 0px", threshold: 0.01 },
     );
@@ -1553,8 +1638,10 @@ if (root) {
 
     window.addEventListener(
       "pagehide",
-      () => {
+      (event) => {
+        if (event.persisted) return;
         destroyed = true;
+        window.cancelAnimationFrame(animationFrame);
         resizeObserver.disconnect();
         visibilityObserver.disconnect();
         renderer.dispose();
@@ -1563,9 +1650,12 @@ if (root) {
     );
 
     resize();
+    applySceneTheme();
     renderFrame(0);
-    root.classList.remove("is-loading");
+    threeReady = true;
+    root.classList.remove("is-loading", "is-fallback");
     root.classList.add("is-ready");
-    window.requestAnimationFrame(animate);
+    activateResponsiveExperience();
+    resumeAnimation();
   }
 }

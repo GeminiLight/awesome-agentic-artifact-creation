@@ -1,9 +1,8 @@
 document.documentElement.classList.add("js");
 
-const DEFAULT_PAGE_SIZE = 25;
+const DEFAULT_PAGE_SIZE = 10;
 const PAGE_SIZE_OPTIONS = [10, 25, 50, 100];
 const FALLBACK_COLOR = "#8a96a8";
-const MINIATURE_SHOWCASE_INTERVAL = 3600;
 const PAPER_TAG_ICONS = {
   artifact: "ph-cube",
   application: "ph-compass",
@@ -796,7 +795,7 @@ function renderTaxonomyOverview() {
       ),
     );
     button.append(
-      createElement("span", "taxonomy-count", `${family.count} papers`),
+      createElement("span", "taxonomy-count", `Browse ${family.count} papers`),
       createIcon("ph-arrow-up-right"),
     );
     button.addEventListener("click", () => openCatalog("artifact", family.name));
@@ -818,7 +817,7 @@ function renderTaxonomyOverview() {
       createGalleryCardCopy(application.name, visual.descriptor),
     );
     button.append(
-      createElement("span", "application-count", `${application.count} papers`),
+      createElement("span", "application-count", `Browse ${application.count} papers`),
       createIcon("ph-arrow-up-right"),
     );
     button.addEventListener("click", () => openCatalog("application", application.name));
@@ -1036,6 +1035,12 @@ function renderActiveFilters() {
     fragment.append(button);
   });
   elements.activeFilters.replaceChildren(fragment);
+  const count = [state.primary, state.year, state.kind, state.status].filter(Boolean).length;
+  const toggleLabel = elements.filterPanelToggle.querySelector("span");
+  const expanded = elements.filterPanelToggle.getAttribute("aria-expanded") === "true";
+  toggleLabel.textContent = `${expanded ? "Hide" : "Show"} filters${count ? ` (${count})` : ""}`;
+  elements.clearFilters.disabled = !activeFilterDefinitions().length;
+
 }
 
 function syncControls() {
@@ -1111,9 +1116,8 @@ function setCatalogPage(page) {
   state.page = page;
   updateCatalog({ resetPage: false });
   window.requestAnimationFrame(() => {
-    elements.pagination
-      .querySelector(`[data-page="${state.page}"]`)
-      ?.focus({ preventScroll: true });
+    const heading = elements.paperList.querySelector(".paper-title a");
+    heading?.focus({ preventScroll: true });
     scrollToCatalogResults();
   });
 }
@@ -1133,6 +1137,7 @@ function renderPagination(totalPapers, firstVisible, lastVisible, totalPages) {
   const controls = createElement("div", "pagination-controls");
   const previous = createElement("button", "pagination-direction");
   previous.type = "button";
+  previous.setAttribute("aria-label", "Previous page");
   previous.append(createIcon("ph-arrow-left"), createElement("span", "", "Previous"));
   previous.disabled = state.page === 1;
   previous.addEventListener("click", () => setCatalogPage(state.page - 1));
@@ -1162,6 +1167,7 @@ function renderPagination(totalPapers, firstVisible, lastVisible, totalPages) {
 
   const next = createElement("button", "pagination-direction");
   next.type = "button";
+  next.setAttribute("aria-label", "Next page");
   next.append(createElement("span", "", "Next"), createIcon("ph-arrow-right"));
   next.disabled = state.page === totalPages;
   next.addEventListener("click", () => setCatalogPage(state.page + 1));
@@ -1198,7 +1204,9 @@ function setCatalogView(view, primary = "") {
 
 function openCatalog(view, primary) {
   setCatalogView(view, primary);
-  document.querySelector("#catalog").scrollIntoView({ behavior: "smooth" });
+  document.querySelector("#catalog").scrollIntoView({
+    behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+  });
 }
 
 function filterCatalogFromTag(dimension, value) {
@@ -1241,10 +1249,10 @@ function setupAxisTabs() {
   tabs.forEach((tab, index) => {
     tab.addEventListener("click", () => activateAxisTab(tab.dataset.axisTab));
     tab.addEventListener("keydown", (event) => {
-      if (!["ArrowLeft", "ArrowRight"].includes(event.key)) return;
+      if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
       event.preventDefault();
       const direction = event.key === "ArrowRight" ? 1 : -1;
-      const next = tabs[(index + direction + tabs.length) % tabs.length];
+      const next = event.key === "Home" ? tabs[0] : event.key === "End" ? tabs.at(-1) : tabs[(index + direction + tabs.length) % tabs.length];
       activateAxisTab(next.dataset.axisTab);
       next.focus();
     });
@@ -1302,7 +1310,8 @@ function setupFilterDisclosure() {
   function setExpanded(expanded) {
     elements.filterPanel.classList.toggle("is-expanded", expanded);
     elements.filterPanelToggle.setAttribute("aria-expanded", String(expanded));
-    label.textContent = expanded ? "Hide filters" : "Show filters";
+    const count = [state.primary, state.year, state.kind, state.status].filter(Boolean).length;
+    label.textContent = `${expanded ? "Hide" : "Show"} filters${count ? ` (${count})` : ""}`;
   }
 
   function syncForViewport() {
@@ -1368,6 +1377,44 @@ function setupCitationCopy() {
   button.addEventListener("click", copyCitation);
 }
 
+function setupViewCopy() {
+  const button = document.querySelector("[data-copy-view]");
+  const status = document.querySelector("#view-copy-status");
+  const label = button.querySelector("span");
+  let resetTimer;
+  button.addEventListener("click", async () => {
+    const url = new URL(location.href);
+    url.hash = "catalog";
+    try {
+      await navigator.clipboard.writeText(url.href);
+      label.textContent = "Link copied";
+      status.textContent = "Link to this catalog view copied to clipboard.";
+      window.clearTimeout(resetTimer);
+      resetTimer = window.setTimeout(() => { label.textContent = "Copy this view"; }, 2200);
+    } catch {
+      status.textContent = "Copy is unavailable. Copy this page’s URL from your browser address bar.";
+      label.textContent = "Copy address bar URL";
+    }
+  });
+}
+
+function setupMobileMenu() {
+  const menu = document.querySelector(".mobile-menu");
+  const summary = menu.querySelector("summary");
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && menu.open) {
+      menu.open = false;
+      summary.focus();
+    }
+  });
+  document.addEventListener("pointerdown", (event) => {
+    if (menu.open && !menu.contains(event.target)) menu.open = false;
+  });
+  menu.addEventListener("focusout", (event) => {
+    if (!menu.contains(event.relatedTarget)) menu.open = false;
+  });
+}
+
 function activateAxisTab(axis) {
   document.querySelectorAll("[data-axis-tab]").forEach((tab) => {
     const selected = tab.dataset.axisTab === axis;
@@ -1407,113 +1454,6 @@ function setupMiniatureCardTilt() {
   });
 }
 
-function setupMiniatureShowcaseMotion() {
-  const scope = document.querySelector("#scope");
-  const switcher = scope?.querySelector(".axis-switcher");
-  if (!scope || !switcher) return;
-
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-  if (!("IntersectionObserver" in window)) return;
-
-  let activeIndex = 0;
-  let timer = null;
-  let scopeVisible = false;
-  let interactionPaused = false;
-
-  function visibleCards() {
-    const activePanel = switcher.querySelector(".taxonomy-panel:not([hidden])");
-    return [...(activePanel?.querySelectorAll(".taxonomy-item, .application-item") || [])];
-  }
-
-  function clearActive() {
-    switcher
-      .querySelectorAll(".taxonomy-item, .application-item")
-      .forEach((card) => card.classList.remove("is-showcase-active"));
-  }
-
-  function activateCurrent() {
-    const cards = visibleCards();
-    if (!cards.length) return;
-    activeIndex %= cards.length;
-    cards.forEach((card, index) => {
-      card.classList.toggle("is-showcase-active", index === activeIndex);
-    });
-  }
-
-  function stop() {
-    window.clearInterval(timer);
-    timer = null;
-  }
-
-  function start({ immediate = true } = {}) {
-    stop();
-    if (reduceMotion.matches || !scopeVisible || interactionPaused || document.hidden) {
-      clearActive();
-      return;
-    }
-    if (immediate) activateCurrent();
-    timer = window.setInterval(() => {
-      const cards = visibleCards();
-      if (!cards.length) return;
-      activeIndex = (activeIndex + 1) % cards.length;
-      activateCurrent();
-    }, MINIATURE_SHOWCASE_INTERVAL);
-  }
-
-  function pauseForInteraction() {
-    interactionPaused = true;
-    stop();
-    clearActive();
-  }
-
-  function resumeAfterInteraction() {
-    interactionPaused = false;
-    activeIndex = (activeIndex + 1) % Math.max(visibleCards().length, 1);
-    start();
-  }
-
-  switcher.addEventListener("pointerenter", pauseForInteraction);
-  switcher.addEventListener("pointerleave", resumeAfterInteraction);
-  switcher.addEventListener("focusin", pauseForInteraction);
-  switcher.addEventListener("focusout", (event) => {
-    if (!switcher.contains(event.relatedTarget)) resumeAfterInteraction();
-  });
-  document.addEventListener("visibilitychange", () => {
-    if (document.hidden) {
-      stop();
-      clearActive();
-    } else {
-      start();
-    }
-  });
-  document.addEventListener("aac:axischange", () => {
-    activeIndex = 0;
-    start();
-  });
-  reduceMotion.addEventListener("change", () => {
-    if (reduceMotion.matches) {
-      stop();
-      clearActive();
-    } else {
-      start();
-    }
-  });
-
-  const observer = new IntersectionObserver(
-    ([entry]) => {
-      scopeVisible = entry.isIntersecting;
-      if (scopeVisible) {
-        start();
-      } else {
-        stop();
-        clearActive();
-      }
-    },
-    { threshold: 0.22 },
-  );
-  observer.observe(scope);
-}
-
 function setupEvents() {
   elements.search.addEventListener("input", (event) => {
     state.search = event.target.value;
@@ -1548,7 +1488,10 @@ function setupEvents() {
   });
   elements.clearFilters.addEventListener("click", clearFilters);
   document.querySelectorAll("[data-clear-filters]").forEach((button) => {
-    button.addEventListener("click", clearFilters);
+    button.addEventListener("click", () => {
+      clearFilters();
+      elements.search.focus({ preventScroll: true });
+    });
   });
   window.addEventListener("popstate", () => {
     readUrlState();
@@ -1593,11 +1536,22 @@ function settleStalledCharts(message) {
 }
 
 async function initialize() {
+  elements.resultsPanel.setAttribute("aria-busy", "true");
   setupRevealMotion();
   setupAxisTabs();
+  document.addEventListener("keydown", (event) => {
+    if (event.key !== "/" || event.ctrlKey || event.metaKey || event.altKey || /INPUT|TEXTAREA|SELECT/.test(event.target.tagName) || event.target.isContentEditable) return;
+    event.preventDefault();
+    elements.filterPanel.classList.add("is-expanded");
+    elements.filterPanelToggle.setAttribute("aria-expanded", "true");
+    elements.filterPanelToggle.querySelector("span").textContent = "Hide filters";
+    elements.search.focus();
+  });
   setupSectionNavigation();
   setupFilterDisclosure();
   setupCitationCopy();
+  setupViewCopy();
+  setupMobileMenu();
   window.setTimeout(
     () => settleStalledCharts("Chart loading timed out. Reload the page to try again."),
     10000,
@@ -1610,7 +1564,7 @@ async function initialize() {
     readUrlState();
     hydrateSummary();
     renderTaxonomyOverview();
-    setupMiniatureShowcaseMotion();
+    // Miniatures animate on intentional hover or focus, keeping reading calm.
     setupMiniatureCardTilt();
     renderFilterOptions();
     renderYearOptions();
@@ -1626,10 +1580,14 @@ async function initialize() {
         : "The chart data could not be loaded. Reload the page to try again.",
     );
     elements.resultsPanel.setAttribute("aria-busy", "false");
-    elements.paperList.replaceChildren();
+    // Keep build-time papers readable when the data request fails.
     elements.emptyState.hidden = false;
+    elements.emptyState.querySelector("h3").textContent = "The interactive catalog is unavailable.";
     elements.emptyState.querySelector("p").textContent =
-      "The catalog could not be loaded. Please try again or use the repository README.";
+      "Interactive filters could not load. Read the papers below or open the complete paper index.";
+    const retry = elements.emptyState.querySelector("button");
+    retry.textContent = "Retry loading";
+    retry.addEventListener("click", () => window.location.reload());
   }
 }
 

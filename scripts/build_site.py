@@ -13,6 +13,7 @@ from pathlib import Path
 from catalog_analysis import FAMILY_COLORS, compute_analysis
 from generate_readme import load_papers, load_taxonomy, paper_sort_key
 from venue_registry import load_venues
+from site_metadata import DEFAULT_SITE_URL, build_discovery, normalize_site_url
 
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -144,7 +145,8 @@ def build_payload() -> dict[str, object]:
     }
 
 
-def build_site(output: Path = DEFAULT_OUTPUT) -> Path:
+def build_site(output: Path = DEFAULT_OUTPUT, site_url: str = DEFAULT_SITE_URL) -> Path:
+    site_url = normalize_site_url(site_url)
     if not SITE_SOURCE.is_dir():
         raise FileNotFoundError(f"site source is missing: {SITE_SOURCE}")
 
@@ -164,6 +166,8 @@ def build_site(output: Path = DEFAULT_OUTPUT) -> Path:
 
     index_path = output / "index.html"
     index = index_path.read_text(encoding="utf-8")
+
+    index = build_discovery(output, index, payload, site_url)
 
     # The logo is referenced from CSS rather than HTML, so fingerprint it
     # before fingerprinting the stylesheet itself.
@@ -187,6 +191,7 @@ def build_site(output: Path = DEFAULT_OUTPUT) -> Path:
         "favicon.svg",
         "favicon-dark.svg",
         "assets/styles.css",
+        "assets/construction-overview.svg",
         "assets/theme.js",
         "assets/app.js",
         "assets/charts.js",
@@ -214,8 +219,9 @@ def main() -> int:
         default=DEFAULT_OUTPUT,
         help="directory to build (default: _site)",
     )
+    parser.add_argument("--site-url", default=DEFAULT_SITE_URL, help="Absolute public site URL for canonical links and sitemap")
     args = parser.parse_args()
-    output = build_site(args.output.resolve())
+    output = build_site(args.output.resolve(), args.site_url)
     print(f"Built GitHub Pages site at {output}")
     return 0
 
