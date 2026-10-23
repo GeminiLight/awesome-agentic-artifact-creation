@@ -6,7 +6,7 @@ from html import escape
 from pathlib import Path
 from urllib.parse import quote, urlsplit
 
-DEFAULT_SITE_URL = "https://tianfuwang.tech/awesome-agentic-artifact-creation/"
+DEFAULT_SITE_URL = "https://tianfu.wang/awesome-agentic-artifact-creation/"
 PROJECT_NAME = "Awesome Agentic Artifact Creation"
 DESCRIPTION = "A survey and open catalog of agentic systems for creating, inspecting, and revising artifacts."
 REPOSITORY = "https://github.com/GeminiLight/awesome-agentic-artifact-creation"
