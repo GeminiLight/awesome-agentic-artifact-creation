@@ -16,7 +16,7 @@ Open http://127.0.0.1:8937/. Serve `_site`, not the `site` source template. For 
 python3 scripts/build_site.py --site-url https://example.org/research/
 ```
 
-The default canonical address is https://tianfuwang.tech/awesome-agentic-artifact-creation/, the live custom domain configured for GitHub Pages. The `geminilight.github.io` address redirects to this host. Do not change it to a local preview URL for production.
+The default canonical address is https://tianfu.wang/awesome-agentic-artifact-creation/, the live custom domain configured for GitHub Pages. The `geminilight.github.io` address redirects to this host. Do not change it to a local preview URL for production.
 
 ## What changed
 
