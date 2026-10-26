@@ -16,7 +16,7 @@ Open http://127.0.0.1:8937/. Serve `_site`, not the `site` source template. For 
 python3 scripts/build_site.py --site-url https://example.org/research/
 ```
 
-The default canonical address is https://tianfu.wang/awesome-agentic-artifact-creation/, the live custom domain configured for GitHub Pages. The `geminilight.github.io` address redirects to this host. Do not change it to a local preview URL for production.
+The production canonical address is https://agentic-creation.github.io/. Both the source-repository deployment and the independent project deployment must use this address for canonical links, Open Graph URLs, JSON-LD identifiers, social images, and sitemap entries. The personal-domain copy at `https://tianfu.wang/awesome-agentic-artifact-creation/` is a compatibility entry point and permanently redirects each path to the independent site, preserving query strings. Keep the default production URL for local previews; `--site-url` is only for an intentionally separate deployment, not for publishing another canonical copy of this catalog.
 
 ## What changed
 
@@ -36,12 +36,12 @@ The social-image source is `scripts/templates/social-preview.html`. Render it in
 
 The deployed page returned HTTP 200. Its raw HTML had no canonical, Open Graph preview, or JSON-LD, and the interactive paper list was empty before JavaScript. The host-root robots file allowed the tested search crawlers, including Googlebot, Bingbot, OAI-SearchBot, PerplexityBot, and Claude-SearchBot. Its sitemap declaration pointed to `https://tianfuwang.tech/sitemap.xml`.
 
-A robots file in a GitHub Pages project subdirectory does **not** control crawling. The generated project `robots.txt` is useful only if the site is later served at a host root. For the current project URL, submit its sitemap directly in Search Console and Bing Webmaster Tools, or add its sitemap to the root-domain repository's robots file. This change does not modify that separate repository.
+A robots file in a GitHub Pages project subdirectory does **not** control crawling. The generated `robots.txt` is served at the independent site root and advertises `https://agentic-creation.github.io/sitemap.xml`. Submit that canonical sitemap in the project site's verified Search Console property. Do not submit the personal-domain mirror sitemap as another set of indexable URLs. Keep compatibility URLs crawlable so Google can follow their permanent redirects. Bing access remains subject to the owner's preference; do not request login as part of this change.
 
 ## Release verification
 
 1. After deploying, fetch the public homepage, `papers.html`, `sitemap.xml`, and `assets/social-preview.png`; verify HTTP 200 and the intended canonical host.
-2. Inspect the homepage and paper index in Google Search Console URL Inspection. Submit the project sitemap in Google Search Console and Bing Webmaster Tools.
+2. Inspect the independent homepage and paper index in Google Search Console URL Inspection. Submit its canonical sitemap in the verified independent-site property; remove the obsolete personal-domain sitemap submission after verifying the redirect. Check the personal-domain root, `papers.html`, and an asset with query parameters each redirect to the corresponding independent-site URL.
 3. Validate the emitted JSON-LD with Schema.org Validator / Google Rich Results Test. Structured data describes the site; it does not guarantee a rich result or AI citation.
 4. Check PageSpeed Insights after deployment for actual field data when available. Local browser checks do not establish Core Web Vitals.
 5. Compare indexed pages, impressions, clicks, and relevant queries after deployment. For AI visibility, periodically repeat a fixed prompt set with paraphrases across the engines that matter, recording cited URLs separately from mentions. No ranking, traffic, or AI share-of-voice measurement was performed for this code change.

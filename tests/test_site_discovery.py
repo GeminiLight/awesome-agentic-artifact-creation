@@ -37,6 +37,32 @@ class DiscoveryTests(unittest.TestCase):
             initial = Page((output / 'index.html').read_text())
             self.assertEqual(10, sum(t == 'li' and a.get('class') == 'paper-item' for t, a in initial.elements))
 
+    def test_default_build_consolidates_the_public_catalog_on_its_project_domain(self):
+        url = 'https://agentic-creation.github.io/'
+        with tempfile.TemporaryDirectory() as directory:
+            output = build_site(Path(directory) / 'public')
+            for filename, expected in [('index.html', url), ('papers.html', url + 'papers.html')]:
+                text = (output / filename).read_text()
+                page = Page(text)
+                self.assertEqual([expected], [a['href'] for t, a in page.elements
+                                 if t == 'link' and a.get('rel') == 'canonical'])
+                self.assertEqual([expected], [a['content'] for t, a in page.elements
+                                 if t == 'meta' and a.get('property') == 'og:url'])
+                self.assertEqual([url + 'assets/social-preview.png'],
+                                 [a['content'] for t, a in page.elements
+                                  if t == 'meta' and a.get('property') == 'og:image'])
+                graph = json.loads(re.search(r'<script type="application/ld\+json">(.*?)</script>', text).group(1))
+                self.assertNotIn('tianfu.wang/awesome-agentic-artifact-creation', json.dumps(graph))
+                for node in graph['@graph']:
+                    if node['@type'] in {'WebSite', 'CollectionPage', 'Dataset'}:
+                        self.assertTrue(node['url'].startswith(url))
+                        self.assertTrue(node['@id'].startswith(url))
+            locations = [e.text for e in ElementTree.fromstring(
+                (output / 'sitemap.xml').read_text()).findall('.//{*}loc')]
+            self.assertEqual([url, url + 'papers.html'], locations)
+            self.assertIn('Sitemap: ' + url + 'sitemap.xml',
+                          (output / 'robots.txt').read_text())
+
     def test_custom_base_url_is_consistent_across_metadata_and_sitemap(self):
         with tempfile.TemporaryDirectory() as directory:
             url = 'https://example.org/research/'
