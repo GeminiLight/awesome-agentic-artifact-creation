@@ -1,0 +1,19 @@
+{
+  "title": "Agentic Artifact Creation: Systems, Evaluation, Principles, and Opportunities",
+  "authors": ["Tianfu Wang", "Zhezheng Hao", "Xilin Xia", "Lixin Liu", "Mengkang Hu", "Hongzhang Liu", "Xi Chen", "Ziyan Liu", "Xiankun Lin", "Weijia Zhang", "Nicholas Jing Yuan", "Hui Xiong"],
+  "publication_date": "2026-08-28",
+  "literature_cutoff": "2026-08-20",
+  "arxiv_id": "2608.28122",
+  "version": "v1",
+  "url": "https://arxiv.org/abs/2608.28122",
+  "doi": "10.48550/arXiv.2608.28122",
+  "reviewed_works": 259,
+  "systems": 230,
+  "benchmarks": 29,
+  "abstract": [
+    "Generative models can turn natural-language prompts into images, text, code, and other content, lowering the cost of producing drafts and components. Their practical impact increasingly depends on whether those pieces can become complete, dependable deliverables. This survey examines agentic artifact creation, which we define as stateful construction in which an AI system materially constructs or revises a deliverable and intermediate observations redirect later work.",
+    "Functionally, the process links an operational representation of the artifact, a construction policy, and runtime verification whose feedback can redirect later actions. We reviewed 259 works available through August 20, 2026: 230 systems meeting this definition and 29 benchmarks of agentic artifact construction. We compare six artifact families, then analyze application settings and evaluation practice as separate dimensions.",
+    "Across families, construction challenges reflect not only modality but also how tightly decisions are coupled and whether failures become visible while they remain repairable. Decomposition can reduce local complexity while increasing coordination and reassembly costs. Learned judges may add little independent evidence when they share the generator’s preferences or blind spots.",
+    "We formulate principles for keeping commitments and responsibility explicit, turning feedback into targeted repair, and revalidating affected state after change. We also identify opportunities for sustaining coherent, accountable control as artifacts, creator intent, and construction systems evolve. A curated paper list is available at https://github.com/GeminiLight/awesome-agentic-artifact-creation."
+  ]
+}

@@ -3,10 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta
-      name="description"
-      content="Explore AI agents that create, inspect, and revise text, images, audio, video, 3D worlds, and software. A research survey with an open paper and benchmark catalog."
-    >
+    <!-- SITE_DESCRIPTION -->
     <meta id="theme-color" name="theme-color" content="#ffffff">
     <title>Agentic Artifact Creation — AI Agents, Papers &amp; Benchmarks</title>
     <!-- SITE_METADATA -->
@@ -113,7 +110,7 @@
             <div class="hero-emblem" aria-hidden="true"></div>
           </div>
 
-          <p class="hero-description">A research atlas of AI systems that create, inspect, and revise artifacts—from documents and images to 3D worlds and software.</p>
+          <p class="hero-description">A research atlas of AI systems that create, inspect, and revise artifacts—from documents and images to 3D worlds and software. <a href="survey.html">Survey abstract and citation</a>.</p>
 
           <div class="hero-actions">
             <a class="button button-primary" href="#catalog">
@@ -221,6 +218,10 @@
           </div>
         </dl>
       </section>
+
+      <div class="catalog-scope-note section-shell inset-shell">
+        <details><summary>About these catalog counts</summary><p><!-- CATALOG_NOTE --></p></details>
+      </div>
 
       <section id="construction-loop" class="loop-explainer section-shell inset-shell section-block" aria-labelledby="loop-title">
         <div class="loop-intro reveal">
@@ -789,7 +790,7 @@
                   </div>
                 </div>
               </div>
-              <p class="catalog-index-link"><a href="papers.html">Read the complete paper index <span aria-hidden="true">↗</span></a><button class="share-view text-button" type="button" data-copy-view><i class="ph ph-link" aria-hidden="true"></i><span>Copy this view</span></button></p>
+              <p class="catalog-index-link"><a href="papers.html">Read the complete paper index <span aria-hidden="true">↗</span></a><a href="benchmarks.html">Benchmark index</a><button class="share-view text-button" type="button" data-copy-view><i class="ph ph-link" aria-hidden="true"></i><span>Copy this view</span></button></p>
               <p class="sr-only" id="view-copy-status" role="status"></p>
               <div class="active-filters" id="active-filters" role="group" aria-label="Active filters"></div>
               <ol class="paper-list" id="paper-list"><!-- INITIAL_PAPERS --></ol>
@@ -817,8 +818,10 @@
         <div class="section-intro"><p class="eyebrow">Reading guide</p><h2 id="guide-title">Understand the field.</h2></div>
         <div class="guide-questions">
           <details open><summary>What is agentic artifact creation?</summary><p>Agentic artifact creation uses AI systems to construct an artifact, inspect intermediate results, and revise their decisions using feedback. The survey examines construction policy, operational representation, and runtime verification across different output media.</p></details>
+          <details><summary>How does it differ from a fixed generation pipeline?</summary><p>The artifact persists as construction state, and an intermediate observation can change a later action, revision, or stopping decision. Adding multiple agents or stages does not by itself satisfy this rule. Read the <a href="survey.html#framework">construction framework</a> and <a href="https://github.com/GeminiLight/awesome-agentic-artifact-creation/blob/main/AUDIT.md">inclusion criteria</a>.</p></details>
           <details><summary>Which artifacts does the catalog cover?</summary><p>The catalog organizes outputs into six families: textual, visual, audio, video, spatial, and behavioral artifacts. Examples include documents, images, music, videos, 3D scenes, and executable software. A second axis describes the application context.</p></details>
           <details><summary>How are systems and benchmarks selected?</summary><p>Entries are maintained in an open, audited dataset. Systems construct artifacts; benchmarks evaluate relevant capabilities. Publication status and taxonomy labels remain visible for each record. See the <a href="https://github.com/GeminiLight/awesome-agentic-artifact-creation/blob/main/AUDIT.md">audit protocol</a> for inclusion rules and evidence.</p></details>
+          <details><summary>Where can I find benchmarks and evaluation resources?</summary><p>The <a href="benchmarks.html">benchmark index</a> groups the catalog’s evaluation papers by artifact family, with original paper links and available code. The <a href="survey.html">survey abstract and framework</a> explain the scope; each benchmark’s own paper defines its tasks and metrics.</p></details>
           <details><summary>How can I use or cite this resource?</summary><p>Start with the <a href="https://arxiv.org/abs/2608.28122">survey</a> for the framework, explore the <a href="#catalog">interactive catalog</a> for specific papers, or download the <a href="data/catalog.json">catalog JSON</a>. The <a href="#survey-citation">BibTeX citation</a> identifies the survey; individual paper links lead to their original sources.</p></details>
         </div>
       </section>
@@ -907,9 +910,11 @@
           <p>Awesome Agentic Artifact Creation</p>
         </div>
         <p>
-          Built from an open, audited catalog. Licensed under CC BY 4.0.
+          Catalog maintained by <a href="https://tianfu.wang/">Tianfu Wang</a>. Catalog data: CC BY 4.0.
         </p>
         <div class="footer-links">
+          <a href="survey.html">Survey</a>
+          <a href="benchmarks.html">Benchmarks</a>
           <a href="papers.html">Paper index</a>
           <a href="#top"><i class="ph ph-arrow-up" aria-hidden="true"></i><span>Back to top</span></a>
           <a href="https://github.com/GeminiLight/awesome-agentic-artifact-creation">

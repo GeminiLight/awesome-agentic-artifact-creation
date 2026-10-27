@@ -851,14 +851,10 @@ class SiteBuildTests(unittest.TestCase):
             output = build_site(Path(temporary_directory) / "public")
             index = (output / "index.html").read_text(encoding="utf-8")
 
-            self.assertNotRegex(
-                index,
-                r"Built from an open, audited catalog\.<br>\s*Licensed under CC BY 4\.0\.",
-            )
-            self.assertRegex(
-                index,
-                r"Built from an open, audited catalog\.\s+Licensed under CC BY 4\.0\.",
-            )
+            footer = index[index.index('<footer class="site-footer">'):]
+            self.assertNotIn('<br', footer)
+            self.assertIn('Catalog maintained by', footer)
+            self.assertIn('Catalog data: CC BY 4.0.', footer)
 
     def test_mobile_controls_expose_generous_touch_targets(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:
