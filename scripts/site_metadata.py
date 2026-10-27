@@ -190,6 +190,14 @@ def build_survey_page(output: Path, payload: dict, site_url: str) -> None:
     <section id="framework" class="document-prose"><h2>What makes artifact creation agentic?</h2>
     <p>An AI system constructs or revises a persistent deliverable, and intermediate observations can change what it does next. The framework connects construction policy, operational representation, and runtime verification. A fixed sequence of agents or stages alone does not establish this feedback-conditioned control.</p>
     <p><a href="./#construction-loop">Explore the construction framework</a> or read the <a href="{REPOSITORY}/blob/main/AUDIT.md">operational inclusion rule</a>.</p></section>
+    <section id="evaluation" class="document-prose"><h2>How should agentic artifact creation be evaluated?</h2>
+    <p>The survey separates three evaluation targets: the delivered artifact, its construction trajectory, and the agentic system. Each target needs stated criteria, evidence, metrics, and a protocol.</p>
+    <dl class="evaluation-targets">
+    <dt>Delivered artifact</dt><dd>Does the result meet requirements and work in its intended setting? Examine constraint satisfaction, source grounding, quality, usability, and consistency across its parts.</dd>
+    <dt>Construction trajectory</dt><dd>How was the result reached? Examine detection delay, repair locality, preservation of accepted work, traceability, and the cost of revision.</dd>
+    <dt>Agentic system</dt><dd>How dependable is the construction system across runs and conditions? Test reliability, robustness, resource efficiency at matched outcomes, response to human interventions, and stability across versions.</dd>
+    </dl>
+    <p>Source: <a href="https://arxiv.org/html/{paper['arxiv_id']}v1#S6.SS1">Section 6.1 of the public survey</a>. A final-artifact score alone does not establish the quality of planning or repair. Explore the <a href="benchmarks.html">audited benchmark index</a> for original evaluation papers and available code.</p></section>
     <section class="document-prose" id="scope"><h2>Which artifacts does the survey cover?</h2><ul>{families}</ul>
     <p>Application contexts are a separate axis: creative production, brand communication, educational support, professional work, scientific research, and engineering design.</p></section>
     <section class="document-prose" id="corpus"><h2>Why do the paper and website have different counts?</h2><p>{catalog_note(payload['summary'])}</p>
@@ -215,7 +223,7 @@ def build_benchmark_page(output: Path, papers: list[dict], site_url: str) -> Non
         nav.append(f'<a href="#{quote(family, safe="")}">{escape(family)} · {len(group)}</a>')
         sections.append(f'<section id="{escape(family, quote=True)}"><h2>{escape(family)} <small>({len(group)})</small></h2><ol class="paper-list">' + ''.join(paper_html(p) for p in group) + '</ol></section>')
     body = f'''<p class="eyebrow">Evaluation resources · {len(benchmarks)} benchmarks</p><h1>Benchmarks for agentic artifact creation.</h1>
-    <p>{escape(description)}</p><p>Benchmark inclusion is assessed separately from system inclusion in the <a href="papers.html">audited catalog</a>. Read the <a href="survey.html#framework">survey framework</a> for artifact, process, and system evaluation; each original paper describes its tasks and metrics.</p>
+    <p>{escape(description)}</p><p>Benchmark inclusion is assessed separately from system inclusion in the <a href="papers.html">audited catalog</a>. Read the <a href="survey.html#evaluation">evaluation framework</a> for delivered artifacts, construction trajectories, and agentic systems; each original paper describes its tasks and metrics.</p>
     <nav class="index-nav" aria-label="Benchmark artifact families">{''.join(nav)}</nav>{''.join(sections)}'''
     ordered = [p for family in families for p in benchmarks if (p['artifact_family'] or 'Unclassified') == family]
     items = {"@type": "ItemList", "@id": site_url + 'benchmarks.html#list', "numberOfItems": len(benchmarks), "itemListOrder": "https://schema.org/ItemListUnordered",

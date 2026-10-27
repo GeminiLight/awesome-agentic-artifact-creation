@@ -35,6 +35,10 @@ This repository contains the paper catalog for the
 [Agentic Artifact Creation survey](https://arxiv.org/abs/2608.28122),
 covering both agentic creation systems and benchmarks.
 
+[Survey abstract and citation](https://agentic-creation.github.io/survey.html) ·
+[Benchmarks and evaluation resources](https://agentic-creation.github.io/benchmarks.html) ·
+[How to evaluate artifacts, trajectories, and systems](https://agentic-creation.github.io/survey.html#evaluation)
+
 <p align="center">
   <a href="assets/fig2-construction-process.pdf">
     <img src="assets/fig2-construction-process.png" alt="Functional architecture of Agentic Artifact Creation, from task specification through construction policy, operational representation, runtime verification, feedback, and the delivered artifact" width="100%">

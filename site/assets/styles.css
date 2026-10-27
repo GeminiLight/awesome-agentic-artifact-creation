@@ -4896,6 +4896,8 @@ h1, h2, h3 { text-wrap: balance; }
 .document-prose p, .index-page > p { line-height: 1.85; }
 .document-prose li { margin-block: 10px; }
 .document-prose a, .document-actions a { color: var(--teal-text); }
+.evaluation-targets dt { margin-top: 20px; color: var(--ink); font-weight: 650; }
+.evaluation-targets dd { margin: 6px 0 0; color: var(--ink-soft); }
 .corpus-note { max-width: 85ch; padding: 18px 22px; margin-top: 28px; border-left: 2px solid var(--teal); background: var(--surface); color: var(--ink-soft); font-size: 14px; line-height: 1.85; }
 .document-citation { max-width: 100%; overflow-x: auto; padding: 24px; border: 1px solid var(--line); background: var(--surface); font-size: 12px; line-height: 1.8; white-space: pre-wrap; overflow-wrap: anywhere; }
 .document-footer { margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; line-height: 1.8; }
