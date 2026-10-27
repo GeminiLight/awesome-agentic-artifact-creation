@@ -4873,13 +4873,32 @@ h1, h2, h3 { text-wrap: balance; }
 .guide-questions a { text-underline-offset: 3px; }
 .citation-code-frame code { font-size: 13px; line-height: 1.85; }
 .index-page { max-width: 1040px; margin: auto; padding: 48px 28px 80px; }
-.index-page h1 { font-size: 44px; line-height: 1.2; }
+.index-page h1 { max-width: 23ch; font-size: clamp(30px, 5vw, 48px); line-height: 1.18; text-wrap: balance; overflow-wrap: anywhere; }
 .index-page > p { max-width: 760px; color: var(--ink-soft); }
 .index-nav { display: flex; flex-wrap: wrap; gap: 10px; padding-block: 24px; }
 .index-nav a { padding: 10px 14px; border: 1px solid var(--line); border-radius: 8px; font-size: 13px; text-decoration: none; }
 .index-page section { scroll-margin-top: 30px; margin-top: 48px; }
 .index-page section > h2 { padding-bottom: 16px; border-bottom: 1px solid var(--line); font-size: 26px; }
 .index-page .paper-item { padding-inline: 0; }
+.hero-description a { color: var(--teal-text); text-underline-offset: 4px; }
+.catalog-scope-note { padding-top: 16px; color: var(--ink-soft); font-size: 12px; line-height: 1.8; }
+.catalog-scope-note summary { width: fit-content; cursor: pointer; color: var(--muted); }
+.catalog-scope-note p { max-width: 90ch; margin-bottom: 0; }
+.catalog-scope-note a, .index-page a { text-underline-offset: 4px; }
+.document-nav { display: flex; flex-wrap: wrap; gap: 12px 24px; margin-bottom: 56px; padding-bottom: 20px; border-bottom: 1px solid var(--line); font-size: 13px; }
+.document-nav a { color: var(--ink-soft); }
+.document-nav a[aria-current="page"] { color: var(--teal-text); font-weight: 700; }
+.document-heading { max-width: 850px; }
+.document-authors { max-width: 74ch; color: var(--ink-soft); line-height: 1.9; }
+.document-meta { color: var(--muted); font-size: 13px; line-height: 1.8; }
+.document-actions { display: flex; flex-wrap: wrap; gap: 12px 24px; margin-block: 24px; font-size: 14px; }
+.document-prose { max-width: 76ch; line-height: 1.85; }
+.document-prose p, .index-page > p { line-height: 1.85; }
+.document-prose li { margin-block: 10px; }
+.document-prose a, .document-actions a { color: var(--teal-text); }
+.corpus-note { max-width: 85ch; padding: 18px 22px; margin-top: 28px; border-left: 2px solid var(--teal); background: var(--surface); color: var(--ink-soft); font-size: 14px; line-height: 1.85; }
+.document-citation { max-width: 100%; overflow-x: auto; padding: 24px; border: 1px solid var(--line); background: var(--surface); font-size: 12px; line-height: 1.8; white-space: pre-wrap; overflow-wrap: anywhere; }
+.document-footer { margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; line-height: 1.8; }
 :focus-visible { outline: 3px solid var(--teal-text); outline-offset: 4px; }
 html:not(.js) .loop-fallback { visibility: visible; opacity: 1; }
 html:not(.js) .loop-loading, html:not(.js) .loop-stage-picker, html:not(.js) .loop-stage-footer, html:not(.js) .filter-panel, html:not(.js) .results-controls { display: none; }

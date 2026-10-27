@@ -200,12 +200,23 @@ def build_site(output: Path = DEFAULT_OUTPUT, site_url: str = DEFAULT_SITE_URL) 
         "assets/fig2-construction-process.webp",
         "data/catalog.json",
     )
+    asset_versions = {}
     for relative_path in versioned_assets:
         digest = hashlib.sha256((output / relative_path).read_bytes()).hexdigest()[:12]
+        asset_versions[relative_path] = digest
         index = index.replace(
             f'"{relative_path}"', f'"{relative_path}?v={digest}"'
         )
     index_path.write_text(index, encoding="utf-8")
+    # Resource pages share the same CSS and theme script; invalidate their
+    # cached assets on exactly the same content changes as the atlas.
+    for page_path in output.glob("*.html"):
+        if page_path == index_path:
+            continue
+        page = page_path.read_text(encoding="utf-8")
+        for relative_path, digest in asset_versions.items():
+            page = page.replace(f'"{relative_path}"', f'"{relative_path}?v={digest}"')
+        page_path.write_text(page, encoding="utf-8")
 
     (output / ".nojekyll").touch()
     return output

@@ -1,5 +1,9 @@
 # Website polish and discovery
 
+For the current measured search baseline and the dedicated survey/benchmark
+resources added on 27 October 2026, see [the SEO/GEO audit](SEO_GEO_AUDIT_2026-10-27.md).
+The observations and verification counts below describe the earlier polish pass.
+
 The website remains a Python-built static site. The catalog is the source of truth for both the interactive UI and the complete HTML paper index.
 
 ## Build and preview
